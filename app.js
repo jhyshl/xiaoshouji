@@ -563,7 +563,467 @@ async function requestCharacterReply(character, queued) {
 
   const payload = await response.json();
   const content =
-    payload?.cho…4162 tokens truncated…ries
+    payload?.choices?.[0]?.message?.content ??
+    payload?.choices?.[0]?.text ??
+    payload?.output_text ??
+    "";
+  const replies = parseReplies(content);
+  if (!replies.length) throw new Error("EMPTY_REPLY");
+  return replies;
+}
+
+function buildContextMessages(characterId, limit) {
+  const messages = (state.chats[characterId] || []).filter((message) => !message.queued);
+  const groups = [];
+
+  messages.forEach((message) => {
+    const last = groups.at(-1);
+    if (last && last.turnId === message.turnId && last.role === message.role) {
+      last.contents.push(message.content);
+    } else {
+      groups.push({
+        turnId: message.turnId || message.id,
+        role: message.role === "assistant" ? "assistant" : "user",
+        contents: [message.content],
+      });
+    }
+  });
+
+  const count = clampNumber(limit, 0, 200, 12);
+  return groups.slice(count === 0 ? groups.length : -count).map((group) => ({
+    role: group.role,
+    content: group.contents.join("\n"),
+  }));
+}
+
+function buildSystemPrompt(character, loreEntries) {
+  const template = state.settings.systemPromptTemplate || DEFAULT_SYSTEM_PROMPT;
+  const characterCard = [
+    character.description && `描述：${character.description}`,
+    character.personality && `性格：${character.personality}`,
+    character.scenario && `场景：${character.scenario}`,
+    character.mesExample && `对话示例：\n${character.mesExample}`,
+    character.systemPrompt && `角色卡系统提示词：\n${character.systemPrompt}`,
+    character.postHistoryInstructions && `历史后指令：\n${character.postHistoryInstructions}`,
+  ]
+    .filter(Boolean)
+    .join("\n\n") || "未填写额外角色设定。";
+  const loreText = loreEntries.length
+    ? loreEntries.map((entry) => `- ${entry.comment ? `${entry.comment}：` : ""}${entry.content}`).join("\n")
+    : "本轮没有命中世界书条目。";
+
+  const replacements = {
+    "{{char}}": character.name,
+    "{{user}}": state.profile.name || "你",
+    "{{player_persona}}": state.profile.persona || "玩家暂未填写人设。",
+    "{{character_card}}": characterCard,
+    "{{worldbook}}": loreText,
+    "{{reply_rules}}": DEFAULT_REPLY_RULES,
+  };
+
+  return Object.entries(replacements).reduce(
+    (text, [token, value]) => text.replaceAll(token, value),
+    template,
+  );
+}
+
+function collectLore(characterId, text) {
+  const lower = String(text || "").toLowerCase();
+  return state.worldBooks
+    .filter((book) => book.enabled && (!book.characterId || book.characterId === characterId))
+    .flatMap((book) => book.entries)
+    .filter((entry) => {
+      if (!entry.enabled) return false;
+      if (entry.constant) return true;
+      const primaryHit = entry.keys.some((key) => key && lower.includes(key.toLowerCase()));
+      if (!primaryHit) return false;
+      if (!entry.selective || !entry.secondaryKeys?.length) return true;
+      return entry.secondaryKeys.some((key) => key && lower.includes(key.toLowerCase()));
+    })
+    .sort((a, b) => (Number(b.priority) || 0) - (Number(a.priority) || 0))
+    .slice(0, 30);
+}
+
+function parseReplies(rawContent) {
+  let raw = typeof rawContent === "string" ? rawContent.trim() : "";
+  raw = raw.replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/, "");
+  let candidates = [];
+
+  try {
+    const parsed = JSON.parse(raw);
+    if (Array.isArray(parsed)) candidates = parsed;
+    else if (Array.isArray(parsed?.replies)) candidates = parsed.replies;
+    else if (Array.isArray(parsed?.messages)) candidates = parsed.messages;
+    else if (typeof parsed?.reply === "string") candidates = [parsed.reply];
+  } catch {
+    candidates = raw
+      .split(/\n+/)
+      .map((line) => line.replace(/^\s*[-*•\d.)、]+\s*/, ""))
+      .filter(Boolean);
+  }
+
+  return candidates
+    .flatMap((item) => splitSentences(String(item || "")))
+    .map((item) => item.trim())
+    .filter(Boolean)
+    .slice(0, 16);
+}
+
+function splitSentences(text) {
+  const cleaned = text
+    .replace(/^["“”']+|["“”']+$/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+  if (!cleaned) return [];
+  const matches = cleaned.match(/[^。！？!?…]+(?:[。！？!?]+|…{1,2}|$)/g);
+  return (matches || [cleaned]).map((item) => item.trim()).filter(Boolean);
+}
+
+function attachMessageInteractions() {
+  $$("[data-message-id]", $("#message-list")).forEach((bubble) => {
+    const open = () => openMessageEditor(bubble.dataset.messageId);
+    bubble.addEventListener("pointerdown", (event) => {
+      if (event.pointerType === "mouse" && event.button !== 0) return;
+      clearTimeout(longPressTimer);
+      longPressTimer = setTimeout(open, 560);
+    });
+    ["pointerup", "pointercancel", "pointerleave", "pointermove"].forEach((type) => {
+      bubble.addEventListener(type, () => clearTimeout(longPressTimer));
+    });
+    bubble.addEventListener("contextmenu", (event) => {
+      event.preventDefault();
+      open();
+    });
+    bubble.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === "F2") {
+        event.preventDefault();
+        open();
+      }
+    });
+  });
+}
+
+function openMessageEditor(messageId) {
+  const character = currentCharacter();
+  const message = character
+    ? (state.chats[character.id] || []).find((item) => item.id === messageId)
+    : null;
+  if (!message) return;
+  $("#message-edit-id").value = message.id;
+  $("#message-edit-content").value = message.content;
+  openModal("message-modal");
+  setTimeout(() => $("#message-edit-content").focus(), 80);
+}
+
+function saveMessageEdit(event) {
+  event.preventDefault();
+  const message = findCurrentMessage($("#message-edit-id").value);
+  const content = $("#message-edit-content").value.trim();
+  if (!message || !content) return;
+  message.content = content;
+  message.updatedAt = Date.now();
+  scheduleSave();
+  closeModal("message-modal");
+  renderAll();
+  showToast("消息已修改");
+}
+
+function deleteEditedMessage() {
+  const character = currentCharacter();
+  const messageId = $("#message-edit-id").value;
+  const message = findCurrentMessage(messageId);
+  if (!character || !message || !window.confirm("删除这条消息？")) return;
+  state.chats[character.id] = state.chats[character.id].filter((item) => item.id !== messageId);
+  scheduleSave();
+  closeModal("message-modal");
+  renderAll();
+  showToast("消息已删除");
+}
+
+function findCurrentMessage(messageId) {
+  const character = currentCharacter();
+  return character
+    ? (state.chats[character.id] || []).find((item) => item.id === messageId)
+    : null;
+}
+
+async function importCharacter(event) {
+  const file = event.target.files?.[0];
+  event.target.value = "";
+  if (!file) return;
+
+  try {
+    let raw;
+    let avatar = "";
+    let sourceFormat = "json";
+    if (file.type === "image/png" || file.name.toLowerCase().endsWith(".png")) {
+      const buffer = await file.arrayBuffer();
+      raw = parsePngCharacter(buffer);
+      avatar = await resizeImageFile(file);
+      sourceFormat = "png";
+    } else {
+      raw = JSON.parse(await file.text());
+    }
+    const character = normalizeCharacter(raw, { avatar, sourceFormat, fileName: file.name });
+    const existing = state.characters.findIndex(
+      (item) => item.name.toLowerCase() === character.name.toLowerCase(),
+    );
+    if (existing >= 0) {
+      const old = state.characters[existing];
+      character.id = old.id;
+      if (!character.avatar) character.avatar = old.avatar;
+      state.characters.splice(existing, 1, character);
+    } else {
+      state.characters.push(character);
+    }
+    state.currentCharacterId = character.id;
+    state.chats[character.id] ||= [];
+    if (!state.chats[character.id].length && character.firstMes) {
+      const turnId = createId("turn");
+      splitSentences(character.firstMes).forEach((content, index) => {
+        state.chats[character.id].push({
+          id: createId("msg"),
+          turnId,
+          role: "assistant",
+          content,
+          createdAt: Date.now() + index,
+          source: "card",
+          queued: false,
+        });
+      });
+    }
+
+    const embedded = raw?.data?.character_book || raw?.character_book || raw?.data?.world_book;
+    if (embedded) {
+      const book = normalizeWorldBook(embedded, `${character.name} · 内嵌世界书`, character.id);
+      const priorIndex = state.worldBooks.findIndex(
+        (item) => item.characterId === character.id && item.embedded,
+      );
+      book.embedded = true;
+      if (priorIndex >= 0) state.worldBooks.splice(priorIndex, 1, book);
+      else state.worldBooks.push(book);
+    }
+
+    scheduleSave();
+    renderAll();
+    showToast(`已导入角色：${character.name}`);
+  } catch (error) {
+    console.error(error);
+    showToast(
+      error.message === "PNG_CARD_NOT_FOUND"
+        ? "这张 PNG 中没有找到酒馆角色卡数据"
+        : "角色卡读取失败，请确认文件格式",
+    );
+  }
+}
+
+function normalizeCharacter(raw, meta = {}) {
+  const data = raw?.data && typeof raw.data === "object" ? raw.data : raw;
+  if (!data || typeof data !== "object" || !String(data.name || "").trim()) {
+    throw new Error("INVALID_CHARACTER");
+  }
+  return {
+    id: createId("char"),
+    name: String(data.name).trim(),
+    description: String(data.description || data.char_persona || "").trim(),
+    personality: String(data.personality || data.persona || "").trim(),
+    scenario: String(data.scenario || data.world_scenario || "").trim(),
+    firstMes: String(data.first_mes || data.first_message || data.greeting || "").trim(),
+    mesExample: String(data.mes_example || data.example_dialogue || "").trim(),
+    systemPrompt: String(data.system_prompt || "").trim(),
+    postHistoryInstructions: String(data.post_history_instructions || "").trim(),
+    creatorNotes: String(data.creator_notes || raw?.creator_notes || "").trim(),
+    tags: Array.isArray(data.tags) ? data.tags.map(String) : [],
+    avatar: meta.avatar || "",
+    sourceFormat: meta.sourceFormat || "json",
+    sourceFile: meta.fileName || "",
+    importedAt: Date.now(),
+  };
+}
+
+function openCharacterEditor(characterId) {
+  const character = state.characters.find((item) => item.id === characterId);
+  if (!character) return;
+  $("#character-edit-id").value = character.id;
+  $("#character-name").value = character.name || "";
+  $("#character-description").value = character.description || "";
+  $("#character-personality").value = character.personality || "";
+  $("#character-scenario").value = character.scenario || "";
+  $("#character-first-mes").value = character.firstMes || "";
+  $("#character-mes-example").value = character.mesExample || "";
+  $("#character-system-prompt").value = character.systemPrompt || "";
+  $("#character-post-history").value = character.postHistoryInstructions || "";
+  pendingCharacterAvatar = character.avatar || "";
+  renderCharacterAvatarDraft(character.name);
+  openModal("character-modal");
+}
+
+function saveCharacterEdits(event) {
+  event.preventDefault();
+  const character = state.characters.find((item) => item.id === $("#character-edit-id").value);
+  if (!character) return;
+  character.name = $("#character-name").value.trim() || character.name;
+  character.description = $("#character-description").value.trim();
+  character.personality = $("#character-personality").value.trim();
+  character.scenario = $("#character-scenario").value.trim();
+  character.firstMes = $("#character-first-mes").value.trim();
+  character.mesExample = $("#character-mes-example").value.trim();
+  character.systemPrompt = $("#character-system-prompt").value.trim();
+  character.postHistoryInstructions = $("#character-post-history").value.trim();
+  character.avatar = pendingCharacterAvatar;
+  character.updatedAt = Date.now();
+  scheduleSave();
+  closeModal("character-modal");
+  renderAll();
+  showToast("角色卡已保存");
+}
+
+async function updateCharacterAvatarDraft(event) {
+  const file = event.target.files?.[0];
+  event.target.value = "";
+  if (!file) return;
+  try {
+    pendingCharacterAvatar = await resizeImageFile(file);
+    renderCharacterAvatarDraft($("#character-name").value);
+  } catch {
+    showToast("头像读取失败");
+  }
+}
+
+function removeCharacterAvatarDraft() {
+  pendingCharacterAvatar = "";
+  renderCharacterAvatarDraft($("#character-name").value);
+}
+
+function renderCharacterAvatarDraft(name) {
+  const host = $("#character-avatar-preview");
+  host.innerHTML = pendingCharacterAvatar
+    ? `<img src="${escapeAttr(pendingCharacterAvatar)}" alt="" />`
+    : escapeHtml(initialOf(name || "C"));
+}
+
+function parsePngCharacter(buffer) {
+  const bytes = new Uint8Array(buffer);
+  const signature = [137, 80, 78, 71, 13, 10, 26, 10];
+  if (!signature.every((value, index) => bytes[index] === value)) {
+    throw new Error("INVALID_PNG");
+  }
+  const decoder = new TextDecoder("latin1");
+  let offset = 8;
+  const textValues = new Map();
+
+  while (offset + 12 <= bytes.length) {
+    const length =
+      ((bytes[offset] << 24) |
+        (bytes[offset + 1] << 16) |
+        (bytes[offset + 2] << 8) |
+        bytes[offset + 3]) >>>
+      0;
+    const type = decoder.decode(bytes.slice(offset + 4, offset + 8));
+    const start = offset + 8;
+    const end = start + length;
+    if (end + 4 > bytes.length) break;
+    const chunk = bytes.slice(start, end);
+
+    if (type === "tEXt") {
+      const zero = chunk.indexOf(0);
+      if (zero > 0) {
+        const key = decoder.decode(chunk.slice(0, zero));
+        const value = decoder.decode(chunk.slice(zero + 1));
+        textValues.set(key, value);
+      }
+    } else if (type === "iTXt") {
+      const zero = chunk.indexOf(0);
+      if (zero > 0) {
+        const key = decoder.decode(chunk.slice(0, zero));
+        let cursor = zero + 1;
+        const compressionFlag = chunk[cursor++];
+        cursor += 1;
+        for (let field = 0; field < 2; field += 1) {
+          while (cursor < chunk.length && chunk[cursor] !== 0) cursor += 1;
+          cursor += 1;
+        }
+        if (compressionFlag === 0) {
+          textValues.set(key, new TextDecoder().decode(chunk.slice(cursor)));
+        }
+      }
+    }
+    offset = end + 4;
+    if (type === "IEND") break;
+  }
+
+  const encoded = textValues.get("chara") || textValues.get("ccv3") || textValues.get("character");
+  if (!encoded) throw new Error("PNG_CARD_NOT_FOUND");
+  return JSON.parse(decodeBase64Utf8(encoded));
+}
+
+async function importWorldBook(event) {
+  const file = event.target.files?.[0];
+  event.target.value = "";
+  if (!file) return;
+  try {
+    const raw = JSON.parse(await file.text());
+    const book = normalizeWorldBook(raw, file.name.replace(/\.json$/i, ""));
+    state.worldBooks.push(book);
+    scheduleSave();
+    renderAll();
+    showToast(`已导入世界书：${book.name}`);
+  } catch (error) {
+    console.error(error);
+    showToast("世界书读取失败，请确认 JSON 格式");
+  }
+}
+
+function normalizeWorldBook(raw, fallbackName = "未命名世界书", characterId = null) {
+  const sourceEntries = raw?.entries ?? raw?.data?.entries ?? raw;
+  const list = Array.isArray(sourceEntries)
+    ? sourceEntries
+    : sourceEntries && typeof sourceEntries === "object"
+      ? Object.values(sourceEntries)
+      : [];
+  const entries = list
+    .map((entry, index) => ({
+      id: String(entry.uid ?? entry.id ?? createId(`entry_${index}`)),
+      keys: normalizeKeys(entry.key ?? entry.keys ?? entry.keywords),
+      secondaryKeys: normalizeKeys(entry.keysecondary ?? entry.secondary_keys),
+      content: String(entry.content ?? entry.text ?? "").trim(),
+      constant: Boolean(entry.constant ?? entry.always_active ?? false),
+      selective: Boolean(entry.selective ?? false),
+      enabled: !(entry.disable ?? entry.disabled ?? false),
+      priority: Number(entry.order ?? entry.priority ?? entry.insertion_order ?? 0),
+      comment: String(entry.comment ?? entry.name ?? "").trim(),
+    }))
+    .filter((entry) => entry.content);
+
+  if (!entries.length) throw new Error("INVALID_WORLDBOOK");
+  return {
+    id: createId("book"),
+    name: String(raw?.name || raw?.title || fallbackName),
+    entries,
+    enabled: true,
+    characterId,
+    importedAt: Date.now(),
+  };
+}
+
+function openWorldBookEditor(bookId) {
+  const book = state.worldBooks.find((item) => item.id === bookId);
+  if (!book) return;
+  editingWorldBookDraft = structuredClone(book);
+  $("#worldbook-edit-id").value = book.id;
+  $("#worldbook-name").value = book.name;
+  $("#worldbook-enabled").checked = book.enabled;
+  renderWorldBookEntries();
+  openModal("worldbook-modal");
+}
+
+function renderWorldBookEntries() {
+  const host = $("#worldbook-entry-list");
+  if (!editingWorldBookDraft) {
+    host.innerHTML = "";
+    return;
+  }
+  host.innerHTML = editingWorldBookDraft.entries
     .map(
       (entry, index) => `
       <article class="entry-editor" data-entry-id="${escapeAttr(entry.id)}">
@@ -1158,4 +1618,3 @@ function registerServiceWorker() {
     });
   }
 }
-
