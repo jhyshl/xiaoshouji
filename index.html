@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="theme-color" content="#f7f5f1" />
-    <meta name="description" content="独立运行的本地 AI 小手机，支持酒馆角色卡与世界书。" />
+    <meta name="theme-color" content="#f2eee7" />
+    <meta name="description" content="独立运行的本地 AI 小手机，支持酒馆角色卡、世界书与可编辑记忆。" />
     <link rel="manifest" href="./manifest.webmanifest" />
     <link rel="icon" href="./icons/icon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="./icons/icon.svg" />
@@ -12,225 +12,373 @@
     <title>LinePhone 小手机</title>
   </head>
   <body>
-    <div class="app-shell">
-      <header class="status-bar" aria-label="应用状态">
-        <span id="clock">09:41</span>
-        <span class="wordmark">LINEPHONE</span>
-        <span class="status-icons" aria-hidden="true">⌁ ◒</span>
-      </header>
+    <div class="device-frame">
+      <div class="device-speaker" aria-hidden="true"></div>
+      <div class="app-shell">
+        <header class="status-bar" aria-label="应用状态">
+          <span id="clock">09:41</span>
+          <span class="status-island" aria-hidden="true"></span>
+          <span class="status-icons" aria-hidden="true">▮▮▮ ◔ ▰</span>
+        </header>
 
-      <main class="app-main">
-        <section class="view active" id="home-view" data-view="home">
-          <div class="page-head">
-            <div>
-              <p class="eyebrow">LOCAL · PRIVATE</p>
-              <h1>小手机</h1>
+        <main class="app-main">
+          <section class="view active home-screen" id="home-view" data-view="home">
+            <div class="home-wallpaper">
+              <div class="wallpaper-branch" aria-hidden="true">
+                <i></i><i></i><i></i><i></i><i></i>
+              </div>
+              <div class="home-date">
+                <strong id="home-clock">09:41</strong>
+                <span id="home-date">7月23日 星期四</span>
+              </div>
+
+              <article class="today-widget">
+                <p>今天</p>
+                <strong id="today-title">把想说的话，慢慢发完。</strong>
+                <span id="today-subtitle">消息先进入聊天，再由你决定何时交给 AI。</span>
+              </article>
+
+              <div class="phone-app-grid">
+                <button class="phone-app" data-go="contacts" type="button">
+                  <span class="phone-app-icon messages-icon"><i></i><i></i><i></i></span>
+                  <strong>消息</strong>
+                </button>
+                <button class="phone-app" data-go="contacts" type="button">
+                  <span class="phone-app-icon contact-icon"><i></i></span>
+                  <strong>联系人</strong>
+                </button>
+                <button class="phone-app" data-go="library" type="button">
+                  <span class="phone-app-icon book-icon"><i></i></span>
+                  <strong>资料库</strong>
+                </button>
+                <button class="phone-app" data-go="settings" type="button">
+                  <span class="phone-app-icon settings-icon">⌁</span>
+                  <strong>设置</strong>
+                </button>
+              </div>
+
+              <div class="home-contact-card" id="home-contact-card">
+                <div>
+                  <p>最近联系人</p>
+                  <strong id="home-contact-name">尚未导入角色</strong>
+                  <span id="home-contact-note">到资料库导入角色卡</span>
+                </div>
+                <button id="home-contact-open" type="button" aria-label="打开最近聊天">↗</button>
+              </div>
+
+              <div class="home-dock">
+                <button data-go="contacts" type="button" aria-label="消息">○</button>
+                <button data-go="library" type="button" aria-label="资料库">＋</button>
+                <button data-go="settings" type="button" aria-label="玩家人设">♙</button>
+                <button id="quick-backup" type="button" aria-label="导出备份">↗</button>
+              </div>
             </div>
-            <button class="icon-button" id="home-settings" type="button" aria-label="打开设置">⌁</button>
-          </div>
+          </section>
 
-          <article class="hero-card">
-            <div class="hero-copy">
-              <p class="micro-label">TODAY</p>
-              <h2 id="hero-greeting">把想说的话，慢慢发完。</h2>
-              <p id="hero-subtitle">多条消息会合并为一次请求，回复仍保持一句一个气泡。</p>
+          <section class="view" id="contacts-view" data-view="contacts">
+            <div class="page-head">
+              <div>
+                <p class="eyebrow">MESSAGES</p>
+                <h1>消息</h1>
+              </div>
+              <button class="icon-button" data-go="library" type="button" aria-label="导入角色">＋</button>
             </div>
-            <div class="orbit-mark" aria-hidden="true">
-              <span></span>
-              <i></i>
+            <label class="search-line">
+              <span aria-hidden="true">⌕</span>
+              <input id="contact-search" type="search" placeholder="搜索联系人" autocomplete="off" />
+            </label>
+            <div class="contact-list" id="contact-list"></div>
+          </section>
+
+          <section class="view chat-view" id="chat-view" data-view="chat">
+            <div class="chat-head">
+              <button class="icon-button" data-go="contacts" type="button" aria-label="返回消息">‹</button>
+              <button class="chat-person" id="chat-person" type="button">
+                <span class="mini-avatar" id="chat-avatar">L</span>
+                <span>
+                  <strong id="chat-name">未选择角色</strong>
+                  <small id="chat-status">本地记忆</small>
+                </span>
+              </button>
+              <button class="icon-button more-button" id="chat-settings" type="button" aria-label="编辑当前角色">···</button>
             </div>
-          </article>
 
-          <div class="section-title">
-            <h2>最近联系人</h2>
-            <button class="text-button" data-go="contacts" type="button">查看全部</button>
-          </div>
-          <div class="contact-strip" id="home-contacts"></div>
+            <div class="message-list" id="message-list" aria-live="polite"></div>
 
-          <div class="section-title">
-            <h2>手机应用</h2>
-          </div>
-          <div class="app-grid">
-            <button class="app-tile" data-go="contacts" type="button">
-              <span class="tile-icon">○</span>
-              <strong>消息</strong>
-              <small>独立聊天</small>
-            </button>
-            <button class="app-tile" data-go="library" type="button">
-              <span class="tile-icon">＋</span>
-              <strong>导入</strong>
-              <small>角色与世界书</small>
-            </button>
-            <button class="app-tile" data-go="settings" type="button">
-              <span class="tile-icon">⌁</span>
-              <strong>设置</strong>
-              <small>连接 AI</small>
-            </button>
-            <button class="app-tile" id="quick-backup" type="button">
-              <span class="tile-icon">↗</span>
-              <strong>备份</strong>
-              <small>导出本地数据</small>
-            </button>
-          </div>
-        </section>
-
-        <section class="view" id="contacts-view" data-view="contacts">
-          <div class="page-head">
-            <div>
-              <p class="eyebrow">MESSAGES</p>
-              <h1>联系人</h1>
+            <div class="queue-confirm" id="queue-confirm" hidden>
+              <div>
+                <strong id="queue-count">待交给 AI · 0 条</strong>
+                <span>这些气泡已经进入聊天，但尚未请求 AI</span>
+              </div>
+              <button class="confirm-ai-button" id="confirm-send-ai" type="button">确认发送 ↑</button>
             </div>
-            <button class="icon-button" data-go="library" type="button" aria-label="导入角色">＋</button>
+
+            <div class="typing-line" id="typing-line" hidden>
+              <span></span><span></span><span></span>
+              <em>正在回复</em>
+            </div>
+
+            <form class="composer" id="composer">
+              <textarea id="message-input" rows="1" placeholder="输入消息…" enterkeyhint="send"></textarea>
+              <button class="composer-send" id="stage-message" type="submit" aria-label="把消息发送到聊天">↑</button>
+              <p>点击发送后先显示为气泡 · 上方确认后才会请求 AI</p>
+            </form>
+          </section>
+
+          <section class="view" id="library-view" data-view="library">
+            <div class="page-head">
+              <div>
+                <p class="eyebrow">LIBRARY</p>
+                <h1>资料库</h1>
+              </div>
+              <span class="outline-badge">可编辑</span>
+            </div>
+
+            <div class="import-grid">
+              <label class="import-card">
+                <input id="character-file" type="file" accept=".json,.png,application/json,image/png" />
+                <span class="import-symbol">＋</span>
+                <strong>导入角色卡</strong>
+                <small>酒馆 JSON / PNG</small>
+              </label>
+              <label class="import-card">
+                <input id="worldbook-file" type="file" accept=".json,application/json" />
+                <span class="import-symbol">⌘</span>
+                <strong>导入世界书</strong>
+                <small>导入后可编辑条目</small>
+              </label>
+            </div>
+
+            <div class="section-title">
+              <h2>角色卡</h2>
+              <span id="character-total">0 个</span>
+            </div>
+            <div class="library-list" id="character-library"></div>
+
+            <div class="section-title worldbook-title">
+              <h2>世界书</h2>
+              <span id="worldbook-total">0 本</span>
+            </div>
+            <div class="library-list" id="worldbook-library"></div>
+          </section>
+
+          <section class="view" id="settings-view" data-view="settings">
+            <div class="page-head">
+              <div>
+                <p class="eyebrow">YOU & AI</p>
+                <h1>设置</h1>
+              </div>
+              <span class="connection-dot" id="connection-dot" title="尚未拉取模型"></span>
+            </div>
+
+            <form id="settings-form">
+              <section class="settings-section">
+                <div class="settings-section-head">
+                  <div>
+                    <p>PLAYER PROFILE</p>
+                    <h2>玩家人设</h2>
+                  </div>
+                  <label class="avatar-picker" for="player-avatar-file">
+                    <span class="profile-avatar" id="player-avatar-preview">你</span>
+                    <em>更换</em>
+                    <input id="player-avatar-file" type="file" accept="image/*" />
+                  </label>
+                </div>
+                <label class="field-line">
+                  <span>玩家称呼</span>
+                  <input id="player-name" type="text" placeholder="你" />
+                </label>
+                <label class="field-line textarea-field">
+                  <span>玩家人设</span>
+                  <textarea id="player-persona" rows="5" placeholder="外貌、性格、经历、与角色的关系、希望 AI 知道的信息…"></textarea>
+                </label>
+              </section>
+
+              <section class="settings-section">
+                <div class="settings-section-head">
+                  <div>
+                    <p>CONNECTION</p>
+                    <h2>API 与模型</h2>
+                  </div>
+                </div>
+                <label class="field-line">
+                  <span>API 地址</span>
+                  <input id="api-url" type="url" placeholder="https://api.openai.com/v1/chat/completions" />
+                </label>
+                <label class="field-line">
+                  <span>API Key</span>
+                  <input id="api-key" type="password" placeholder="sk-…" autocomplete="off" />
+                  <small>仅保存在当前设备，备份不会包含。</small>
+                </label>
+                <div class="model-fetch-row">
+                  <label class="field-line">
+                    <span>模型</span>
+                    <select id="api-model">
+                      <option value="">请先拉取模型</option>
+                    </select>
+                  </label>
+                  <button class="soft-button" id="fetch-models" type="button">拉取模型</button>
+                </div>
+                <div class="two-fields">
+                  <label class="field-line">
+                    <span>温度</span>
+                    <input id="api-temperature" type="number" min="0" max="2" step="0.1" />
+                  </label>
+                  <label class="field-line">
+                    <span>回复 Token 上限</span>
+                    <input id="api-max-tokens" type="number" min="64" max="4096" step="1" />
+                  </label>
+                </div>
+                <label class="field-line">
+                  <span>上下文条数</span>
+                  <input id="context-turns" type="number" min="0" max="200" step="1" />
+                  <small>玩家一轮或 AI 一轮各算 1 条；例如双方各回复一次，共计 2 条。</small>
+                </label>
+              </section>
+
+              <section class="settings-section">
+                <div class="settings-section-head prompt-head">
+                  <div>
+                    <p>PROMPT LAB</p>
+                    <h2>系统提示词</h2>
+                  </div>
+                  <button class="text-button" id="reset-prompt" type="button">恢复默认</button>
+                </div>
+                <label class="field-line textarea-field prompt-field">
+                  <span>可编辑模板</span>
+                  <textarea id="system-prompt-template" rows="15" spellcheck="false"></textarea>
+                  <small>可用变量：{{char}}、{{user}}、{{player_persona}}、{{character_card}}、{{worldbook}}、{{reply_rules}}</small>
+                </label>
+                <button class="wide-soft-button" id="preview-prompt" type="button">预览当前角色的最终提示词</button>
+              </section>
+
+              <button class="save-all-button" type="submit">保存全部设置</button>
+            </form>
+
+            <div class="section-title">
+              <h2>数据管理</h2>
+            </div>
+            <div class="data-actions">
+              <button id="export-backup" type="button">
+                <span>↗</span>
+                <strong>导出备份</strong>
+                <small>角色、世界书和聊天</small>
+              </button>
+              <label>
+                <input id="restore-backup" type="file" accept=".json,application/json" />
+                <span>↙</span>
+                <strong>恢复备份</strong>
+                <small>恢复到当前设备</small>
+              </label>
+            </div>
+            <p class="privacy-note">头像、角色卡、世界书、提示词与聊天均保存在本机 IndexedDB。</p>
+          </section>
+        </main>
+
+        <nav class="bottom-nav" aria-label="主要导航">
+          <button class="active" data-go="home" type="button"><span>⌂</span><small>小手机</small></button>
+          <button data-go="contacts" type="button"><span>○</span><small>消息</small></button>
+          <button data-go="library" type="button"><span>⌘</span><small>资料库</small></button>
+          <button data-go="settings" type="button"><span>⌁</span><small>设置</small></button>
+        </nav>
+        <div class="toast" id="toast" role="status" aria-live="polite"></div>
+      </div>
+    </div>
+
+    <div class="modal-layer" id="character-modal" hidden>
+      <form class="modal-panel large-modal" id="character-form">
+        <div class="modal-head">
+          <div>
+            <p>CHARACTER CARD</p>
+            <h2>编辑角色卡</h2>
           </div>
-          <label class="search-line">
-            <span aria-hidden="true">⌕</span>
-            <input id="contact-search" type="search" placeholder="搜索角色" autocomplete="off" />
+          <button data-close-modal="character-modal" type="button" aria-label="关闭">×</button>
+        </div>
+        <input id="character-edit-id" type="hidden" />
+        <div class="character-avatar-editor">
+          <span class="profile-avatar large" id="character-avatar-preview">C</span>
+          <label>
+            更换角色头像
+            <input id="character-avatar-file" type="file" accept="image/*" />
           </label>
-          <div class="contact-list" id="contact-list"></div>
-        </section>
+          <button id="remove-character-avatar" type="button">移除头像</button>
+        </div>
+        <label class="modal-field"><span>名称</span><input id="character-name" required /></label>
+        <label class="modal-field"><span>描述</span><textarea id="character-description" rows="5"></textarea></label>
+        <label class="modal-field"><span>性格</span><textarea id="character-personality" rows="4"></textarea></label>
+        <label class="modal-field"><span>场景</span><textarea id="character-scenario" rows="4"></textarea></label>
+        <label class="modal-field"><span>开场白</span><textarea id="character-first-mes" rows="4"></textarea></label>
+        <label class="modal-field"><span>对话示例</span><textarea id="character-mes-example" rows="5"></textarea></label>
+        <label class="modal-field"><span>角色卡系统提示词</span><textarea id="character-system-prompt" rows="4"></textarea></label>
+        <label class="modal-field"><span>历史后指令</span><textarea id="character-post-history" rows="4"></textarea></label>
+        <div class="modal-actions">
+          <button class="soft-button" data-close-modal="character-modal" type="button">取消</button>
+          <button class="primary-button" type="submit">保存角色卡</button>
+        </div>
+      </form>
+    </div>
 
-        <section class="view chat-view" id="chat-view" data-view="chat">
-          <div class="chat-head">
-            <button class="icon-button" data-go="contacts" type="button" aria-label="返回联系人">‹</button>
-            <button class="chat-person" id="chat-person" type="button">
-              <span class="mini-avatar" id="chat-avatar">L</span>
-              <span>
-                <strong id="chat-name">未选择角色</strong>
-                <small id="chat-status">本地记忆</small>
-              </span>
-            </button>
-            <button class="icon-button" id="clear-chat" type="button" aria-label="清空当前聊天">···</button>
+    <div class="modal-layer" id="worldbook-modal" hidden>
+      <form class="modal-panel large-modal" id="worldbook-form">
+        <div class="modal-head">
+          <div>
+            <p>WORLD BOOK</p>
+            <h2>编辑世界书</h2>
           </div>
-          <div class="message-list" id="message-list" aria-live="polite"></div>
-          <div class="pending-tray" id="pending-tray" hidden>
-            <div class="pending-head">
-              <span id="pending-count">待发送 0 条</span>
-              <button class="text-button" id="clear-pending" type="button">全部撤回</button>
-            </div>
-            <div id="pending-list"></div>
+          <button data-close-modal="worldbook-modal" type="button" aria-label="关闭">×</button>
+        </div>
+        <input id="worldbook-edit-id" type="hidden" />
+        <label class="modal-field"><span>世界书名称</span><input id="worldbook-name" required /></label>
+        <label class="switch-row">
+          <span><strong>启用整本世界书</strong><small>关闭后所有条目都不会进入提示词</small></span>
+          <input id="worldbook-enabled" type="checkbox" />
+        </label>
+        <div class="entry-toolbar">
+          <div>
+            <p>ENTRIES</p>
+            <h3>条目</h3>
           </div>
-          <div class="typing-line" id="typing-line" hidden>
-            <span></span><span></span><span></span>
-            <em>正在回复</em>
-          </div>
-          <form class="composer" id="composer">
-            <textarea id="message-input" rows="1" placeholder="输入一条消息…" enterkeyhint="enter"></textarea>
-            <div class="composer-actions">
-              <button class="soft-button" id="stage-message" type="button">＋ 暂存一条</button>
-              <button class="primary-button" id="send-batch" type="submit">统一发送 <span>↑</span></button>
-            </div>
-            <p>回车暂存一条 · Shift + 回车换行</p>
-          </form>
-        </section>
+          <button class="soft-button" id="add-worldbook-entry" type="button">＋ 新建条目</button>
+        </div>
+        <div class="entry-editor-list" id="worldbook-entry-list"></div>
+        <div class="modal-actions sticky-actions">
+          <button class="soft-button" data-close-modal="worldbook-modal" type="button">取消</button>
+          <button class="primary-button" type="submit">保存世界书</button>
+        </div>
+      </form>
+    </div>
 
-        <section class="view" id="library-view" data-view="library">
-          <div class="page-head">
-            <div>
-              <p class="eyebrow">IMPORT</p>
-              <h1>资料库</h1>
-            </div>
-            <span class="outline-badge">本地保存</span>
+    <div class="modal-layer action-modal" id="message-modal" hidden>
+      <form class="modal-panel compact-modal" id="message-form">
+        <div class="modal-head">
+          <div>
+            <p>MESSAGE</p>
+            <h2>编辑消息</h2>
           </div>
+          <button data-close-modal="message-modal" type="button" aria-label="关闭">×</button>
+        </div>
+        <input id="message-edit-id" type="hidden" />
+        <label class="modal-field"><span>消息内容</span><textarea id="message-edit-content" rows="6" required></textarea></label>
+        <button class="danger-button" id="delete-message" type="button">删除这条消息</button>
+        <div class="modal-actions">
+          <button class="soft-button" data-close-modal="message-modal" type="button">取消</button>
+          <button class="primary-button" type="submit">保存修改</button>
+        </div>
+      </form>
+    </div>
 
-          <div class="import-grid">
-            <label class="import-card">
-              <input id="character-file" type="file" accept=".json,.png,application/json,image/png" />
-              <span class="import-symbol">＋</span>
-              <strong>导入角色卡</strong>
-              <small>支持酒馆 JSON / PNG</small>
-            </label>
-            <label class="import-card">
-              <input id="worldbook-file" type="file" accept=".json,application/json" />
-              <span class="import-symbol">⌘</span>
-              <strong>导入世界书</strong>
-              <small>支持关键词与常驻条目</small>
-            </label>
+    <div class="modal-layer" id="prompt-modal" hidden>
+      <div class="modal-panel large-modal">
+        <div class="modal-head">
+          <div>
+            <p>FINAL PROMPT</p>
+            <h2>最终系统提示词</h2>
           </div>
-
-          <div class="section-title">
-            <h2>已导入角色</h2>
-            <span id="character-total">0 个</span>
-          </div>
-          <div class="library-list" id="character-library"></div>
-
-          <div class="section-title worldbook-title">
-            <h2>世界书</h2>
-            <span id="worldbook-total">0 本</span>
-          </div>
-          <div class="library-list" id="worldbook-library"></div>
-        </section>
-
-        <section class="view" id="settings-view" data-view="settings">
-          <div class="page-head">
-            <div>
-              <p class="eyebrow">CONNECTION</p>
-              <h1>AI 设置</h1>
-            </div>
-            <span class="connection-dot" id="connection-dot" title="尚未测试"></span>
-          </div>
-
-          <form class="settings-card" id="api-form">
-            <label>
-              <span>API 地址</span>
-              <input id="api-url" type="url" placeholder="https://api.openai.com/v1/chat/completions" />
-            </label>
-            <label>
-              <span>API Key</span>
-              <input id="api-key" type="password" placeholder="sk-…" autocomplete="off" />
-              <small>仅保存在当前设备，不会包含在备份中。</small>
-            </label>
-            <label>
-              <span>模型名称</span>
-              <input id="api-model" type="text" placeholder="gpt-4.1-mini" />
-            </label>
-            <div class="two-fields">
-              <label>
-                <span>温度</span>
-                <input id="api-temperature" type="number" min="0" max="2" step="0.1" />
-              </label>
-              <label>
-                <span>回复上限</span>
-                <input id="api-max-tokens" type="number" min="64" max="4096" step="1" />
-              </label>
-            </div>
-            <label>
-              <span>玩家称呼</span>
-              <input id="player-name" type="text" placeholder="你" />
-            </label>
-            <div class="settings-actions">
-              <button class="soft-button" id="test-api" type="button">测试连接</button>
-              <button class="primary-button" type="submit">保存设置</button>
-            </div>
-            <p class="form-note">兼容 OpenAI Chat Completions 接口。若服务商禁止网页跨域访问，需要后续接入代理。</p>
-          </form>
-
-          <div class="section-title">
-            <h2>数据管理</h2>
-          </div>
-          <div class="data-actions">
-            <button id="export-backup" type="button">
-              <span>↗</span>
-              <strong>导出备份</strong>
-              <small>角色、世界书和聊天</small>
-            </button>
-            <label>
-              <input id="restore-backup" type="file" accept=".json,application/json" />
-              <span>↙</span>
-              <strong>恢复备份</strong>
-              <small>合并到当前设备</small>
-            </label>
-          </div>
-          <p class="privacy-note">LinePhone 默认只在此设备保存内容。API Key 不会写入导出文件。</p>
-        </section>
-      </main>
-
-      <nav class="bottom-nav" aria-label="主要导航">
-        <button class="active" data-go="home" type="button"><span>⌂</span><small>首页</small></button>
-        <button data-go="contacts" type="button"><span>○</span><small>消息</small></button>
-        <button data-go="library" type="button"><span>＋</span><small>资料</small></button>
-        <button data-go="settings" type="button"><span>⌁</span><small>设置</small></button>
-      </nav>
-      <div class="toast" id="toast" role="status" aria-live="polite"></div>
+          <button data-close-modal="prompt-modal" type="button" aria-label="关闭">×</button>
+        </div>
+        <textarea class="prompt-preview-area" id="prompt-preview-area" rows="24" readonly></textarea>
+        <p class="modal-note">这是根据当前玩家人设、角色卡和已启用世界书生成的最终版本。要修改它，请回到“系统提示词”编辑模板或编辑对应资料。</p>
+      </div>
     </div>
 
     <script src="./app.js" defer></script>

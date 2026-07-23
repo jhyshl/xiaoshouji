@@ -5,28 +5,58 @@ const DB_VERSION = 1;
 const STORE_NAME = "app";
 const STATE_KEY = "state";
 
+const DEFAULT_REPLY_RULES = `【回复格式要求】
+1. 先理解玩家本轮连续发送的全部气泡，再统一回应。
+2. 像真实手机聊天一样简短自然，优先回复 2～6 句。
+3. 每个数组元素只能放一句话，不得在同一个元素里写两句话。
+4. 不写姓名前缀；除非角色设定明确要求，否则不写长段旁白。
+5. 只输出合法 JSON，不要 Markdown：
+{"replies":["第一句","第二句","第三句"]}`;
+
+const DEFAULT_SYSTEM_PROMPT = `你正在扮演“{{char}}”，与玩家“{{user}}”进行手机即时聊天。
+
+【玩家人设】
+{{player_persona}}
+
+【角色卡】
+{{character_card}}
+
+【相关世界书】
+{{worldbook}}
+
+{{reply_rules}}`;
+
 const DEFAULT_STATE = {
-  schemaVersion: 1,
+  schemaVersion: 2,
   currentCharacterId: null,
   characters: [],
   worldBooks: [],
   chats: {},
+  profile: {
+    name: "你",
+    persona: "",
+    avatar: "",
+  },
   settings: {
     apiUrl: "https://api.openai.com/v1/chat/completions",
     apiKey: "",
-    model: "gpt-4.1-mini",
+    model: "",
+    modelOptions: [],
     temperature: 0.8,
     maxTokens: 500,
-    playerName: "你",
+    contextTurns: 12,
+    systemPromptTemplate: DEFAULT_SYSTEM_PROMPT,
   },
 };
 
 let state = structuredClone(DEFAULT_STATE);
 let activeView = "home";
-let pendingMessages = [];
 let sending = false;
 let saveTimer = null;
 let toastTimer = null;
+let longPressTimer = null;
+let pendingCharacterAvatar = "";
+let editingWorldBookDraft = null;
 
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
@@ -40,44 +70,126 @@ async function init() {
   updateClock();
   setInterval(updateClock, 30_000);
   renderAll();
+  navigate("home");
   registerServiceWorker();
 }
 
 function mergeState(saved) {
   if (!saved || typeof saved !== "object") return structuredClone(DEFAULT_STATE);
-  return {
+
+  const legacyPlayerName = saved.settings?.playerName;
+  const merged = {
     ...structuredClone(DEFAULT_STATE),
     ...saved,
     characters: Array.isArray(saved.characters) ? saved.characters : [],
     worldBooks: Array.isArray(saved.worldBooks) ? saved.worldBooks : [],
     chats: saved.chats && typeof saved.chats === "object" ? saved.chats : {},
-    settings: { ...DEFAULT_STATE.settings, ...(saved.settings || {}) },
+    profile: {
+      ...DEFAULT_STATE.profile,
+      ...(saved.profile || {}),
+      name: saved.profile?.name || legacyPlayerName || DEFAULT_STATE.profile.name,
+    },
+    settings: {
+      ...DEFAULT_STATE.settings,
+      ...(saved.settings || {}),
+      contextTurns: clampNumber(saved.settings?.contextTurns, 0, 200, 12),
+      modelOptions: Array.isArray(saved.settings?.modelOptions) ? saved.settings.modelOptions : [],
+      systemPromptTemplate:
+        saved.settings?.systemPromptTemplate || DEFAULT_SYSTEM_PROMPT,
+    },
   };
+
+  merged.schemaVersion = 2;
+  Object.entries(merged.chats).forEach(([characterId, messages]) => {
+    if (!Array.isArray(messages)) {
+      merged.chats[characterId] = [];
+      return;
+    }
+    merged.chats[characterId] = messages.map((message) => ({
+      ...message,
+      id: message.id || createId("msg"),
+      turnId: message.turnId || `legacy_${message.id || createId("turn")}`,
+      queued: Boolean(message.queued),
+    }));
+  });
+  merged.worldBooks = merged.worldBooks.map((book) => ({
+    ...book,
+    enabled: book.enabled !== false,
+    entries: Array.isArray(book.entries)
+      ? book.entries.map((entry) => ({
+          ...entry,
+          enabled: entry.enabled !== false,
+          constant: Boolean(entry.constant),
+          priority: Number(entry.priority) || 0,
+          keys: Array.isArray(entry.keys) ? entry.keys : normalizeKeys(entry.keys),
+          secondaryKeys: Array.isArray(entry.secondaryKeys) ? entry.secondaryKeys : [],
+        }))
+      : [],
+  }));
+  return merged;
 }
 
 function bindEvents() {
   $$("[data-go]").forEach((button) => {
     button.addEventListener("click", () => navigate(button.dataset.go));
   });
+  $$("[data-close-modal]").forEach((button) => {
+    button.addEventListener("click", () => closeModal(button.dataset.closeModal));
+  });
+  $$(".modal-layer").forEach((layer) => {
+    layer.addEventListener("click", (event) => {
+      if (event.target === layer) closeModal(layer.id);
+    });
+  });
 
-  $("#home-settings").addEventListener("click", () => navigate("settings"));
   $("#contact-search").addEventListener("input", renderContacts);
   $("#character-file").addEventListener("change", importCharacter);
   $("#worldbook-file").addEventListener("change", importWorldBook);
   $("#restore-backup").addEventListener("change", restoreBackup);
   $("#quick-backup").addEventListener("click", exportBackup);
   $("#export-backup").addEventListener("click", exportBackup);
-  $("#api-form").addEventListener("submit", saveSettings);
-  $("#test-api").addEventListener("click", testConnection);
-  $("#composer").addEventListener("submit", sendPendingBatch);
-  $("#stage-message").addEventListener("click", stageCurrentMessage);
-  $("#clear-pending").addEventListener("click", clearPending);
-  $("#clear-chat").addEventListener("click", clearCurrentChat);
+
+  $("#settings-form").addEventListener("submit", saveSettings);
+  $("#fetch-models").addEventListener("click", fetchModels);
+  $("#player-avatar-file").addEventListener("change", updatePlayerAvatar);
+  $("#reset-prompt").addEventListener("click", resetPromptTemplate);
+  $("#preview-prompt").addEventListener("click", previewFinalPrompt);
+
+  $("#composer").addEventListener("submit", stageCurrentMessage);
+  $("#confirm-send-ai").addEventListener("click", confirmQueuedMessages);
   $("#message-input").addEventListener("input", autoGrowComposer);
-  $("#message-input").addEventListener("keydown", (event) => {
-    if (event.key === "Enter" && !event.shiftKey) {
-      event.preventDefault();
-      stageCurrentMessage();
+  $("#chat-settings").addEventListener("click", () => {
+    const character = currentCharacter();
+    if (character) openCharacterEditor(character.id);
+  });
+  $("#chat-person").addEventListener("click", () => {
+    const character = currentCharacter();
+    if (character) openCharacterEditor(character.id);
+  });
+
+  $("#character-form").addEventListener("submit", saveCharacterEdits);
+  $("#character-avatar-file").addEventListener("change", updateCharacterAvatarDraft);
+  $("#remove-character-avatar").addEventListener("click", removeCharacterAvatarDraft);
+
+  $("#worldbook-form").addEventListener("submit", saveWorldBookEdits);
+  $("#add-worldbook-entry").addEventListener("click", addWorldBookEntry);
+  $("#worldbook-entry-list").addEventListener("input", updateWorldBookEntryDraft);
+  $("#worldbook-entry-list").addEventListener("change", updateWorldBookEntryDraft);
+  $("#worldbook-entry-list").addEventListener("click", handleWorldBookEntryClick);
+
+  $("#message-form").addEventListener("submit", saveMessageEdit);
+  $("#delete-message").addEventListener("click", deleteEditedMessage);
+
+  $("#home-contact-open").addEventListener("click", () => {
+    const character = currentCharacter() || recentCharacter();
+    if (character) openChat(character.id);
+    else navigate("library");
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      const openLayer = $$(".modal-layer").find((layer) => !layer.hidden);
+      if (openLayer) closeModal(openLayer.id);
     }
   });
 
@@ -97,6 +209,9 @@ function navigate(view) {
     const isActive = navView === view || (view === "chat" && navView === "contacts");
     button.classList.toggle("active", isActive);
   });
+  $(".bottom-nav").classList.toggle("home-hidden", view === "home");
+
+  if (view === "home") renderHome();
   if (view === "chat") renderChat();
   if (view === "contacts") renderContacts();
   if (view === "library") renderLibrary();
@@ -112,31 +227,16 @@ function renderAll() {
 }
 
 function renderHome() {
-  const host = $("#home-contacts");
-  if (!state.characters.length) {
-    host.innerHTML = `<div class="empty-state"><p>还没有联系人<br>从“导入”加入第一张角色卡</p></div>`;
+  const character = currentCharacter() || recentCharacter();
+  $("#home-contact-name").textContent = character?.name || "尚未导入角色";
+  if (character) {
+    const last = (state.chats[character.id] || []).at(-1);
+    $("#home-contact-note").textContent = last?.content || "点击开始聊天";
+    $("#today-subtitle").textContent = `${character.name} 的资料和记忆已保存在当前设备。`;
   } else {
-    host.innerHTML = state.characters
-      .slice()
-      .sort((a, b) => lastActivity(b.id) - lastActivity(a.id))
-      .slice(0, 5)
-      .map(
-        (character) => `
-          <button class="contact-chip" data-character="${escapeAttr(character.id)}" type="button">
-            ${avatarMarkup(character)}
-            <strong>${escapeHtml(character.name)}</strong>
-          </button>`,
-      )
-      .join("");
-    $$("[data-character]", host).forEach((button) => {
-      button.addEventListener("click", () => openChat(button.dataset.character));
-    });
+    $("#home-contact-note").textContent = "到资料库导入角色卡";
+    $("#today-subtitle").textContent = "消息先进入聊天，再由你决定何时交给 AI。";
   }
-
-  const selected = currentCharacter();
-  $("#hero-subtitle").textContent = selected
-    ? `${selected.name} 的记忆与聊天已保存在本机。`
-    : "多条消息会合并为一次请求，回复仍保持一句一个气泡。";
 }
 
 function renderContacts() {
@@ -150,7 +250,7 @@ function renderContacts() {
     host.innerHTML = `
       <div class="empty-state">
         <span>○</span>
-        <p>${query ? "没有找到这个角色" : "导入酒馆角色卡后<br>联系人会出现在这里"}</p>
+        <p>${query ? "没有找到这个角色" : "导入角色卡后<br>联系人会出现在这里"}</p>
       </div>`;
     return;
   }
@@ -159,12 +259,17 @@ function renderContacts() {
     .map((character) => {
       const messages = state.chats[character.id] || [];
       const last = messages.at(-1);
+      const queuedCount = queuedMessages(character.id).length;
       return `
         <button class="contact-row" data-contact="${escapeAttr(character.id)}" type="button">
           ${avatarMarkup(character)}
           <span class="contact-meta">
             <strong>${escapeHtml(character.name)}</strong>
-            <small>${escapeHtml(last?.content || character.description || "开始一段新对话")}</small>
+            <small>${escapeHtml(
+              queuedCount
+                ? `${queuedCount} 个气泡待交给 AI`
+                : last?.content || character.description || "开始一段新对话",
+            )}</small>
           </span>
           <time class="contact-time">${last ? formatRelative(last.createdAt) : "NEW"}</time>
         </button>`;
@@ -186,13 +291,20 @@ function renderLibrary() {
         .map(
           (character) => `
           <div class="library-row">
-            <span class="library-symbol">${character.avatar ? `<img src="${escapeAttr(character.avatar)}" alt="" />` : escapeHtml(initialOf(character.name))}</span>
+            <span class="library-symbol">${
+              character.avatar
+                ? `<img src="${escapeAttr(character.avatar)}" alt="" />`
+                : escapeHtml(initialOf(character.name))
+            }</span>
             <span class="library-info">
               <strong>${escapeHtml(character.name)}</strong>
-              <small>${character.sourceFormat === "png" ? "PNG 角色卡" : "JSON 角色卡"} · ${(state.chats[character.id] || []).length} 条消息</small>
+              <small>${character.sourceFormat === "png" ? "PNG 角色卡" : "JSON 角色卡"} · 可编辑 · ${
+                (state.chats[character.id] || []).length
+              } 个气泡</small>
             </span>
             <span class="row-actions">
-              <button data-open-character="${escapeAttr(character.id)}" type="button" aria-label="打开聊天">↗</button>
+              <button data-edit-character="${escapeAttr(character.id)}" type="button">编辑</button>
+              <button data-open-character="${escapeAttr(character.id)}" type="button">聊天</button>
               <button data-delete-character="${escapeAttr(character.id)}" type="button" aria-label="删除角色">×</button>
             </span>
           </div>`,
@@ -203,28 +315,38 @@ function renderLibrary() {
   const booksHost = $("#worldbook-library");
   booksHost.innerHTML = state.worldBooks.length
     ? state.worldBooks
-        .map(
-          (book) => `
+        .map((book) => {
+          const enabledEntries = book.entries.filter((entry) => entry.enabled).length;
+          return `
           <div class="library-row">
             <span class="library-symbol">⌘</span>
             <span class="library-info">
               <strong>${escapeHtml(book.name)}</strong>
-              <small>${book.entries.length} 个可用条目${book.characterId ? " · 角色内嵌" : ""}</small>
+              <small>${enabledEntries}/${book.entries.length} 个条目启用${book.characterId ? " · 角色内嵌" : ""}</small>
             </span>
             <span class="row-actions">
-              <button data-toggle-book="${escapeAttr(book.id)}" type="button" aria-label="启用或停用世界书">${book.enabled ? "●" : "○"}</button>
+              <button data-edit-book="${escapeAttr(book.id)}" type="button">编辑</button>
+              <button data-toggle-book="${escapeAttr(book.id)}" type="button" aria-label="启用或停用世界书">${
+                book.enabled ? "开" : "关"
+              }</button>
               <button data-delete-book="${escapeAttr(book.id)}" type="button" aria-label="删除世界书">×</button>
             </span>
-          </div>`,
-        )
+          </div>`;
+        })
         .join("")
     : `<div class="empty-state"><p>尚未导入世界书</p></div>`;
 
   $$("[data-open-character]", charactersHost).forEach((button) => {
     button.addEventListener("click", () => openChat(button.dataset.openCharacter));
   });
+  $$("[data-edit-character]", charactersHost).forEach((button) => {
+    button.addEventListener("click", () => openCharacterEditor(button.dataset.editCharacter));
+  });
   $$("[data-delete-character]", charactersHost).forEach((button) => {
     button.addEventListener("click", () => deleteCharacter(button.dataset.deleteCharacter));
+  });
+  $$("[data-edit-book]", booksHost).forEach((button) => {
+    button.addEventListener("click", () => openWorldBookEditor(button.dataset.editBook));
   });
   $$("[data-toggle-book]", booksHost).forEach((button) => {
     button.addEventListener("click", () => toggleBook(button.dataset.toggleBook));
@@ -238,11 +360,10 @@ function openChat(characterId) {
   const character = state.characters.find((item) => item.id === characterId);
   if (!character) return;
   state.currentCharacterId = characterId;
-  pendingMessages = [];
   scheduleSave();
   renderAll();
   navigate("chat");
-  setTimeout(() => $("#message-input").focus(), 120);
+  setTimeout(() => $("#message-input").focus(), 100);
 }
 
 function renderChat() {
@@ -252,13 +373,13 @@ function renderChat() {
     $("#chat-name").textContent = "未选择角色";
     $("#chat-status").textContent = "请先导入角色卡";
     $("#chat-avatar").textContent = "L";
-    list.innerHTML = `<div class="empty-state"><span>○</span><p>从联系人列表选择一个角色</p></div>`;
-    renderPending();
+    list.innerHTML = `<div class="empty-state"><span>○</span><p>从消息列表选择一个角色</p></div>`;
+    renderQueueConfirm();
     return;
   }
 
   $("#chat-name").textContent = character.name;
-  $("#chat-status").textContent = `${matchedWorldBookCount(character.id)} 本世界书 · 本地记忆`;
+  $("#chat-status").textContent = `在线 · ${matchedWorldBookCount(character.id)} 本世界书`;
   $("#chat-avatar").innerHTML = character.avatar
     ? `<img src="${escapeAttr(character.avatar)}" alt="" />`
     : escapeHtml(initialOf(character.name));
@@ -266,112 +387,122 @@ function renderChat() {
   const messages = state.chats[character.id] || [];
   list.innerHTML = messages.length
     ? messages
-        .map(
-          (message) => `
+        .map((message) => {
+          const avatar =
+            message.role === "user"
+              ? state.profile.avatar
+              : character.avatar;
+          const avatarName =
+            message.role === "user"
+              ? state.profile.name || "你"
+              : character.name;
+          return `
           <div class="message-group ${message.role === "user" ? "user" : "assistant"}">
-            <div class="bubble">
+            ${
+              message.role === "assistant"
+                ? `<span class="message-avatar">${miniAvatarMarkup(avatar, avatarName)}</span>`
+                : ""
+            }
+            <div
+              class="bubble ${message.queued ? "queued" : ""}"
+              data-message-id="${escapeAttr(message.id)}"
+              role="button"
+              tabindex="0"
+              aria-label="长按编辑或删除这条消息"
+            >
               ${escapeHtml(message.content).replaceAll("\n", "<br>")}
-              <time>${formatTime(message.createdAt)}</time>
+              <time>${message.queued ? '<span class="queue-mark">待发送</span>' : ""}${formatTime(
+                message.createdAt,
+              )}</time>
             </div>
-          </div>`,
-        )
+            ${
+              message.role === "user"
+                ? `<span class="message-avatar">${miniAvatarMarkup(avatar, avatarName)}</span>`
+                : ""
+            }
+          </div>`;
+        })
         .join("")
-    : `<div class="empty-state"><span>○</span><p>还没有消息<br>可以先连续暂存几条再统一发送</p></div>`;
+    : `<div class="empty-state"><span>○</span><p>输入消息后点击发送<br>气泡会先留在聊天中</p></div>`;
 
-  renderPending();
+  attachMessageInteractions();
+  renderQueueConfirm();
   requestAnimationFrame(() => {
     list.scrollTop = list.scrollHeight;
   });
 }
 
-function stageCurrentMessage() {
+function renderQueueConfirm() {
+  const character = currentCharacter();
+  const queued = character ? queuedMessages(character.id) : [];
+  const panel = $("#queue-confirm");
+  panel.hidden = queued.length === 0;
+  $("#queue-count").textContent = `待交给 AI · ${queued.length} 个气泡 / 1 轮`;
+  $("#confirm-send-ai").disabled = sending;
+}
+
+function stageCurrentMessage(event) {
+  event.preventDefault();
   if (sending) return;
   const input = $("#message-input");
   const content = input.value.trim();
-  if (!content) {
-    showToast("先写下一条消息");
-    return;
-  }
-  if (!currentCharacter()) {
+  const character = currentCharacter();
+  if (!character) {
     showToast("请先选择一个角色");
     navigate("contacts");
     return;
   }
-  pendingMessages.push({ id: createId("pending"), content });
+  if (!content) {
+    showToast("先写下一条消息");
+    return;
+  }
+
+  const queued = queuedMessages(character.id);
+  const turnId = queued[0]?.turnId || createId("turn");
+  (state.chats[character.id] ||= []).push({
+    id: createId("msg"),
+    turnId,
+    role: "user",
+    content,
+    createdAt: Date.now(),
+    source: "phone",
+    queued: true,
+  });
+
   input.value = "";
   autoGrowComposer();
-  renderPending();
+  scheduleSave();
+  renderAll();
   input.focus();
 }
 
-function renderPending() {
-  const tray = $("#pending-tray");
-  tray.hidden = pendingMessages.length === 0;
-  $("#pending-count").textContent = `待发送 ${pendingMessages.length} 条`;
-  $("#pending-list").innerHTML = pendingMessages
-    .map(
-      (message) => `
-      <div class="pending-item">
-        <span>${escapeHtml(message.content).replaceAll("\n", "<br>")}</span>
-        <button data-remove-pending="${escapeAttr(message.id)}" type="button" aria-label="撤回这条消息">×</button>
-      </div>`,
-    )
-    .join("");
-  $$("[data-remove-pending]", $("#pending-list")).forEach((button) => {
-    button.addEventListener("click", () => {
-      pendingMessages = pendingMessages.filter((item) => item.id !== button.dataset.removePending);
-      renderPending();
-    });
-  });
-}
-
-function clearPending() {
-  pendingMessages = [];
-  renderPending();
-}
-
-async function sendPendingBatch(event) {
-  event.preventDefault();
+async function confirmQueuedMessages() {
   if (sending) return;
-  const input = $("#message-input");
-  if (input.value.trim()) stageCurrentMessage();
-  if (!pendingMessages.length) {
-    showToast("至少暂存一条消息");
-    return;
-  }
   const character = currentCharacter();
-  if (!character) {
-    showToast("请先选择一个角色");
+  if (!character) return;
+  const queued = queuedMessages(character.id);
+  if (!queued.length) {
+    showToast("没有待发送的消息");
     return;
   }
 
-  const batch = pendingMessages.map((item) => item.content);
-  pendingMessages = [];
-  const now = Date.now();
-  const chat = (state.chats[character.id] ||= []);
-  batch.forEach((content, index) => {
-    chat.push({
-      id: createId("msg"),
-      role: "user",
-      content,
-      createdAt: now + index,
-      source: "phone",
-    });
-  });
-  scheduleSave();
-  renderAll();
   setSending(true);
-
   try {
-    const replies = await requestCharacterReply(character, batch);
+    const replies = await requestCharacterReply(character, queued);
+    queued.forEach((message) => {
+      message.queued = false;
+    });
+    const assistantTurnId = createId("turn");
     const replyTime = Date.now();
     replies.forEach((content, index) => {
-      chat.push({
+      state.chats[character.id].push({
         id: createId("msg"),
+        turnId: assistantTurnId,
         role: "assistant",
         content,
         createdAt: replyTime + index,
         source: "ai",
+        queued: false,
       });
     });
     scheduleSave();
@@ -387,34 +518,25 @@ async function sendPendingBatch(event) {
 function setSending(value) {
   sending = value;
   $("#typing-line").hidden = !value;
-  $("#send-batch").disabled = value;
+  $("#confirm-send-ai").disabled = value;
   $("#stage-message").disabled = value;
   $("#message-input").disabled = value;
 }
 
-async function requestCharacterReply(character, batch) {
+async function requestCharacterReply(character, queued) {
   const settings = state.settings;
   if (!settings.apiUrl || !settings.model) throw new Error("API_NOT_CONFIGURED");
 
-  const chat = state.chats[character.id] || [];
-  const historyBeforeBatch = chat.slice(0, Math.max(0, chat.length - batch.length)).slice(-36);
-  const memoryText = [...batch, ...historyBeforeBatch.slice(-8).map((item) => item.content)].join("\n");
-  const lore = collectLore(character.id, memoryText);
+  const contextMessages = buildContextMessages(character.id, settings.contextTurns);
+  const currentUserContent = queued.map((message, index) => `【气泡 ${index + 1}】${message.content}`).join("\n");
+  const loreSearchText = [
+    currentUserContent,
+    ...contextMessages.slice(-6).map((message) => message.content),
+  ].join("\n");
+  const lore = collectLore(character.id, loreSearchText);
   const systemPrompt = buildSystemPrompt(character, lore);
 
-  const messages = [
-    { role: "system", content: systemPrompt },
-    ...historyBeforeBatch.map((item) => ({
-      role: item.role === "assistant" ? "assistant" : "user",
-      content: item.content,
-    })),
-    {
-      role: "user",
-      content: batch.map((item, index) => `【第 ${index + 1} 条】${item}`).join("\n"),
-    },
-  ];
-
-  const response = await fetch(normalizeEndpoint(settings.apiUrl), {
+  const response = await fetch(normalizeChatEndpoint(settings.apiUrl), {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -422,7 +544,11 @@ async function requestCharacterReply(character, batch) {
     },
     body: JSON.stringify({
       model: settings.model,
-      messages,
+      messages: [
+        { role: "system", content: systemPrompt },
+        ...contextMessages,
+        { role: "user", content: currentUserContent },
+      ],
       temperature: Number(settings.temperature) || 0.8,
       max_tokens: Number(settings.maxTokens) || 500,
     }),
@@ -437,276 +563,108 @@ async function requestCharacterReply(character, batch) {
 
   const payload = await response.json();
   const content =
-    payload?.choices?.[0]?.message?.content ??
-    payload?.choices?.[0]?.text ??
-    payload?.output_text ??
-    "";
-  const replies = parseReplies(content);
-  if (!replies.length) throw new Error("EMPTY_REPLY");
-  return replies;
+    payload?.cho…4162 tokens truncated…ries
+    .map(
+      (entry, index) => `
+      <article class="entry-editor" data-entry-id="${escapeAttr(entry.id)}">
+        <div class="entry-editor-head">
+          <strong>${escapeHtml(entry.comment || `条目 ${index + 1}`)}</strong>
+          <div class="entry-switch">
+            <label>
+              <input data-entry-field="enabled" type="checkbox" ${entry.enabled ? "checked" : ""} />
+            </label>
+            <button class="entry-delete" data-delete-entry="${escapeAttr(entry.id)}" type="button" aria-label="删除条目">×</button>
+          </div>
+        </div>
+        <div class="entry-grid">
+          <label>
+            <span>条目名称</span>
+            <input data-entry-field="comment" type="text" value="${escapeAttr(entry.comment || "")}" />
+          </label>
+          <label>
+            <span>优先级</span>
+            <input data-entry-field="priority" type="number" value="${Number(entry.priority) || 0}" />
+          </label>
+        </div>
+        <label>
+          <span>关键词（逗号分隔）</span>
+          <input data-entry-field="keys" type="text" value="${escapeAttr(entry.keys.join(", "))}" />
+        </label>
+        <label>
+          <span>条目内容</span>
+          <textarea data-entry-field="content">${escapeHtml(entry.content)}</textarea>
+        </label>
+        <div class="entry-options">
+          <label><input data-entry-field="constant" type="checkbox" ${entry.constant ? "checked" : ""} /> 常驻条目</label>
+          <span>${entry.enabled ? "当前启用" : "当前关闭"}</span>
+        </div>
+      </article>`,
+    )
+    .join("");
 }
 
-function buildSystemPrompt(character, loreEntries) {
-  const playerName = state.settings.playerName || "你";
-  const profile = [
-    character.description && `角色设定：${character.description}`,
-    character.personality && `性格：${character.personality}`,
-    character.scenario && `当前场景：${character.scenario}`,
-    character.mesExample && `说话示例：\n${character.mesExample}`,
-  ]
-    .filter(Boolean)
-    .join("\n\n");
-  const lore = loreEntries.length
-    ? `\n\n【相关世界书】\n${loreEntries.map((item) => `- ${item.content}`).join("\n")}`
-    : "";
+function updateWorldBookEntryDraft(event) {
+  const field = event.target.dataset.entryField;
+  const article = event.target.closest("[data-entry-id]");
+  if (!field || !article || !editingWorldBookDraft) return;
+  const entry = editingWorldBookDraft.entries.find((item) => item.id === article.dataset.entryId);
+  if (!entry) return;
 
-  return `你正在扮演“${character.name}”，与玩家“${playerName}”进行手机即时聊天。
-
-${profile || "保持角色卡所描述的人格与关系。"}${lore}
-
-【必须遵守的回复格式】
-1. 先理解玩家连续发送的全部消息，再统一回应。
-2. 像真实手机聊天一样简短自然，优先回复 2～6 句。
-3. 每个数组元素只能放一句话，不得在同一个元素里写两句话。
-4. 不写旁白、动作描写、姓名前缀或长段落，除非角色设定明确要求。
-5. 只输出合法 JSON，不要 Markdown：
-{"replies":["第一句","第二句","第三句"]}`;
-}
-
-function collectLore(characterId, text) {
-  const lower = text.toLowerCase();
-  return state.worldBooks
-    .filter((book) => book.enabled && (!book.characterId || book.characterId === characterId))
-    .flatMap((book) => book.entries)
-    .filter((entry) => {
-      if (!entry.enabled) return false;
-      if (entry.constant) return true;
-      return entry.keys.some((key) => key && lower.includes(key.toLowerCase()));
-    })
-    .sort((a, b) => b.priority - a.priority)
-    .slice(0, 24);
-}
-
-function parseReplies(rawContent) {
-  let raw = typeof rawContent === "string" ? rawContent.trim() : "";
-  raw = raw.replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/, "");
-  let candidates = [];
-
-  try {
-    const parsed = JSON.parse(raw);
-    if (Array.isArray(parsed)) candidates = parsed;
-    else if (Array.isArray(parsed?.replies)) candidates = parsed.replies;
-    else if (Array.isArray(parsed?.messages)) candidates = parsed.messages;
-    else if (typeof parsed?.reply === "string") candidates = [parsed.reply];
-  } catch {
-    candidates = raw
-      .split(/\n+/)
-      .map((line) => line.replace(/^\s*[-*•\d.)、]+\s*/, ""))
-      .filter(Boolean);
-  }
-
-  return candidates
-    .flatMap((item) => splitSentences(String(item || "")))
-    .map((item) => item.trim())
-    .filter(Boolean)
-    .slice(0, 12);
-}
-
-function splitSentences(text) {
-  const cleaned = text
-    .replace(/^["“”']+|["“”']+$/g, "")
-    .replace(/\s+/g, " ")
-    .trim();
-  if (!cleaned) return [];
-  const matches = cleaned.match(/[^。！？!?…]+(?:[。！？!?]+|…{1,2}|$)/g);
-  return (matches || [cleaned]).map((item) => item.trim()).filter(Boolean);
-}
-
-async function importCharacter(event) {
-  const file = event.target.files?.[0];
-  event.target.value = "";
-  if (!file) return;
-
-  try {
-    let raw;
-    let avatar = "";
-    let sourceFormat = "json";
-    if (file.type === "image/png" || file.name.toLowerCase().endsWith(".png")) {
-      const buffer = await file.arrayBuffer();
-      raw = parsePngCharacter(buffer);
-      avatar = await fileToDataUrl(file);
-      sourceFormat = "png";
-    } else {
-      raw = JSON.parse(await file.text());
-    }
-    const character = normalizeCharacter(raw, { avatar, sourceFormat, fileName: file.name });
-    const existing = state.characters.findIndex(
-      (item) => item.name.toLowerCase() === character.name.toLowerCase(),
-    );
-    if (existing >= 0) {
-      const old = state.characters[existing];
-      character.id = old.id;
-      state.characters.splice(existing, 1, character);
-    } else {
-      state.characters.push(character);
-    }
-    state.currentCharacterId = character.id;
-    state.chats[character.id] ||= [];
-    if (!state.chats[character.id].length && character.firstMes) {
-      splitSentences(character.firstMes).forEach((content, index) => {
-        state.chats[character.id].push({
-          id: createId("msg"),
-          role: "assistant",
-          content,
-          createdAt: Date.now() + index,
-          source: "card",
-        });
-      });
-    }
-
-    const embedded = raw?.data?.character_book || raw?.character_book || raw?.data?.world_book;
-    if (embedded) {
-      const book = normalizeWorldBook(embedded, `${character.name} · 内嵌世界书`, character.id);
-      const priorIndex = state.worldBooks.findIndex(
-        (item) => item.characterId === character.id && item.embedded,
-      );
-      book.embedded = true;
-      if (priorIndex >= 0) state.worldBooks.splice(priorIndex, 1, book);
-      else state.worldBooks.push(book);
-    }
-
-    scheduleSave();
-    renderAll();
-    showToast(`已导入角色：${character.name}`);
-  } catch (error) {
-    console.error(error);
-    showToast(error.message === "PNG_CARD_NOT_FOUND" ? "这张 PNG 中没有找到酒馆角色卡数据" : "角色卡读取失败，请确认文件格式");
+  if (field === "enabled" || field === "constant") {
+    entry[field] = event.target.checked;
+  } else if (field === "priority") {
+    entry.priority = Number(event.target.value) || 0;
+  } else if (field === "keys") {
+    entry.keys = normalizeKeys(event.target.value);
+  } else {
+    entry[field] = event.target.value;
   }
 }
 
-function normalizeCharacter(raw, meta = {}) {
-  const data = raw?.data && typeof raw.data === "object" ? raw.data : raw;
-  if (!data || typeof data !== "object" || !String(data.name || "").trim()) {
-    throw new Error("INVALID_CHARACTER");
-  }
-  return {
-    id: createId("char"),
-    name: String(data.name).trim(),
-    description: String(data.description || data.char_persona || "").trim(),
-    personality: String(data.personality || data.persona || "").trim(),
-    scenario: String(data.scenario || data.world_scenario || "").trim(),
-    firstMes: String(data.first_mes || data.first_message || data.greeting || "").trim(),
-    mesExample: String(data.mes_example || data.example_dialogue || "").trim(),
-    systemPrompt: String(data.system_prompt || "").trim(),
-    postHistoryInstructions: String(data.post_history_instructions || "").trim(),
-    creatorNotes: String(data.creator_notes || raw?.creator_notes || "").trim(),
-    tags: Array.isArray(data.tags) ? data.tags.map(String) : [],
-    avatar: meta.avatar || "",
-    sourceFormat: meta.sourceFormat || "json",
-    sourceFile: meta.fileName || "",
-    importedAt: Date.now(),
-  };
+function handleWorldBookEntryClick(event) {
+  const button = event.target.closest("[data-delete-entry]");
+  if (!button || !editingWorldBookDraft) return;
+  editingWorldBookDraft.entries = editingWorldBookDraft.entries.filter(
+    (entry) => entry.id !== button.dataset.deleteEntry,
+  );
+  renderWorldBookEntries();
 }
 
-function parsePngCharacter(buffer) {
-  const bytes = new Uint8Array(buffer);
-  const signature = [137, 80, 78, 71, 13, 10, 26, 10];
-  if (!signature.every((value, index) => bytes[index] === value)) {
-    throw new Error("INVALID_PNG");
-  }
-  const decoder = new TextDecoder("latin1");
-  let offset = 8;
-  const textValues = new Map();
-
-  while (offset + 12 <= bytes.length) {
-    const length =
-      ((bytes[offset] << 24) | (bytes[offset + 1] << 16) | (bytes[offset + 2] << 8) | bytes[offset + 3]) >>>
-      0;
-    const type = decoder.decode(bytes.slice(offset + 4, offset + 8));
-    const start = offset + 8;
-    const end = start + length;
-    if (end + 4 > bytes.length) break;
-    const chunk = bytes.slice(start, end);
-
-    if (type === "tEXt") {
-      const zero = chunk.indexOf(0);
-      if (zero > 0) {
-        const key = decoder.decode(chunk.slice(0, zero));
-        const value = decoder.decode(chunk.slice(zero + 1));
-        textValues.set(key, value);
-      }
-    } else if (type === "iTXt") {
-      const zero = chunk.indexOf(0);
-      if (zero > 0) {
-        const key = decoder.decode(chunk.slice(0, zero));
-        let cursor = zero + 1;
-        const compressionFlag = chunk[cursor++];
-        cursor += 1;
-        for (let field = 0; field < 2; field += 1) {
-          while (cursor < chunk.length && chunk[cursor] !== 0) cursor += 1;
-          cursor += 1;
-        }
-        if (compressionFlag === 0) {
-          textValues.set(key, new TextDecoder().decode(chunk.slice(cursor)));
-        }
-      }
-    }
-    offset = end + 4;
-    if (type === "IEND") break;
-  }
-
-  const encoded = textValues.get("chara") || textValues.get("ccv3") || textValues.get("character");
-  if (!encoded) throw new Error("PNG_CARD_NOT_FOUND");
-  const decoded = decodeBase64Utf8(encoded);
-  return JSON.parse(decoded);
-}
-
-async function importWorldBook(event) {
-  const file = event.target.files?.[0];
-  event.target.value = "";
-  if (!file) return;
-  try {
-    const raw = JSON.parse(await file.text());
-    const book = normalizeWorldBook(raw, file.name.replace(/\.json$/i, ""));
-    state.worldBooks.push(book);
-    scheduleSave();
-    renderAll();
-    showToast(`已导入世界书：${book.name}`);
-  } catch (error) {
-    console.error(error);
-    showToast("世界书读取失败，请确认 JSON 格式");
-  }
-}
-
-function normalizeWorldBook(raw, fallbackName = "未命名世界书", characterId = null) {
-  const sourceEntries = raw?.entries ?? raw?.data?.entries ?? raw;
-  const list = Array.isArray(sourceEntries)
-    ? sourceEntries
-    : sourceEntries && typeof sourceEntries === "object"
-      ? Object.values(sourceEntries)
-      : [];
-  const entries = list
-    .map((entry, index) => ({
-      id: String(entry.uid ?? entry.id ?? index),
-      keys: normalizeKeys(entry.key ?? entry.keys ?? entry.keywords),
-      secondaryKeys: normalizeKeys(entry.keysecondary ?? entry.secondary_keys),
-      content: String(entry.content ?? entry.text ?? "").trim(),
-      constant: Boolean(entry.constant ?? entry.always_active ?? false),
-      enabled: !(entry.disable ?? entry.disabled ?? false),
-      priority: Number(entry.order ?? entry.priority ?? entry.insertion_order ?? 0),
-      comment: String(entry.comment ?? entry.name ?? "").trim(),
-    }))
-    .filter((entry) => entry.content);
-
-  if (!entries.length) throw new Error("INVALID_WORLDBOOK");
-  return {
-    id: createId("book"),
-    name: String(raw?.name || raw?.title || fallbackName),
-    entries,
+function addWorldBookEntry() {
+  if (!editingWorldBookDraft) return;
+  editingWorldBookDraft.entries.push({
+    id: createId("entry"),
+    keys: [],
+    secondaryKeys: [],
+    content: "",
+    constant: false,
+    selective: false,
     enabled: true,
-    characterId,
-    importedAt: Date.now(),
-  };
+    priority: 0,
+    comment: "新条目",
+  });
+  renderWorldBookEntries();
+  const panel = $("#worldbook-modal .modal-panel");
+  requestAnimationFrame(() => {
+    panel.scrollTop = panel.scrollHeight;
+  });
+}
+
+function saveWorldBookEdits(event) {
+  event.preventDefault();
+  if (!editingWorldBookDraft) return;
+  const index = state.worldBooks.findIndex((book) => book.id === editingWorldBookDraft.id);
+  if (index < 0) return;
+  editingWorldBookDraft.name = $("#worldbook-name").value.trim() || editingWorldBookDraft.name;
+  editingWorldBookDraft.enabled = $("#worldbook-enabled").checked;
+  editingWorldBookDraft.entries = editingWorldBookDraft.entries.filter((entry) => entry.content.trim());
+  editingWorldBookDraft.updatedAt = Date.now();
+  state.worldBooks.splice(index, 1, editingWorldBookDraft);
+  editingWorldBookDraft = null;
+  scheduleSave();
+  closeModal("worldbook-modal");
+  renderAll();
+  showToast("世界书和条目设置已保存");
 }
 
 function normalizeKeys(value) {
@@ -752,76 +710,173 @@ function deleteCharacter(characterId) {
   showToast("角色与本地聊天已删除");
 }
 
-function clearCurrentChat() {
-  const character = currentCharacter();
-  if (!character || !window.confirm(`清空与“${character.name}”的全部聊天？`)) return;
-  state.chats[character.id] = [];
-  pendingMessages = [];
-  scheduleSave();
-  renderAll();
-  showToast("聊天已清空");
-}
-
 function fillSettingsForm() {
   $("#api-url").value = state.settings.apiUrl || "";
   $("#api-key").value = state.settings.apiKey || "";
-  $("#api-model").value = state.settings.model || "";
   $("#api-temperature").value = state.settings.temperature ?? 0.8;
   $("#api-max-tokens").value = state.settings.maxTokens ?? 500;
-  $("#player-name").value = state.settings.playerName || "你";
+  $("#context-turns").value = state.settings.contextTurns ?? 12;
+  $("#player-name").value = state.profile.name || "你";
+  $("#player-persona").value = state.profile.persona || "";
+  $("#system-prompt-template").value =
+    state.settings.systemPromptTemplate || DEFAULT_SYSTEM_PROMPT;
+  renderModelOptions(state.settings.modelOptions, state.settings.model);
+  renderPlayerAvatar();
 }
 
 function saveSettings(event) {
   event.preventDefault();
-  state.settings = readSettingsForm();
+  state.profile.name = $("#player-name").value.trim() || "你";
+  state.profile.persona = $("#player-persona").value.trim();
+  state.settings.apiUrl = $("#api-url").value.trim();
+  state.settings.apiKey = $("#api-key").value.trim();
+  state.settings.model = $("#api-model").value;
+  state.settings.temperature = clampNumber($("#api-temperature").value, 0, 2, 0.8);
+  state.settings.maxTokens = clampNumber($("#api-max-tokens").value, 64, 4096, 500);
+  state.settings.contextTurns = clampNumber($("#context-turns").value, 0, 200, 12);
+  state.settings.systemPromptTemplate =
+    $("#system-prompt-template").value.trim() || DEFAULT_SYSTEM_PROMPT;
   scheduleSave();
-  showToast("AI 设置已保存在本机");
+  renderAll();
+  showToast("设置已保存在本机");
 }
 
-function readSettingsForm() {
-  return {
-    apiUrl: $("#api-url").value.trim(),
-    apiKey: $("#api-key").value.trim(),
-    model: $("#api-model").value.trim(),
-    temperature: Math.min(2, Math.max(0, Number($("#api-temperature").value) || 0.8)),
-    maxTokens: Math.min(4096, Math.max(64, Number($("#api-max-tokens").value) || 500)),
-    playerName: $("#player-name").value.trim() || "你",
-  };
-}
-
-async function testConnection() {
-  const button = $("#test-api");
+async function fetchModels() {
+  const button = $("#fetch-models");
   const dot = $("#connection-dot");
-  const previous = button.textContent;
-  button.disabled = true;
-  button.textContent = "测试中…";
-  dot.className = "connection-dot";
-  const settings = readSettingsForm();
+  const apiUrl = $("#api-url").value.trim();
+  const apiKey = $("#api-key").value.trim();
+  if (!apiUrl) {
+    showToast("请先填写 API 地址");
+    return;
+  }
 
+  button.disabled = true;
+  button.textContent = "拉取中…";
+  dot.className = "connection-dot";
   try {
-    const response = await fetch(normalizeEndpoint(settings.apiUrl), {
-      method: "POST",
+    const response = await fetch(normalizeModelsEndpoint(apiUrl), {
+      method: "GET",
       headers: {
-        "Content-Type": "application/json",
-        ...(settings.apiKey ? { Authorization: `Bearer ${settings.apiKey}` } : {}),
+        ...(apiKey ? { Authorization: `Bearer ${apiKey}` } : {}),
       },
-      body: JSON.stringify({
-        model: settings.model,
-        messages: [{ role: "user", content: "只回复 OK" }],
-        max_tokens: 8,
-        temperature: 0,
-      }),
     });
     if (!response.ok) throw new Error(`HTTP_${response.status}`);
+    const payload = await response.json();
+    const source = Array.isArray(payload?.data)
+      ? payload.data
+      : Array.isArray(payload?.models)
+        ? payload.models
+        : Array.isArray(payload)
+          ? payload
+          : [];
+    const models = [
+      ...new Set(
+        source
+          .map((item) => (typeof item === "string" ? item : item?.id || item?.name))
+          .filter(Boolean)
+          .map(String),
+      ),
+    ].sort((a, b) => a.localeCompare(b));
+    if (!models.length) throw new Error("NO_MODELS");
+    const previous = $("#api-model").value || state.settings.model;
+    state.settings.modelOptions = models;
+    const selected = models.includes(previous) ? previous : models[0];
+    renderModelOptions(models, selected);
     dot.classList.add("ok");
-    showToast("连接成功，可以开始聊天");
+    showToast(`已拉取 ${models.length} 个模型`);
   } catch (error) {
     dot.classList.add("fail");
-    showToast(humanizeApiError(error));
+    showToast(
+      error.message === "NO_MODELS"
+        ? "接口没有返回可用模型"
+        : humanizeApiError(error),
+    );
   } finally {
     button.disabled = false;
-    button.textContent = previous;
+    button.textContent = "拉取模型";
   }
+}
+
+function renderModelOptions(models, selected) {
+  const select = $("#api-model");
+  const options = Array.isArray(models) ? models : [];
+  const all = selected && !options.includes(selected) ? [selected, ...options] : options;
+  select.innerHTML = all.length
+    ? all
+        .map(
+          (model) =>
+            `<option value="${escapeAttr(model)}" ${model === selected ? "selected" : ""}>${escapeHtml(model)}</option>`,
+        )
+        .join("")
+    : `<option value="">请先拉取模型</option>`;
+}
+
+function normalizeChatEndpoint(url) {
+  const clean = String(url || "").trim().replace(/\/+$/, "");
+  if (!clean) throw new Error("API_NOT_CONFIGURED");
+  if (/\/chat\/completions$/i.test(clean)) return clean;
+  if (/\/v1$/i.test(clean)) return `${clean}/chat/completions`;
+  if (/\/v1\//i.test(clean)) return `${clean}/chat/completions`;
+  return `${clean}/v1/chat/completions`;
+}
+
+function normalizeModelsEndpoint(url) {
+  const clean = String(url || "").trim().replace(/\/+$/, "");
+  if (!clean) throw new Error("API_NOT_CONFIGURED");
+  if (/\/chat\/completions$/i.test(clean)) return clean.replace(/\/chat\/completions$/i, "/models");
+  if (/\/v1$/i.test(clean)) return `${clean}/models`;
+  if (/\/v1\/.+/i.test(clean)) return clean.replace(/\/v1\/.*$/i, "/v1/models");
+  return `${clean}/v1/models`;
+}
+
+async function updatePlayerAvatar(event) {
+  const file = event.target.files?.[0];
+  event.target.value = "";
+  if (!file) return;
+  try {
+    state.profile.avatar = await resizeImageFile(file);
+    scheduleSave();
+    renderPlayerAvatar();
+    renderChat();
+    showToast("玩家头像已更新");
+  } catch {
+    showToast("头像读取失败");
+  }
+}
+
+function renderPlayerAvatar() {
+  const host = $("#player-avatar-preview");
+  host.innerHTML = state.profile.avatar
+    ? `<img src="${escapeAttr(state.profile.avatar)}" alt="" />`
+    : escapeHtml(initialOf(state.profile.name || "你"));
+}
+
+function resetPromptTemplate() {
+  if (!window.confirm("把系统提示词恢复为默认模板？")) return;
+  $("#system-prompt-template").value = DEFAULT_SYSTEM_PROMPT;
+  showToast("已恢复默认模板，点击保存后生效");
+}
+
+function previewFinalPrompt() {
+  const character = currentCharacter();
+  if (!character) {
+    showToast("请先导入并选择一个角色");
+    return;
+  }
+  const previousTemplate = state.settings.systemPromptTemplate;
+  state.settings.systemPromptTemplate =
+    $("#system-prompt-template").value.trim() || DEFAULT_SYSTEM_PROMPT;
+  const searchText = (state.chats[character.id] || [])
+    .slice(-20)
+    .map((message) => message.content)
+    .join("\n");
+  $("#prompt-preview-area").value = buildSystemPrompt(
+    character,
+    collectLore(character.id, searchText),
+  );
+  state.settings.systemPromptTemplate = previousTemplate;
+  openModal("prompt-modal");
 }
 
 function exportBackup() {
@@ -842,7 +897,6 @@ async function restoreBackup(event) {
     const currentKey = state.settings.apiKey;
     state = incoming;
     if (!state.settings.apiKey) state.settings.apiKey = currentKey;
-    pendingMessages = [];
     await writeState(state);
     fillSettingsForm();
     renderAll();
@@ -853,30 +907,52 @@ async function restoreBackup(event) {
   }
 }
 
-function normalizeEndpoint(url) {
-  const clean = String(url || "").trim().replace(/\/+$/, "");
-  if (!clean) throw new Error("API_NOT_CONFIGURED");
-  if (/\/chat\/completions$/i.test(clean)) return clean;
-  if (/\/v1$/i.test(clean)) return `${clean}/chat/completions`;
-  return `${clean}/v1/chat/completions`;
-}
-
 function humanizeApiError(error) {
   const message = String(error?.message || error || "");
-  if (message === "API_NOT_CONFIGURED") return "请先在设置中填写 API 地址和模型";
+  if (message === "API_NOT_CONFIGURED") return "请先填写 API 地址并拉取模型";
   if (message === "EMPTY_REPLY") return "AI 返回了空内容，请重试";
   if (message.includes("401") || message.includes("403")) return "认证失败，请检查 API Key";
-  if (message.includes("404")) return "接口地址或模型名称不正确";
+  if (message.includes("404")) return "接口地址不正确，或服务不支持此功能";
   if (message.includes("429")) return "请求过于频繁或额度不足";
-  if (message.includes("500") || message.includes("502") || message.includes("503")) return "AI 服务暂时不可用";
+  if (message.includes("500") || message.includes("502") || message.includes("503")) {
+    return "AI 服务暂时不可用";
+  }
   if (message.includes("Failed to fetch") || message.includes("NetworkError")) {
     return "网络或跨域连接失败，请检查 API 地址";
   }
-  return `发送失败：${message.slice(0, 80) || "未知错误"}`;
+  return `请求失败：${message.slice(0, 80) || "未知错误"}`;
+}
+
+function openModal(id) {
+  const layer = $(`#${id}`);
+  if (!layer) return;
+  layer.hidden = false;
+  document.body.classList.add("modal-open");
+}
+
+function closeModal(id) {
+  const layer = $(`#${id}`);
+  if (!layer) return;
+  layer.hidden = true;
+  if (!$$(".modal-layer").some((item) => !item.hidden)) {
+    document.body.classList.remove("modal-open");
+  }
 }
 
 function currentCharacter() {
   return state.characters.find((item) => item.id === state.currentCharacterId) || null;
+}
+
+function recentCharacter() {
+  return state.characters
+    .slice()
+    .sort((a, b) => lastActivity(b.id) - lastActivity(a.id))[0] || null;
+}
+
+function queuedMessages(characterId) {
+  return (state.chats[characterId] || []).filter(
+    (message) => message.role === "user" && message.queued,
+  );
 }
 
 function matchedWorldBookCount(characterId) {
@@ -897,8 +973,22 @@ function avatarMarkup(character) {
   }</span>`;
 }
 
+function miniAvatarMarkup(avatar, name) {
+  return `<span class="mini-avatar">${
+    avatar
+      ? `<img src="${escapeAttr(avatar)}" alt="" />`
+      : escapeHtml(initialOf(name))
+  }</span>`;
+}
+
 function initialOf(name) {
   return Array.from(String(name || "L").trim())[0]?.toUpperCase() || "L";
+}
+
+function clampNumber(value, min, max, fallback) {
+  const number = Number(value);
+  if (!Number.isFinite(number)) return fallback;
+  return Math.min(max, Math.max(min, number));
 }
 
 function createId(prefix) {
@@ -938,12 +1028,22 @@ function formatRelative(timestamp) {
 }
 
 function updateClock() {
-  $("#clock").textContent = formatTime(Date.now());
+  const now = new Date();
+  const time = formatTime(now);
+  $("#clock").textContent = time;
+  $("#home-clock").textContent = time;
+  $("#home-date").textContent = new Intl.DateTimeFormat("zh-CN", {
+    month: "long",
+    day: "numeric",
+    weekday: "long",
+  }).format(now);
 }
 
 function dateStamp() {
   const now = new Date();
-  return `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, "0")}${String(now.getDate()).padStart(2, "0")}`;
+  return `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, "0")}${String(
+    now.getDate(),
+  ).padStart(2, "0")}`;
 }
 
 function autoGrowComposer() {
@@ -960,11 +1060,26 @@ function showToast(message) {
   toastTimer = setTimeout(() => toast.classList.remove("show"), 2800);
 }
 
-function fileToDataUrl(file) {
+function resizeImageFile(file, maxSize = 512) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
-    reader.onload = () => resolve(reader.result);
     reader.onerror = reject;
+    reader.onload = () => {
+      const image = new Image();
+      image.onerror = reject;
+      image.onload = () => {
+        const scale = Math.min(1, maxSize / Math.max(image.width, image.height));
+        const width = Math.max(1, Math.round(image.width * scale));
+        const height = Math.max(1, Math.round(image.height * scale));
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        const context = canvas.getContext("2d");
+        context.drawImage(image, 0, 0, width, height);
+        resolve(canvas.toDataURL("image/jpeg", 0.88));
+      };
+      image.src = reader.result;
+    };
     reader.readAsDataURL(file);
   });
 }

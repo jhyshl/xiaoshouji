@@ -1,14 +1,14 @@
 {
   "name": "LinePhone 小手机",
   "short_name": "小手机",
-  "description": "支持酒馆角色卡、世界书与批量消息的本地 AI 小手机。",
+  "description": "可编辑角色卡、世界书和提示词，支持消息暂存与 AI 短回复的本地小手机。",
   "lang": "zh-CN",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait-primary",
-  "background_color": "#f7f5f1",
-  "theme_color": "#f7f5f1",
+  "background_color": "#f2eee7",
+  "theme_color": "#f2eee7",
   "icons": [
     {
       "src": "./icons/icon.svg",

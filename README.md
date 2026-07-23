@@ -4,14 +4,19 @@ LinePhone 是一个可独立打开、可安装到手机桌面的本地 PWA 小�
 
 ## 已实现
 
-- 简约、INS、线条风移动端界面
-- 导入 SillyTavern 常见 JSON / PNG 角色卡
-- 导入 JSON 世界书与角色卡内嵌世界书
-- 按常驻条目和关键词选择世界书内容
-- 连续暂存多条玩家消息，再合并为一次 AI 请求
+- 更接近真实手机的桌面、状态栏、应用入口和底部导航
+- 导入并在前端编辑 SillyTavern 常见 JSON / PNG 角色卡
+- 导入并编辑 JSON 世界书与角色卡内嵌世界书
+- 单独开启或关闭世界书条目
+- 自定义玩家人设、玩家头像与角色头像
+- 暴露并可编辑系统提示词模板，支持实时预览
+- 点击发送后先生成玩家气泡并进入待提交状态，不立即调用 AI
+- 点击“确认并发送给 AI”后统一提交全部待发气泡
+- 自定义 AI 可见的上下文轮数；一轮玩家消息或一轮 AI 回复各计 1 条
+- 长按或右键消息气泡后编辑、删除
+- 从兼容接口拉取模型列表后直接选择模型
 - 强制短回复，并把 AI 的每一句拆成独立气泡
 - 每个角色独立聊天记录
-- OpenAI Chat Completions 兼容接口
 - IndexedDB 本地保存
 - 完整数据备份与恢复（API Key 不进入备份）
 - Service Worker 离线应用壳
@@ -35,7 +40,18 @@ icons/
 
 ## API 说明
 
-默认填写 OpenAI Chat Completions 接口，也可以使用兼容服务。部分服务商不允许浏览器直接跨域请求，此时需要 Cloudflare Worker 等代理。
+填写 OpenAI Chat Completions 兼容接口和 API Key 后，点击“拉取模型”，再从列表选择模型。部分服务商不允许浏览器直接跨域请求，此时需要 Cloudflare Worker 等代理。
+
+系统提示词支持以下占位符：
+
+```text
+{{char}}
+{{user}}
+{{player_persona}}
+{{character_card}}
+{{worldbook}}
+{{reply_rules}}
+```
 
 不要把自己的统一 API Key 写进公开源码。当前版本的 Key 只保存在玩家自己的设备中。
 
