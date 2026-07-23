@@ -1,9 +1,9 @@
-const CACHE_NAME = "linephone-v2.0.0";
+const CACHE_NAME = "linephone-v2.0.1";
 const APP_SHELL = [
   "./",
   "./index.html",
   "./styles.css",
-  "./app.js",
+  "./app.js?v=2.0.1",
   "./manifest.webmanifest",
   "./icons/icon.svg",
   "./icons/icon-maskable.svg",
@@ -37,4 +37,3 @@ self.addEventListener("fetch", (event) => {
       .catch(() => caches.match(event.request).then((cached) => cached || caches.match("./index.html"))),
   );
 });
-
