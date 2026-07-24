@@ -16,11 +16,15 @@
 
 .lp-tavern-panel {
   position: fixed;
+  top: auto;
   right: 18px;
   bottom: 144px;
+  left: auto;
   z-index: 31001;
+  box-sizing: border-box;
   width: min(380px, calc(100vw - 30px));
-  max-height: min(720px, calc(100vh - 170px));
+  max-height: min(720px, calc(100dvh - 170px));
+  margin: 0;
   overflow: auto;
   padding: 17px;
   border: 1px solid rgba(190, 183, 172, 0.38);
@@ -32,8 +36,20 @@
   font: 13px/1.5 system-ui, sans-serif;
 }
 
-.lp-tavern-panel[hidden] {
+.lp-tavern-panel:not([open]) {
   display: none;
+}
+
+.lp-tavern-panel[open] {
+  display: block;
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.lp-tavern-panel::backdrop {
+  background: rgba(0, 0, 0, 0.32);
+  backdrop-filter: blur(2px);
 }
 
 .lp-tavern-panel > header,
@@ -165,7 +181,7 @@
 
   .lp-tavern-panel {
     right: 10px;
-    bottom: 128px;
-    max-height: calc(100vh - 150px);
+    bottom: max(84px, calc(70px + env(safe-area-inset-bottom)));
+    max-height: calc(100dvh - 104px - env(safe-area-inset-bottom));
   }
 }
