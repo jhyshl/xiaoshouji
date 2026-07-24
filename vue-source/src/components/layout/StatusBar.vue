@@ -22,7 +22,6 @@ onUnmounted(() => window.clearInterval(timer));
 <template>
   <header class="status-bar" aria-label="应用状态">
     <strong>{{ time }}</strong>
-    <span class="status-island" aria-hidden="true"></span>
     <span class="status-icons" aria-hidden="true">▮▮▮ ◔ ▰</span>
   </header>
 </template>

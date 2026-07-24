@@ -1,8 +1,10 @@
 import { computed, reactive, ref, watch } from "vue";
 import {
+  DEFAULT_HOME_PAGES,
   DEFAULT_REPLY_RULES,
   DEFAULT_STATE,
   DEFAULT_SYSTEM_PROMPT,
+  HOME_ITEM_IDS,
 } from "../constants.js";
 import { readState, writeState } from "../services/database.js";
 import { clampNumber, createId, normalizeKeys } from "../utils/text.js";
@@ -22,6 +24,29 @@ let saveTimer = null;
 let toastTimer = null;
 let persistenceStarted = false;
 
+function normalizeHomePages(savedPages) {
+  const allowed = new Set(HOME_ITEM_IDS);
+  const seen = new Set();
+  const source = Array.isArray(savedPages) ? savedPages : DEFAULT_HOME_PAGES;
+  const pages = source
+    .slice(0, 6)
+    .map((page) =>
+      (Array.isArray(page) ? page : []).filter((itemId) => {
+        if (!allowed.has(itemId) || seen.has(itemId)) return false;
+        seen.add(itemId);
+        return true;
+      }),
+    );
+
+  while (pages.length < 2) pages.push([]);
+  HOME_ITEM_IDS.forEach((itemId) => {
+    if (seen.has(itemId)) return;
+    const defaultPage = DEFAULT_HOME_PAGES.findIndex((page) => page.includes(itemId));
+    pages[Math.max(0, defaultPage)].push(itemId);
+  });
+  return pages;
+}
+
 export const currentCharacter = computed(
   () => state.characters.find((item) => item.id === state.currentCharacterId) || null,
 );
@@ -39,10 +64,13 @@ export function mergeState(saved) {
   const merged = {
     ...structuredClone(DEFAULT_STATE),
     ...saved,
-    schemaVersion: 3,
+    schemaVersion: 4,
     characters: Array.isArray(saved.characters) ? saved.characters : [],
     worldBooks: Array.isArray(saved.worldBooks) ? saved.worldBooks : [],
     chats: saved.chats && typeof saved.chats === "object" ? saved.chats : {},
+    homeLayout: {
+      pages: normalizeHomePages(saved.homeLayout?.pages),
+    },
     profile: {
       ...DEFAULT_STATE.profile,
       ...(saved.profile || {}),

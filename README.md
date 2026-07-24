@@ -12,7 +12,7 @@ LinePhone 是一个可安装到主屏幕的本地 PWA，支持导入与编辑酒
 vue-source/
 ├─ src/components/
 │  ├─ layout/       手机外框、状态栏、底部导航
-│  ├─ home/         首页的独立组件
+│  ├─ home/         可分页、可长按拖动的桌面组件
 │  ├─ contacts/     联系人和消息列表
 │  ├─ chat/         聊天、气泡、编辑弹窗、待发送栏
 │  ├─ library/      导入、角色卡、世界书及条目编辑
@@ -39,3 +39,5 @@ Vite 的部署基础路径固定为 `/xiaoshouji/`。构建后将 `vue-source/di
 ## 数据兼容
 
 数据库仍使用同源 IndexedDB：`linephone-db` / `app` / `state`。Vue 版会迁移已有聊天、角色卡、世界书、头像和设置，并为旧数据补充可编辑的 `replyRules`。
+
+桌面图标、组件顺序和所在分页也保存在同一个本地数据库中。

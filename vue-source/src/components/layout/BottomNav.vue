@@ -4,8 +4,6 @@ import { activeView, currentCharacter, navigate } from "../../store/linePhone.js
 const items = [
   { view: "home", icon: "⌂", label: "首页" },
   { view: "contacts", icon: "○", label: "消息" },
-  { view: "library", icon: "⌘", label: "资料库" },
-  { view: "persona", icon: "♙", label: "人设" },
   { view: "settings", icon: "⌁", label: "设置" },
 ];
 

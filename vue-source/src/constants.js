@@ -19,12 +19,32 @@ export const DEFAULT_SYSTEM_PROMPT = `你正在扮演“{{char}}”，与玩家�
 
 {{reply_rules}}`;
 
+export const HOME_ITEM_IDS = [
+  "clock",
+  "today",
+  "messages",
+  "contacts",
+  "library",
+  "persona",
+  "recent",
+  "settings",
+  "backup",
+];
+
+export const DEFAULT_HOME_PAGES = [
+  ["clock", "today", "messages", "contacts", "library", "persona", "recent"],
+  ["settings", "backup"],
+];
+
 export const DEFAULT_STATE = {
-  schemaVersion: 3,
+  schemaVersion: 4,
   currentCharacterId: null,
   characters: [],
   worldBooks: [],
   chats: {},
+  homeLayout: {
+    pages: structuredClone(DEFAULT_HOME_PAGES),
+  },
   profile: {
     name: "你",
     persona: "",
