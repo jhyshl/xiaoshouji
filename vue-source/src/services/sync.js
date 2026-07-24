@@ -9,7 +9,7 @@ import { supabase } from "./supabase.js";
 import { getDeviceIdentity, renameLocalDevice } from "./deviceIdentity.js";
 import { createId, stableTextHash } from "../utils/text.js";
 
-const APP_VERSION = "3.3.1";
+const APP_VERSION = "3.3.2";
 const SNAPSHOT_FIELDS =
   "entity_type,entity_id,source_device_id,revision,is_deleted,payload,updated_at";
 const DEVICE_FIELDS =
