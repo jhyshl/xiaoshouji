@@ -1,49 +1,23 @@
-# LinePhone 小手机
+# LinePhone SillyTavern 接收器
 
-LinePhone 是一个可安装到主屏幕的本地 PWA，支持导入与编辑酒馆角色卡、世界书，连续暂存多条聊天气泡后再统一请求 AI。
+这是小手机的酒馆端 UI 扩展。它会在本机读取当前单角色聊天，按角色与酒馆存档 ID
+隔离数据，并把“当前滚动总结 + 尚未总结的最近楼层”上传到小手机的 Supabase 最新窗口。
 
-线上地址：<https://jhyshl.github.io/xiaoshouji/>
+## 当前规则
 
-## Vue 源码
+- 一楼 = 一条玩家消息与随后的一条角色回复。
+- 默认每 20 楼总结一次。
+- 25 楼时，云端保存 1 份覆盖 1～20 楼的总结，以及 21～25 楼的原始对话。
+- 编辑、删除或重 roll 会改变对话哈希；已覆盖楼层发生变化时会重新生成并覆盖总结。
+- 切换酒馆存档时，同一角色的云端当前窗口会改成新存档；旧存档总结保留在原酒馆存档的
+  `chatMetadata.linephone_sync` 中。
+- API Key 只保存在当前浏览器的 `localStorage`，不会上传到小手机数据库。
 
-所有界面、功能和数据逻辑均位于 `vue-source/`，以后不再直接维护根目录中的单体 HTML/JS：
+## 安装
 
-```text
-vue-source/
-├─ src/components/
-│  ├─ layout/       手机外框、状态栏、底部导航
-│  ├─ home/         可分页、可长按拖动的桌面组件
-│  ├─ contacts/     联系人和消息列表
-│  ├─ chat/         聊天、气泡、编辑弹窗、待发送栏
-│  ├─ library/      导入、角色卡、世界书及条目编辑
-│  ├─ persona/      玩家头像与玩家人设
-│  ├─ auth/         Discord 登录与访问门禁
-│  ├─ account/      Discord 身份和验证状态
-│  └─ settings/     API、模型、上下文、提示词与备份
-├─ src/composables/ 业务操作
-├─ src/services/    IndexedDB、AI、提示词和导入解析
-├─ src/store/       全局响应式状态与旧数据迁移
-└─ src/utils/       通用工具
-```
+将本目录作为第三方 UI 扩展安装到 SillyTavern。扩展登录目前支持常见的：
 
-根目录的 `index.html`、`assets/`、`manifest.webmanifest`、`sw.js` 和 `icons/` 是 Vite 生成的 GitHub Pages 成品。
+- `http://localhost:8000/`
+- `http://127.0.0.1:8000/`
 
-## 本地构建
-
-```bash
-cd vue-source
-pnpm install
-pnpm run build
-```
-
-Vite 的部署基础路径固定为 `/xiaoshouji/`。构建后将 `vue-source/dist/` 中的内容发布到仓库根目录。
-
-## 数据兼容
-
-数据库仍使用同源 IndexedDB：`linephone-db` / `app`。登录后以 Supabase 用户 ID 隔离本地状态；首次登录会把旧的 `state` 数据迁移给第一个账户。Vue 版会迁移已有聊天、角色卡、世界书、头像和设置，并为旧数据补充可编辑的 `replyRules`。
-
-桌面图标、组件顺序和所在分页也保存在同一个本地数据库中。
-
-## 访问控制
-
-网页使用 Supabase Auth 的 Discord OAuth 登录。登录后的 Edge Function 会核验指定 Discord 社区和身份组，通过后才激活账户。Discord OAuth 令牌只用于即时核验并会从前端会话中清除；服务端 secret 不会进入网页构建产物。
+远程部署的 SillyTavern 需要由管理员把实际 HTTPS 地址加入 Supabase Auth Redirect URLs。
