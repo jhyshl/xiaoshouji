@@ -1,5 +1,7 @@
 import {
+  branchesForCharacter,
   currentCharacter,
+  ensureDefaultBranch,
   modalState,
   navigate,
   openChat,
@@ -40,11 +42,11 @@ export async function importCharacterFile(file) {
       state.characters.push(character);
     }
     state.currentCharacterId = character.id;
-    state.chats[character.id] ||= [];
-    if (!state.chats[character.id].length && character.firstMes) {
+    const branch = ensureDefaultBranch(character.id);
+    if (!branch.messages.length && character.firstMes) {
       const turnId = createId("turn");
       splitSentences(character.firstMes).forEach((content, index) => {
-        state.chats[character.id].push({
+        branch.messages.push({
           id: createId("msg"),
           turnId,
           role: "assistant",
@@ -105,7 +107,14 @@ export function deleteCharacter(characterId) {
   if (!character || !window.confirm(`删除角色“${character.name}”及其本地聊天？`)) return;
   state.characters = state.characters.filter((item) => item.id !== characterId);
   state.worldBooks = state.worldBooks.filter((book) => book.characterId !== characterId);
-  delete state.chats[characterId];
+  branchesForCharacter(characterId).forEach((branch) => {
+    delete state.chatBranches[branch.id];
+  });
+  delete state.activeBranchIds[characterId];
+  Object.entries(state.sync.characterBindings).forEach(([key, value]) => {
+    if (value === characterId) delete state.sync.characterBindings[key];
+  });
+  delete state.sync.mismatches[characterId];
   if (state.currentCharacterId === characterId) {
     state.currentCharacterId = state.characters[0]?.id || null;
   }

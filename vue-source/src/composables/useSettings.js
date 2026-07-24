@@ -1,6 +1,8 @@
 import {
+  activeBranchForCharacter,
   currentCharacter,
   mergeState,
+  messagesForCharacter,
   modalState,
   showToast,
   state,
@@ -53,7 +55,7 @@ export function previewFinalPrompt() {
     showToast("请先导入并选择一个角色");
     return;
   }
-  const searchText = (state.chats[character.id] || [])
+  const searchText = messagesForCharacter(character.id)
     .slice(-20)
     .map((message) => message.content)
     .join("\n");
@@ -62,6 +64,22 @@ export function previewFinalPrompt() {
     profile: state.profile,
     settings: state.settings,
     loreEntries: collectLore(state.worldBooks, character.id, searchText),
+    syncedMemory: [
+      activeBranchForCharacter(character.id)?.tavernSummary?.stale &&
+        "酒馆阶段总结因编辑、删除或重 roll 已标记为过期，不应作为事实采用；请以未总结的最近对话为准。",
+      !activeBranchForCharacter(character.id)?.tavernSummary?.stale &&
+        activeBranchForCharacter(character.id)?.tavernSummary?.content &&
+        `阶段总结：\n${activeBranchForCharacter(character.id).tavernSummary.content}`,
+      activeBranchForCharacter(character.id)?.tavernRecent?.rounds?.length &&
+        `未总结楼层：\n${activeBranchForCharacter(character.id)
+          .tavernRecent.rounds.map(
+            (round) =>
+              `第 ${round.floor} 楼\n玩家：${round.user || ""}\n角色：${round.assistant || ""}`,
+          )
+          .join("\n\n")}`,
+    ]
+      .filter(Boolean)
+      .join("\n\n"),
   });
 }
 

@@ -49,6 +49,72 @@ function normalizeHomePages(savedPages) {
   return pages;
 }
 
+function normalizeMessages(messages) {
+  return Array.isArray(messages)
+    ? messages.map((message) => ({
+        ...message,
+        id: message.id || createId("msg"),
+        turnId: message.turnId || `legacy_${message.id || createId("turn")}`,
+        queued: Boolean(message.queued),
+      }))
+    : [];
+}
+
+function legacyBranchId(characterId) {
+  return `branch_${characterId}_main`;
+}
+
+function normalizeBranches(saved, characters) {
+  const branches =
+    saved.chatBranches && typeof saved.chatBranches === "object"
+      ? structuredClone(saved.chatBranches)
+      : {};
+
+  Object.entries(branches).forEach(([branchId, branch]) => {
+    if (!branch || typeof branch !== "object" || !branch.characterId) {
+      delete branches[branchId];
+      return;
+    }
+    branches[branchId] = {
+      id: branch.id || branchId,
+      characterId: branch.characterId,
+      title: branch.title || "主聊天",
+      origin: branch.origin || "phone",
+      tavernSaveId: branch.tavernSaveId || "",
+      tavernCharacterKey: branch.tavernCharacterKey || "",
+      messages: normalizeMessages(branch.messages),
+      tavernSummary: branch.tavernSummary || null,
+      tavernRecent: branch.tavernRecent || null,
+      cloudRevision: Number(branch.cloudRevision) || 0,
+      createdAt: Number(branch.createdAt) || Date.now(),
+      updatedAt: Number(branch.updatedAt) || Date.now(),
+    };
+  });
+
+  characters.forEach((character) => {
+    const existing = Object.values(branches).some(
+      (branch) => branch.characterId === character.id,
+    );
+    if (existing) return;
+    const id = legacyBranchId(character.id);
+    branches[id] = {
+      id,
+      characterId: character.id,
+      title: "主聊天",
+      origin: "phone",
+      tavernSaveId: "",
+      tavernCharacterKey: "",
+      messages: normalizeMessages(saved.chats?.[character.id]),
+      tavernSummary: null,
+      tavernRecent: null,
+      cloudRevision: 0,
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+    };
+  });
+  return branches;
+}
+
 export const currentCharacter = computed(
   () => state.characters.find((item) => item.id === state.currentCharacterId) || null,
 );
@@ -63,13 +129,47 @@ export const recentCharacter = computed(
 export function mergeState(saved) {
   if (!saved || typeof saved !== "object") return structuredClone(DEFAULT_STATE);
   const legacyPlayerName = saved.settings?.playerName;
+  const characters = Array.isArray(saved.characters) ? saved.characters : [];
+  const chatBranches = normalizeBranches(saved, characters);
+  const activeBranchIds = {
+    ...(saved.activeBranchIds && typeof saved.activeBranchIds === "object"
+      ? saved.activeBranchIds
+      : {}),
+  };
+  characters.forEach((character) => {
+    const selected = chatBranches[activeBranchIds[character.id]];
+    if (selected?.characterId === character.id) return;
+    activeBranchIds[character.id] =
+      Object.values(chatBranches).find(
+        (branch) => branch.characterId === character.id,
+      )?.id || "";
+  });
   const merged = {
     ...structuredClone(DEFAULT_STATE),
     ...saved,
-    schemaVersion: 4,
-    characters: Array.isArray(saved.characters) ? saved.characters : [],
+    schemaVersion: 5,
+    characters,
     worldBooks: Array.isArray(saved.worldBooks) ? saved.worldBooks : [],
-    chats: saved.chats && typeof saved.chats === "object" ? saved.chats : {},
+    chats: {},
+    chatBranches,
+    activeBranchIds,
+    sync: {
+      ...DEFAULT_STATE.sync,
+      ...(saved.sync || {}),
+      characterBindings: {
+        ...DEFAULT_STATE.sync.characterBindings,
+        ...(saved.sync?.characterBindings || {}),
+      },
+      tavernInbox: {
+        ...DEFAULT_STATE.sync.tavernInbox,
+        ...(saved.sync?.tavernInbox || {}),
+      },
+      mismatches: {
+        ...DEFAULT_STATE.sync.mismatches,
+        ...(saved.sync?.mismatches || {}),
+      },
+      lastAckSeq: Math.max(0, Number(saved.sync?.lastAckSeq) || 0),
+    },
     homeLayout: {
       pages: normalizeHomePages(saved.homeLayout?.pages),
     },
@@ -89,16 +189,6 @@ export function mergeState(saved) {
       replyRules: saved.settings?.replyRules || DEFAULT_REPLY_RULES,
     },
   };
-  Object.entries(merged.chats).forEach(([characterId, messages]) => {
-    merged.chats[characterId] = Array.isArray(messages)
-      ? messages.map((message) => ({
-          ...message,
-          id: message.id || createId("msg"),
-          turnId: message.turnId || `legacy_${message.id || createId("turn")}`,
-          queued: Boolean(message.queued),
-        }))
-      : [];
-  });
   merged.worldBooks = merged.worldBooks.map((book) => ({
     ...book,
     enabled: book.enabled !== false,
@@ -158,18 +248,68 @@ export function navigate(view) {
 export function openChat(characterId) {
   if (!state.characters.some((item) => item.id === characterId)) return;
   state.currentCharacterId = characterId;
-  state.chats[characterId] ||= [];
+  ensureDefaultBranch(characterId);
   navigate("chat");
 }
 
+export function branchesForCharacter(characterId) {
+  return Object.values(state.chatBranches)
+    .filter((branch) => branch.characterId === characterId)
+    .sort((a, b) => (Number(b.updatedAt) || 0) - (Number(a.updatedAt) || 0));
+}
+
+export function activeBranchForCharacter(characterId) {
+  const selected = state.chatBranches[state.activeBranchIds[characterId]];
+  if (selected?.characterId === characterId) return selected;
+  return ensureDefaultBranch(characterId);
+}
+
+export function messagesForCharacter(characterId) {
+  return activeBranchForCharacter(characterId)?.messages || [];
+}
+
+export function ensureDefaultBranch(characterId, seedMessages = []) {
+  if (!characterId) return null;
+  const existing = branchesForCharacter(characterId)[0];
+  if (existing) {
+    state.activeBranchIds[characterId] ||= existing.id;
+    return state.chatBranches[state.activeBranchIds[characterId]] || existing;
+  }
+  const branch = {
+    id: createId("branch"),
+    characterId,
+    title: "主聊天",
+    origin: "phone",
+    tavernSaveId: "",
+    tavernCharacterKey: "",
+    messages: normalizeMessages(seedMessages),
+    tavernSummary: null,
+    tavernRecent: null,
+    cloudRevision: 0,
+    createdAt: Date.now(),
+    updatedAt: Date.now(),
+  };
+  state.chatBranches[branch.id] = branch;
+  state.activeBranchIds[characterId] = branch.id;
+  return branch;
+}
+
+export function setActiveBranch(characterId, branchId) {
+  const branch = state.chatBranches[branchId];
+  if (!branch || branch.characterId !== characterId) return false;
+  state.activeBranchIds[characterId] = branchId;
+  branch.updatedAt = Date.now();
+  return true;
+}
+
 export function queuedMessages(characterId) {
-  return (state.chats[characterId] || []).filter(
+  return messagesForCharacter(characterId).filter(
     (message) => message.role === "user" && message.queued,
   );
 }
 
 export function lastActivity(characterId) {
-  return state.chats[characterId]?.at(-1)?.createdAt || 0;
+  return messagesForCharacter(characterId).at(-1)?.createdAt || 0;
 }
 
 export function matchedWorldBookCount(characterId) {

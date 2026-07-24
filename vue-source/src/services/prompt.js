@@ -38,7 +38,13 @@ export function collectLore(worldBooks, characterId, text) {
     .slice(0, 30);
 }
 
-export function buildSystemPrompt({ character, profile, settings, loreEntries }) {
+export function buildSystemPrompt({
+  character,
+  profile,
+  settings,
+  loreEntries,
+  syncedMemory = "",
+}) {
   const characterCard =
     [
       character.description && `描述：${character.description}`,
@@ -62,6 +68,7 @@ export function buildSystemPrompt({ character, profile, settings, loreEntries })
     "{{player_persona}}": profile.persona || "玩家暂未填写人设。",
     "{{character_card}}": characterCard,
     "{{worldbook}}": loreText,
+    "{{synced_memory}}": syncedMemory || "当前聊天分支没有酒馆同步记忆。",
     "{{reply_rules}}": settings.replyRules || "未填写回复规则。",
   };
   return Object.entries(replacements).reduce(

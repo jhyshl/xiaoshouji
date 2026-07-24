@@ -3,14 +3,14 @@ import { computed } from "vue";
 import AppAvatar from "../common/AppAvatar.vue";
 import {
   matchedWorldBookCount,
+  messagesForCharacter,
   modalState,
   openChat,
   queuedMessages,
-  state,
 } from "../../store/linePhone.js";
 
 const props = defineProps({ character: { type: Object, required: true } });
-const messageCount = computed(() => (state.chats[props.character.id] || []).length);
+const messageCount = computed(() => messagesForCharacter(props.character.id).length);
 const queuedCount = computed(() => queuedMessages(props.character.id).length);
 </script>
 

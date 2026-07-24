@@ -2793,3 +2793,310 @@ button {
   font-size: 9px;
   text-align: right;
 }
+
+/* Sync center */
+.sync-view {
+  display: grid;
+  gap: 14px;
+  padding-bottom: 104px;
+}
+
+.sync-card {
+  margin: 0 16px;
+  padding: 17px;
+  border: 1px solid rgba(103, 91, 78, 0.2);
+  border-radius: 22px;
+  background: rgba(255, 253, 249, 0.86);
+  box-shadow: 0 14px 34px rgba(79, 64, 49, 0.06);
+  backdrop-filter: blur(18px);
+}
+
+.sync-card-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.sync-card-heading small,
+.sync-card > small {
+  display: block;
+  margin-bottom: 3px;
+  color: var(--muted);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+}
+
+.sync-card-heading h2,
+.sync-card > h2 {
+  margin: 0;
+  font-family: Georgia, "Noto Serif SC", serif;
+  font-size: 21px;
+  font-weight: 500;
+}
+
+.sync-card-heading > b {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.sync-dot {
+  width: 10px;
+  height: 10px;
+  margin-top: 8px;
+  border: 1px solid rgba(95, 84, 72, 0.38);
+  border-radius: 50%;
+  background: transparent;
+}
+
+.sync-dot.online {
+  border-color: #718b6c;
+  background: #718b6c;
+  box-shadow: 0 0 0 5px rgba(113, 139, 108, 0.12);
+}
+
+.sync-inline-field {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  align-items: end;
+}
+
+.sync-inline-field > span {
+  grid-column: 1 / -1;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.sync-inline-field input,
+.binding-card select {
+  min-width: 0;
+  height: 39px;
+  padding: 0 12px;
+  border: 1px solid rgba(103, 91, 78, 0.22);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--ink);
+}
+
+.sync-inline-field button,
+.binding-card button {
+  height: 39px;
+  padding: 0 13px;
+  border: 1px solid rgba(103, 91, 78, 0.24);
+  border-radius: 12px;
+  background: transparent;
+}
+
+.sync-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin: 14px 0;
+}
+
+.sync-metrics > div {
+  min-width: 0;
+  padding: 10px;
+  border-radius: 14px;
+  background: rgba(122, 108, 91, 0.07);
+}
+
+.sync-metrics dt {
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.sync-metrics dd {
+  overflow: hidden;
+  margin: 4px 0 0;
+  font-size: 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sync-error {
+  margin: 10px 0;
+  color: #9d514d;
+  font-size: 12px;
+}
+
+.sync-empty,
+.cloud-state-card > p,
+.mismatch-card > p {
+  margin: 8px 0 14px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.inventory-list,
+.registered-devices,
+.branch-list {
+  display: grid;
+  gap: 8px;
+}
+
+.inventory-list section,
+.registered-devices section {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2px 10px;
+  padding: 11px 0;
+  border-top: 1px solid rgba(103, 91, 78, 0.12);
+}
+
+.inventory-list section > strong,
+.registered-devices strong {
+  font-size: 13px;
+}
+
+.inventory-list section > span,
+.inventory-list section > small,
+.registered-devices small,
+.registered-devices time {
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.inventory-list section > small {
+  grid-column: 1 / -1;
+}
+
+.registered-devices section > span {
+  display: grid;
+  gap: 3px;
+}
+
+.usage-track {
+  height: 5px;
+  margin: 12px 0 7px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(103, 91, 78, 0.12);
+}
+
+.usage-track i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: #827461;
+  transition: width 0.25s ease;
+}
+
+.cloud-state-card > small {
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.mismatch-card {
+  border-color: rgba(151, 103, 61, 0.28);
+  background: linear-gradient(145deg, rgba(255, 250, 241, 0.94), rgba(252, 246, 237, 0.9));
+}
+
+.mismatch-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.mismatch-actions button {
+  min-height: 40px;
+  border: 1px solid rgba(103, 91, 78, 0.22);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.54);
+}
+
+.mismatch-actions .primary-button {
+  grid-column: 1 / -1;
+}
+
+.binding-card > section {
+  display: grid;
+  grid-template-columns: minmax(90px, 1fr) minmax(118px, 1.4fr) auto;
+  gap: 8px;
+  align-items: center;
+  padding: 10px 0;
+  border-top: 1px solid rgba(103, 91, 78, 0.12);
+}
+
+.binding-card > section > span {
+  display: grid;
+  gap: 2px;
+}
+
+.binding-card > section small {
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.branch-list > section {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 6px;
+  padding: 6px;
+  border: 1px solid rgba(103, 91, 78, 0.14);
+  border-radius: 15px;
+}
+
+.branch-list > section.active {
+  border-color: rgba(103, 91, 78, 0.38);
+  background: rgba(122, 108, 91, 0.06);
+}
+
+.branch-main {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 7px;
+  border: 0;
+  background: transparent;
+  text-align: left;
+}
+
+.branch-main > span {
+  display: grid;
+  min-width: 0;
+  gap: 3px;
+}
+
+.branch-main strong {
+  overflow: hidden;
+  font-size: 13px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.branch-main small,
+.branch-main > b {
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 500;
+}
+
+.branch-edit {
+  align-self: center;
+  padding: 7px 9px;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.branch-create {
+  margin-top: 11px;
+}
+
+@media (max-width: 420px) {
+  .binding-card > section {
+    grid-template-columns: 1fr auto;
+  }
+
+  .binding-card > section > span {
+    grid-column: 1 / -1;
+  }
+}

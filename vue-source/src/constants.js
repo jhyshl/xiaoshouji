@@ -17,6 +17,9 @@ export const DEFAULT_SYSTEM_PROMPT = `你正在扮演“{{char}}”，与玩家�
 【相关世界书】
 {{worldbook}}
 
+【酒馆同步记忆】
+{{synced_memory}}
+
 {{reply_rules}}`;
 
 export const HOME_ITEM_IDS = [
@@ -28,21 +31,30 @@ export const HOME_ITEM_IDS = [
   "persona",
   "recent",
   "account",
+  "sync",
   "settings",
   "backup",
 ];
 
 export const DEFAULT_HOME_PAGES = [
   ["clock", "today", "messages", "contacts", "library", "persona", "recent"],
-  ["account", "settings", "backup"],
+  ["account", "sync", "settings", "backup"],
 ];
 
 export const DEFAULT_STATE = {
-  schemaVersion: 4,
+  schemaVersion: 5,
   currentCharacterId: null,
   characters: [],
   worldBooks: [],
   chats: {},
+  chatBranches: {},
+  activeBranchIds: {},
+  sync: {
+    lastAckSeq: 0,
+    characterBindings: {},
+    tavernInbox: {},
+    mismatches: {},
+  },
   homeLayout: {
     pages: structuredClone(DEFAULT_HOME_PAGES),
   },
