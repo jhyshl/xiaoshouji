@@ -13,6 +13,7 @@ import {
   normalizeWorldBook,
   parsePngCharacter,
 } from "../services/importers.js";
+import { queuePhoneChatSync } from "../services/sync.js";
 import { resizeImageFile } from "../utils/files.js";
 import { createId, splitSentences } from "../utils/text.js";
 
@@ -36,6 +37,8 @@ export async function importCharacterFile(file) {
     if (existing >= 0) {
       const old = state.characters[existing];
       character.id = old.id;
+      character.syncKey = old.syncKey || "";
+      character.cloudCharacterUpdatedAt = old.cloudCharacterUpdatedAt || 0;
       if (!character.avatar) character.avatar = old.avatar;
       state.characters.splice(existing, 1, character);
     } else {
@@ -67,6 +70,7 @@ export async function importCharacterFile(file) {
       if (priorIndex >= 0) state.worldBooks.splice(priorIndex, 1, book);
       else state.worldBooks.push(book);
     }
+    queuePhoneChatSync(character.id, "character.import");
     showToast(`已导入角色：${character.name}`);
   } catch (error) {
     console.error(error);
@@ -98,6 +102,7 @@ export function saveCharacter(draft) {
     name: draft.name.trim() || character.name,
     updatedAt: Date.now(),
   });
+  queuePhoneChatSync(character.id, "character.edit");
   modalState.characterId = null;
   showToast("角色卡已保存");
 }

@@ -7,8 +7,9 @@ import {
 } from "../store/linePhone.js";
 import { supabase } from "./supabase.js";
 import { getDeviceIdentity, renameLocalDevice } from "./deviceIdentity.js";
+import { createId, stableTextHash } from "../utils/text.js";
 
-const APP_VERSION = "3.2.0";
+const APP_VERSION = "3.3.0";
 const SNAPSHOT_FIELDS =
   "entity_type,entity_id,source_device_id,revision,is_deleted,payload,updated_at";
 const DEVICE_FIELDS =
@@ -43,8 +44,8 @@ function normalizeName(value) {
     .toLocaleLowerCase();
 }
 
-function compactMessages(messages) {
-  return (Array.isArray(messages) ? messages : []).slice(-50).map((message) => ({
+function compactMessage(message) {
+  return {
     id: message.id,
     turnId: message.turnId,
     role: message.role,
@@ -53,7 +54,125 @@ function compactMessages(messages) {
     updatedAt: message.updatedAt || null,
     source: message.source || "phone",
     queued: Boolean(message.queued),
-  }));
+  };
+}
+
+function compactMessages(messages, phoneSummary = null) {
+  const coveredThroughAt =
+    phoneSummary?.content && !phoneSummary?.stale
+      ? Number(phoneSummary.coveredThroughAt) || 0
+      : 0;
+  const source = (Array.isArray(messages) ? messages : [])
+    .filter(
+      (message) =>
+        !coveredThroughAt || Number(message.createdAt) > coveredThroughAt,
+    )
+    .slice(-120)
+    .map(compactMessage);
+  while (
+    source.length > 1 &&
+    new Blob([JSON.stringify(source)]).size > 180 * 1024
+  ) {
+    source.shift();
+  }
+  return source;
+}
+
+function characterCardPayload(character) {
+  return {
+    name: character.name || "",
+    description: character.description || "",
+    personality: character.personality || "",
+    scenario: character.scenario || "",
+    firstMes: character.firstMes || "",
+    mesExample: character.mesExample || "",
+    systemPrompt: character.systemPrompt || "",
+    postHistoryInstructions: character.postHistoryInstructions || "",
+    creatorNotes: character.creatorNotes || "",
+    tags: Array.isArray(character.tags) ? character.tags.slice(0, 50) : [],
+    sourceFormat: character.sourceFormat || "",
+    sourceFile: character.sourceFile || "",
+  };
+}
+
+function cloudCharacterKey(character) {
+  if (character.syncKey) return character.syncKey;
+  character.syncKey = character.tavernCharacterKey
+    ? `tavern_${stableTextHash(character.tavernCharacterKey)}`
+    : character.id;
+  return character.syncKey;
+}
+
+function snapshotCharacterKey(snapshot, payload) {
+  return (
+    payload.characterSyncKey ||
+    payload.characterId ||
+    String(snapshot.entity_id || "").replace(/^character:/, "")
+  );
+}
+
+function ensurePhoneCharacter(snapshot) {
+  const payload = snapshot.payload || {};
+  const syncKey = snapshotCharacterKey(snapshot, payload);
+  if (!syncKey) return null;
+  const card = payload.characterCard || {};
+  const characterName = card.name || payload.characterName || "同步角色";
+  let character =
+    state.characters.find((item) => item.syncKey === syncKey) ||
+    state.characters.find((item) => item.id === payload.characterId);
+
+  if (!character) {
+    const matches = state.characters.filter(
+      (item) => normalizeName(item.name) === normalizeName(characterName),
+    );
+    if (matches.length === 1) character = matches[0];
+  }
+  if (!character) {
+    character = {
+      id: createId("char"),
+      name: characterName,
+      description: "",
+      personality: "",
+      scenario: "",
+      firstMes: "",
+      mesExample: "",
+      systemPrompt: "",
+      postHistoryInstructions: "",
+      creatorNotes: "",
+      tags: [],
+      avatar: "",
+      sourceFormat: card.sourceFormat || "cloud-sync",
+      sourceFile: card.sourceFile || "",
+      importedAt: Date.now(),
+    };
+    state.characters.push(character);
+  }
+
+  character.syncKey = syncKey;
+  const remoteUpdatedAt =
+    Number(payload.characterUpdatedAt) || Number(payload.updatedAt) || 0;
+  if (remoteUpdatedAt >= (Number(character.cloudCharacterUpdatedAt) || 0)) {
+    [
+      "name",
+      "description",
+      "personality",
+      "scenario",
+      "firstMes",
+      "mesExample",
+      "systemPrompt",
+      "postHistoryInstructions",
+      "creatorNotes",
+      "sourceFormat",
+      "sourceFile",
+    ].forEach((field) => {
+      if (Object.prototype.hasOwnProperty.call(card, field)) {
+        character[field] = String(card[field] || "");
+      }
+    });
+    if (Array.isArray(card.tags)) character.tags = card.tags.map(String);
+    character.cloudCharacterUpdatedAt = remoteUpdatedAt;
+  }
+  return character;
 }
 
 function upsertSnapshotCache(snapshot) {
@@ -324,19 +443,29 @@ function applyTavernSnapshot(snapshot) {
 
 function applyPhoneSnapshot(snapshot) {
   const payload = snapshot.payload || {};
-  const characterId = payload.characterId;
-  if (!characterId || !state.characters.some((item) => item.id === characterId)) return;
-  const branchId = payload.branchId;
-  let branch = state.chatBranches[branchId];
-  if (!branch && branchId) {
+  const character = ensurePhoneCharacter(snapshot);
+  if (!character) return;
+  const characterId = character.id;
+  const legacyMainBranch = /_main$/i.test(String(payload.branchId || ""));
+  const cloudBranchId =
+    payload.cloudBranchId ||
+    (legacyMainBranch ? "main" : payload.branchId) ||
+    "main";
+  let branch = branchesForCharacter(characterId).find(
+    (item) => item.cloudBranchId === cloudBranchId,
+  );
+  if (!branch) {
     branch = {
-      id: branchId,
+      id: createId("branch"),
       characterId,
       title: payload.branchTitle || "同步聊天",
       origin: payload.origin || "phone",
       tavernSaveId: payload.tavernSaveId || "",
       tavernCharacterKey: payload.tavernCharacterKey || "",
+      cloudBranchId,
       messages: [],
+      deletedMessageIds: [],
+      phoneSummary: payload.phoneSummary || null,
       tavernSummary: payload.tavernSummary || null,
       tavernRecent: payload.tavernRecent || null,
       cloudRevision: 0,
@@ -345,22 +474,91 @@ function applyPhoneSnapshot(snapshot) {
     };
     state.chatBranches[branch.id] = branch;
   }
-  if (!branch || branch.characterId !== characterId) return;
-  branch.cloudRevision = Math.max(
-    Number(branch.cloudRevision) || 0,
-    Number(snapshot.revision) || 0,
+
+  const priorRevision = Number(branch.cloudRevision) || 0;
+  const remoteRevision = Number(snapshot.revision) || 0;
+  const remoteMessages = (Array.isArray(payload.messages) ? payload.messages : [])
+    .filter((message) => message?.id && message?.content)
+    .map(compactMessage);
+  const remoteIds = new Set(remoteMessages.map((message) => message.id));
+  const remoteDeleted = new Set(
+    Array.isArray(payload.deletedMessageIds)
+      ? payload.deletedMessageIds.map(String)
+      : [],
   );
-  if (!branch.localDirtyAt && snapshot.source_device_id !== syncState.device.id) {
-    branch.messages = compactMessages(payload.messages);
-    branch.title = payload.branchTitle || branch.title;
-    branch.tavernSaveId = payload.tavernSaveId || "";
-    branch.tavernCharacterKey = payload.tavernCharacterKey || "";
-    branch.tavernSummary = payload.tavernSummary || branch.tavernSummary;
-    branch.tavernRecent = payload.tavernRecent || branch.tavernRecent;
-    branch.updatedAt = Number(payload.updatedAt) || Date.now();
+  const localDeleted = new Set(
+    Array.isArray(branch.deletedMessageIds)
+      ? branch.deletedMessageIds.map(String)
+      : [],
+  );
+  const deletedIds = new Set([...localDeleted, ...remoteDeleted]);
+  const localById = new Map(
+    (branch.messages || []).map((message) => [message.id, message]),
+  );
+
+  remoteMessages.forEach((remoteMessage) => {
+    const localMessage = localById.get(remoteMessage.id);
+    const localTimestamp =
+      Number(localMessage?.updatedAt) || Number(localMessage?.createdAt) || 0;
+    const remoteTimestamp =
+      Number(remoteMessage.updatedAt) || Number(remoteMessage.createdAt) || 0;
+    if (!localMessage || remoteTimestamp >= localTimestamp) {
+      localById.set(remoteMessage.id, remoteMessage);
+    }
+  });
+  branch.messages = [...localById.values()]
+    .filter((message) => !deletedIds.has(message.id))
+    .sort(
+      (left, right) =>
+        (Number(left.createdAt) || 0) - (Number(right.createdAt) || 0),
+    );
+  branch.deletedMessageIds = [...deletedIds].slice(-200);
+  branch.cloudBranchId = cloudBranchId;
+  branch.cloudRevision = Math.max(priorRevision, remoteRevision);
+  branch.title = payload.branchTitle || branch.title;
+  branch.tavernSaveId = payload.tavernSaveId || "";
+  branch.tavernCharacterKey = payload.tavernCharacterKey || "";
+  if (Object.prototype.hasOwnProperty.call(payload, "phoneSummary")) {
+    if (!payload.phoneSummary && remoteRevision >= priorRevision) {
+      branch.phoneSummary = null;
+    } else if (payload.phoneSummary) {
+      const localSummaryTime = Number(branch.phoneSummary?.updatedAt) || 0;
+      const remoteSummaryTime = Number(payload.phoneSummary.updatedAt) || 0;
+      if (remoteSummaryTime >= localSummaryTime) {
+        branch.phoneSummary = payload.phoneSummary;
+      }
+    }
   }
+  branch.tavernSummary = payload.tavernSummary || branch.tavernSummary;
+  branch.tavernRecent = payload.tavernRecent || branch.tavernRecent;
+  branch.updatedAt = Math.max(
+    Number(branch.updatedAt) || 0,
+    Number(payload.updatedAt) || Date.now(),
+  );
   if (!state.activeBranchIds[characterId]) {
     state.activeBranchIds[characterId] = branch.id;
+  }
+  state.currentCharacterId ||= characterId;
+
+  const windowStartedAt =
+    Number(payload.windowStartedAt) ||
+    Number(remoteMessages[0]?.createdAt) ||
+    Number.MAX_SAFE_INTEGER;
+  const hasRecentLocalOnly = branch.messages.some(
+    (message) =>
+      Number(message.createdAt) >= windowStartedAt &&
+      !remoteIds.has(message.id) &&
+      !deletedIds.has(message.id),
+  );
+  const hasLocalOnlyDeletion = [...localDeleted].some(
+    (messageId) => !remoteDeleted.has(messageId),
+  );
+  if (
+    snapshot.source_device_id !== syncState.device.id &&
+    remoteRevision >= priorRevision &&
+    (hasRecentLocalOnly || hasLocalOnlyDeletion)
+  ) {
+    queuePhoneChatSync(characterId, "chat.converge", branch.id);
   }
 }
 
@@ -484,15 +682,17 @@ function subscribeRealtime(userId) {
 }
 
 async function flushDirtyBranches() {
-  const dirtyCharacters = [
-    ...new Set(
-      Object.values(state.chatBranches)
-        .filter((branch) => branch.localDirtyAt)
-        .map((branch) => branch.characterId),
-    ),
-  ];
-  for (const characterId of dirtyCharacters) {
-    await syncPhoneChatNow(characterId, "offline.flush");
+  const latestDirtyByCharacter = new Map();
+  Object.values(state.chatBranches)
+    .filter((branch) => branch.localDirtyAt)
+    .forEach((branch) => {
+      const prior = latestDirtyByCharacter.get(branch.characterId);
+      if (!prior || branch.localDirtyAt > prior.localDirtyAt) {
+        latestDirtyByCharacter.set(branch.characterId, branch);
+      }
+    });
+  for (const branch of latestDirtyByCharacter.values()) {
+    await syncPhoneChatNow(branch.characterId, "offline.flush", branch.id);
   }
 }
 
@@ -587,20 +787,42 @@ export async function commitSyncSnapshot({
   }
 }
 
-export async function syncPhoneChatNow(characterId, kind = "chat.update") {
+export async function syncPhoneChatNow(
+  characterId,
+  kind = "chat.update",
+  branchId = "",
+) {
   const character = state.characters.find((item) => item.id === characterId);
-  const branch = activeBranchForCharacter(characterId);
+  const branch =
+    state.chatBranches[branchId] || activeBranchForCharacter(characterId);
   if (!character || !branch || !syncState.initialized) return null;
+  const characterSyncKey = cloudCharacterKey(character);
+  branch.cloudBranchId ||=
+    branch.tavernSaveId
+      ? `tavern_${stableTextHash(
+          `${branch.tavernCharacterKey}|${branch.tavernSaveId}`,
+        )}`
+      : "main";
+  const messages = compactMessages(branch.messages, branch.phoneSummary);
+  const dirtyAtStart = Number(branch.localDirtyAt) || Date.now();
   const payload = {
-    schemaVersion: 1,
+    schemaVersion: 2,
+    characterSyncKey,
     characterId,
     characterName: character.name,
+    characterCard: characterCardPayload(character),
+    characterUpdatedAt:
+      Number(character.updatedAt) || Number(character.importedAt) || Date.now(),
     branchId: branch.id,
+    cloudBranchId: branch.cloudBranchId,
     branchTitle: branch.title,
     origin: branch.origin,
     tavernSaveId: branch.tavernSaveId || "",
     tavernCharacterKey: branch.tavernCharacterKey || "",
-    messages: compactMessages(branch.messages),
+    messages,
+    windowStartedAt: Number(messages[0]?.createdAt) || 0,
+    deletedMessageIds: (branch.deletedMessageIds || []).slice(-200),
+    phoneSummary: branch.phoneSummary || null,
     tavernSummary: branch.tavernSummary || null,
     tavernRecent: branch.tavernRecent || null,
     createdAt: branch.createdAt,
@@ -608,33 +830,41 @@ export async function syncPhoneChatNow(characterId, kind = "chat.update") {
   };
   const result = await commitSyncSnapshot({
     entityType: "phone.chat",
-    entityId: `character:${characterId}`,
+    entityId: `character:${characterSyncKey}`,
     snapshotPayload: payload,
     eventPayload: {
       kind,
-      characterId,
-      branchId: branch.id,
+      characterSyncKey,
+      cloudBranchId: branch.cloudBranchId,
       updatedAt: payload.updatedAt,
     },
   });
   if (result) {
     branch.cloudRevision = result.revision;
-    branch.localDirtyAt = 0;
+    if ((Number(branch.localDirtyAt) || 0) <= dirtyAtStart) {
+      branch.localDirtyAt = 0;
+    }
   }
   return result;
 }
 
-export function queuePhoneChatSync(characterId, kind = "chat.update") {
-  const branch = activeBranchForCharacter(characterId);
+export function queuePhoneChatSync(
+  characterId,
+  kind = "chat.update",
+  branchId = "",
+) {
+  const branch =
+    state.chatBranches[branchId] || activeBranchForCharacter(characterId);
   if (!branch) return;
   branch.updatedAt = Date.now();
   branch.localDirtyAt = Date.now();
-  clearTimeout(writeTimers.get(characterId));
+  const timerKey = branch.id;
+  clearTimeout(writeTimers.get(timerKey));
   writeTimers.set(
-    characterId,
+    timerKey,
     setTimeout(() => {
-      writeTimers.delete(characterId);
-      syncPhoneChatNow(characterId, kind).catch((error) => {
+      writeTimers.delete(timerKey);
+      syncPhoneChatNow(characterId, kind, branch.id).catch((error) => {
         syncState.error = error.message || "聊天上传失败";
       });
     }, 700),

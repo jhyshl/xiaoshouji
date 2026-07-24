@@ -12,7 +12,11 @@ import {
   DEFAULT_SYSTEM_PROMPT,
 } from "../constants.js";
 import { fetchModelList, humanizeApiError } from "../services/ai.js";
-import { buildSystemPrompt, collectLore } from "../services/prompt.js";
+import {
+  buildSyncedMemory,
+  buildSystemPrompt,
+  collectLore,
+} from "../services/prompt.js";
 import { writeState } from "../services/database.js";
 import { dateStamp, downloadJson, resizeImageFile } from "../utils/files.js";
 
@@ -64,22 +68,7 @@ export function previewFinalPrompt() {
     profile: state.profile,
     settings: state.settings,
     loreEntries: collectLore(state.worldBooks, character.id, searchText),
-    syncedMemory: [
-      activeBranchForCharacter(character.id)?.tavernSummary?.stale &&
-        "酒馆阶段总结因编辑、删除或重 roll 已标记为过期，不应作为事实采用；请以未总结的最近对话为准。",
-      !activeBranchForCharacter(character.id)?.tavernSummary?.stale &&
-        activeBranchForCharacter(character.id)?.tavernSummary?.content &&
-        `阶段总结：\n${activeBranchForCharacter(character.id).tavernSummary.content}`,
-      activeBranchForCharacter(character.id)?.tavernRecent?.rounds?.length &&
-        `未总结楼层：\n${activeBranchForCharacter(character.id)
-          .tavernRecent.rounds.map(
-            (round) =>
-              `第 ${round.floor} 楼\n玩家：${round.user || ""}\n角色：${round.assistant || ""}`,
-          )
-          .join("\n\n")}`,
-    ]
-      .filter(Boolean)
-      .join("\n\n"),
+    syncedMemory: buildSyncedMemory(activeBranchForCharacter(character.id)),
   });
 }
 

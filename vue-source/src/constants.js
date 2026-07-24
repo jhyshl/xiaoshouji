@@ -17,7 +17,7 @@ export const DEFAULT_SYSTEM_PROMPT = `你正在扮演“{{char}}”，与玩家�
 【相关世界书】
 {{worldbook}}
 
-【酒馆同步记忆】
+【小手机与酒馆记忆】
 {{synced_memory}}
 
 {{reply_rules}}`;
@@ -42,7 +42,7 @@ export const DEFAULT_HOME_PAGES = [
 ];
 
 export const DEFAULT_STATE = {
-  schemaVersion: 6,
+  schemaVersion: 7,
   currentCharacterId: null,
   characters: [],
   worldBooks: [],

@@ -1,4 +1,4 @@
-import { parseReplies } from "../utils/text.js";
+import { parseReplies, parseSummary } from "../utils/text.js";
 
 export function normalizeChatEndpoint(url) {
   const clean = String(url || "").trim().replace(/\/+$/, "");
@@ -79,10 +79,67 @@ export async function requestReply({ settings, systemPrompt, contextMessages, qu
   return replies;
 }
 
+export async function requestMemorySummary({
+  settings,
+  previousSummary = "",
+  conversationGroups = [],
+}) {
+  if (!settings.apiUrl || !settings.model) throw new Error("API_NOT_CONFIGURED");
+  const conversation = conversationGroups
+    .map((group) => {
+      const speaker = group.role === "assistant" ? "角色" : "玩家";
+      return `${speaker}：${group.contents.join("\n")}`;
+    })
+    .join("\n\n");
+  if (!conversation) return previousSummary;
+  const response = await fetch(normalizeChatEndpoint(settings.apiUrl), {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      ...(settings.apiKey ? { Authorization: `Bearer ${settings.apiKey}` } : {}),
+    },
+    body: JSON.stringify({
+      model: settings.model,
+      messages: [
+        {
+          role: "system",
+          content:
+            "你是长期记忆整理器。把旧总结和新增对话合并成简洁、准确的中文事实记忆，保留人物关系、重要事件、承诺、偏好、情绪变化与未完成事项；不要续写剧情，不要加入原文没有的信息。只输出 JSON：{\"summary\":\"...\"}",
+        },
+        {
+          role: "user",
+          content: [
+            previousSummary
+              ? `【已有总结】\n${previousSummary}`
+              : "【已有总结】\n无",
+            `【本次新增对话】\n${conversation}`,
+          ].join("\n\n"),
+        },
+      ],
+      temperature: 0.2,
+      max_tokens: Math.max(
+        200,
+        Math.min(900, Number(settings.maxTokens) || 500),
+      ),
+    }),
+  });
+  if (!response.ok) throw new Error(`HTTP_${response.status}`);
+  const payload = await response.json();
+  const content =
+    payload?.choices?.[0]?.message?.content ??
+    payload?.choices?.[0]?.text ??
+    payload?.output_text ??
+    "";
+  const summary = parseSummary(content);
+  if (!summary) throw new Error("EMPTY_SUMMARY");
+  return summary;
+}
+
 export function humanizeApiError(error) {
   const message = String(error?.message || error || "");
   if (message === "API_NOT_CONFIGURED") return "请先填写 API 地址并拉取模型";
   if (message === "EMPTY_REPLY") return "AI 返回了空内容，请重试";
+  if (message === "EMPTY_SUMMARY") return "AI 没有返回可用的记忆总结，请重试";
   if (message === "NO_MODELS") return "接口没有返回可用模型";
   if (message.includes("401") || message.includes("403")) return "认证失败，请检查 API Key";
   if (message.includes("404")) return "接口地址不正确，或服务不支持此功能";

@@ -7,7 +7,12 @@ import {
   HOME_ITEM_IDS,
 } from "../constants.js";
 import { readState, writeState } from "../services/database.js";
-import { clampNumber, createId, normalizeKeys } from "../utils/text.js";
+import {
+  clampNumber,
+  createId,
+  normalizeKeys,
+  stableTextHash,
+} from "../utils/text.js";
 
 export const state = reactive(structuredClone(DEFAULT_STATE));
 export const activeView = ref("home");
@@ -82,10 +87,16 @@ function normalizeBranches(saved, characters) {
       origin: branch.origin || "phone",
       tavernSaveId: branch.tavernSaveId || "",
       tavernCharacterKey: branch.tavernCharacterKey || "",
+      cloudBranchId: branch.cloudBranchId || "",
       messages: normalizeMessages(branch.messages),
+      deletedMessageIds: Array.isArray(branch.deletedMessageIds)
+        ? [...new Set(branch.deletedMessageIds.map(String))].slice(-200)
+        : [],
+      phoneSummary: branch.phoneSummary || null,
       tavernSummary: branch.tavernSummary || null,
       tavernRecent: branch.tavernRecent || null,
       cloudRevision: Number(branch.cloudRevision) || 0,
+      localDirtyAt: Number(branch.localDirtyAt) || 0,
       createdAt: Number(branch.createdAt) || Date.now(),
       updatedAt: Number(branch.updatedAt) || Date.now(),
     };
@@ -104,13 +115,31 @@ function normalizeBranches(saved, characters) {
       origin: "phone",
       tavernSaveId: "",
       tavernCharacterKey: "",
+      cloudBranchId: "main",
       messages: normalizeMessages(saved.chats?.[character.id]),
+      deletedMessageIds: [],
+      phoneSummary: null,
       tavernSummary: null,
       tavernRecent: null,
       cloudRevision: 0,
       createdAt: Date.now(),
       updatedAt: Date.now(),
     };
+  });
+  characters.forEach((character) => {
+    const characterBranches = Object.values(branches)
+      .filter((branch) => branch.characterId === character.id)
+      .sort((left, right) => left.createdAt - right.createdAt);
+    characterBranches.forEach((branch, index) => {
+      if (branch.cloudBranchId) return;
+      branch.cloudBranchId = branch.tavernSaveId
+        ? `tavern_${stableTextHash(
+            `${branch.tavernCharacterKey}|${branch.tavernSaveId}`,
+          )}`
+        : index === 0
+          ? "main"
+          : branch.id;
+    });
   });
   return branches;
 }
@@ -129,7 +158,12 @@ export const recentCharacter = computed(
 export function mergeState(saved) {
   if (!saved || typeof saved !== "object") return structuredClone(DEFAULT_STATE);
   const legacyPlayerName = saved.settings?.playerName;
-  const characters = Array.isArray(saved.characters) ? saved.characters : [];
+  const characters = Array.isArray(saved.characters)
+    ? saved.characters.map((character) => ({
+        ...character,
+        syncKey: character.syncKey || "",
+      }))
+    : [];
   const chatBranches = normalizeBranches(saved, characters);
   const activeBranchIds = {
     ...(saved.activeBranchIds && typeof saved.activeBranchIds === "object"
@@ -147,7 +181,7 @@ export function mergeState(saved) {
   const merged = {
     ...structuredClone(DEFAULT_STATE),
     ...saved,
-    schemaVersion: 6,
+    schemaVersion: 7,
     characters,
     worldBooks: Array.isArray(saved.worldBooks) ? saved.worldBooks : [],
     chats: {},
@@ -185,7 +219,9 @@ export function mergeState(saved) {
       modelOptions: Array.isArray(saved.settings?.modelOptions)
         ? saved.settings.modelOptions
         : [],
-      systemPromptTemplate: saved.settings?.systemPromptTemplate || DEFAULT_SYSTEM_PROMPT,
+      systemPromptTemplate: (
+        saved.settings?.systemPromptTemplate || DEFAULT_SYSTEM_PROMPT
+      ).replace("【酒馆同步记忆】", "【小手机与酒馆记忆】"),
       replyRules: saved.settings?.replyRules || DEFAULT_REPLY_RULES,
     },
   };
@@ -282,7 +318,10 @@ export function ensureDefaultBranch(characterId, seedMessages = []) {
     origin: "phone",
     tavernSaveId: "",
     tavernCharacterKey: "",
+    cloudBranchId: "main",
     messages: normalizeMessages(seedMessages),
+    deletedMessageIds: [],
+    phoneSummary: null,
     tavernSummary: null,
     tavernRecent: null,
     cloudRevision: 0,

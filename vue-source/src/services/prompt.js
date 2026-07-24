@@ -1,4 +1,4 @@
-export function buildContextMessages(messages, limit) {
+export function buildConversationGroups(messages) {
   const groups = [];
   messages
     .filter((message) => !message.queued)
@@ -6,19 +6,71 @@ export function buildContextMessages(messages, limit) {
       const last = groups.at(-1);
       if (last && last.turnId === message.turnId && last.role === message.role) {
         last.contents.push(message.content);
+        last.messageIds.push(message.id);
+        last.updatedAt = Math.max(
+          last.updatedAt,
+          Number(message.updatedAt) || Number(message.createdAt) || 0,
+        );
       } else {
         groups.push({
           turnId: message.turnId || message.id,
           role: message.role === "assistant" ? "assistant" : "user",
           contents: [message.content],
+          messageIds: [message.id],
+          updatedAt: Number(message.updatedAt) || Number(message.createdAt) || 0,
         });
       }
     });
+  return groups;
+}
+
+export function buildContextPlan(messages, limit) {
+  const groups = buildConversationGroups(messages);
   const count = Math.min(200, Math.max(0, Number(limit) || 0));
-  return groups.slice(count === 0 ? groups.length : -count).map((group) => ({
-    role: group.role,
-    content: group.contents.join("\n"),
-  }));
+  const recentGroups = count ? groups.slice(-count) : [];
+  const summaryGroups = groups.slice(0, groups.length - recentGroups.length);
+  return {
+    groups,
+    recentGroups,
+    summaryGroups,
+    contextMessages: recentGroups.map((group) => ({
+      role: group.role,
+      content: group.contents.join("\n"),
+    })),
+  };
+}
+
+export function buildContextMessages(messages, limit) {
+  return buildContextPlan(messages, limit).contextMessages;
+}
+
+function formatTavernRounds(rounds) {
+  return rounds
+    .map(
+      (round) =>
+        `第 ${round.floor} 楼\n玩家：${round.user || ""}\n角色：${round.assistant || ""}`,
+    )
+    .join("\n\n");
+}
+
+export function buildSyncedMemory(branch) {
+  if (!branch) return "";
+  return [
+    branch.phoneSummary?.stale &&
+      "【小手机总结状态】\n小手机长期记忆因历史消息被编辑或删除而过期；本轮会先重新整理，再用于回复。",
+    !branch.phoneSummary?.stale &&
+      branch.phoneSummary?.content &&
+      `【小手机已总结记忆】\n${branch.phoneSummary.content}`,
+    branch.tavernSummary?.stale &&
+      "【酒馆总结状态】\n酒馆阶段总结因编辑、删除或重 roll 已过期，不应作为事实采用；请以酒馆最新未总结内容为准。",
+    !branch.tavernSummary?.stale &&
+      branch.tavernSummary?.content &&
+      `【酒馆已总结记忆】\n${branch.tavernSummary.content}`,
+    branch.tavernRecent?.rounds?.length &&
+      `【酒馆最新未总结内容】\n${formatTavernRounds(branch.tavernRecent.rounds)}`,
+  ]
+    .filter(Boolean)
+    .join("\n\n");
 }
 
 export function collectLore(worldBooks, characterId, text) {
@@ -68,7 +120,8 @@ export function buildSystemPrompt({
     "{{player_persona}}": profile.persona || "玩家暂未填写人设。",
     "{{character_card}}": characterCard,
     "{{worldbook}}": loreText,
-    "{{synced_memory}}": syncedMemory || "当前聊天分支没有酒馆同步记忆。",
+    "{{synced_memory}}":
+      syncedMemory || "当前聊天分支没有小手机总结或酒馆同步记忆。",
     "{{reply_rules}}": settings.replyRules || "未填写回复规则。",
   };
   return Object.entries(replacements).reduce(

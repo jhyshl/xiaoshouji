@@ -8,10 +8,92 @@ import {
   showToast,
   state,
 } from "../store/linePhone.js";
-import { humanizeApiError, requestReply } from "../services/ai.js";
-import { buildContextMessages, buildSystemPrompt, collectLore } from "../services/prompt.js";
+import {
+  humanizeApiError,
+  requestMemorySummary,
+  requestReply,
+} from "../services/ai.js";
+import {
+  buildConversationGroups,
+  buildSyncedMemory,
+  buildSystemPrompt,
+  collectLore,
+} from "../services/prompt.js";
 import { queuePhoneChatSync } from "../services/sync.js";
-import { createId } from "../utils/text.js";
+import { createId, stableTextHash } from "../utils/text.js";
+
+function groupsHash(groups) {
+  return stableTextHash(
+    JSON.stringify(
+      groups.map((group) => ({
+        role: group.role,
+        messageIds: group.messageIds,
+        contents: group.contents,
+        updatedAt: group.updatedAt,
+      })),
+    ),
+  );
+}
+
+function groupsAsContext(groups) {
+  return groups.map((group) => ({
+    role: group.role,
+    content: group.contents.join("\n"),
+  }));
+}
+
+async function preparePhoneContext(branch, messages) {
+  const groups = buildConversationGroups(messages);
+  const maxRecent = Math.min(
+    200,
+    Math.max(0, Number(state.settings.contextTurns) || 0),
+  );
+  const savedSummary = branch.phoneSummary;
+  let coveredCount = 0;
+  let summaryIsValid = false;
+
+  if (savedSummary?.content && !savedSummary.stale) {
+    const coveredIndex = groups.findIndex((group) =>
+      group.messageIds.includes(savedSummary.coveredThroughMessageId),
+    );
+    if (coveredIndex >= 0) {
+      const coveredGroups = groups.slice(0, coveredIndex + 1);
+      summaryIsValid = groupsHash(coveredGroups) === savedSummary.sourceHash;
+      if (summaryIsValid) coveredCount = coveredIndex + 1;
+    } else if (savedSummary.coveredThroughMessageId) {
+      // A newly connected device intentionally receives only the cloud window.
+      // Its older bubbles may be absent, while their authoritative summary remains usable.
+      summaryIsValid = true;
+    }
+  }
+
+  const unsummarized = groups.slice(coveredCount);
+  const overflowCount = Math.max(0, unsummarized.length - maxRecent);
+  if (!overflowCount) {
+    if (savedSummary?.stale && groups.length <= maxRecent) branch.phoneSummary = null;
+    return groupsAsContext(unsummarized.slice(maxRecent ? -maxRecent : 0));
+  }
+
+  const newSummaryGroups = unsummarized.slice(0, overflowCount);
+  const coveredGroups = groups.slice(0, coveredCount + overflowCount);
+  const summary = await requestMemorySummary({
+    settings: state.settings,
+    previousSummary: summaryIsValid ? savedSummary.content : "",
+    conversationGroups: summaryIsValid ? newSummaryGroups : coveredGroups,
+  });
+  const lastCoveredGroup = coveredGroups.at(-1);
+  branch.phoneSummary = {
+    content: summary,
+    sourceHash: groupsHash(coveredGroups),
+    coveredThroughMessageId: lastCoveredGroup.messageIds.at(-1),
+    coveredThroughAt: lastCoveredGroup.updatedAt,
+    coveredGroups: coveredGroups.length,
+    stale: false,
+    updatedAt: Date.now(),
+  };
+  queuePhoneChatSync(branch.characterId, "memory.summary");
+  return groupsAsContext(unsummarized.slice(overflowCount));
+}
 
 export function stageMessage(content) {
   const character = currentCharacter.value;
@@ -43,9 +125,10 @@ export async function confirmQueuedMessages() {
   }
   sending.value = true;
   try {
-    const contextMessages = buildContextMessages(
+    const branch = activeBranchForCharacter(character.id);
+    const contextMessages = await preparePhoneContext(
+      branch,
       messagesForCharacter(character.id),
-      state.settings.contextTurns,
     );
     const loreSearchText = [
       ...queued.map((message) => message.content),
@@ -57,22 +140,7 @@ export async function confirmQueuedMessages() {
       profile: state.profile,
       settings: state.settings,
       loreEntries: lore,
-      syncedMemory: [
-        activeBranchForCharacter(character.id)?.tavernSummary?.stale &&
-          "酒馆阶段总结因编辑、删除或重 roll 已标记为过期，不应作为事实采用；请以未总结的最近对话为准。",
-        !activeBranchForCharacter(character.id)?.tavernSummary?.stale &&
-          activeBranchForCharacter(character.id)?.tavernSummary?.content &&
-          `阶段总结：\n${activeBranchForCharacter(character.id).tavernSummary.content}`,
-        activeBranchForCharacter(character.id)?.tavernRecent?.rounds?.length &&
-          `未总结的最近对话：\n${activeBranchForCharacter(character.id)
-            .tavernRecent.rounds.map(
-              (round) =>
-                `第 ${round.floor} 楼\n玩家：${round.user || ""}\n角色：${round.assistant || ""}`,
-            )
-            .join("\n\n")}`,
-      ]
-        .filter(Boolean)
-        .join("\n\n"),
+      syncedMemory: buildSyncedMemory(branch),
     });
     const replies = await requestReply({
       settings: state.settings,
@@ -113,6 +181,13 @@ export function saveMessage(messageId, content) {
   if (!message || !clean) return;
   message.content = clean;
   message.updatedAt = Date.now();
+  const branch = activeBranchForCharacter(character.id);
+  if (
+    branch?.phoneSummary?.coveredThroughAt &&
+    Number(message.createdAt) <= Number(branch.phoneSummary.coveredThroughAt)
+  ) {
+    branch.phoneSummary.stale = true;
+  }
   modalState.messageId = null;
   queuePhoneChatSync(character.id, "message.edit");
   showToast("消息已修改");
@@ -123,7 +198,21 @@ export function deleteMessage(messageId) {
   if (!character || !window.confirm("删除这条消息？")) return;
   const messages = messagesForCharacter(character.id);
   const index = messages.findIndex((item) => item.id === messageId);
-  if (index >= 0) messages.splice(index, 1);
+  const deleted = index >= 0 ? messages[index] : null;
+  const branch = activeBranchForCharacter(character.id);
+  if (deleted) {
+    messages.splice(index, 1);
+    branch.deletedMessageIds ||= [];
+    branch.deletedMessageIds = [
+      ...new Set([...branch.deletedMessageIds, messageId]),
+    ].slice(-200);
+    if (
+      branch.phoneSummary?.coveredThroughAt &&
+      Number(deleted.createdAt) <= Number(branch.phoneSummary.coveredThroughAt)
+    ) {
+      branch.phoneSummary.stale = true;
+    }
+  }
   modalState.messageId = null;
   queuePhoneChatSync(character.id, "message.delete");
   showToast("消息已删除");

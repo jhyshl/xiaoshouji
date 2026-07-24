@@ -6,7 +6,7 @@ import {
   state,
 } from "../store/linePhone.js";
 import { queuePhoneChatSync } from "../services/sync.js";
-import { createId } from "../utils/text.js";
+import { createId, stableTextHash } from "../utils/text.js";
 
 function cloneMessages(messages) {
   return JSON.parse(JSON.stringify(Array.isArray(messages) ? messages : []));
@@ -41,8 +41,19 @@ export function createChatBranch({
     origin: tavernSaveId ? "tavern" : "phone",
     tavernSaveId,
     tavernCharacterKey,
+    cloudBranchId: tavernSaveId
+      ? `tavern_${stableTextHash(`${tavernCharacterKey}|${tavernSaveId}`)}`
+      : createId("cloud_branch"),
     messages:
       source?.characterId === characterId ? cloneMessages(source.messages) : [],
+    deletedMessageIds:
+      source?.characterId === characterId
+        ? [...(source.deletedMessageIds || [])]
+        : [],
+    phoneSummary:
+      source?.characterId === characterId && source.phoneSummary
+        ? JSON.parse(JSON.stringify(source.phoneSummary))
+        : null,
     ...inboxMemory(tavernCharacterKey),
     cloudRevision: 0,
     createdAt: now,
