@@ -18,6 +18,7 @@ const apps = {
   library: { glyph: "⌘", label: "资料库" },
   persona: { glyph: "♙", label: "玩家人设" },
   account: { glyph: "◎", label: "账户" },
+  sync: { glyph: "⇄", label: "同步中心" },
   settings: { glyph: "⌁", label: "设置" },
   backup: { glyph: "↗", label: "导出备份" },
 };

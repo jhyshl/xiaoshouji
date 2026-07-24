@@ -2,10 +2,14 @@
 import { computed, ref } from "vue";
 import BaseModal from "../common/BaseModal.vue";
 import { deleteMessage, saveMessage } from "../../composables/useChat.js";
-import { currentCharacter, modalState, state } from "../../store/linePhone.js";
+import {
+  currentCharacter,
+  messagesForCharacter,
+  modalState,
+} from "../../store/linePhone.js";
 
 const message = computed(() =>
-  (state.chats[currentCharacter.value?.id] || []).find(
+  messagesForCharacter(currentCharacter.value?.id).find(
     (item) => item.id === modalState.messageId,
   ),
 );

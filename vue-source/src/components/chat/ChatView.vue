@@ -7,13 +7,13 @@ import ChatComposer from "./ChatComposer.vue";
 import TypingIndicator from "./TypingIndicator.vue";
 import {
   currentCharacter,
+  messagesForCharacter,
   navigate,
   queuedMessages,
-  state,
 } from "../../store/linePhone.js";
 
 const messages = computed(() =>
-  currentCharacter.value ? state.chats[currentCharacter.value.id] || [] : [],
+  currentCharacter.value ? messagesForCharacter(currentCharacter.value.id) : [],
 );
 const queuedCount = computed(() =>
   currentCharacter.value ? queuedMessages(currentCharacter.value.id).length : 0,

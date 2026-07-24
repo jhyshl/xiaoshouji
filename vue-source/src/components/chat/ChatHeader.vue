@@ -1,6 +1,18 @@
 <script setup>
+import { computed } from "vue";
 import AppAvatar from "../common/AppAvatar.vue";
-import { currentCharacter, modalState, navigate } from "../../store/linePhone.js";
+import {
+  activeBranchForCharacter,
+  currentCharacter,
+  modalState,
+  navigate,
+} from "../../store/linePhone.js";
+
+const branch = computed(() =>
+  currentCharacter.value
+    ? activeBranchForCharacter(currentCharacter.value.id)
+    : null,
+);
 </script>
 
 <template>
@@ -15,7 +27,7 @@ import { currentCharacter, modalState, navigate } from "../../store/linePhone.js
       <AppAvatar :src="currentCharacter.avatar" :name="currentCharacter.name" size="small" />
       <span>
         <strong>{{ currentCharacter.name }}</strong>
-        <small>本地记忆 · 可编辑角色卡</small>
+        <small>{{ branch?.title || "主聊天" }} · 本地记忆</small>
       </span>
     </button>
     <button

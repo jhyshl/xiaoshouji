@@ -147,6 +147,7 @@ function openItem(itemId) {
     library: "library",
     persona: "persona",
     account: "account",
+    sync: "sync",
     settings: "settings",
   };
   if (itemId === "backup") exportBackup();

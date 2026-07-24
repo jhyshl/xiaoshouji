@@ -10,6 +10,7 @@ import LibraryView from "./components/library/LibraryView.vue";
 import PersonaView from "./components/persona/PersonaView.vue";
 import SettingsView from "./components/settings/SettingsView.vue";
 import AccountView from "./components/account/AccountView.vue";
+import SyncCenterView from "./components/sync/SyncCenterView.vue";
 import CharacterEditorModal from "./components/library/CharacterEditorModal.vue";
 import WorldBookEditorModal from "./components/library/WorldBookEditorModal.vue";
 import MessageEditorModal from "./components/chat/MessageEditorModal.vue";
@@ -27,6 +28,7 @@ import {
   hasActiveAccess,
   initializeAuth,
 } from "./services/auth.js";
+import { initializeSync, stopSync } from "./services/sync.js";
 
 const views = {
   home: HomeView,
@@ -36,6 +38,7 @@ const views = {
   persona: PersonaView,
   settings: SettingsView,
   account: AccountView,
+  sync: SyncCenterView,
 };
 const activeComponent = computed(() => views[activeView.value] || HomeView);
 const localDataReady = ref(false);
@@ -46,9 +49,15 @@ watch(
   async ([allowed, userId]) => {
     const version = ++storeLoadVersion;
     localDataReady.value = false;
-    if (!allowed || !userId) return;
+    if (!allowed || !userId) {
+      stopSync();
+      return;
+    }
     await initializeStore(userId);
-    if (version === storeLoadVersion) localDataReady.value = true;
+    if (version === storeLoadVersion) {
+      localDataReady.value = true;
+      await initializeSync(userId);
+    }
   },
   { immediate: true },
 );
@@ -64,6 +73,7 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener("keydown", handleKeydown);
   destroyAuth();
+  stopSync();
 });
 </script>
 

@@ -2,10 +2,10 @@
 import { computed } from "vue";
 import AppAvatar from "../common/AppAvatar.vue";
 import { formatRelative } from "../../utils/text.js";
-import { openChat, state } from "../../store/linePhone.js";
+import { messagesForCharacter, openChat } from "../../store/linePhone.js";
 
 const props = defineProps({ character: { type: Object, required: true } });
-const messages = computed(() => state.chats[props.character.id] || []);
+const messages = computed(() => messagesForCharacter(props.character.id));
 const latest = computed(() => messages.value.at(-1));
 </script>
 
