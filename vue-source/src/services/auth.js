@@ -62,6 +62,7 @@ export const needsDiscordVerification = computed(
 
 let authSubscription = null;
 let sessionSync = Promise.resolve();
+let verifiedProviderToken = "";
 
 function setError(code, fallback = "") {
   authState.errorCode = code || "";
@@ -84,16 +85,6 @@ async function loadProfile(userId) {
   if (error) throw error;
   authState.profile = data;
   return data;
-}
-
-async function discardProviderToken() {
-  const current = authState.session;
-  if (!current?.provider_token) return;
-  const { data, error } = await supabase.auth.refreshSession();
-  if (!error && data.session) {
-    authState.session = data.session;
-    authState.user = data.session.user;
-  }
 }
 
 async function callDiscordVerification(providerToken) {
@@ -129,13 +120,13 @@ export async function verifyDiscordAccess(providerToken) {
   try {
     await callDiscordVerification(providerToken);
     await loadProfile(authState.user.id);
+    verifiedProviderToken = providerToken;
     return hasActiveAccess.value;
   } catch (error) {
     await loadProfile(authState.user.id).catch(() => null);
     setError(error.code || error.message, error.message);
     return false;
   } finally {
-    await discardProviderToken().catch(() => null);
     authState.verifying = false;
   }
 }
@@ -148,7 +139,10 @@ async function applySession(session) {
 
   if (!session?.user) return;
 
-  if (session.provider_token) {
+  if (
+    session.provider_token &&
+    session.provider_token !== verifiedProviderToken
+  ) {
     await verifyDiscordAccess(session.provider_token);
     return;
   }
@@ -161,7 +155,11 @@ async function applySession(session) {
 }
 
 function queueSession(session) {
-  sessionSync = sessionSync.then(() => applySession(session));
+  sessionSync = sessionSync
+    .catch((error) => {
+      console.warn("Previous auth session update failed", error);
+    })
+    .then(() => applySession(session));
   return sessionSync;
 }
 
@@ -213,6 +211,7 @@ export async function signOut() {
   authState.session = null;
   authState.user = null;
   authState.profile = null;
+  verifiedProviderToken = "";
   authState.busy = false;
 }
 

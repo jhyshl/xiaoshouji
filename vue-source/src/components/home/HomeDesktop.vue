@@ -37,6 +37,8 @@ function releasePointer(current) {
 
 function beginDrag(itemId) {
   if (!itemId) return;
+  const current = gesture.value;
+  current?.host?.setPointerCapture?.(current.pointerId);
   editing.value = true;
   draggingId.value = itemId;
   suppressClickUntil = Date.now() + 600;
@@ -55,7 +57,6 @@ function pointerDown(event) {
     x: event.clientX,
     y: event.clientY,
   };
-  event.currentTarget.setPointerCapture?.(event.pointerId);
   clearTimers();
   if (editing.value && gesture.value.itemId) beginDrag(gesture.value.itemId);
   else if (gesture.value.itemId) {
