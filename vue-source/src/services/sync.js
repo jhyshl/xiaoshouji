@@ -71,7 +71,7 @@ function compactMessages(messages, phoneSummary = null) {
     .map(compactMessage);
   while (
     source.length > 1 &&
-    new Blob([JSON.stringify(source)]).size > 180 * 1024
+    new Blob([JSON.stringify(source)]).size > 145 * 1024
   ) {
     source.shift();
   }
@@ -79,7 +79,7 @@ function compactMessages(messages, phoneSummary = null) {
 }
 
 function characterCardPayload(character) {
-  return {
+  const card = {
     name: character.name || "",
     description: character.description || "",
     personality: character.personality || "",
@@ -89,10 +89,28 @@ function characterCardPayload(character) {
     systemPrompt: character.systemPrompt || "",
     postHistoryInstructions: character.postHistoryInstructions || "",
     creatorNotes: character.creatorNotes || "",
-    tags: Array.isArray(character.tags) ? character.tags.slice(0, 50) : [],
+    tags: Array.isArray(character.tags)
+      ? character.tags.slice(0, 50).map((tag) => String(tag).slice(0, 200))
+      : [],
     sourceFormat: character.sourceFormat || "",
     sourceFile: character.sourceFile || "",
   };
+  const textFields = Object.keys(card).filter(
+    (field) => typeof card[field] === "string" && field !== "name",
+  );
+  while (
+    new Blob([JSON.stringify(card)]).size > 70 * 1024 &&
+    textFields.some((field) => card[field].length > 500)
+  ) {
+    const longest = textFields
+      .slice()
+      .sort((left, right) => card[right].length - card[left].length)[0];
+    card[longest] = card[longest].slice(
+      0,
+      Math.max(500, Math.floor(card[longest].length * 0.72)),
+    );
+  }
+  return card;
 }
 
 function cloudCharacterKey(character) {
@@ -823,8 +841,6 @@ export async function syncPhoneChatNow(
     windowStartedAt: Number(messages[0]?.createdAt) || 0,
     deletedMessageIds: (branch.deletedMessageIds || []).slice(-200),
     phoneSummary: branch.phoneSummary || null,
-    tavernSummary: branch.tavernSummary || null,
-    tavernRecent: branch.tavernRecent || null,
     createdAt: branch.createdAt,
     updatedAt: Date.now(),
   };
