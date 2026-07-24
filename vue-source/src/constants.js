@@ -27,13 +27,14 @@ export const HOME_ITEM_IDS = [
   "library",
   "persona",
   "recent",
+  "account",
   "settings",
   "backup",
 ];
 
 export const DEFAULT_HOME_PAGES = [
   ["clock", "today", "messages", "contacts", "library", "persona", "recent"],
-  ["settings", "backup"],
+  ["account", "settings", "backup"],
 ];
 
 export const DEFAULT_STATE = {

@@ -1,9 +1,8 @@
 import { createApp } from "vue";
 import App from "./App.vue";
-import { initializeStore, startPersistence } from "./store/linePhone.js";
+import { startPersistence } from "./store/linePhone.js";
 import "./styles/main.css";
 
-await initializeStore();
 startPersistence();
 createApp(App).mount("#app");
 

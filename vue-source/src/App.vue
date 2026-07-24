@@ -1,18 +1,32 @@
 <script setup>
-import { computed, onMounted, onUnmounted } from "vue";
+import { computed, onMounted, onUnmounted, ref, watch } from "vue";
 import PhoneFrame from "./components/layout/PhoneFrame.vue";
+import AuthGate from "./components/auth/AuthGate.vue";
+import AuthSplash from "./components/auth/AuthSplash.vue";
 import HomeView from "./components/home/HomeView.vue";
 import ContactsView from "./components/contacts/ContactsView.vue";
 import ChatView from "./components/chat/ChatView.vue";
 import LibraryView from "./components/library/LibraryView.vue";
 import PersonaView from "./components/persona/PersonaView.vue";
 import SettingsView from "./components/settings/SettingsView.vue";
+import AccountView from "./components/account/AccountView.vue";
 import CharacterEditorModal from "./components/library/CharacterEditorModal.vue";
 import WorldBookEditorModal from "./components/library/WorldBookEditorModal.vue";
 import MessageEditorModal from "./components/chat/MessageEditorModal.vue";
 import PromptPreviewModal from "./components/settings/PromptPreviewModal.vue";
 import AppToast from "./components/common/AppToast.vue";
-import { activeView, closeAllModals, modalState } from "./store/linePhone.js";
+import {
+  activeView,
+  closeAllModals,
+  initializeStore,
+  modalState,
+} from "./store/linePhone.js";
+import {
+  authState,
+  destroyAuth,
+  hasActiveAccess,
+  initializeAuth,
+} from "./services/auth.js";
 
 const views = {
   home: HomeView,
@@ -21,26 +35,51 @@ const views = {
   library: LibraryView,
   persona: PersonaView,
   settings: SettingsView,
+  account: AccountView,
 };
 const activeComponent = computed(() => views[activeView.value] || HomeView);
+const localDataReady = ref(false);
+let storeLoadVersion = 0;
+
+watch(
+  () => [hasActiveAccess.value, authState.user?.id],
+  async ([allowed, userId]) => {
+    const version = ++storeLoadVersion;
+    localDataReady.value = false;
+    if (!allowed || !userId) return;
+    await initializeStore(userId);
+    if (version === storeLoadVersion) localDataReady.value = true;
+  },
+  { immediate: true },
+);
 
 function handleKeydown(event) {
   if (event.key === "Escape") closeAllModals();
 }
 
-onMounted(() => window.addEventListener("keydown", handleKeydown));
-onUnmounted(() => window.removeEventListener("keydown", handleKeydown));
+onMounted(() => {
+  window.addEventListener("keydown", handleKeydown);
+  initializeAuth();
+});
+onUnmounted(() => {
+  window.removeEventListener("keydown", handleKeydown);
+  destroyAuth();
+});
 </script>
 
 <template>
-  <PhoneFrame>
+  <AuthGate v-if="!hasActiveAccess" />
+  <AuthSplash v-else-if="!localDataReady" />
+  <PhoneFrame v-else>
     <KeepAlive>
       <component :is="activeComponent" />
     </KeepAlive>
   </PhoneFrame>
-  <CharacterEditorModal v-if="modalState.characterId" />
-  <WorldBookEditorModal v-if="modalState.worldBookId" />
-  <MessageEditorModal v-if="modalState.messageId" />
-  <PromptPreviewModal v-if="modalState.promptPreview" />
-  <AppToast />
+  <template v-if="hasActiveAccess && localDataReady">
+    <CharacterEditorModal v-if="modalState.characterId" />
+    <WorldBookEditorModal v-if="modalState.worldBookId" />
+    <MessageEditorModal v-if="modalState.messageId" />
+    <PromptPreviewModal v-if="modalState.promptPreview" />
+    <AppToast />
+  </template>
 </template>

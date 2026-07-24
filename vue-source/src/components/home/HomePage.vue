@@ -17,6 +17,7 @@ const apps = {
   contacts: { glyph: "⌕", label: "联系人" },
   library: { glyph: "⌘", label: "资料库" },
   persona: { glyph: "♙", label: "玩家人设" },
+  account: { glyph: "◎", label: "账户" },
   settings: { glyph: "⌁", label: "设置" },
   backup: { glyph: "↗", label: "导出备份" },
 };

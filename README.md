@@ -17,6 +17,8 @@ vue-source/
 │  ├─ chat/         聊天、气泡、编辑弹窗、待发送栏
 │  ├─ library/      导入、角色卡、世界书及条目编辑
 │  ├─ persona/      玩家头像与玩家人设
+│  ├─ auth/         Discord 登录与访问门禁
+│  ├─ account/      Discord 身份和验证状态
 │  └─ settings/     API、模型、上下文、提示词与备份
 ├─ src/composables/ 业务操作
 ├─ src/services/    IndexedDB、AI、提示词和导入解析
@@ -38,6 +40,10 @@ Vite 的部署基础路径固定为 `/xiaoshouji/`。构建后将 `vue-source/di
 
 ## 数据兼容
 
-数据库仍使用同源 IndexedDB：`linephone-db` / `app` / `state`。Vue 版会迁移已有聊天、角色卡、世界书、头像和设置，并为旧数据补充可编辑的 `replyRules`。
+数据库仍使用同源 IndexedDB：`linephone-db` / `app`。登录后以 Supabase 用户 ID 隔离本地状态；首次登录会把旧的 `state` 数据迁移给第一个账户。Vue 版会迁移已有聊天、角色卡、世界书、头像和设置，并为旧数据补充可编辑的 `replyRules`。
 
 桌面图标、组件顺序和所在分页也保存在同一个本地数据库中。
+
+## 访问控制
+
+网页使用 Supabase Auth 的 Discord OAuth 登录。登录后的 Edge Function 会核验指定 Discord 社区和身份组，通过后才激活账户。Discord OAuth 令牌只用于即时核验并会从前端会话中清除；服务端 secret 不会进入网页构建产物。

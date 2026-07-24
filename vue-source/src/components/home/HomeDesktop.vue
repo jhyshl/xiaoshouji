@@ -146,6 +146,7 @@ function openItem(itemId) {
     contacts: "contacts",
     library: "library",
     persona: "persona",
+    account: "account",
     settings: "settings",
   };
   if (itemId === "backup") exportBackup();

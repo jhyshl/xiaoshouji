@@ -23,6 +23,8 @@ export const modalState = reactive({
 let saveTimer = null;
 let toastTimer = null;
 let persistenceStarted = false;
+let persistenceReady = false;
+let storageOwner = "";
 
 function normalizeHomePages(savedPages) {
   const allowed = new Set(HOME_ITEM_IDS);
@@ -115,11 +117,18 @@ export function mergeState(saved) {
   return merged;
 }
 
-export async function initializeStore() {
-  const saved = await readState();
+export async function initializeStore(ownerId) {
+  if (!ownerId) return;
+  clearTimeout(saveTimer);
+  persistenceReady = false;
+  storageOwner = ownerId;
+  const saved = await readState(ownerId);
   const merged = mergeState(saved);
   Object.keys(state).forEach((key) => delete state[key]);
   Object.assign(state, merged);
+  activeView.value = "home";
+  closeAllModals();
+  persistenceReady = true;
 }
 
 export function startPersistence() {
@@ -128,8 +137,14 @@ export function startPersistence() {
   watch(
     state,
     () => {
+      if (!persistenceReady || !storageOwner) return;
       clearTimeout(saveTimer);
-      saveTimer = setTimeout(() => writeState(state), 180);
+      const ownerAtSchedule = storageOwner;
+      saveTimer = setTimeout(() => {
+        if (ownerAtSchedule === storageOwner) {
+          writeState(state, ownerAtSchedule);
+        }
+      }, 180);
     },
     { deep: true },
   );
