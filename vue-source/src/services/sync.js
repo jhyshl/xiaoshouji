@@ -1,9 +1,14 @@
 import { reactive } from "vue";
-import { activeBranchForCharacter, branchesForCharacter, state } from "../store/linePhone.js";
+import {
+  activeBranchForCharacter,
+  branchesForCharacter,
+  ensureDefaultBranch,
+  state,
+} from "../store/linePhone.js";
 import { supabase } from "./supabase.js";
 import { getDeviceIdentity, renameLocalDevice } from "./deviceIdentity.js";
 
-const APP_VERSION = "3.1.0";
+const APP_VERSION = "3.2.0";
 const SNAPSHOT_FIELDS =
   "entity_type,entity_id,source_device_id,revision,is_deleted,payload,updated_at";
 const DEVICE_FIELDS =
@@ -75,6 +80,170 @@ function autoBindCharacter(tavernCharacterKey, characterName) {
   return matches[0].id;
 }
 
+function syncedCharacterId(tavernCharacterKey) {
+  return `char_${String(tavernCharacterKey || "")
+    .replace(/[^a-z0-9_-]/gi, "_")
+    .slice(0, 80)}`;
+}
+
+function ensureTavernCharacter(payload) {
+  const tavernCharacterKey =
+    payload?.tavernCharacterKey || payload?.characterKey || payload?.characterId;
+  if (!tavernCharacterKey) return "";
+  const card = payload.card || {};
+  let characterId = state.sync.characterBindings[tavernCharacterKey];
+  let character = state.characters.find((item) => item.id === characterId);
+  if (!character) {
+    character = state.characters.find(
+      (item) => item.tavernCharacterKey === tavernCharacterKey,
+    );
+    characterId = character?.id || "";
+  }
+  if (!character) {
+    characterId = autoBindCharacter(
+      tavernCharacterKey,
+      card.name || payload.characterName,
+    );
+    character = state.characters.find((item) => item.id === characterId);
+  }
+  if (!character) {
+    characterId = syncedCharacterId(tavernCharacterKey);
+    character = {
+      id: characterId,
+      name: card.name || payload.characterName || "未命名酒馆角色",
+      description: "",
+      personality: "",
+      scenario: "",
+      firstMes: "",
+      mesExample: "",
+      systemPrompt: "",
+      postHistoryInstructions: "",
+      creatorNotes: "",
+      tags: [],
+      avatar: "",
+      sourceFormat: "tavern-sync",
+      sourceFile: "",
+      importedAt: Date.now(),
+    };
+    state.characters.push(character);
+  }
+
+  const fields = [
+    "description",
+    "personality",
+    "scenario",
+    "firstMes",
+    "mesExample",
+    "systemPrompt",
+    "postHistoryInstructions",
+    "creatorNotes",
+  ];
+  character.name = card.name || payload.characterName || character.name;
+  fields.forEach((field) => {
+    if (Object.prototype.hasOwnProperty.call(card, field)) {
+      character[field] = String(card[field] || "");
+    }
+  });
+  if (Array.isArray(card.tags)) character.tags = card.tags.map(String);
+  character.tavernCharacterKey = tavernCharacterKey;
+  character.tavernSyncedAt = Number(payload.updatedAt) || Date.now();
+  character.tavernCardHash = payload.contentHash || "";
+  state.sync.characterBindings[tavernCharacterKey] = characterId;
+  ensureDefaultBranch(characterId);
+  return characterId;
+}
+
+function applySyncedLorebooks(tavernCharacterKey, characterId, books) {
+  if (!characterId) return;
+  const incomingIds = new Set();
+  for (const remoteBook of books) {
+    const localId = `book_${tavernCharacterKey}_${remoteBook.id}`;
+    incomingIds.add(localId);
+    const existing = state.worldBooks.find((book) => book.id === localId);
+    const existingEntries = new Map(
+      (existing?.entries || []).map((entry) => [String(entry.id), entry]),
+    );
+    const entries = (remoteBook.entries || []).map((entry, index) => {
+      const id = String(entry.id ?? index);
+      const prior = existingEntries.get(id);
+      return {
+        id,
+        keys: Array.isArray(entry.keys) ? entry.keys.map(String) : [],
+        secondaryKeys: Array.isArray(entry.secondaryKeys)
+          ? entry.secondaryKeys.map(String)
+          : [],
+        content: String(entry.content || ""),
+        constant: Boolean(entry.constant),
+        selective: Boolean(entry.selective),
+        enabled: prior ? prior.enabled !== false : entry.enabled !== false,
+        sourceEnabled: entry.enabled !== false,
+        priority: Number(entry.priority) || 0,
+        comment: String(entry.comment || ""),
+        position: Number(entry.position) || 0,
+        truncated: Boolean(entry.truncated),
+      };
+    });
+    const next = {
+      id: localId,
+      name: remoteBook.name || "酒馆世界书",
+      entries,
+      enabled: existing ? existing.enabled !== false : remoteBook.enabled !== false,
+      sourceEnabled: remoteBook.enabled !== false,
+      characterId,
+      importedAt: existing?.importedAt || Date.now(),
+      updatedAt: Date.now(),
+      sourceFormat: "tavern-sync",
+      tavernCharacterKey,
+      tavernBookId: remoteBook.id,
+      tavernScopes: Array.isArray(remoteBook.scopes) ? remoteBook.scopes : [],
+    };
+    const index = state.worldBooks.findIndex((book) => book.id === localId);
+    if (index >= 0) state.worldBooks.splice(index, 1, next);
+    else state.worldBooks.push(next);
+  }
+  state.worldBooks = state.worldBooks.filter(
+    (book) =>
+      book.tavernCharacterKey !== tavernCharacterKey || incomingIds.has(book.id),
+  );
+}
+
+function rebuildTavernLorebooks(tavernCharacterKey) {
+  const inbox = state.sync.tavernInbox[tavernCharacterKey];
+  const indexPayload = inbox?.lorebooks;
+  if (!indexPayload || !Array.isArray(indexPayload.books)) return;
+  const assembled = [];
+  for (const book of indexPayload.books) {
+    const partIds = Array.isArray(book.partEntityIds) ? book.partEntityIds : [];
+    const parts = partIds
+      .map((entityId) =>
+        syncState.snapshots.find(
+          (snapshot) =>
+            snapshot.entity_type === "tavern.lorebook.part" &&
+            snapshot.entity_id === entityId &&
+            !snapshot.is_deleted,
+        ),
+      )
+      .filter(Boolean);
+    if (parts.length !== partIds.length) return;
+    parts.sort(
+      (left, right) =>
+        Number(left.payload?.partIndex || 0) - Number(right.payload?.partIndex || 0),
+    );
+    assembled.push({
+      id: book.id,
+      name: book.name,
+      scopes: book.scopes,
+      enabled: book.enabled,
+      entries: parts.flatMap((part) => part.payload?.entries || []),
+    });
+  }
+  inbox.assembledLorebooks = assembled;
+  const characterId =
+    state.sync.characterBindings[tavernCharacterKey] ||
+    ensureTavernCharacter(inbox.character || indexPayload);
+  applySyncedLorebooks(tavernCharacterKey, characterId, assembled);
+}
+
 function updateMismatch(tavernCharacterKey) {
   const inbox = state.sync.tavernInbox[tavernCharacterKey];
   const remote = inbox?.active;
@@ -112,12 +281,21 @@ function applyTavernSnapshot(snapshot) {
   const inbox = (state.sync.tavernInbox[tavernCharacterKey] ||= {
     characterName: payload.characterName || "",
   });
-  inbox.characterName ||= payload.characterName || "";
+  if (payload.characterName) inbox.characterName = payload.characterName;
   inbox.revision = Math.max(Number(inbox.revision) || 0, Number(snapshot.revision) || 0);
   inbox.updatedAt = snapshot.updated_at || new Date().toISOString();
   if (snapshot.entity_type === "tavern.active") inbox.active = payload;
   if (snapshot.entity_type === "tavern.summary") inbox.summary = payload;
   if (snapshot.entity_type === "tavern.recent") inbox.recent = payload;
+  if (snapshot.entity_type === "tavern.character") {
+    inbox.character = payload;
+    ensureTavernCharacter(payload);
+  }
+  if (snapshot.entity_type === "tavern.lorebooks") inbox.lorebooks = payload;
+  if (snapshot.entity_type === "tavern.lorebook.part") {
+    inbox.lorebookParts ||= {};
+    inbox.lorebookParts[snapshot.entity_id] = payload;
+  }
 
   const characterId =
     state.sync.characterBindings[tavernCharacterKey] ||
@@ -133,6 +311,13 @@ function applyTavernSnapshot(snapshot) {
       if (snapshot.entity_type === "tavern.recent") branch.tavernRecent = payload;
       branch.updatedAt = Date.now();
     }
+  }
+  if (
+    snapshot.entity_type === "tavern.character" ||
+    snapshot.entity_type === "tavern.lorebooks" ||
+    snapshot.entity_type === "tavern.lorebook.part"
+  ) {
+    rebuildTavernLorebooks(tavernCharacterKey);
   }
   updateMismatch(tavernCharacterKey);
 }

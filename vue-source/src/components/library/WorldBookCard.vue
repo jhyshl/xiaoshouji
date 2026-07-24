@@ -18,6 +18,9 @@ const owner = computed(
     <div>
       <strong>{{ book.name }}</strong>
       <small>{{ enabledEntries }}/{{ book.entries.length }} 条启用 · {{ owner }}</small>
+      <small v-if="book.sourceFormat === 'tavern-sync'">
+        酒馆同步 · {{ book.tavernScopes?.includes("chat") ? "聊天绑定" : "角色绑定" }}
+      </small>
     </div>
     <button type="button" @click="modalState.worldBookId = book.id">编辑条目</button>
   </article>

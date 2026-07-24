@@ -1,7 +1,7 @@
 import { createClient } from "@supabase/supabase-js";
 
 const MODULE = "linephone_sync";
-const VERSION = "1.0.0";
+const VERSION = "1.1.0";
 const SUPABASE_URL = "https://tlsdyacdkbcjxbwvyeim.supabase.co";
 const SUPABASE_KEY = "sb_publishable_EIYn8wiMd0O4tJXQI5Ub4Q_066Uizi1";
 const VERIFY_URL = `${SUPABASE_URL}/functions/v1/verify-discord-membership`;
@@ -29,9 +29,21 @@ const runtime = {
   current: null,
   timer: null,
   panel: null,
+  settingsEntry: null,
   status: null,
   summary: null,
   details: null,
+  assets: null,
+  assetState: {
+    books: 0,
+    entries: 0,
+    truncatedEntries: 0,
+    error: "",
+  },
+  currentAssets: null,
+  currentAssetsKey: "",
+  mountTimer: null,
+  initialized: false,
 };
 
 function defaults() {
@@ -42,6 +54,7 @@ function defaults() {
     apiUrl: "https://api.openai.com/v1/chat/completions",
     model: "",
     modelOptions: [],
+    assetHashes: {},
     summaryPrompt:
       "请把以下角色扮演对话整理成可长期使用的中文记忆总结。按时间顺序保留人物关系变化、约定、秘密、重要事件、情绪和未完成事项。不要虚构，不要写分析过程，只输出总结正文。",
   };
@@ -127,6 +140,154 @@ async function currentIdentity() {
     saveId,
     saveName: saveId.replace(/\.(jsonl|json)$/i, "") || "酒馆存档",
   };
+}
+
+function stringValue(value) {
+  return typeof value === "string" ? value.trim() : "";
+}
+
+function stringList(value) {
+  if (Array.isArray(value)) return value.map(String).map((item) => item.trim()).filter(Boolean);
+  if (typeof value !== "string") return [];
+  return value
+    .split(/[,，\n]/)
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
+
+function characterCardPayload(identity) {
+  const raw = identity.character || {};
+  const data = raw.data && typeof raw.data === "object" ? raw.data : raw;
+  return {
+    name: stringValue(data.name || raw.name) || identity.characterName,
+    description: stringValue(data.description || data.char_persona),
+    personality: stringValue(data.personality || data.persona),
+    scenario: stringValue(data.scenario || data.world_scenario),
+    firstMes: stringValue(data.first_mes || data.first_message || data.greeting),
+    mesExample: stringValue(data.mes_example || data.example_dialogue),
+    systemPrompt: stringValue(data.system_prompt),
+    postHistoryInstructions: stringValue(data.post_history_instructions),
+    creatorNotes: stringValue(data.creator_notes || raw.creator_notes),
+    creator: stringValue(data.creator),
+    characterVersion: stringValue(data.character_version),
+    tags: Array.isArray(data.tags) ? data.tags.map(String) : [],
+    alternateGreetings: Array.isArray(data.alternate_greetings)
+      ? data.alternate_greetings.map(String)
+      : [],
+  };
+}
+
+function pipeValue(result) {
+  const value = result?.pipe ?? result?.result ?? result?.output ?? "";
+  return typeof value === "string" ? value.trim() : String(value || "").trim();
+}
+
+async function boundLorebookNames(identity) {
+  const names = new Map();
+  const add = (name, scope) => {
+    const clean = stringValue(name);
+    if (!clean) return;
+    const scopes = names.get(clean) || new Set();
+    scopes.add(scope);
+    names.set(clean, scopes);
+  };
+  const data = identity.character?.data || identity.character || {};
+  add(data.extensions?.world, "character");
+  add(identity.context.chatMetadata?.world_info, "chat");
+
+  if (typeof identity.context.executeSlashCommandsWithOptions === "function") {
+    try {
+      const result = await identity.context.executeSlashCommandsWithOptions(
+        "/getcharbook type=all",
+        { handleParserErrors: false, handleExecutionErrors: false },
+      );
+      const output = pipeValue(result);
+      if (output) {
+        const parsed = JSON.parse(output);
+        (Array.isArray(parsed) ? parsed : [parsed]).forEach((name) =>
+          add(name, "character"),
+        );
+      }
+    } catch (error) {
+      console.debug(`[${MODULE}] additional character lorebooks unavailable`, error);
+    }
+  }
+  return names;
+}
+
+function truncateUtf8(value, maxBytes = 140000) {
+  const text = String(value || "");
+  const encoder = new TextEncoder();
+  if (encoder.encode(text).byteLength <= maxBytes) return { text, truncated: false };
+  let low = 0;
+  let high = text.length;
+  while (low < high) {
+    const middle = Math.ceil((low + high) / 2);
+    if (encoder.encode(text.slice(0, middle)).byteLength <= maxBytes) low = middle;
+    else high = middle - 1;
+  }
+  return {
+    text: `${text.slice(0, low)}\n\n【该条目过长，云端同步内容已截断】`,
+    truncated: true,
+  };
+}
+
+function normalizeLoreEntry(entry, index) {
+  const content = truncateUtf8(entry?.content ?? entry?.text ?? "");
+  return {
+    id: String(entry?.uid ?? entry?.id ?? index),
+    keys: stringList(entry?.key ?? entry?.keys ?? entry?.keywords),
+    secondaryKeys: stringList(entry?.keysecondary ?? entry?.secondary_keys),
+    content: content.text.trim(),
+    constant: Boolean(entry?.constant ?? entry?.always_active ?? false),
+    selective: Boolean(entry?.selective ?? false),
+    enabled: !(entry?.disable ?? entry?.disabled ?? false),
+    priority: Number(entry?.order ?? entry?.priority ?? entry?.insertion_order ?? 0),
+    comment: stringValue(entry?.comment ?? entry?.name),
+    position: Number(entry?.position) || 0,
+    truncated: content.truncated,
+  };
+}
+
+async function collectCharacterAssets(identity) {
+  const card = characterCardPayload(identity);
+  const names = await boundLorebookNames(identity);
+  const books = [];
+  let truncatedEntries = 0;
+
+  for (const [name, scopes] of names.entries()) {
+    try {
+      const raw = await identity.context.loadWorldInfo(name);
+      if (!raw || typeof raw !== "object") continue;
+      const sourceEntries = raw.entries ?? raw.data?.entries ?? raw;
+      const list = Array.isArray(sourceEntries)
+        ? sourceEntries
+        : sourceEntries && typeof sourceEntries === "object"
+          ? Object.values(sourceEntries)
+          : [];
+      const entries = list
+        .map(normalizeLoreEntry)
+        .filter((entry) => entry.content);
+      truncatedEntries += entries.filter((entry) => entry.truncated).length;
+      books.push({
+        id: `stbook_${(await sha256(name)).slice(0, 16)}`,
+        name,
+        scopes: [...scopes],
+        enabled: true,
+        entries,
+      });
+    } catch (error) {
+      console.warn(`[${MODULE}] failed to load lorebook "${name}"`, error);
+    }
+  }
+
+  runtime.assetState = {
+    books: books.length,
+    entries: books.reduce((sum, book) => sum + book.entries.length, 0),
+    truncatedEntries,
+    error: "",
+  };
+  return { card, books };
 }
 
 function buildRounds(chat) {
@@ -273,7 +434,13 @@ async function loadRevisions() {
   }
 }
 
-async function commit(entityType, entityId, snapshotPayload, eventPayload) {
+async function commit(
+  entityType,
+  entityId,
+  snapshotPayload,
+  eventPayload,
+  operation = "upsert",
+) {
   const key = `${entityType}|${entityId}`;
   let revision = (runtime.revisions.get(key) || 0) + 1;
   const eventId = crypto.randomUUID();
@@ -284,7 +451,7 @@ async function commit(entityType, entityId, snapshotPayload, eventPayload) {
       p_entity_type: entityType,
       p_entity_id: entityId,
       p_revision: revision,
-      p_operation: "upsert",
+      p_operation: operation,
       p_snapshot_payload: snapshotPayload,
       p_event_payload: eventPayload || snapshotPayload,
     });
@@ -305,6 +472,143 @@ async function commit(entityType, entityId, snapshotPayload, eventPayload) {
   if (result.error) throw result.error;
   runtime.revisions.set(key, revision);
   return revision;
+}
+
+function jsonBytes(value) {
+  return new TextEncoder().encode(JSON.stringify(value)).byteLength;
+}
+
+function splitLoreEntries(entries) {
+  const parts = [];
+  let current = [];
+  for (const entry of entries) {
+    const candidate = [...current, entry];
+    if (current.length && jsonBytes({ entries: candidate }) > 180000) {
+      parts.push(current);
+      current = [entry];
+    } else {
+      current = candidate;
+    }
+  }
+  if (current.length || !parts.length) parts.push(current);
+  return parts;
+}
+
+async function uploadCharacterAssets(identity, assets) {
+  if (!hasAccess()) return;
+  const config = settings();
+  if (!config.assetHashes || typeof config.assetHashes !== "object") {
+    config.assetHashes = {};
+  }
+  const saved = config.assetHashes[identity.tavernCharacterKey] || {};
+  const entityId = `character:${identity.tavernCharacterKey}`;
+  const common = {
+    schemaVersion: 1,
+    tavernCharacterKey: identity.tavernCharacterKey,
+    characterName: identity.characterName,
+    saveId: identity.saveId,
+    saveName: identity.saveName,
+    updatedAt: Date.now(),
+  };
+  const characterHash = await sha256(JSON.stringify(assets.card));
+  if (saved.characterHash !== characterHash) {
+    await commit(
+      "tavern.character",
+      entityId,
+      {
+        ...common,
+        contentHash: characterHash,
+        card: assets.card,
+      },
+      {
+        kind: "character.replace",
+        tavernCharacterKey: identity.tavernCharacterKey,
+        characterName: identity.characterName,
+        contentHash: characterHash,
+      },
+    );
+    saved.characterHash = characterHash;
+  }
+
+  const loreHash = await sha256(JSON.stringify(assets.books));
+  if (saved.loreHash !== loreHash) {
+    const currentEntities = [];
+    const bookIndex = [];
+    for (const book of assets.books) {
+      const entryParts = splitLoreEntries(book.entries);
+      const partEntityIds = [];
+      for (let index = 0; index < entryParts.length; index += 1) {
+        const partEntityId = `${entityId}:lore:${book.id}:${index}`;
+        partEntityIds.push(partEntityId);
+        currentEntities.push(partEntityId);
+        await commit(
+          "tavern.lorebook.part",
+          partEntityId,
+          {
+            ...common,
+            bookId: book.id,
+            bookName: book.name,
+            scopes: book.scopes,
+            enabled: book.enabled,
+            partIndex: index,
+            partCount: entryParts.length,
+            entries: entryParts[index],
+          },
+          {
+            kind: "lorebook.part.replace",
+            tavernCharacterKey: identity.tavernCharacterKey,
+            bookId: book.id,
+            partIndex: index,
+            partCount: entryParts.length,
+          },
+        );
+      }
+      bookIndex.push({
+        id: book.id,
+        name: book.name,
+        scopes: book.scopes,
+        enabled: book.enabled,
+        entryCount: book.entries.length,
+        partEntityIds,
+      });
+    }
+    await commit(
+      "tavern.lorebooks",
+      entityId,
+      {
+        ...common,
+        contentHash: loreHash,
+        books: bookIndex,
+        truncatedEntries: runtime.assetState.truncatedEntries,
+      },
+      {
+        kind: "lorebooks.replace",
+        tavernCharacterKey: identity.tavernCharacterKey,
+        contentHash: loreHash,
+        bookCount: bookIndex.length,
+      },
+    );
+
+    const staleEntities = (saved.loreEntities || []).filter(
+      (oldEntityId) => !currentEntities.includes(oldEntityId),
+    );
+    for (const staleEntityId of staleEntities) {
+      await commit(
+        "tavern.lorebook.part",
+        staleEntityId,
+        {},
+        {
+          kind: "lorebook.part.delete",
+          tavernCharacterKey: identity.tavernCharacterKey,
+        },
+        "delete",
+      );
+    }
+    saved.loreHash = loreHash;
+    saved.loreEntities = currentEntities;
+  }
+  config.assetHashes[identity.tavernCharacterKey] = saved;
+  saveSettings();
 }
 
 async function uploadCurrent(identity, rounds, memory) {
@@ -366,7 +670,11 @@ async function uploadCurrent(identity, rounds, memory) {
   );
 }
 
-async function processCurrent({ forceUpload = false, allowSummary = true } = {}) {
+async function processCurrent({
+  forceUpload = false,
+  allowSummary = true,
+  refreshAssets = false,
+} = {}) {
   if (runtime.busy || !settings().enabled) return;
   const identity = await currentIdentity();
   runtime.current = identity;
@@ -379,6 +687,22 @@ async function processCurrent({ forceUpload = false, allowSummary = true } = {})
   try {
     const rounds = buildRounds(identity.context.chat);
     const memory = getSaveMemory(identity.context);
+    if (
+      refreshAssets ||
+      runtime.currentAssetsKey !== identity.tavernCharacterKey ||
+      !runtime.currentAssets
+    ) {
+      runtime.currentAssets = await collectCharacterAssets(identity);
+      runtime.currentAssetsKey = identity.tavernCharacterKey;
+    }
+    if (hasAccess()) {
+      try {
+        await uploadCharacterAssets(identity, runtime.currentAssets);
+      } catch (error) {
+        runtime.assetState.error = error.message || "角色资料同步失败";
+        console.error(`[${MODULE}] asset sync failed`, error);
+      }
+    }
     const liveHash = await sha256(JSON.stringify(rounds));
     const interval = Math.min(200, Math.max(2, Number(settings().interval) || 20));
     const targetBoundary = Math.floor(rounds.length / interval) * interval;
@@ -556,6 +880,14 @@ function render() {
   runtime.details.textContent = identity
     ? `${identity.characterName} · ${identity.saveName} · ${rounds.length} 楼 · 已总结 ${memory.coveredThrough || 0} 楼`
     : "请先打开单角色聊天存档";
+  if (runtime.assets) {
+    const { books, entries, truncatedEntries, error } = runtime.assetState;
+    runtime.assets.textContent = identity
+      ? `${error ? `资料同步失败：${error} · ` : ""}角色卡已读取 · ${books} 本绑定世界书 · ${entries} 个条目${
+          truncatedEntries ? ` · ${truncatedEntries} 条过长内容已截断` : ""
+        }`
+      : "打开角色聊天后会自动读取角色卡与绑定世界书";
+  }
   runtime.summary.value = memory?.summary || "";
 
   const loginButton = runtime.panel.querySelector("[data-action=login]");
@@ -578,7 +910,54 @@ function render() {
   modelSelect.value = config.model || "";
 }
 
+function setPanelVisible(visible) {
+  if (!runtime.panel) return;
+  runtime.panel.hidden = !visible;
+  if (!visible) return;
+  currentIdentity().then((identity) => {
+    runtime.current = identity;
+    render();
+  });
+}
+
+function mountSettingsEntry() {
+  if (runtime.settingsEntry?.isConnected) return true;
+  const host =
+    document.querySelector("#extensions_settings") ||
+    document.querySelector("#extensions_settings2");
+  if (!host) {
+    clearTimeout(runtime.mountTimer);
+    runtime.mountTimer = setTimeout(mountSettingsEntry, 800);
+    return false;
+  }
+  const entry = element("div", "extension_container lp-settings-entry");
+  entry.innerHTML = `
+    <div class="inline-drawer">
+      <div class="inline-drawer-toggle inline-drawer-header">
+        <b>LinePhone 小手机同步</b>
+        <div class="inline-drawer-icon fa-solid fa-circle-chevron-down down"></div>
+      </div>
+      <div class="inline-drawer-content">
+        <p>同步当前角色、绑定世界书、聊天楼层和阶段总结。</p>
+        <button type="button" class="menu_button" data-action="open-linephone">
+          打开小手机同步控制面板
+        </button>
+      </div>
+    </div>
+  `;
+  entry
+    .querySelector("[data-action=open-linephone]")
+    .addEventListener("click", () => setPanelVisible(true));
+  host.append(entry);
+  runtime.settingsEntry = entry;
+  return true;
+}
+
 function buildUi() {
+  if (runtime.panel?.isConnected) {
+    mountSettingsEntry();
+    return;
+  }
   const button = element("button", "lp-sync-launcher", "⇄");
   button.type = "button";
   button.title = "小手机同步";
@@ -591,6 +970,7 @@ function buildUi() {
     </header>
     <p class="lp-status"></p>
     <p class="lp-details"></p>
+    <p class="lp-assets"></p>
     <div class="lp-auth-actions">
       <button type="button" data-action="login">使用 Discord 登录</button>
       <button type="button" data-action="logout">退出登录</button>
@@ -609,7 +989,9 @@ function buildUi() {
   runtime.panel = panel;
   runtime.status = panel.querySelector(".lp-status");
   runtime.details = panel.querySelector(".lp-details");
+  runtime.assets = panel.querySelector(".lp-assets");
   runtime.summary = panel.querySelector(".lp-summary");
+  mountSettingsEntry();
 
   const config = settings();
   const api = panel.querySelector(".lp-api");
@@ -661,21 +1043,15 @@ function buildUi() {
   );
 
   button.addEventListener("click", () => {
-    panel.hidden = !panel.hidden;
-    if (!panel.hidden) {
-      currentIdentity().then((identity) => {
-        runtime.current = identity;
-        render();
-      });
-    }
+    setPanelVisible(panel.hidden);
   });
   panel.querySelector("[data-action=close]").addEventListener("click", () => {
-    panel.hidden = true;
+    setPanelVisible(false);
   });
   panel.querySelector("[data-action=login]").addEventListener("click", login);
   panel.querySelector("[data-action=logout]").addEventListener("click", logout);
   panel.querySelector("[data-action=sync-now]").addEventListener("click", () =>
-    processCurrent({ forceUpload: true, allowSummary: true }),
+    processCurrent({ forceUpload: true, allowSummary: true, refreshAssets: true }),
   );
   panel.querySelector("[data-action=save-summary]").addEventListener("click", async () => {
     const identity = await currentIdentity();
@@ -710,7 +1086,22 @@ function bindEvents() {
     eventTypes.GENERATION_ENDED,
   ].filter(Boolean);
   watched.forEach((event) => eventSource.on(event, () => scheduleProcess()));
-  eventSource.on(eventTypes.CHAT_CHANGED, () => scheduleProcess({ forceUpload: true }));
+  const assetEvents = [
+    eventTypes.CHARACTER_EDITED,
+    eventTypes.CHARACTER_SELECTED,
+    eventTypes.WORLDINFO_UPDATED,
+    eventTypes.WORLDINFO_SETTINGS_UPDATED,
+  ].filter(Boolean);
+  assetEvents.forEach((event) =>
+    eventSource.on(event, () =>
+      scheduleProcess({ forceUpload: true, refreshAssets: true }),
+    ),
+  );
+  if (eventTypes.CHAT_CHANGED) {
+    eventSource.on(eventTypes.CHAT_CHANGED, () =>
+      scheduleProcess({ forceUpload: true, refreshAssets: true }),
+    );
+  }
 }
 
 async function initializeAuth() {
@@ -732,7 +1123,7 @@ async function initializeAuth() {
           await registerDevice();
           await loadRevisions();
           runtime.connected = true;
-          scheduleProcess({ forceUpload: true });
+          scheduleProcess({ forceUpload: true, refreshAssets: true });
         }
       } catch (error) {
         runtime.lastError = error.message;
@@ -754,19 +1145,56 @@ async function initializeAuth() {
   }
 }
 
+async function waitForSillyTavern(timeoutMs = 15000) {
+  const startedAt = Date.now();
+  while (!globalThis.SillyTavern?.getContext || !document.body) {
+    if (Date.now() - startedAt > timeoutMs) {
+      throw new Error("等待 SillyTavern 初始化超时");
+    }
+    await new Promise((resolve) => setTimeout(resolve, 100));
+  }
+}
+
 async function init() {
+  if (runtime.initialized) return;
+  await waitForSillyTavern();
+  runtime.initialized = true;
   runtime.context = currentContext();
   settings();
   runtime.device = getDevice();
   buildUi();
   bindEvents();
-  await initializeAuth();
-  scheduleProcess({ forceUpload: true });
+  try {
+    await initializeAuth();
+  } catch (error) {
+    runtime.lastError = error.message || "登录状态初始化失败";
+    console.error(`[${MODULE}] auth initialization failed`, error);
+    render();
+  }
+  scheduleProcess({ forceUpload: true, refreshAssets: true });
   console.log(`[${MODULE}] v${VERSION} loaded`);
 }
 
-init().catch((error) => {
-  console.error(`[${MODULE}] initialization failed`, error);
-  runtime.lastError = error.message || "初始化失败";
-  render();
+let initPromise = null;
+
+function ensureInitialized() {
+  initPromise ||= init().catch((error) => {
+    runtime.initialized = false;
+    console.error(`[${MODULE}] initialization failed`, error);
+    runtime.lastError = error.message || "初始化失败";
+    render();
+    throw error;
+  });
+  return initPromise;
+}
+
+export async function onActivate() {
+  return ensureInitialized();
+}
+
+queueMicrotask(() => {
+  ensureInitialized().catch(() => {
+    // The lifecycle hook may retry initialization after the app is ready.
+    initPromise = null;
+  });
 });

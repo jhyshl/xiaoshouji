@@ -8,7 +8,10 @@ import { state } from "../../store/linePhone.js";
 
 <template>
   <section class="view active library-view">
-    <PageHeader title="资料库" subtitle="导入之后可直接编辑；全部只保存在当前设备。" />
+    <PageHeader
+      title="资料库"
+      subtitle="支持本地导入，也会自动接收酒馆当前角色卡与绑定世界书。"
+    />
     <ImportPanel />
     <CharacterList :characters="state.characters" />
     <WorldBookList :books="state.worldBooks" />

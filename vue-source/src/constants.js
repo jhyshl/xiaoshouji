@@ -42,7 +42,7 @@ export const DEFAULT_HOME_PAGES = [
 ];
 
 export const DEFAULT_STATE = {
-  schemaVersion: 5,
+  schemaVersion: 6,
   currentCharacterId: null,
   characters: [],
   worldBooks: [],

@@ -2940,7 +2940,8 @@ button {
 }
 
 .inventory-list section,
-.registered-devices section {
+.registered-devices section,
+.tavern-assets-card > section {
   display: grid;
   grid-template-columns: 1fr auto;
   gap: 2px 10px;
@@ -2949,14 +2950,16 @@ button {
 }
 
 .inventory-list section > strong,
-.registered-devices strong {
+.registered-devices strong,
+.tavern-assets-card strong {
   font-size: 13px;
 }
 
 .inventory-list section > span,
 .inventory-list section > small,
 .registered-devices small,
-.registered-devices time {
+.registered-devices time,
+.tavern-assets-card small {
   color: var(--muted);
   font-size: 10px;
 }
@@ -2966,6 +2969,11 @@ button {
 }
 
 .registered-devices section > span {
+  display: grid;
+  gap: 3px;
+}
+
+.tavern-assets-card > section > span {
   display: grid;
   gap: 3px;
 }

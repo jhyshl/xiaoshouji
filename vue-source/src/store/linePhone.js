@@ -147,7 +147,7 @@ export function mergeState(saved) {
   const merged = {
     ...structuredClone(DEFAULT_STATE),
     ...saved,
-    schemaVersion: 5,
+    schemaVersion: 6,
     characters,
     worldBooks: Array.isArray(saved.worldBooks) ? saved.worldBooks : [],
     chats: {},

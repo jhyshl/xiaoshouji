@@ -22,6 +22,7 @@ const queuedCount = computed(() => queuedMessages(props.character.id).length);
       <small>
         {{ messageCount }} 条气泡 · {{ matchedWorldBookCount(character.id) }} 本世界书
       </small>
+      <small v-if="character.tavernCharacterKey">酒馆角色卡自动同步</small>
       <small v-if="queuedCount">{{ queuedCount }} 个气泡待交给 AI</small>
     </div>
     <div class="card-actions">
