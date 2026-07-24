@@ -1,0 +1,11 @@
+{
+  "display_name": "LinePhone 小手机同步",
+  "loading_order": 20,
+  "js": "tavern-extension/index.js",
+  "css": "tavern-extension/style.css",
+  "author": "LinePhone",
+  "version": "1.0.1",
+  "homePage": "https://github.com/jhyshl/xiaoshouji",
+  "auto_update": true,
+  "minimum_client_version": "1.12.0"
+}
