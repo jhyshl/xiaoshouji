@@ -1,7 +1,7 @@
 import { createClient } from "@supabase/supabase-js";
 
 const MODULE = "linephone_sync";
-const VERSION = "1.1.3";
+const VERSION = "1.1.4";
 const SUPABASE_URL = "https://tlsdyacdkbcjxbwvyeim.supabase.co";
 const SUPABASE_KEY = "sb_publishable_EIYn8wiMd0O4tJXQI5Ub4Q_066Uizi1";
 const VERIFY_URL = `${SUPABASE_URL}/functions/v1/verify-discord-membership`;
@@ -26,6 +26,8 @@ const runtime = {
   busy: false,
   connected: false,
   lastError: "",
+  authLaunching: false,
+  oauthUrl: "",
   current: null,
   timer: null,
   launcher: null,
@@ -846,16 +848,45 @@ function scheduleProcess(options = {}) {
 
 async function login() {
   runtime.lastError = "";
+  runtime.oauthUrl = "";
+  runtime.authLaunching = true;
+  render();
   const redirectTo = `${location.origin}${location.pathname}`;
-  const { error } = await supabase.auth.signInWithOAuth({
-    provider: "discord",
-    options: {
-      redirectTo,
-      scopes: "guilds guilds.members.read",
-    },
-  });
-  if (error) {
-    runtime.lastError = error.message;
+  let authWindow = null;
+
+  try {
+    // Open a blank tab while the click still has user activation. Android
+    // WebAPK/PWA shells otherwise try to replace the whole local Tavern page
+    // and can abort when the navigation leaves the installed-app scope.
+    authWindow = window.open("about:blank", "_blank");
+
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: "discord",
+      options: {
+        redirectTo,
+        scopes: "guilds guilds.members.read",
+        skipBrowserRedirect: true,
+      },
+    });
+    if (error) throw error;
+    if (!data?.url) throw new Error("未能生成 Discord 登录链接");
+
+    runtime.oauthUrl = data.url;
+    if (authWindow && !authWindow.closed) {
+      authWindow.location.replace(data.url);
+      try {
+        authWindow.opener = null;
+      } catch {
+        // Some embedded browsers expose a read-only opener.
+      }
+    } else {
+      runtime.lastError = "系统未自动打开外部浏览器，请点击下方链接继续登录";
+    }
+  } catch (error) {
+    authWindow?.close?.();
+    runtime.lastError = error?.message || "Discord 登录启动失败";
+  } finally {
+    runtime.authLaunching = false;
     render();
   }
 }
@@ -925,8 +956,12 @@ function render() {
 
   runtime.status.textContent = runtime.busy
     ? "正在处理…"
+    : runtime.authLaunching
+      ? "正在外部浏览器中打开 Discord…"
     : runtime.lastError
       ? runtime.lastError
+      : runtime.oauthUrl && !runtime.session
+        ? "Discord 授权页已打开，完成后返回酒馆"
       : hasAccess()
         ? "Discord 已验证 · 云端可用"
         : runtime.session
@@ -948,8 +983,16 @@ function render() {
 
   const loginButton = runtime.panel.querySelector("[data-action=login]");
   const logoutButton = runtime.panel.querySelector("[data-action=logout]");
+  const oauthHelp = runtime.panel.querySelector(".lp-oauth-help");
+  const oauthLink = oauthHelp?.querySelector("[data-action=oauth-link]");
   loginButton.hidden = Boolean(runtime.session);
+  loginButton.disabled = runtime.authLaunching;
+  loginButton.textContent = runtime.authLaunching ? "正在打开 Discord…" : "使用 Discord 登录";
   logoutButton.hidden = !runtime.session;
+  if (oauthHelp && oauthLink) {
+    oauthHelp.hidden = Boolean(runtime.session) || !runtime.oauthUrl;
+    oauthLink.href = runtime.oauthUrl || "#";
+  }
 
   const modelSelect = runtime.panel.querySelector("[data-field=model]");
   modelSelect.replaceChildren();
@@ -1084,6 +1127,12 @@ function buildUi() {
       <button type="button" data-action="login">使用 Discord 登录</button>
       <button type="button" data-action="logout">退出登录</button>
     </div>
+    <p class="lp-oauth-help" hidden>
+      没有自动打开？
+      <a data-action="oauth-link" target="_blank" rel="external noopener noreferrer">
+        点这里在浏览器中继续 Discord 登录
+      </a>
+    </p>
     <section class="lp-section lp-api"></section>
     <section class="lp-section">
       <div class="lp-section-title"><strong>当前阶段总结</strong><small>保存在这个酒馆存档本地</small></div>
@@ -1251,6 +1300,7 @@ async function initializeAuth() {
       runtime.session = session;
       runtime.profile = null;
       runtime.connected = false;
+      if (session) runtime.oauthUrl = "";
       if (!session) {
         render();
         return;
