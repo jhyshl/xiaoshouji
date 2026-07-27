@@ -1,4 +1,4 @@
-const CACHE_NAME = "linephone-v3.3.4";
+const CACHE_NAME = "linephone-v3.3.5";
 const APP_SHELL = [
   "./",
   "./index.html",
