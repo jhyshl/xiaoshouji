@@ -472,7 +472,1157 @@ async function loadProfile() {
   }
   const { data, error } = await supabase
     .from("user_profiles")
-    .seïmö¶‰ËkºwµçKšjš^€ˆ(€€€€€€€ôƒ
-Üƒ–Â?š&/šrëšïîL‘íÁ¡½¹•MÕµµ…ÉåI•…‘ä€ü€‹–ŞËšÎ£–”ˆ€è€‹šjš^€‰ôƒ
-Üƒ–Â?š&/šrë–º{š^Ø€‘íÁ¡½¹•1¥Ù•½Õ¹Ñôƒšv…€(€€€€€€è€‹¢Ş£®¿¢ºÃ–ş¾òk¶'–úš&O–ò¢K¢&Ë¢+–’¤ˆì(€ô(€ÉÕ¹Ñ¥µ”¹ÍÕµµ…Éä¹Ù…±Õ”€ôµ•µ½Éäü¹ÍÕµµ…Éäñğ€ˆˆì((€½¹ÍĞ±½¥¹	ÕÑÑ½¸€ôÉÕ¹Ñ¥µ”¹Á…¹•°¹ÅÕ•ÉåM•±•Ñ½È ‰m‘…Ñ„µ…Ñ¥½¸õ±½¥¹tˆ¤ì(€½¹ÍĞ±½½ÕÑ	ÕÑÑ½¸€ôÉÕ¹Ñ¥µ”¹Á…¹•°¹ÅÕ•ÉåM•±•Ñ½È ‰m‘…Ñ„µ…Ñ¥½¸õ±½½ÕÑtˆ¤ì(€½¹ÍĞ½…ÕÑ¡!•±À€ôÉÕ¹Ñ¥µ”¹Á…¹•°¹ÅÕ•ÉåM•±•Ñ½È ˆ¹±Àµ½…ÕÑ µ¡•±Àˆ¤ì(€½¹ÍĞ½…ÕÑ¡1¥¹¬€ô½…ÕÑ¡!•±Àü¹ÅÕ•ÉåM•±•Ñ½È ‰m‘…Ñ„µ…Ñ¥½¸õ½…ÕÑ µ±¥¹­tˆ¤ì(€±½¥¹	ÕÑÑ½¸¹¡¥‘‘•¸€ô	½½±•…¸¡ÉÕ¹Ñ¥µ”¹Í•ÍÍ¥½¸¤ì(€±½¥¹	ÕÑÑ½¸¹‘¥Í…‰±•€ôÉÕ¹Ñ¥µ”¹…ÕÑ¡1…Õ¹¡¥¹œì(€±½¥¹	ÕÑÑ½¸¹Ñ•áÑ½¹Ñ•¹Ğ€ôÉÕ¹Ñ¥µ”¹…ÕÑ¡1…Õ¹¡¥¹œ€ü€‹š¶–r£š&O–ò ¥Í½É“Š˜ˆ€è€‹’öÿR ¥Í½Éƒfï–öTˆì(€±½½ÕÑ	ÕÑÑ½¸¹¡¥‘‘•¸€ô€…ÉÕ¹Ñ¥µ”¹Í•ÍÍ¥½¸ì(€¥˜€¡½…ÕÑ¡!•±À€˜˜½…ÕÑ¡1¥¹¬¤ì(€€€½…ÕÑ¡!•±À¹¡¥‘‘•¸€ô	½½±•…¸¡ÉÕ¹Ñ¥µ”¹Í•ÍÍ¥½¸¤ñğ€…ÉÕ¹Ñ¥µ”¹½…ÕÑ¡UÉ°ì(€€€½…ÕÑ¡1¥¹¬¹¡É•˜€ôÉÕ¹Ñ¥µ”¹½…ÕÑ¡UÉ°ñğ€ˆŒˆì(€ô((€½¹ÍĞµ½‘•±M•±•Ğ€ôÉÕ¹Ñ¥µ”¹Á…¹•°¹ÅÕ•ÉåM•±•Ñ½È ‰m‘…Ñ„µ™¥•±õµ½‘•±tˆ¤ì(€µ½‘•±M•±•Ğ¹É•Á±…•¡¥±‘É•¸ ¤ì(€½¹ÍĞ•µÁÑä€ô‘½Õµ•¹Ğ¹É•…Ñ•±•µ•¹Ğ ‰½ÁÑ¥½¸ˆ¤ì(€•µÁÑä¹Ù…±Õ”€ô€ˆˆì(€•µÁÑä¹Ñ•áÑ½¹Ñ•¹Ğ€ô½¹™¥œ¹µ½‘•±=ÁÑ¥½¹Ì¹±•¹Ñ €ü€‹¦'š.§š¢‡–z,ˆ€è€‹–#š.'–>[š¢‡–z,ˆì(€µ½‘•±M•±•Ğ¹…ÁÁ•¹¡•µÁÑä¤ì(€™½È€¡½¹ÍĞµ½‘•°½˜½¹™¥œ¹µ½‘•±=ÁÑ¥½¹Ì¤ì(€€€½¹ÍĞ½ÁÑ¥½¸€ô‘½Õµ•¹Ğ¹É•…Ñ•±•µ•¹Ğ ‰½ÁÑ¥½¸ˆ¤ì(€€€½ÁÑ¥½¸¹Ù…±Õ”€ôµ½‘•°ì(€€€½ÁÑ¥½¸¹Ñ•áÑ½¹Ñ•¹Ğ€ôµ½‘•°ì(€€€µ½‘•±M•±•Ğ¹…ÁÁ•¹¡½ÁÑ¥½¸¤ì(€ô(€µ½‘•±M•±•Ğ¹Ù…±Õ”€ô½¹™¥œ¹µ½‘•°ñğ€ˆˆì)ô()™Õ¹Ñ¥½¸Í•ÑA…¹•±Y¥Í¥‰±”¡Ù¥Í¥‰±”¤ì(€½¹ÍĞÁ…¹•°€ôÉÕ¹Ñ¥µ”¹Á…¹•°ì(€¥˜€ …Á…¹•°¤É•ÑÕÉ¸ì((€¥˜€ …Ù¥Í¥‰±”¤ì(€€€Á…¹•°¹Í•ÑÑÑÉ¥‰ÕÑ” ‰‘…Ñ„µ½Á•¸ˆ°€‰™…±Í”ˆ¤ì(€€€Á…¹•°¹Í•ÑÑÑÉ¥‰ÕÑ” ‰…É¥„µ¡¥‘‘•¸ˆ°€‰ÑÉÕ”ˆ¤ì(€€€É•ÑÕÉ¸ì(€ô((€Á…¹•°¹Í•ÑÑÑÉ¥‰ÕÑ” ‰‘…Ñ„µ½Á•¸ˆ°€‰ÑÉÕ”ˆ¤ì(€Á…¹•°¹Í•ÑÑÑÉ¥‰ÕÑ” ‰…É¥„µ¡¥‘‘•¸ˆ°€‰™…±Í”ˆ¤ì(€É•¹‘•È ¤ì(€ÕÉÉ•¹Ñ%‘•¹Ñ¥Ñä ¤(€€€€¹Ñ¡•¸ ¡¥‘•¹Ñ¥Ñä¤€ôøì(€€€€€ÉÕ¹Ñ¥µ”¹ÕÉÉ•¹Ğ€ô¥‘•¹Ñ¥Ñäì(€€€€€É•¹‘•È ¤ì(€€€ô¤(€€€€¹…Ñ  ¡•ÉÉ½È¤€ôøì(€€€€€ÉÕ¹Ñ¥µ”¹±…ÍÑÉÉ½È€ô•ÉÉ½È¹µ•ÍÍ…”ñğ€‹¢¾ï–>[–öO–&7¢+–’§–’Ç¢Ò”ˆì(€€€€€½¹Í½±”¹•ÉÉ½È¡l‘í5=U1õt™…¥±•Ñ¼É•™É•Í Á…¹•±€°•ÉÉ½È¤ì(€€€€€É•¹‘•È ¤ì(€€€ô¤ì)ô()™Õ¹Ñ¥½¸ÍÑ…ÉÑU¥5½¹¥Ñ½È ¤ì(€¥˜€¡ÉÕ¹Ñ¥µ”¹Õ¥=‰Í•ÉÙ•Èñğ€…‘½Õµ•¹Ğ¹‰½‘ä¤É•ÑÕÉ¸ì(€ÉÕ¹Ñ¥µ”¹Õ¥=‰Í•ÉÙ•È€ô¹•Ü5ÕÑ…Ñ¥½¹=‰Í•ÉÙ•È  ¤€ôøì(€€€¥˜€ …ÉÕ¹Ñ¥µ”¹Á…¹•°ü¹¥Í½¹¹•Ñ•ñğ€…ÉÕ¹Ñ¥µ”¹±…Õ¹¡•Èü¹¥Í½¹¹•Ñ•¤ì(€€€€€‰Õ¥±‘U¤ ¤ì(€€€€€É•ÑÕÉ¸ì(€€€ô(€€€µ½Õ¹ÑM•ÑÑ¥¹Í¹ÑÉä ¤ì(€ô¤ì(€ÉÕ¹Ñ¥µ”¹Õ¥=‰Í•ÉÙ•È¹½‰Í•ÉÙ”¡‘½Õµ•¹Ğ¹‰½‘ä°ì¡¥±‘1¥ÍĞèÑÉÕ”°ÍÕ‰ÑÉ•”èÑÉÕ”ô¤ì)ô()™Õ¹Ñ¥½¸µ½Õ¹ÑM•ÑÑ¥¹Í¹ÑÉä ¤ì(€¥˜€¡ÉÕ¹Ñ¥µ”¹Í•ÑÑ¥¹Í¹ÑÉäü¹¥Í½¹¹•Ñ•¤É•ÑÕÉ¸ÑÉÕ”ì(€½¹ÍĞ•á¥ÍÑ¥¹œ€ô‘½Õµ•¹Ğ¹ÅÕ•ÉåM•±•Ñ½È ˆ±¥¹•Á¡½¹”µÍå¹ŒµÍ•ÑÑ¥¹Ìµ•¹ÑÉäˆ¤ì(€¥˜€¡•á¥ÍÑ¥¹œü¹¥Í½¹¹•Ñ•¤ì(€€€ÉÕ¹Ñ¥µ”¹Í•ÑÑ¥¹Í¹ÑÉä€ô•á¥ÍÑ¥¹œì(€€€É•ÑÕÉ¸ÑÉÕ”ì(€ô(€½¹ÍĞ¡½ÍĞ€ô(€€€‘½Õµ•¹Ğ¹ÅÕ•ÉåM•±•Ñ½È ˆ•áÑ•¹Í¥½¹Í}Í•ÑÑ¥¹Ìˆ¤ñğ(€€€‘½Õµ•¹Ğ¹ÅÕ•ÉåM•±•Ñ½È ˆ•áÑ•¹Í¥½¹Í}Í•ÑÑ¥¹ÌÈˆ¤ì(€¥˜€ …¡½ÍĞ¤ì(€€€±•…ÉQ¥µ•½ÕĞ¡ÉÕ¹Ñ¥µ”¹µ½Õ¹ÑQ¥µ•È¤ì(€€€ÉÕ¹Ñ¥µ”¹µ½Õ¹ÑQ¥µ•È€ôÍ•ÑQ¥µ•½ÕĞ¡µ½Õ¹ÑM•ÑÑ¥¹Í¹ÑÉä°€àÀÀ¤ì(€€€É•ÑÕÉ¸™…±Í”ì(€ô(€±•…ÉQ¥µ•½ÕĞ¡ÉÕ¹Ñ¥µ”¹µ½Õ¹ÑQ¥µ•È¤ì(€ÉÕ¹Ñ¥µ”¹µ½Õ¹ÑQ¥µ•È€ô¹Õ±°ì(€½¹ÍĞ•¹ÑÉä€ô•±•µ•¹Ğ (€€€€‰‘¥Øˆ°(€€€€‰•áÑ•¹Í¥½¹}½¹Ñ…¥¹•È±ÀµÍ•ÑÑ¥¹Ìµ•¹ÑÉä±¥¹•Á¡½¹”µÍå¹ŒµÍ•ÑÑ¥¹Ìµ•¹ÑÉäˆ°(€€¤ì(€•¹ÑÉä¹¥€ô€‰±¥¹•Á¡½¹”µÍå¹ŒµÍ•ÑÑ¥¹Ìµ•¹ÑÉäˆì(€•¹ÑÉä¹¥¹¹•É!Q50€ô€(€€€€ñ‘¥Ø±…ÍÌô‰¥¹±¥¹”µ‘É…İ•Èˆø(€€€€€€ñ‘¥Ø±…ÍÌô‰¥¹±¥¹”µ‘É…İ•ÈµÑ½±”¥¹±¥¹”µ‘É…İ•Èµ¡•…‘•Èˆø(€€€€€€€€ñˆù1¥¹•A¡½¹”ƒ–Â?š&/šrë–B3š¶”ğ½ˆø(€€€€€€€€ñ‘¥Ø±…ÍÌô‰¥¹±¥¹”µ‘É…İ•Èµ¥½¸™„µÍ½±¥™„µ¥É±”µ¡•ÙÉ½¸µ‘½İ¸‘½İ¸ˆøğ½‘¥Øø(€€€€€€ğ½‘¥Øø(€€€€€€ñ‘¥Ø±…ÍÌô‰¥¹±¥¹”µ‘É…İ•Èµ½¹Ñ•¹Ğˆø(€€€€€€€€ñÀû–B3š¶—–öO–&7¢K¢&ËîG–ºk’â[V3’æ›¢+–’§š–ó–Æ–J3¦bÛšº×šïîOğ½Àø(€€€€€€€€ñ‰ÕÑÑ½¸ÑåÁ”ô‰‰ÕÑÑ½¸ˆ±…ÍÌô‰µ•¹Õ}‰ÕÑÑ½¸ˆ‘…Ñ„µ…Ñ¥½¸ô‰½Á•¸µ±¥¹•Á¡½¹”ˆø(€€€€€€€€€ƒš&O–ò–Â?š&/šrë–B3š¶—š:Ÿ–"Û¦v‹švü(€€€€€€€€ğ½‰ÕÑÑ½¸ø(€€€€€€ğ½‘¥Øø(€€€€ğ½‘¥Øø(€€ì(€•¹ÑÉä(€€€€¹ÅÕ•ÉåM•±•Ñ½È ‰m‘…Ñ„µ…Ñ¥½¸õ½Á•¸µ±¥¹•Á¡½¹•tˆ¤(€€€€¹…‘‘Ù•¹Ñ1¥ÍÑ•¹•È ‰±¥¬ˆ°€¡•Ù•¹Ğ¤€ôøì(€€€€€•Ù•¹Ğ¹ÁÉ•Ù•¹Ñ•™…Õ±Ğ ¤ì(€€€€€•Ù•¹Ğ¹ÍÑ½ÁAÉ½Á……Ñ¥½¸ ¤ì(€€€€€Í•ÑA…¹•±Y¥Í¥‰±”¡ÑÉÕ”¤ì(€€€ô¤ì(€¡½ÍĞ¹…ÁÁ•¹¡•¹ÑÉä¤ì(€ÉÕ¹Ñ¥µ”¹Í•ÑÑ¥¹Í¹ÑÉä€ô•¹ÑÉäì(€É•ÑÕÉ¸ÑÉÕ”ì)ô()™Õ¹Ñ¥½¸‰Õ¥±‘U¤ ¤ì(€¥˜€¡ÉÕ¹Ñ¥µ”¹Á…¹•°ü¹¥Í½¹¹•Ñ•€˜˜ÉÕ¹Ñ¥µ”¹±…Õ¹¡•Èü¹¥Í½¹¹•Ñ•¤ì(€€€µ½Õ¹ÑM•ÑÑ¥¹Í¹ÑÉä ¤ì(€€€ÍÑ…ÉÑU¥5½¹¥Ñ½È ¤ì(€€€É•ÑÕÉ¸ì(€ô(€½¹ÍĞ•á¥ÍÑ¥¹1…Õ¹¡•È€ô‘½Õµ•¹Ğ¹ÅÕ•ÉåM•±•Ñ½È ˆ±¥¹•Á¡½¹”µÍå¹Œµ±…Õ¹¡•Èˆ¤ì(€¥˜€¡ÉÕ¹Ñ¥µ”¹±…Õ¹¡•È€˜˜ÉÕ¹Ñ¥µ”¹±…Õ¹¡•È€„ôô•á¥ÍÑ¥¹1…Õ¹¡•È¤ì(€€€ÉÕ¹Ñ¥µ”¹±…Õ¹¡•È¹É•µ½Ù” ¤ì(€ô(€ÉÕ¹Ñ¥µ”¹Á…¹•°ü¹É•µ½Ù” ¤ì(€½¹ÍĞ‰ÕÑÑ½¸€ô•á¥ÍÑ¥¹1…Õ¹¡•Èñğ•±•µ•¹Ğ ‰‰ÕÑÑ½¸ˆ°€‰±ÀµÍå¹Œµ±…Õ¹¡•Èˆ°€‹Šˆ¤ì(€‰ÕÑÑ½¸¹¥€ô€‰±¥¹•Á¡½¹”µÍå¹Œµ±…Õ¹¡•Èˆì(€‰ÕÑÑ½¸¹ÑåÁ”€ô€‰‰ÕÑÑ½¸ˆì(€‰ÕÑÑ½¸¹Ñ¥Ñ±”€ô€‹–Â?š&/šrë–B3š¶”ˆì(€½¹ÍĞÁ…¹•°€ô•±•µ•¹Ğ ‰Í•Ñ¥½¸ˆ°€‰±ÀµÑ…Ù•É¸µÁ…¹•°ˆ¤ì(€Á…¹•°¹¥€ô€‰±¥¹•Á¡½¹”µÍå¹ŒµÁ…¹•°ˆì(€Á…¹•°¹Í•ÑÑÑÉ¥‰ÕÑ” ‰‘…Ñ„µ½Á•¸ˆ°€‰™…±Í”ˆ¤ì(€Á…¹•°¹Í•ÑÑÑÉ¥‰ÕÑ” ‰…É¥„µ¡¥‘‘•¸ˆ°€‰ÑÉÕ”ˆ¤ì(€Á…¹•°¹Í•ÑÑÑÉ¥‰ÕÑ” ‰É½±”ˆ°€‰‘¥…±½œˆ¤ì(€Á…¹•°¹Í•ÑÑÑÉ¥‰ÕÑ” ‰…É¥„µ±…‰•°ˆ°€‹–Â?š&/šrë–B3š¶”ˆ¤ì(€Á…¹•°¹¥¹¹•É!Q50€ô€(€€€€ñ¡•…‘•Èø(€€€€€€ñ‘¥ØøñÍµ…±°ù1%9A!=9I%YHğ½Íµ…±°øñ Èû–Â?š&/šrë–B3š¶”ğ½ Èøğ½‘¥Øø(€€€€€€ñ‰ÕÑÑ½¸ÑåÁ”ô‰‰ÕÑÑ½¸ˆ‘…Ñ„µ…Ñ¥½¸ô‰±½Í”ˆû\ğ½‰ÕÑÑ½¸ø(€€€€ğ½¡•…‘•Èø(€€€€ñÀ±…ÍÌô‰±ÀµÍÑ…ÑÕÌˆøğ½Àø(€€€€ñÀ±…ÍÌô‰±Àµ‘•Ñ…¥±Ìˆøğ½Àø(€€€€ñÀ±…ÍÌô‰±Àµ…ÍÍ•ÑÌˆøğ½Àø(€€€€ñÀ±…ÍÌô‰±Àµµ•µ½ÉäµÍÑ…ÑÕÌˆøğ½Àø(€€€€ñ‘¥Ø±…ÍÌô‰±Àµ…ÕÑ µ…Ñ¥½¹Ìˆø(€€€€€€ñ‰ÕÑÑ½¸ÑåÁ”ô‰‰ÕÑÑ½¸ˆ‘…Ñ„µ…Ñ¥½¸ô‰±½¥¸ˆû’öÿR ¥Í½Éƒfï–öTğ½‰ÕÑÑ½¸ø(€€€€€€ñ‰ÕÑÑ½¸ÑåÁ”ô‰‰ÕÑÑ½¸ˆ‘…Ñ„µ…Ñ¥½¸ô‰±½½ÕĞˆû¦–ëfï–öTğ½‰ÕÑÑ½¸ø(€€€€ğ½‘¥Øø(€€€€ñÀ±…ÍÌô‰±Àµ½…ÕÑ µ¡•±Àˆ¡¥‘‘•¸ø(€€€€€ƒšÊ‡šr'¢«–*£š&O–ò¾ò|(€€€€€€ñ„‘…Ñ„µ…Ñ¥½¸ô‰½…ÕÑ µ±¥¹¬ˆÑ…É•Ğô‰}‰±…¹¬ˆÉ•°ô‰•áÑ•É¹…°¹½½Á•¹•È¹½É•™•ÉÉ•Èˆø(€€€€€€€ƒ
-ç¢şg¦3–r£šÖ?¢#–f£’â·îŸî´¥Í½Éƒfï–öT(€€€€€€ğ½„ø(€€€€ğ½Àø(€€€€ñÍ•Ñ¥½¸±…ÍÌô‰±ÀµÍ•Ñ¥½¸±Àµ…Á¤ˆøğ½Í•Ñ¥½¸ø(€€€€ñÍ•Ñ¥½¸±…ÍÌô‰±ÀµÍ•Ñ¥½¸ˆø(€€€€€€ñ‘¥Ø±…ÍÌô‰±ÀµÍ•Ñ¥½¸µÑ¥Ñ±”ˆøñÍÑÉ½¹œû–öO–&7¦bÛšº×šïîLğ½ÍÑÉ½¹œøñÍµ…±°û’şw–¶c–r£¢şg’â«¦K¦š–¶cš†šr³–rÀğ½Íµ…±°øğ½‘¥Øø(€€€€€€ñÑ•áÑ…É•„±…ÍÌô‰±ÀµÍÕµµ…ÉäˆÉ½İÌôˆàˆÁ±…•¡½±‘•Èô‹¢úû–"ÃšïîOš–ó–Æ–B;¢«–*£Rš"C¾ò3’æ–>¿’î—š&/–*£ò[¢úDˆøğ½Ñ•áÑ…É•„ø(€€€€€€ñ‘¥Ø±…ÍÌô‰±ÀµÉ½Üˆø(€€€€€€€€ñ‰ÕÑÑ½¸ÑåÁ”ô‰‰ÕÑÑ½¸ˆ‘…Ñ„µ…Ñ¥½¸ô‰Í…Ù”µÍÕµµ…Éäˆû’şw–¶c–æÛ¢šn[’êG®¼ğ½‰ÕÑÑ½¸ø(€€€€€€€€ñ‰ÕÑÑ½¸ÑåÁ”ô‰‰ÕÑÑ½¸ˆ‘…Ñ„µ…Ñ¥½¸ô‰Íå¹Œµ¹½Üˆû®/–6Ï¢¾ï–>[–æÛ–B3š¶”ğ½‰ÕÑÑ½¸ø(€€€€€€ğ½‘¥Øø(€€€€ğ½Í•Ñ¥½¸ø(€€ì(€¥˜€ …‰ÕÑÑ½¸¹¥Í½¹¹•Ñ•¤‘½Õµ•¹Ğ¹‰½‘ä¹…ÁÁ•¹¡‰ÕÑÑ½¸¤ì(€‘½Õµ•¹Ğ¹‰½‘ä¹…ÁÁ•¹¡Á…¹•°¤ì(€ÉÕ¹Ñ¥µ”¹±…Õ¹¡•È€ô‰ÕÑÑ½¸ì(€ÉÕ¹Ñ¥µ”¹Á…¹•°€ôÁ…¹•°ì(€ÉÕ¹Ñ¥µ”¹ÍÑ…ÑÕÌ€ôÁ…¹•°¹ÅÕ•ÉåM•±•Ñ½È ˆ¹±ÀµÍÑ…ÑÕÌˆ¤ì(€ÉÕ¹Ñ¥µ”¹‘•Ñ…¥±Ì€ôÁ…¹•°¹ÅÕ•ÉåM•±•Ñ½È ˆ¹±Àµ‘•Ñ…¥±Ìˆ¤ì(€ÉÕ¹Ñ¥µ”¹…ÍÍ•ÑÌ€ôÁ…¹•°¹ÅÕ•ÉåM•±•Ñ½È ˆ¹±Àµ…ÍÍ•ÑÌˆ¤ì(€ÉÕ¹Ñ¥µ”¹µ•µ½ÉåMÑ…ÑÕÌ€ôÁ…¹•°¹ÅÕ•ÉåM•±•Ñ½È ˆ¹±Àµµ•µ½ÉäµÍÑ…ÑÕÌˆ¤ì(€ÉÕ¹Ñ¥µ”¹ÍÕµµ…Éä€ôÁ…¹•°¹ÅÕ•ÉåM•±•Ñ½È ˆ¹±ÀµÍÕµµ…Éäˆ¤ì(€µ½Õ¹ÑM•ÑÑ¥¹Í¹ÑÉä ¤ì(€ÍÑ…ÉÑU¥5½¹¥Ñ½È ¤ì((€½¹ÍĞ½¹™¥œ€ôÍ•ÑÑ¥¹Ì ¤ì(€½¹ÍĞ…Á¤€ôÁ…¹•°¹ÅÕ•ÉåM•±•Ñ½È ˆ¹±Àµ…Á¤ˆ¤ì(€½¹ÍĞ…Á¥UÉ°€ô¥¹ÁÕÑ½È ‰ÕÉ°ˆ°½¹™¥œ¹…Á¥UÉ°°€¡Ù…±Õ”¤€ôøì(€€€Í•ÑÑ¥¹Ì ¤¹…Á¥UÉ°€ôÙ…±Õ”¹ÑÉ¥´ ¤ì(€€€Í…Ù•M•ÑÑ¥¹Ì ¤ì(€ô¤ì(€½¹ÍĞ…Á¥-•ä€ô¥¹ÁÕÑ½È (€€€€‰Á…ÍÍİ½Éˆ°(€€€ÍÑ½É…••Ğ¡A%}-e}MQ=I¤°(€€€€¡Ù…±Õ”¤€ôøÍÑ½É…•M•Ğ¡A%}-e}MQ=I°Ù…±Õ”¤°(€€¤ì(€½¹ÍĞµ½‘•°€ô‘½Õµ•¹Ğ¹É•…Ñ•±•µ•¹Ğ ‰Í•±•Ğˆ¤ì(€µ½‘•°¹‘…Ñ…Í•Ğ¹™¥•±€ô€‰µ½‘•°ˆì(€µ½‘•°¹…‘‘Ù•¹Ñ1¥ÍÑ•¹•È ‰¡…¹”ˆ°€ ¤€ôøì(€€€Í•ÑÑ¥¹Ì ¤¹µ½‘•°€ôµ½‘•°¹Ù…±Õ”ì(€€€Í…Ù•M•ÑÑ¥¹Ì ¤ì(€€€Í¡•‘Õ±•AÉ½•ÍÌ¡ì™½É•UÁ±½…èÑÉÕ”°…±±½İMÕµµ…ÉäèÑÉÕ”ô¤ì(€ô¤ì(€½¹ÍĞ¥¹Ñ•ÉÙ…°€ô¥¹ÁÕÑ½È ‰¹Õµ‰•Èˆ°½¹™¥œ¹¥¹Ñ•ÉÙ…°°€¡Ù…±Õ”¤€ôøì(€€€Í•ÑÑ¥¹Ì ¤¹¥¹Ñ•ÉÙ…°€ô5…Ñ ¹µ¥¸ ÈÀÀ°5…Ñ ¹µ…à È°9Õµ‰•È¡Ù…±Õ”¤ñğ€ÈÀ¤¤ì(€€€Í…Ù•M•ÑÑ¥¹Ì ¤ì(€€€Í¡•‘Õ±•AÉ½•ÍÌ¡ì™½É•UÁ±½…èÑÉÕ”°…±±½İMÕµµ…ÉäèÑÉÕ”ô¤ì(€ô¤ì(€¥¹Ñ•ÉÙ…°¹µ¥¸€ô€ˆÈˆì(€¥¹Ñ•ÉÙ…°¹µ…à€ô€ˆÈÀÀˆì(€½¹ÍĞ…ÕÑ¼€ô‘½Õµ•¹Ğ¹É•…Ñ•±•µ•¹Ğ ‰¥¹ÁÕĞˆ¤ì(€…ÕÑ¼¹ÑåÁ”€ô€‰¡•­‰½àˆì(€…ÕÑ¼¹¡•­•€ô½¹™¥œ¹…ÕÑ½MÕµµ…É¥é”ì(€…ÕÑ¼¹…‘‘Ù•¹Ñ1¥ÍÑ•¹•È ‰¡…¹”ˆ°€ ¤€ôøì(€€€Í•ÑÑ¥¹Ì ¤¹…ÕÑ½MÕµµ…É¥é”€ô…ÕÑ¼¹¡•­•ì(€€€Í…Ù•M•ÑÑ¥¹Ì ¤ì(€€€Í¡•‘Õ±•AÉ½•ÍÌ¡ì™½É•UÁ±½…èÑÉÕ”°…±±½İMÕµµ…ÉäèÑÉÕ”ô¤ì(€ô¤ì(€½¹ÍĞÁÕ±°€ô•±•µ•¹Ğ ‰‰ÕÑÑ½¸ˆ°€ˆˆ°€‹š.'–>[š¢‡–z,ˆ¤ì(€ÁÕ±°¹ÑåÁ”€ô€‰‰ÕÑÑ½¸ˆì(€ÁÕ±°¹…‘‘Ù•¹Ñ1¥ÍÑ•¹•È ‰±¥¬ˆ°€ ¤€ôø(€€€ÁÕ±±5½‘•±Ì ¤¹…Ñ  ¡•ÉÉ½È¤€ôøì(€€€€€ÉÕ¹Ñ¥µ”¹±…ÍÑÉÉ½È€ô•ÉÉ½È¹µ•ÍÍ…”ì(€€€€€É•¹‘•È ¤ì(€€€ô¤°(€€¤ì(€½¹ÍĞµ½‘•±I½Ü€ô•±•µ•¹Ğ ‰‘¥Øˆ°€‰±Àµµ½‘•°µÉ½Üˆ¤ì(€µ½‘•±I½Ü¹…ÁÁ•¹¡µ½‘•°°ÁÕ±°¤ì(€…Á¤¹…ÁÁ•¹ (€€€•±•µ•¹Ğ ‰‘¥Øˆ°€‰±ÀµÍ•Ñ¥½¸µÑ¥Ñ±”ˆ°€‹¢«–*£šïîLA$ˆ¤°(€€€™¥•± ‰A$ƒ–rÃ–v ˆ°…Á¥UÉ°¤°(€€€™¥•± ‰A$-•ç¾ò#–>«–¶c–öO–&7šÖ?¢#–f£¾ò$ˆ°…Á¥-•ä¤°(€€€™¥•± ‹š¢‡–z,ˆ°µ½‘•±I½Ü¤°(€€€™¥•± ‹š¾?–’k–ÂGš–óšïîO’âš²„ˆ°¥¹Ñ•ÉÙ…°¤°(€€€™¥•± ‹–B¿R£¢«–*£šïîLˆ°…ÕÑ¼¤°(€€¤ì((€¥˜€ (€€€‰ÕÑÑ½¸¹‘…Ñ…Í•Ğ¹±¥¹•Á¡½¹•	½½ÑÍÑÉ…Á	½Õ¹€„ôô€‰ÑÉÕ”ˆ€˜˜(€€€‰ÕÑÑ½¸¹‘…Ñ…Í•Ğ¹±¥¹•Á¡½¹•ÁÁ	½Õ¹€„ôô€‰ÑÉÕ”ˆ(€€¤ì(€€€‰ÕÑÑ½¸¹‘…Ñ…Í•Ğ¹±¥¹•Á¡½¹•ÁÁ	½Õ¹€ô€‰ÑÉÕ”ˆì(€€€‰ÕÑÑ½¸¹…‘‘Ù•¹Ñ1¥ÍÑ•¹•È ‰±¥¬ˆ°€ ¤€ôøì(€€€€€Í•ÑA…¹•±Y¥Í¥‰±”¡Á…¹•°¹•ÑÑÑÉ¥‰ÕÑ” ‰‘…Ñ„µ½Á•¸ˆ¤€„ôô€‰ÑÉÕ”ˆ¤ì(€€€ô¤ì(€ô(€Á…¹•°¹ÅÕ•ÉåM•±•Ñ½È ‰m‘…Ñ„µ…Ñ¥½¸õ±½Í•tˆ¤¹…‘‘Ù•¹Ñ1¥ÍÑ•¹•È ‰±¥¬ˆ°€ ¤€ôøì(€€€Í•ÑA…¹•±Y¥Í¥‰±”¡™…±Í”¤ì(€ô¤ì(€Á…¹•°¹ÅÕ•ÉåM•±•Ñ½È ‰m‘…Ñ„µ…Ñ¥½¸õ±½¥¹tˆ¤¹…‘‘Ù•¹Ñ1¥ÍÑ•¹•È ‰±¥¬ˆ°±½¥¸¤ì(€Á…¹•°¹ÅÕ•ÉåM•±•Ñ½È ‰m‘…Ñ„µ…Ñ¥½¸õ±½½ÕÑtˆ¤¹…‘‘Ù•¹Ñ1¥ÍÑ•¹•È ‰±¥¬ˆ°±½½ÕĞ¤ì(€Á…¹•°¹ÅÕ•ÉåM•±•Ñ½È ‰m‘…Ñ„µ…Ñ¥½¸õÍå¹Œµ¹½İtˆ¤¹…‘‘Ù•¹Ñ1¥ÍÑ•¹•È ‰±¥¬ˆ°€ ¤€ôø(€€€ÁÉ½•ÍÍÕÉÉ•¹Ğ¡ì™½É•UÁ±½…èÑÉÕ”°…±±½İMÕµµ…ÉäèÑÉÕ”°É•™É•Í¡ÍÍ•ÑÌèÑÉÕ”ô¤°(€€¤ì(€Á…¹•°¹ÅÕ•ÉåM•±•Ñ½È ‰m‘…Ñ„µ…Ñ¥½¸õÍ…Ù”µÍÕµµ…Éåtˆ¤¹…‘‘Ù•¹Ñ1¥ÍÑ•¹•È ‰±¥¬ˆ°…Íå¹Œ€ ¤€ôøì(€€€½¹ÍĞ¥‘•¹Ñ¥Ñä€ô…İ…¥ĞÕÉÉ•¹Ñ%‘•¹Ñ¥Ñä ¤ì(€€€¥˜€ …¥‘•¹Ñ¥Ñä¤É•ÑÕÉ¸ì(€€€½¹ÍĞµ•µ½Éä€ô•ÑM…Ù•5•µ½Éä¡¥‘•¹Ñ¥Ñä¹½¹Ñ•áĞ¤ì(€€€½¹ÍĞÉ½Õ¹‘Ì€ô‰Õ¥±‘I½Õ¹‘Ì¡¥‘•¹Ñ¥Ñä¹½¹Ñ•áĞ¹¡…Ğ¤ì(€€€½¹ÍĞ¥¹Ñ•ÉÙ…°€ô5…Ñ ¹µ¥¸ ÈÀÀ°5…Ñ ¹µ…à È°9Õµ‰•È¡Í•ÑÑ¥¹Ì ¤¹¥¹Ñ•ÉÙ…°¤ñğ€ÈÀ¤¤ì(€€€½¹ÍĞÑ…É•Ñ	½Õ¹‘…Éä€ô5…Ñ ¹™±½½È¡É½Õ¹‘Ì¹±•¹Ñ €¼¥¹Ñ•ÉÙ…°¤€¨¥¹Ñ•ÉÙ…°ì(€€€µ•µ½Éä¹ÍÕµµ…Éä€ôÉÕ¹Ñ¥µ”¹ÍÕµµ…Éä¹Ù…±Õ”¹ÑÉ¥´ ¤ì(€€€µ•µ½Éä¹½Ù•É•‘Q¡É½Õ €ôÑ…É•Ñ	½Õ¹‘…Éäì(€€€µ•µ½Éä¹Í½ÕÉ•!…Í €ôÑ…É•Ñ	½Õ¹‘…Éä(€€€€€€ü…İ…¥ĞÍ¡„ÈÔØ¡)M=8¹ÍÑÉ¥¹¥™ä¡É½Õ¹‘Ì¹Í±¥” À°Ñ…É•Ñ	½Õ¹‘…Éä¤¤¤(€€€€€€è€ˆˆì(€€€µ•µ½Éä¹ÍÕµµ…ÉåMÑ…±”€ô™…±Í”ì(€€€µ•µ½Éä¹µ…¹Õ…±±å‘¥Ñ•‘Ğ€ô…Ñ”¹¹½Ü ¤ì(€€€µ•µ½Éä¹ÕÁ‘…Ñ•‘Ğ€ô…Ñ”¹¹½Ü ¤ì(€€€Í…Ù•M…Ù•5•µ½Éä¡¥‘•¹Ñ¥Ñä¹½¹Ñ•áĞ¤ì(€€€…İ…¥ĞÁÉ½•ÍÍÕÉÉ•¹Ğ¡ì™½É•UÁ±½…èÑÉÕ”°…±±½İMÕµµ…Éäè™…±Í”ô¤ì(€ô¤ì(€É•¹‘•È ¤ì)ô()…Íå¹Œ™Õ¹Ñ¥½¸ÁÉ•Á…É•	•™½É••¹•É…Ñ¥½¸ ¤ì(€¥˜€¡ÉÕ¹Ñ¥µ”¹ÍÕµµ…ÉåI•ÅÕ•ÍÑÑ¥Ù”ñğ€…Í•ÑÑ¥¹Ì ¤¹•¹…‰±•¤É•ÑÕÉ¸ì(€½¹ÍĞ‘•…‘±¥¹”€ô…Ñ”¹¹½Ü ¤€¬€ØÀÀÀÀì(€İ¡¥±”€¡ÉÕ¹Ñ¥µ”¹‰ÕÍä€˜˜…Ñ”¹¹½Ü ¤€ğ‘•…‘±¥¹”¤ì(€€€…İ…¥Ğ¹•ÜAÉ½µ¥Í” ¡É•Í½±Ù”¤€ôøÍ•ÑQ¥µ•½ÕĞ¡É•Í½±Ù”°€ÔÀ¤¤ì(€ô(€¥˜€¡ÉÕ¹Ñ¥µ”¹‰ÕÍäñğÉÕ¹Ñ¥µ”¹ÍÕµµ…ÉåI•ÅÕ•ÍÑÑ¥Ù”¤É•ÑÕÉ¸ì(€…İ…¥ĞÁÉ½•ÍÍÕÉÉ•¹Ğ¡ì™½É•UÁ±½…èÑÉÕ”°…±±½İMÕµµ…ÉäèÑÉÕ”ô¤ì)ô()™Õ¹Ñ¥½¸‰¥¹‘Ù•¹ÑÌ ¤ì(€¥˜€¡ÉÕ¹Ñ¥µ”¹•Ù•¹ÑÍ	½Õ¹¤É•ÑÕÉ¸ÑÉÕ”ì(€½¹ÍĞ•Ù•¹ÑM½ÕÉ”€ôÉÕ¹Ñ¥µ”¹½¹Ñ•áĞü¹•Ù•¹ÑM½ÕÉ”ì(€½¹ÍĞ•Ù•¹ÑQåÁ•Ì€ôÉÕ¹Ñ¥µ”¹½¹Ñ•áĞü¹•Ù•¹ÑQåÁ•Ìì(€¥˜€¡ÑåÁ•½˜•Ù•¹ÑM½ÕÉ”ü¹½¸€„ôô€‰™Õ¹Ñ¥½¸ˆñğ€…•Ù•¹ÑQåÁ•Ì¤É•ÑÕÉ¸™…±Í”ì(€½¹ÍĞİ…Ñ¡•€ôl(€€€•Ù•¹ÑQåÁ•Ì¹5MM}M9P°(€€€•Ù•¹ÑQåÁ•Ì¹5MM}I%Y°(€€€•Ù•¹ÑQåÁ•Ì¹5MM}%Q°(€€€•Ù•¹ÑQåÁ•Ì¹5MM}1Q°(€€€•Ù•¹ÑQåÁ•Ì¹5MM}UAQ°(€€€•Ù•¹ÑQåÁ•Ì¹5MM}M]%A°(€€€•Ù•¹ÑQåÁ•Ì¹9IQ%=9}9°(€t¹™¥±Ñ•È¡	½½±•…¸¤ì(€İ…Ñ¡•¹™½É…  ¡•Ù•¹Ğ¤€ôø•Ù•¹ÑM½ÕÉ”¹½¸¡•Ù•¹Ğ°€ ¤€ôøÍ¡•‘Õ±•AÉ½•ÍÌ ¤¤¤ì(€¥˜€¡•Ù•¹ÑQåÁ•Ì¹9IQ%=9}QI}=559L¤ì(€€€•Ù•¹ÑM½ÕÉ”¹½¸¡•Ù•¹ÑQåÁ•Ì¹9IQ%=9}QI}=559L°ÁÉ•Á…É•	•™½É••¹•É…Ñ¥½¸¤ì(€ô(€½¹ÍĞ…ÍÍ•ÑÙ•¹ÑÌ€ôl(€€€•Ù•¹ÑQåÁ•Ì¹!IQI}%Q°(€€€•Ù•¹ÑQåÁ•Ì¹!IQI}M1Q°(€€€•Ù•¹ÑQåÁ•Ì¹]=I1%9=}UAQ°(€€€•Ù•¹ÑQåÁ•Ì¹]=I1%9=}MQQ%9M}UAQ°(€t¹™¥±Ñ•È¡	½½±•…¸¤ì(€…ÍÍ•ÑÙ•¹ÑÌ¹™½É…  ¡•Ù•¹Ğ¤€ôø(€€€•Ù•¹ÑM½ÕÉ”¹½¸¡•Ù•¹Ğ°€ ¤€ôø(€€€€€Í¡•‘Õ±•AÉ½•ÍÌ¡ì™½É•UÁ±½…èÑÉÕ”°É•™É•Í¡ÍÍ•ÑÌèÑÉÕ”ô¤°(€€€€¤°(€€¤ì(€¥˜€¡•Ù•¹ÑQåÁ•Ì¹!Q}!9¤ì(€€€•Ù•¹ÑM½ÕÉ”¹½¸¡•Ù•¹ÑQåÁ•Ì¹!Q}!9°€ ¤€ôøì(€€€€€±•…ÉM¡…É•‘5•µ½ÉåAÉ½µÁĞ ¤ì(€€€€€Í¡•‘Õ±•AÉ½•ÍÌ¡ì™½É•UÁ±½…èÑÉÕ”°É•™É•Í¡ÍÍ•ÑÌèÑÉÕ”ô¤ì(€€€ô¤ì(€ô(€ÉÕ¹Ñ¥µ”¹•Ù•¹ÑÍ	½Õ¹€ôÑÉÕ”ì(€É•ÑÕÉ¸ÑÉÕ”ì)ô()™Õ¹Ñ¥½¸•¹ÍÕÉ•Ù•¹ÑÍ	½Õ¹ ¤ì(€¥˜€¡‰¥¹‘Ù•¹ÑÌ ¤¤ì(€€€±•…ÉQ¥µ•½ÕĞ¡ÉÕ¹Ñ¥µ”¹•Ù•¹ÑÍQ¥µ•È¤ì(€€€ÉÕ¹Ñ¥µ”¹•Ù•¹ÑÍQ¥µ•È€ô¹Õ±°ì(€€€É•ÑÕÉ¸ì(€ô(€±•…ÉQ¥µ•½ÕĞ¡ÉÕ¹Ñ¥µ”¹•Ù•¹ÑÍQ¥µ•È¤ì(€ÉÕ¹Ñ¥µ”¹•Ù•¹ÑÍQ¥µ•È€ôÍ•ÑQ¥µ•½ÕĞ  ¤€ôøì(€€€ÑÉäì(€€€€€ÉÕ¹Ñ¥µ”¹½¹Ñ•áĞ€ôÕÉÉ•¹Ñ½¹Ñ•áĞ ¤ì(€€€€€•¹ÍÕÉ•Ù•¹ÑÍ	½Õ¹ ¤ì(€€€ô…Ñ €¡•ÉÉ½È¤ì(€€€€€½¹Í½±”¹‘•‰Õœ¡l‘í5=U1õtİ…¥Ñ¥¹œ™½ÈM¥±±åQ…Ù•É¸•Ù•¹ÑÍ€°•ÉÉ½È¤ì(€€€€€•¹ÍÕÉ•Ù•¹ÑÍ	½Õ¹ ¤ì(€€€ô(€ô°€àÀÀ¤ì)ô()…Íå¹Œ™Õ¹Ñ¥½¸¥¹¥Ñ¥…±¥é•ÕÑ  ¤ì(€ÍÕÁ…‰…Í”¹…ÕÑ ¹½¹ÕÑ¡MÑ…Ñ•¡…¹” ¡}•Ù•¹Ğ°Í•ÍÍ¥½¸¤€ôøì(€€€Í•ÑQ¥µ•½ÕĞ¡…Íå¹Œ€ ¤€ôøì(€€€€€ÉÕ¹Ñ¥µ”¹Í•ÍÍ¥½¸€ôÍ•ÍÍ¥½¸ì(€€€€€ÉÕ¹Ñ¥µ”¹ÁÉ½™¥±”€ô¹Õ±°ì(€€€€€ÉÕ¹Ñ¥µ”¹½¹¹•Ñ•€ô™…±Í”ì(€€€€€¥˜€¡Í•ÍÍ¥½¸¤ÉÕ¹Ñ¥µ”¹½…ÕÑ¡UÉ°€ô€ˆˆì(€€€€€¥˜€ …Í•ÍÍ¥½¸¤ì(€€€€€€€É•¹‘•È ¤ì(€€€€€€€É•ÑÕÉ¸ì(€€€€€ô(€€€€€ÑÉäì(€€€€€€€¥˜€¡Í•ÍÍ¥½¸¹ÁÉ½Ù¥‘•É}Ñ½­•¸¤…İ…¥ĞÙ•É¥™å¥Í½É¡Í•ÍÍ¥½¸¤ì(€€€€€€€½¹ÍĞì‘…Ñ„ô€ô…İ…¥ĞÍÕÁ…‰…Í”¹…ÕÑ ¹•ÑM•ÍÍ¥½¸ ¤ì(€€€€€€€ÉÕ¹Ñ¥µ”¹Í•ÍÍ¥½¸€ô‘…Ñ„¹Í•ÍÍ¥½¸ì(€€€€€€€…İ…¥Ğ±½…‘AÉ½™¥±” ¤ì(€€€€€€€¥˜€¡¡…Í•ÍÌ ¤¤ì(€€€€€€€€€…İ…¥ĞÉ•¥ÍÑ•É•Ù¥” ¤ì(€€€€€€€€€…İ…¥Ğ±½…‘I•Ù¥Í¥½¹Ì ¤ì(€€€€€€€€€ÉÕ¹Ñ¥µ”¹½¹¹•Ñ•€ôÑÉÕ”ì(€€€€€€€€€Í¡•‘Õ±•AÉ½•ÍÌ¡ì™½É•UÁ±½…èÑÉÕ”°É•™É•Í¡ÍÍ•ÑÌèÑÉÕ”ô¤ì(€€€€€€€ô(€€€€€ô…Ñ €¡•ÉÉ½È¤ì(€€€€€€€ÉÕ¹Ñ¥µ”¹±…ÍÑÉÉ½È€ô•ÉÉ½È¹µ•ÍÍ…”ì(€€€€€ô(€€€€€É•¹‘•È ¤ì(€€€ô°€À¤ì(€ô¤ì(€½¹ÍĞì‘…Ñ„ô€ô…İ…¥ĞÍÕÁ…‰…Í”¹…ÕÑ ¹•ÑM•ÍÍ¥½¸ ¤ì(€ÉÕ¹Ñ¥µ”¹Í•ÍÍ¥½¸€ô‘…Ñ„¹Í•ÍÍ¥½¸ì(€¥˜€¡ÉÕ¹Ñ¥µ”¹Í•ÍÍ¥½¸¤ì(€€€…İ…¥Ğ±½…‘AÉ½™¥±” ¤¹…Ñ  ¡•ÉÉ½È¤€ôøì(€€€€€ÉÕ¹Ñ¥µ”¹±…ÍÑÉÉ½È€ô•ÉÉ½È¹µ•ÍÍ…”ì(€€€ô¤ì(€€€¥˜€¡¡…Í•ÍÌ ¤¤ì(€€€€€…İ…¥ĞÉ•¥ÍÑ•É•Ù¥” ¤ì(€€€€€…İ…¥Ğ±½…‘I•Ù¥Í¥½¹Ì ¤ì(€€€€€ÉÕ¹Ñ¥µ”¹½¹¹•Ñ•€ôÑÉÕ”ì(€€€ô(€ô)ô()…Íå¹Œ™Õ¹Ñ¥½¸İ…¥Ñ½ÉM¥±±åQ…Ù•É¸¡Ñ¥µ•½ÕÑ5Ì€ô€ÄÔÀÀÀ¤ì(€½¹ÍĞÍÑ…ÉÑ•‘Ğ€ô…Ñ”¹¹½Ü ¤ì(€İ¡¥±”€ …±½‰…±Q¡¥Ì¹M¥±±åQ…Ù•É¸ü¹•Ñ½¹Ñ•áĞñğ€…‘½Õµ•¹Ğ¹‰½‘ä¤ì(€€€¥˜€¡…Ñ”¹¹½Ü ¤€´ÍÑ…ÉÑ•‘Ğ€øÑ¥µ•½ÕÑ5Ì¤ì(€€€€€Ñ¡É½Ü¹•ÜÉÉ½È ‹¶'–úM¥±±åQ…Ù•É¸ƒ–"w–/–2[¢Úš^Øˆ¤ì(€€€ô(€€€…İ…¥Ğ¹•ÜAÉ½µ¥Í” ¡É•Í½±Ù”¤€ôøÍ•ÑQ¥µ•½ÕĞ¡É•Í½±Ù”°€ÄÀÀ¤¤ì(€ô)ô()…Íå¹Œ™Õ¹Ñ¥½¸•¹ÍÕÉ•U¥5½Õ¹Ñ• ¤ì(€…İ…¥Ğİ…¥Ñ½ÉM¥±±åQ…Ù•É¸ ¤ì(€ÉÕ¹Ñ¥µ”¹½¹Ñ•áĞ€ôÕÉÉ•¹Ñ½¹Ñ•áĞ ¤ì(€‰Õ¥±‘U¤ ¤ì)ô()…Íå¹Œ™Õ¹Ñ¥½¸¥¹¥Ğ ¤ì(€¥˜€¡ÉÕ¹Ñ¥µ”¹¥¹¥Ñ¥…±¥é•¤É•ÑÕÉ¸ì(€…İ…¥Ğ•¹ÍÕÉ•U¥5½Õ¹Ñ• ¤ì(€ÉÕ¹Ñ¥µ”¹¥¹¥Ñ¥…±¥é•€ôÑÉÕ”ì(€Í•ÑÑ¥¹Ì ¤ì(€ÉÕ¹Ñ¥µ”¹‘•Ù¥”€ô•Ñ•Ù¥” ¤ì(€•¹ÍÕÉ•Ù•¹ÑÍ	½Õ¹ ¤ì(€ÑÉäì(€€€…İ…¥Ğ¥¹¥Ñ¥…±¥é•ÕÑ  ¤ì(€ô…Ñ €¡•ÉÉ½È¤ì(€€€ÉÕ¹Ñ¥µ”¹±…ÍÑÉÉ½È€ô•ÉÉ½È¹µ•ÍÍ…”ñğ€‹fï–öW*Ûš–"w–/–2[–’Ç¢Ò”ˆì(€€€½¹Í½±”¹•ÉÉ½È¡l‘í5=U1õt…ÕÑ ¥¹¥Ñ¥…±¥é…Ñ¥½¸™…¥±•‘€°•ÉÉ½È¤ì(€€€É•¹‘•È ¤ì(€ô(€Í¡•‘Õ±•AÉ½•ÍÌ¡ì™½É•UÁ±½…èÑÉÕ”°É•™É•Í¡ÍÍ•ÑÌèÑÉÕ”ô¤ì(€½¹Í½±”¹±½œ¡l‘í5=U1õtØ‘íYIM%=9ô±½…‘•‘€¤ì)ô()±•Ğ¥¹¥ÑAÉ½µ¥Í”€ô¹Õ±°ì()™Õ¹Ñ¥½¸•¹ÍÕÉ•%¹¥Ñ¥…±¥é• ¤ì(€¥¹¥ÑAÉ½µ¥Í”ñğô¥¹¥Ğ ¤¹…Ñ  ¡•ÉÉ½È¤€ôøì(€€€ÉÕ¹Ñ¥µ”¹¥¹¥Ñ¥…±¥é•€ô™…±Í”ì(€€€½¹Í½±”¹•ÉÉ½È¡l‘í5=U1õt¥¹¥Ñ¥…±¥é…Ñ¥½¸™…¥±•‘€°•ÉÉ½È¤ì(€€€ÉÕ¹Ñ¥µ”¹±…ÍÑÉÉ½È€ô•ÉÉ½È¹µ•ÍÍ…”ñğ€‹–"w–/–2[–’Ç¢Ò”ˆì(€€€É•¹‘•È ¤ì(€€€Ñ¡É½Ü•ÉÉ½Èì(€ô¤ì(€É•ÑÕÉ¸¥¹¥ÑAÉ½µ¥Í”ì)ô()•áÁ½ÉĞ…Íå¹Œ™Õ¹Ñ¥½¸½¹Ñ¥Ù…Ñ” ¤ì(€…İ…¥Ğ•¹ÍÕÉ•U¥5½Õ¹Ñ• ¤ì(€É•ÑÕÉ¸•¹ÍÕÉ•%¹¥Ñ¥…±¥é• ¤ì)ô()•áÁ½ÉĞ…Íå¹Œ™Õ¹Ñ¥½¸½¹¹…‰±” ¤ì(€…İ…¥Ğ•¹ÍÕÉ•U¥5½Õ¹Ñ• ¤ì(€É•ÑÕÉ¸•¹ÍÕÉ•%¹¥Ñ¥…±¥é• ¤ì)ô()•áÁ½ÉĞ…Íå¹Œ™Õ¹Ñ¥½¸½Á•¹A…¹•° ¤ì(€…İ…¥Ğ•¹ÍÕÉ•U¥5½Õ¹Ñ• ¤ì(€Í•ÑA…¹•±Y¥Í¥‰±”¡ÑÉÕ”¤ì)ô()AÉ½µ¥Í”¹É•Í½±Ù” ¤¹Ñ¡•¸  ¤€ôøì(€•¹ÍÕÉ•%¹¥Ñ¥…±¥é• ¤¹…Ñ   ¤€ôøì(€€€€¼¼Q¡”±¥™•å±”¡½½¬µ…äÉ•ÑÉä¥¹¥Ñ¥…±¥é…Ñ¥½¸…™Ñ•ÈÑ¡”…ÁÀ¥ÌÉ•…‘ä¸(€€€¥¹¥ÑAÉ½µ¥Í”€ô¹Õ±°ì(€ô¤ì)ô¤ì(
+    .select("user_id,status,membership_valid_until,discord_username")
+    .eq("user_id", runtime.session.user.id)
+    .maybeSingle();
+  if (error) throw error;
+  runtime.profile = data;
+  return data;
+}
+
+function hasAccess() {
+  const until = Date.parse(runtime.profile?.membership_valid_until || "");
+  return (
+    runtime.profile?.status === "active" &&
+    Number.isFinite(until) &&
+    until > Date.now()
+  );
+}
+
+async function registerDevice() {
+  runtime.device = getDevice();
+  const { error } = await supabase.rpc("register_sync_device", {
+    p_device_id: runtime.device.id,
+    p_device_name: runtime.device.name,
+    p_platform: runtime.device.platform,
+    p_app_version: VERSION,
+  });
+  if (error) throw error;
+}
+
+async function loadRevisions() {
+  runtime.revisions.clear();
+  const { data, error } = await supabase
+    .from("latest_snapshots")
+    .select("entity_type,entity_id,revision");
+  if (error) throw error;
+  for (const row of data || []) {
+    runtime.revisions.set(`${row.entity_type}|${row.entity_id}`, Number(row.revision) || 0);
+  }
+}
+
+function normalizedName(value) {
+  return String(value || "")
+    .trim()
+    .toLocaleLowerCase();
+}
+
+function formatPhoneMessages(messages) {
+  return (Array.isArray(messages) ? messages : [])
+    .filter((message) => message?.content)
+    .slice(-120)
+    .map((message) => {
+      const role = message.role === "assistant" ? "è§’è‰²" : "ç©å®¶";
+      return `${role}ï¼š${String(message.content).trim()}`;
+    })
+    .join("\n");
+}
+
+async function loadPhoneMemory(identity) {
+  if (!hasAccess()) return null;
+  const { data, error } = await supabase
+    .from("latest_snapshots")
+    .select("entity_id,revision,payload,updated_at")
+    .eq("entity_type", "phone.chat")
+    .eq("is_deleted", false)
+    .order("updated_at", { ascending: false })
+    .limit(100);
+  if (error) throw error;
+
+  const rows = (data || []).filter((row) => row?.payload);
+  const keyed = rows.filter(
+    (row) => row.payload.tavernCharacterKey === identity.tavernCharacterKey,
+  );
+  let selected =
+    keyed.find((row) => row.payload.tavernSaveId === identity.saveId) ||
+    keyed.find((row) => !row.payload.tavernSaveId) ||
+    null;
+
+  if (!selected && !keyed.length) {
+    const named = rows.filter(
+      (row) =>
+        normalizedName(row.payload.characterName) ===
+        normalizedName(identity.characterName),
+    );
+    if (named.length === 1) selected = named[0];
+  }
+  if (!selected) return null;
+  return {
+    ...selected.payload,
+    revision: Number(selected.revision) || 0,
+    snapshotUpdatedAt: selected.updated_at || "",
+  };
+}
+
+function buildSharedMemoryText(memory, phoneMemory) {
+  const phoneMessages = formatPhoneMessages(phoneMemory?.messages);
+  return [
+    !memory?.summaryStale &&
+      memory?.summary &&
+      `ã€é…’é¦†å·²æ€»ç»“è®°å¿†ã€‘\n${memory.summary}`,
+    phoneMemory?.phoneSummary?.stale &&
+      "ã€å°æ‰‹æœºæ€»ç»“çŠ¶æ€ã€‘\næ—§çš„å°æ‰‹æœºæ€»ç»“å·²ç»è¿‡æœŸï¼Œä¸è¦æŠŠå®ƒå½“ä½œäº‹å®ï¼›ä»¥ä¸‹å®æ—¶æœªæ€»ç»“æ¶ˆæ¯ä»å¯ä½¿ç”¨ã€‚",
+    !phoneMemory?.phoneSummary?.stale &&
+      phoneMemory?.phoneSummary?.content &&
+      `ã€å°æ‰‹æœºå·²æ€»ç»“è®°å¿†ã€‘\n${phoneMemory.phoneSummary.content}`,
+    phoneMessages &&
+      `ã€å°æ‰‹æœºå®æ—¶æœªæ€»ç»“æ¶ˆæ¯ã€‘\n${phoneMessages}`,
+  ]
+    .filter(Boolean)
+    .join("\n\n");
+}
+
+function clearSharedMemoryPrompt() {
+  const context = runtime.context || globalThis.SillyTavern?.getContext?.();
+  context?.setExtensionPrompt?.(
+    SHARED_MEMORY_PROMPT,
+    "",
+    EXTENSION_PROMPT_IN_CHAT,
+    0,
+    false,
+    EXTENSION_PROMPT_SYSTEM_ROLE,
+  );
+  runtime.phoneMemory = null;
+  runtime.phoneMemoryKey = "";
+}
+
+async function refreshSharedMemoryPrompt(identity, memory) {
+  const memoryKey = `${identity.tavernCharacterKey}|${identity.saveId}`;
+  let phoneMemory = null;
+  try {
+    phoneMemory = await loadPhoneMemory(identity);
+    runtime.phoneMemory = phoneMemory;
+    runtime.phoneMemoryKey = memoryKey;
+  } catch (error) {
+    if (runtime.phoneMemoryKey === memoryKey) {
+      phoneMemory = runtime.phoneMemory;
+    } else {
+      phoneMemory = null;
+    }
+    console.warn(`[${MODULE}] using cached shared memory after refresh failure`, error);
+  }
+  const prompt = buildSharedMemoryText(memory, phoneMemory);
+  identity.context.setExtensionPrompt?.(
+    SHARED_MEMORY_PROMPT,
+    prompt,
+    EXTENSION_PROMPT_IN_CHAT,
+    0,
+    false,
+    EXTENSION_PROMPT_SYSTEM_ROLE,
+  );
+  return phoneMemory;
+}
+
+async function commit(
+  entityType,
+  entityId,
+  snapshotPayload,
+  eventPayload,
+  operation = "upsert",
+) {
+  const key = `${entityType}|${entityId}`;
+  let revision = (runtime.revisions.get(key) || 0) + 1;
+  const eventId = crypto.randomUUID();
+  const send = () =>
+    supabase.rpc("commit_sync_change", {
+      p_event_id: eventId,
+      p_source_device_id: runtime.device.id,
+      p_entity_type: entityType,
+      p_entity_id: entityId,
+      p_revision: revision,
+      p_operation: operation,
+      p_snapshot_payload: snapshotPayload,
+      p_event_payload: eventPayload || snapshotPayload,
+    });
+  let result = await send();
+  if (
+    result.error &&
+    String(result.error.message || "").includes("stale_snapshot_revision")
+  ) {
+    const { data } = await supabase
+      .from("latest_snapshots")
+      .select("revision")
+      .eq("entity_type", entityType)
+      .eq("entity_id", entityId)
+      .maybeSingle();
+    revision = (Number(data?.revision) || 0) + 1;
+    result = await send();
+  }
+  if (result.error) throw result.error;
+  runtime.revisions.set(key, revision);
+  return revision;
+}
+
+function jsonBytes(value) {
+  return new TextEncoder().encode(JSON.stringify(value)).byteLength;
+}
+
+function splitLoreEntries(entries) {
+  const parts = [];
+  let current = [];
+  for (const entry of entries) {
+    const candidate = [...current, entry];
+    if (current.length && jsonBytes({ entries: candidate }) > 180000) {
+      parts.push(current);
+      current = [entry];
+    } else {
+      current = candidate;
+    }
+  }
+  if (current.length || !parts.length) parts.push(current);
+  return parts;
+}
+
+async function uploadCharacterAssets(identity, assets) {
+  if (!hasAccess()) return;
+  const config = settings();
+  if (!config.assetHashes || typeof config.assetHashes !== "object") {
+    config.assetHashes = {};
+  }
+  const saved = config.assetHashes[identity.tavernCharacterKey] || {};
+  const entityId = `character:${identity.tavernCharacterKey}`;
+  const common = {
+    schemaVersion: 1,
+    tavernCharacterKey: identity.tavernCharacterKey,
+    characterName: identity.characterName,
+    saveId: identity.saveId,
+    saveName: identity.saveName,
+    updatedAt: Date.now(),
+  };
+  const characterHash = await sha256(JSON.stringify(assets.card));
+  if (saved.characterHash !== characterHash) {
+    await commit(
+      "tavern.character",
+      entityId,
+      {
+        ...common,
+        contentHash: characterHash,
+        card: assets.card,
+      },
+      {
+        kind: "character.replace",
+        tavernCharacterKey: identity.tavernCharacterKey,
+        characterName: identity.characterName,
+        contentHash: characterHash,
+      },
+    );
+    saved.characterHash = characterHash;
+  }
+
+  const loreHash = await sha256(JSON.stringify(assets.books));
+  if (saved.loreHash !== loreHash) {
+    const currentEntities = [];
+    const bookIndex = [];
+    for (const book of assets.books) {
+      const entryParts = splitLoreEntries(book.entries);
+      const partEntityIds = [];
+      for (let index = 0; index < entryParts.length; index += 1) {
+        const partEntityId = `${entityId}:lore:${book.id}:${index}`;
+        partEntityIds.push(partEntityId);
+        currentEntities.push(partEntityId);
+        await commit(
+          "tavern.lorebook.part",
+          partEntityId,
+          {
+            ...common,
+            bookId: book.id,
+            bookName: book.name,
+            scopes: book.scopes,
+            enabled: book.enabled,
+            partIndex: index,
+            partCount: entryParts.length,
+            entries: entryParts[index],
+          },
+          {
+            kind: "lorebook.part.replace",
+            tavernCharacterKey: identity.tavernCharacterKey,
+            bookId: book.id,
+            partIndex: index,
+            partCount: entryParts.length,
+          },
+        );
+      }
+      bookIndex.push({
+        id: book.id,
+        name: book.name,
+        scopes: book.scopes,
+        enabled: book.enabled,
+        entryCount: book.entries.length,
+        partEntityIds,
+      });
+    }
+    await commit(
+      "tavern.lorebooks",
+      entityId,
+      {
+        ...common,
+        contentHash: loreHash,
+        books: bookIndex,
+        truncatedEntries: runtime.assetState.truncatedEntries,
+      },
+      {
+        kind: "lorebooks.replace",
+        tavernCharacterKey: identity.tavernCharacterKey,
+        contentHash: loreHash,
+        bookCount: bookIndex.length,
+      },
+    );
+
+    const staleEntities = (saved.loreEntities || []).filter(
+      (oldEntityId) => !currentEntities.includes(oldEntityId),
+    );
+    for (const staleEntityId of staleEntities) {
+      await commit(
+        "tavern.lorebook.part",
+        staleEntityId,
+        {},
+        {
+          kind: "lorebook.part.delete",
+          tavernCharacterKey: identity.tavernCharacterKey,
+        },
+        "delete",
+      );
+    }
+    saved.loreHash = loreHash;
+    saved.loreEntities = currentEntities;
+  }
+  config.assetHashes[identity.tavernCharacterKey] = saved;
+  saveSettings();
+}
+
+async function uploadCurrent(identity, rounds, memory) {
+  if (!hasAccess()) throw new Error("è¯·å…ˆå®Œæˆ Discord ç™»å½•ä¸ç¤¾åŒºéªŒè¯");
+  const boundary = memory.summaryStale
+    ? 0
+    : Math.min(Number(memory.coveredThrough) || 0, rounds.length);
+  const recent = rounds.slice(boundary);
+  const entityId = `character:${identity.tavernCharacterKey}`;
+  const common = {
+    schemaVersion: 1,
+    tavernCharacterKey: identity.tavernCharacterKey,
+    characterName: identity.characterName,
+    saveId: identity.saveId,
+    saveName: identity.saveName,
+    totalFloors: rounds.length,
+    updatedAt: Date.now(),
+  };
+  await commit(
+    "tavern.active",
+    entityId,
+    {
+      ...common,
+      summaryThrough: boundary,
+      unsummarizedFloors: recent.length,
+    },
+    { kind: "save.active", ...common },
+  );
+  await commit(
+    "tavern.summary",
+    entityId,
+    {
+      ...common,
+      coveredThrough: boundary,
+      content: memory.summary || "",
+      sourceHash: memory.sourceHash || "",
+      stale: Boolean(memory.summaryStale),
+      manuallyEditedAt: memory.manuallyEditedAt || 0,
+    },
+    {
+      kind: "summary.replace",
+      tavernCharacterKey: identity.tavernCharacterKey,
+      saveId: identity.saveId,
+      coveredThrough: boundary,
+    },
+  );
+  await commit(
+    "tavern.recent",
+    entityId,
+    {
+      ...common,
+      startsAfter: boundary,
+      rounds: recent,
+    },
+    {
+      kind: "recent.replace",
+      tavernCharacterKey: identity.tavernCharacterKey,
+      saveId: identity.saveId,
+      floorCount: recent.length,
+    },
+  );
+}
+
+async function summarizeToBoundary(identity, rounds, memory, targetBoundary) {
+  const configuredInterval = Math.min(
+    200,
+    Math.max(2, Number(settings().interval) || 20),
+  );
+  const batchSize = Math.min(40, Math.max(5, configuredInterval));
+  const oldBoundary = Math.min(
+    Number(memory.coveredThrough) || 0,
+    targetBoundary,
+  );
+  const oldPrefixHash = oldBoundary
+    ? await sha256(JSON.stringify(rounds.slice(0, oldBoundary)))
+    : "";
+  const canRollForward =
+    oldBoundary > 0 &&
+    oldBoundary < targetBoundary &&
+    memory.summary &&
+    !memory.summaryStale &&
+    memory.sourceHash === oldPrefixHash;
+
+  let boundary = canRollForward ? oldBoundary : 0;
+  let summary = canRollForward ? memory.summary : "";
+  if (!canRollForward && memory.summary) {
+    memory.summaryStale = true;
+    memory.updatedAt = Date.now();
+    saveSaveMemory(identity.context);
+  }
+
+  while (boundary < targetBoundary) {
+    const nextBoundary = Math.min(targetBoundary, boundary + batchSize);
+    summary = await requestSummary({
+      previousSummary: summary,
+      rounds: rounds.slice(boundary, nextBoundary),
+    });
+    boundary = nextBoundary;
+    memory.summary = summary;
+    memory.coveredThrough = boundary;
+    memory.sourceHash = await sha256(
+      JSON.stringify(rounds.slice(0, boundary)),
+    );
+    memory.summaryStale = false;
+    memory.updatedAt = Date.now();
+    memory.manuallyEditedAt = 0;
+    saveSaveMemory(identity.context);
+
+    // Persist every completed batch so a long, first-time backfill is resumable.
+    if (hasAccess()) await uploadCurrent(identity, rounds, memory);
+  }
+}
+
+async function processCurrent({
+  forceUpload = false,
+  allowSummary = true,
+  refreshAssets = false,
+} = {}) {
+  if (runtime.busy || !settings().enabled) return;
+  let identity;
+  try {
+    identity = await currentIdentity();
+  } catch (error) {
+    runtime.lastError = error.message || "è¯»å–å½“å‰èŠå¤©å¤±è´¥";
+    console.error(`[${MODULE}] failed to read the current chat`, error);
+    render();
+    return;
+  }
+  runtime.current = identity;
+  if (!identity) {
+    clearSharedMemoryPrompt();
+    render();
+    return;
+  }
+  runtime.busy = true;
+  runtime.lastError = "";
+  try {
+    const rounds = buildRounds(identity.context.chat);
+    const memory = getSaveMemory(identity.context);
+    if (
+      refreshAssets ||
+      runtime.currentAssetsKey !== identity.tavernCharacterKey ||
+      !runtime.currentAssets
+    ) {
+      runtime.currentAssets = await collectCharacterAssets(identity);
+      runtime.currentAssetsKey = identity.tavernCharacterKey;
+    }
+    if (hasAccess()) {
+      try {
+        await uploadCharacterAssets(identity, runtime.currentAssets);
+      } catch (error) {
+        runtime.assetState.error = error.message || "è§’è‰²èµ„æ–™åŒæ­¥å¤±è´¥";
+        console.error(`[${MODULE}] asset sync failed`, error);
+      }
+    }
+    const liveHash = await sha256(JSON.stringify(rounds));
+    const interval = Math.min(200, Math.max(2, Number(settings().interval) || 20));
+    const targetBoundary = Math.floor(rounds.length / interval) * interval;
+    const targetHash = targetBoundary
+      ? await sha256(JSON.stringify(rounds.slice(0, targetBoundary)))
+      : "";
+    const changedCoveredContent =
+      Number(memory.coveredThrough) !== targetBoundary ||
+      memory.sourceHash !== targetHash;
+
+    if (
+      allowSummary &&
+      settings().autoSummarize &&
+      changedCoveredContent &&
+      targetBoundary > 0
+    ) {
+      try {
+        await summarizeToBoundary(identity, rounds, memory, targetBoundary);
+      } catch (error) {
+        runtime.lastError = `å†å²å›å¡«æœªå®Œæˆï¼š${error.message || "æ€»ç»“å¤±è´¥"}`;
+        console.error(`[${MODULE}] history backfill failed`, error);
+      }
+    } else if (changedCoveredContent && targetBoundary === 0) {
+      memory.summary = "";
+      memory.coveredThrough = 0;
+      memory.sourceHash = "";
+      memory.summaryStale = false;
+      memory.updatedAt = Date.now();
+      memory.manuallyEditedAt = 0;
+      saveSaveMemory(identity.context);
+    } else if (changedCoveredContent && targetBoundary > 0) {
+      const savedBoundary = Math.min(
+        Number(memory.coveredThrough) || 0,
+        rounds.length,
+      );
+      const savedPrefixHash = savedBoundary
+        ? await sha256(JSON.stringify(rounds.slice(0, savedBoundary)))
+        : "";
+      const savedSummaryIsValid =
+        savedBoundary > 0 &&
+        memory.summary &&
+        !memory.summaryStale &&
+        memory.sourceHash === savedPrefixHash;
+      if (!savedSummaryIsValid && memory.summary) {
+        memory.summaryStale = true;
+        memory.updatedAt = Date.now();
+        saveSaveMemory(identity.context);
+      }
+    }
+
+    const uploadHash = await sha256(
+      JSON.stringify({
+        saveId: identity.saveId,
+        liveHash,
+        summary: memory.summary || "",
+        coveredThrough: Number(memory.coveredThrough) || 0,
+        sourceHash: memory.sourceHash || "",
+        summaryStale: Boolean(memory.summaryStale),
+      }),
+    );
+    if (hasAccess() && (forceUpload || memory.lastUploadedHash !== uploadHash)) {
+      await uploadCurrent(identity, rounds, memory);
+      memory.lastUploadedHash = uploadHash;
+      memory.lastUploadedAt = Date.now();
+      saveSaveMemory(identity.context);
+    }
+    await refreshSharedMemoryPrompt(identity, memory);
+    runtime.connected = hasAccess();
+  } catch (error) {
+    runtime.lastError = error.message || "åŒæ­¥å¤±è´¥";
+    console.error(`[${MODULE}]`, error);
+  } finally {
+    runtime.busy = false;
+    render();
+  }
+}
+
+function scheduleProcess(options = {}) {
+  clearTimeout(runtime.timer);
+  runtime.timer = setTimeout(() => processCurrent(options), 900);
+}
+
+async function login() {
+  runtime.lastError = "";
+  runtime.oauthUrl = "";
+  runtime.authLaunching = true;
+  render();
+  const redirectTo = `${location.origin}${location.pathname}`;
+  let authWindow = null;
+
+  try {
+    // Open a blank tab while the click still has user activation. Android
+    // WebAPK/PWA shells otherwise try to replace the whole local Tavern page
+    // and can abort when the navigation leaves the installed-app scope.
+    authWindow = window.open("about:blank", "_blank");
+
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: "discord",
+      options: {
+        redirectTo,
+        scopes: "guilds guilds.members.read",
+        skipBrowserRedirect: true,
+      },
+    });
+    if (error) throw error;
+    if (!data?.url) throw new Error("æœªèƒ½ç”Ÿæˆ Discord ç™»å½•é“¾æ¥");
+
+    runtime.oauthUrl = data.url;
+    if (authWindow && !authWindow.closed) {
+      authWindow.location.replace(data.url);
+      try {
+        authWindow.opener = null;
+      } catch {
+        // Some embedded browsers expose a read-only opener.
+      }
+    } else {
+      runtime.lastError = "ç³»ç»Ÿæœªè‡ªåŠ¨æ‰“å¼€å¤–éƒ¨æµè§ˆå™¨ï¼Œè¯·ç‚¹å‡»ä¸‹æ–¹é“¾æ¥ç»§ç»­ç™»å½•";
+    }
+  } catch (error) {
+    authWindow?.close?.();
+    runtime.lastError = error?.message || "Discord ç™»å½•å¯åŠ¨å¤±è´¥";
+  } finally {
+    runtime.authLaunching = false;
+    render();
+  }
+}
+
+async function logout() {
+  await supabase.auth.signOut();
+  runtime.session = null;
+  runtime.profile = null;
+  runtime.connected = false;
+  render();
+}
+
+async function pullModels() {
+  const config = settings();
+  const apiKey = storageGet(API_KEY_STORAGE);
+  const response = await fetch(normalizeEndpoint(config.apiUrl, "models"), {
+    headers: apiKey ? { Authorization: `Bearer ${apiKey}` } : {},
+  });
+  if (!response.ok) throw new Error(`æ¨¡å‹æ¥å£è¿”å› ${response.status}`);
+  const payload = await response.json();
+  const source = Array.isArray(payload?.data)
+    ? payload.data
+    : Array.isArray(payload?.models)
+      ? payload.models
+      : Array.isArray(payload)
+        ? payload
+        : [];
+  config.modelOptions = [
+    ...new Set(
+      source
+        .map((item) => (typeof item === "string" ? item : item?.id || item?.name))
+        .filter(Boolean),
+    ),
+  ].sort();
+  if (!config.modelOptions.includes(config.model)) config.model = config.modelOptions[0] || "";
+  saveSettings();
+  render();
+}
+
+function element(tag, className = "", text = "") {
+  const node = document.createElement(tag);
+  if (className) node.className = className;
+  if (text) node.textContent = text;
+  return node;
+}
+
+function field(label, input) {
+  const wrapper = element("label", "lp-field");
+  wrapper.append(element("span", "", label), input);
+  return wrapper;
+}
+
+function inputFor(type, value, onChange) {
+  const input = document.createElement("input");
+  input.type = type;
+  input.value = value ?? "";
+  input.addEventListener("change", () => onChange(input.value));
+  return input;
+}
+
+function render() {
+  if (!runtime.panel) return;
+  const config = settings();
+  const identity = runtime.current;
+  const rounds = identity ? buildRounds(identity.context.chat) : [];
+  const memory = identity ? getSaveMemory(identity.context) : null;
+
+  runtime.status.textContent = runtime.busy
+    ? "æ­£åœ¨å¤„ç†â€¦"
+    : runtime.authLaunching
+      ? "æ­£åœ¨å¤–éƒ¨æµè§ˆå™¨ä¸­æ‰“å¼€ Discordâ€¦"
+    : runtime.lastError
+      ? runtime.lastError
+      : runtime.oauthUrl && !runtime.session
+        ? "Discord æˆæƒé¡µå·²æ‰“å¼€ï¼Œå®Œæˆåè¿”å›é…’é¦†"
+      : hasAccess()
+        ? "Discord å·²éªŒè¯ Â· äº‘ç«¯å¯ç”¨"
+        : runtime.session
+          ? "å·²ç™»å½•ï¼Œç­‰å¾…ç¤¾åŒºéªŒè¯"
+          : "å°šæœªç™»å½•";
+  runtime.status.classList.toggle("error", Boolean(runtime.lastError));
+  runtime.details.textContent = identity
+    ? `${identity.characterName} Â· ${identity.saveName} Â· ${rounds.length} æ¥¼ Â· å·²æ€»ç»“ ${memory.coveredThrough || 0} æ¥¼`
+    : "è¯·å…ˆæ‰“å¼€å•è§’è‰²èŠå¤©å­˜æ¡£";
+  if (runtime.assets) {
+    const { books, entries, truncatedEntries, error } = runtime.assetState;
+    runtime.assets.textContent = identity
+      ? `${error ? `èµ„æ–™åŒæ­¥å¤±è´¥ï¼š${error} Â· ` : ""}è§’è‰²å¡å·²è¯»å– Â· ${books} æœ¬ç»‘å®šä¸–ç•Œä¹¦ Â· ${entries} ä¸ªæ¡ç›®${
+          truncatedEntries ? ` Â· ${truncatedEntries} æ¡è¿‡é•¿å†…å®¹å·²æˆªæ–­` : ""
+        }`
+      : "æ‰“å¼€è§’è‰²èŠå¤©åä¼šè‡ªåŠ¨è¯»å–è§’è‰²å¡ä¸ç»‘å®šä¸–ç•Œä¹¦";
+  }
+  if (runtime.memoryStatus) {
+    const phoneSummaryReady = Boolean(
+      runtime.phoneMemory?.phoneSummary?.content &&
+      !runtime.phoneMemory?.phoneSummary?.stale,
+    );
+    const phoneLiveCount = Array.isArray(runtime.phoneMemory?.messages)
+      ? runtime.phoneMemory.messages.length
+      : 0;
+    runtime.memoryStatus.textContent = identity
+      ? `è·¨ç«¯è®°å¿†ï¼šé…’é¦†æ€»ç»“${
+          memory?.summary && !memory?.summaryStale ? "å·²æ³¨å…¥" : "æš‚æ— "
+        } Â· å°æ‰‹æœºæ€»ç»“${phoneSummaryReady ? "å·²æ³¨å…¥" : "æš‚æ— "} Â· å°æ‰‹æœºå®æ—¶ ${phoneLiveCount} æ¡`
+      : "è·¨ç«¯è®°å¿†ï¼šç­‰å¾…æ‰“å¼€è§’è‰²èŠå¤©";
+  }
+  runtime.summary.value = memory?.summary || "";
+
+  const loginButton = runtime.panel.querySelector("[data-action=login]");
+  const logoutButton = runtime.panel.querySelector("[data-action=logout]");
+  const oauthHelp = runtime.panel.querySelector(".lp-oauth-help");
+  const oauthLink = oauthHelp?.querySelector("[data-action=oauth-link]");
+  loginButton.hidden = Boolean(runtime.session);
+  loginButton.disabled = runtime.authLaunching;
+  loginButton.textContent = runtime.authLaunching ? "æ­£åœ¨æ‰“å¼€ Discordâ€¦" : "ä½¿ç”¨ Discord ç™»å½•";
+  logoutButton.hidden = !runtime.session;
+  if (oauthHelp && oauthLink) {
+    oauthHelp.hidden = Boolean(runtime.session) || !runtime.oauthUrl;
+    oauthLink.href = runtime.oauthUrl || "#";
+  }
+
+  const modelSelect = runtime.panel.querySelector("[data-field=model]");
+  modelSelect.replaceChildren();
+  const empty = document.createElement("option");
+  empty.value = "";
+  empty.textContent = config.modelOptions.length ? "é€‰æ‹©æ¨¡å‹" : "å…ˆæ‹‰å–æ¨¡å‹";
+  modelSelect.append(empty);
+  for (const model of config.modelOptions) {
+    const option = document.createElement("option");
+    option.value = model;
+    option.textContent = model;
+    modelSelect.append(option);
+  }
+  modelSelect.value = config.model || "";
+}
+
+function setPanelVisible(visible) {
+  const panel = runtime.panel;
+  if (!panel) return;
+
+  if (!visible) {
+    panel.setAttribute("data-open", "false");
+    panel.setAttribute("aria-hidden", "true");
+    return;
+  }
+
+  panel.setAttribute("data-open", "true");
+  panel.setAttribute("aria-hidden", "false");
+  render();
+  currentIdentity()
+    .then((identity) => {
+      runtime.current = identity;
+      render();
+    })
+    .catch((error) => {
+      runtime.lastError = error.message || "è¯»å–å½“å‰èŠå¤©å¤±è´¥";
+      console.error(`[${MODULE}] failed to refresh panel`, error);
+      render();
+    });
+}
+
+function startUiMonitor() {
+  if (runtime.uiObserver || !document.body) return;
+  runtime.uiObserver = new MutationObserver(() => {
+    if (!runtime.panel?.isConnected || !runtime.launcher?.isConnected) {
+      buildUi();
+      return;
+    }
+    mountSettingsEntry();
+  });
+  runtime.uiObserver.observe(document.body, { childList: true, subtree: true });
+}
+
+function mountSettingsEntry() {
+  if (runtime.settingsEntry?.isConnected) return true;
+  const existing = document.querySelector("#linephone-sync-settings-entry");
+  if (existing?.isConnected) {
+    runtime.settingsEntry = existing;
+    return true;
+  }
+  const host =
+    document.querySelector("#extensions_settings") ||
+    document.querySelector("#extensions_settings2");
+  if (!host) {
+    clearTimeout(runtime.mountTimer);
+    runtime.mountTimer = setTimeout(mountSettingsEntry, 800);
+    return false;
+  }
+  clearTimeout(runtime.mountTimer);
+  runtime.mountTimer = null;
+  const entry = element(
+    "div",
+    "extension_container lp-settings-entry linephone-sync-settings-entry",
+  );
+  entry.id = "linephone-sync-settings-entry";
+  entry.innerHTML = `
+    <div class="inline-drawer">
+      <div class="inline-drawer-toggle inline-drawer-header">
+        <b>LinePhone å°æ‰‹æœºåŒæ­¥</b>
+        <div class="inline-drawer-icon fa-solid fa-circle-chevron-down down"></div>
+      </div>
+      <div class="inline-drawer-content">
+        <p>åŒæ­¥å½“å‰è§’è‰²ã€ç»‘å®šä¸–ç•Œä¹¦ã€èŠå¤©æ¥¼å±‚å’Œé˜¶æ®µæ€»ç»“ã€‚</p>
+        <button type="button" class="menu_button" data-action="open-linephone">
+          æ‰“å¼€å°æ‰‹æœºåŒæ­¥æ§åˆ¶é¢æ¿
+        </button>
+      </div>
+    </div>
+  `;
+  entry
+    .querySelector("[data-action=open-linephone]")
+    .addEventListener("click", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      setPanelVisible(true);
+    });
+  host.append(entry);
+  runtime.settingsEntry = entry;
+  return true;
+}
+
+function buildUi() {
+  if (runtime.panel?.isConnected && runtime.launcher?.isConnected) {
+    mountSettingsEntry();
+    startUiMonitor();
+    return;
+  }
+  const existingLauncher = document.querySelector("#linephone-sync-launcher");
+  if (runtime.launcher && runtime.launcher !== existingLauncher) {
+    runtime.launcher.remove();
+  }
+  runtime.panel?.remove();
+  const button = existingLauncher || element("button", "lp-sync-launcher", "â‡„");
+  button.id = "linephone-sync-launcher";
+  button.type = "button";
+  button.title = "å°æ‰‹æœºåŒæ­¥";
+  const panel = element("section", "lp-tavern-panel");
+  panel.id = "linephone-sync-panel";
+  panel.setAttribute("data-open", "false");
+  panel.setAttribute("aria-hidden", "true");
+  panel.setAttribute("role", "dialog");
+  panel.setAttribute("aria-label", "å°æ‰‹æœºåŒæ­¥");
+  panel.innerHTML = `
+    <header>
+      <div><small>LINEPHONE RECEIVER</small><h2>å°æ‰‹æœºåŒæ­¥</h2></div>
+      <button type="button" data-action="close">Ã—</button>
+    </header>
+    <p class="lp-status"></p>
+    <p class="lp-details"></p>
+    <p class="lp-assets"></p>
+    <p class="lp-memory-status"></p>
+    <div class="lp-auth-actions">
+      <button type="button" data-action="login">ä½¿ç”¨ Discord ç™»å½•</button>
+      <button type="button" data-action="logout">é€€å‡ºç™»å½•</button>
+    </div>
+    <p class="lp-oauth-help" hidden>
+      æ²¡æœ‰è‡ªåŠ¨æ‰“å¼€ï¼Ÿ
+      <a data-action="oauth-link" target="_blank" rel="external noopener noreferrer">
+        ç‚¹è¿™é‡Œåœ¨æµè§ˆå™¨ä¸­ç»§ç»­ Discord ç™»å½•
+      </a>
+    </p>
+    <section class="lp-section lp-api"></section>
+    <section class="lp-section">
+      <div class="lp-section-title"><strong>å½“å‰é˜¶æ®µæ€»ç»“</strong><small>ä¿å­˜åœ¨è¿™ä¸ªé…’é¦†å­˜æ¡£æœ¬åœ°</small></div>
+      <textarea class="lp-summary" rows="8" placeholder="è¾¾åˆ°æ€»ç»“æ¥¼å±‚åè‡ªåŠ¨ç”Ÿæˆï¼Œä¹Ÿå¯ä»¥æ‰‹åŠ¨ç¼–è¾‘"></textarea>
+      <div class="lp-row">
+        <button type="button" data-action="save-summary">ä¿å­˜å¹¶è¦†ç›–äº‘ç«¯</button>
+        <button type="button" data-action="sync-now">ç«‹å³è¯»å–å¹¶åŒæ­¥</button>
+      </div>
+    </section>
+  `;
+  if (!button.isConnected) document.body.append(button);
+  document.body.append(panel);
+  runtime.launcher = button;
+  runtime.panel = panel;
+  runtime.status = panel.querySelector(".lp-status");
+  runtime.details = panel.querySelector(".lp-details");
+  runtime.assets = panel.querySelector(".lp-assets");
+  runtime.memoryStatus = panel.querySelector(".lp-memory-status");
+  runtime.summary = panel.querySelector(".lp-summary");
+  mountSettingsEntry();
+  startUiMonitor();
+
+  const config = settings();
+  const api = panel.querySelector(".lp-api");
+  const apiUrl = inputFor("url", config.apiUrl, (value) => {
+    settings().apiUrl = value.trim();
+    saveSettings();
+  });
+  const apiKey = inputFor(
+    "password",
+    storageGet(API_KEY_STORAGE),
+    (value) => storageSet(API_KEY_STORAGE, value),
+  );
+  const model = document.createElement("select");
+  model.dataset.field = "model";
+  model.addEventListener("change", () => {
+    settings().model = model.value;
+    saveSettings();
+    scheduleProcess({ forceUpload: true, allowSummary: true });
+  });
+  const interval = inputFor("number", config.interval, (value) => {
+    settings().interval = Math.min(200, Math.max(2, Number(value) || 20));
+    saveSettings();
+    scheduleProcess({ forceUpload: true, allowSummary: true });
+  });
+  interval.min = "2";
+  interval.max = "200";
+  const auto = document.createElement("input");
+  auto.type = "checkbox";
+  auto.checked = config.autoSummarize;
+  auto.addEventListener("change", () => {
+    settings().autoSummarize = auto.checked;
+    saveSettings();
+    scheduleProcess({ forceUpload: true, allowSummary: true });
+  });
+  const pull = element("button", "", "æ‹‰å–æ¨¡å‹");
+  pull.type = "button";
+  pull.addEventListener("click", () =>
+    pullModels().catch((error) => {
+      runtime.lastError = error.message;
+      render();
+    }),
+  );
+  const modelRow = element("div", "lp-model-row");
+  modelRow.append(model, pull);
+  api.append(
+    element("div", "lp-section-title", "è‡ªåŠ¨æ€»ç»“ API"),
+    field("API åœ°å€", apiUrl),
+    field("API Keyï¼ˆåªå­˜å½“å‰æµè§ˆå™¨ï¼‰", apiKey),
+    field("æ¨¡å‹", modelRow),
+    field("æ¯å¤šå°‘æ¥¼æ€»ç»“ä¸€æ¬¡", interval),
+    field("å¯ç”¨è‡ªåŠ¨æ€»ç»“", auto),
+  );
+
+  if (
+    button.dataset.linephoneBootstrapBound !== "true" &&
+    button.dataset.linephoneAppBound !== "true"
+  ) {
+    button.dataset.linephoneAppBound = "true";
+    button.addEventListener("click", () => {
+      setPanelVisible(panel.getAttribute("data-open") !== "true");
+    });
+  }
+  panel.querySelector("[data-action=close]").addEventListener("click", () => {
+    setPanelVisible(false);
+  });
+  panel.querySelector("[data-action=login]").addEventListener("click", login);
+  panel.querySelector("[data-action=logout]").addEventListener("click", logout);
+  panel.querySelector("[data-action=sync-now]").addEventListener("click", () =>
+    processCurrent({ forceUpload: true, allowSummary: true, refreshAssets: true }),
+  );
+  panel.querySelector("[data-action=save-summary]").addEventListener("click", async () => {
+    const identity = await currentIdentity();
+    if (!identity) return;
+    const memory = getSaveMemory(identity.context);
+    const rounds = buildRounds(identity.context.chat);
+    const interval = Math.min(200, Math.max(2, Number(settings().interval) || 20));
+    const targetBoundary = Math.floor(rounds.length / interval) * interval;
+    memory.summary = runtime.summary.value.trim();
+    memory.coveredThrough = targetBoundary;
+    memory.sourceHash = targetBoundary
+      ? await sha256(JSON.stringify(rounds.slice(0, targetBoundary)))
+      : "";
+    memory.summaryStale = false;
+    memory.manuallyEditedAt = Date.now();
+    memory.updatedAt = Date.now();
+    saveSaveMemory(identity.context);
+    await processCurrent({ forceUpload: true, allowSummary: false });
+  });
+  render();
+}
+
+async function prepareBeforeGeneration() {
+  if (runtime.summaryRequestActive || !settings().enabled) return;
+  const deadline = Date.now() + 60000;
+  while (runtime.busy && Date.now() < deadline) {
+    await new Promise((resolve) => setTimeout(resolve, 50));
+  }
+  if (runtime.busy || runtime.summaryRequestActive) return;
+  await processCurrent({ forceUpload: true, allowSummary: true });
+}
+
+function bindEvents() {
+  if (runtime.eventsBound) return true;
+  const eventSource = runtime.context?.eventSource;
+  const eventTypes = runtime.context?.eventTypes;
+  if (typeof eventSource?.on !== "function" || !eventTypes) return false;
+  const watched = [
+    eventTypes.MESSAGE_SENT,
+    eventTypes.MESSAGE_RECEIVED,
+    eventTypes.MESSAGE_EDITED,
+    eventTypes.MESSAGE_DELETED,
+    eventTypes.MESSAGE_UPDATED,
+    eventTypes.MESSAGE_SWIPED,
+    eventTypes.GENERATION_ENDED,
+  ].filter(Boolean);
+  watched.forEach((event) => eventSource.on(event, () => scheduleProcess()));
+  if (eventTypes.GENERATION_AFTER_COMMANDS) {
+    eventSource.on(eventTypes.GENERATION_AFTER_COMMANDS, prepareBeforeGeneration);
+  }
+  const assetEvents = [
+    eventTypes.CHARACTER_EDITED,
+    eventTypes.CHARACTER_SELECTED,
+    eventTypes.WORLDINFO_UPDATED,
+    eventTypes.WORLDINFO_SETTINGS_UPDATED,
+  ].filter(Boolean);
+  assetEvents.forEach((event) =>
+    eventSource.on(event, () =>
+      scheduleProcess({ forceUpload: true, refreshAssets: true }),
+    ),
+  );
+  if (eventTypes.CHAT_CHANGED) {
+    eventSource.on(eventTypes.CHAT_CHANGED, () => {
+      clearSharedMemoryPrompt();
+      scheduleProcess({ forceUpload: true, refreshAssets: true });
+    });
+  }
+  runtime.eventsBound = true;
+  return true;
+}
+
+function ensureEventsBound() {
+  if (bindEvents()) {
+    clearTimeout(runtime.eventsTimer);
+    runtime.eventsTimer = null;
+    return;
+  }
+  clearTimeout(runtime.eventsTimer);
+  runtime.eventsTimer = setTimeout(() => {
+    try {
+      runtime.context = currentContext();
+      ensureEventsBound();
+    } catch (error) {
+      console.debug(`[${MODULE}] waiting for SillyTavern events`, error);
+      ensureEventsBound();
+    }
+  }, 800);
+}
+
+async function initializeAuth() {
+  supabase.auth.onAuthStateChange((_event, session) => {
+    setTimeout(async () => {
+      runtime.session = session;
+      runtime.profile = null;
+      runtime.connected = false;
+      if (session) runtime.oauthUrl = "";
+      if (!session) {
+        render();
+        return;
+      }
+      try {
+        if (session.provider_token) await verifyDiscord(session);
+        const { data } = await supabase.auth.getSession();
+        runtime.session = data.session;
+        await loadProfile();
+        if (hasAccess()) {
+          await registerDevice();
+          await loadRevisions();
+          runtime.connected = true;
+          scheduleProcess({ forceUpload: true, refreshAssets: true });
+        }
+      } catch (error) {
+        runtime.lastError = error.message;
+      }
+      render();
+    }, 0);
+  });
+  const { data } = await supabase.auth.getSession();
+  runtime.session = data.session;
+  if (runtime.session) {
+    await loadProfile().catch((error) => {
+      runtime.lastError = error.message;
+    });
+    if (hasAccess()) {
+      await registerDevice();
+      await loadRevisions();
+      runtime.connected = true;
+    }
+  }
+}
+
+async function waitForSillyTavern(timeoutMs = 15000) {
+  const startedAt = Date.now();
+  while (!globalThis.SillyTavern?.getContext || !document.body) {
+    if (Date.now() - startedAt > timeoutMs) {
+      throw new Error("ç­‰å¾… SillyTavern åˆå§‹åŒ–è¶…æ—¶");
+    }
+    await new Promise((resolve) => setTimeout(resolve, 100));
+  }
+}
+
+async function ensureUiMounted() {
+  await waitForSillyTavern();
+  runtime.context = currentContext();
+  buildUi();
+}
+
+async function init() {
+  if (runtime.initialized) return;
+  await ensureUiMounted();
+  runtime.initialized = true;
+  settings();
+  runtime.device = getDevice();
+  ensureEventsBound();
+  try {
+    await initializeAuth();
+  } catch (error) {
+    runtime.lastError = error.message || "ç™»å½•çŠ¶æ€åˆå§‹åŒ–å¤±è´¥";
+    console.error(`[${MODULE}] auth initialization failed`, error);
+    render();
+  }
+  scheduleProcess({ forceUpload: true, refreshAssets: true });
+  console.log(`[${MODULE}] v${VERSION} loaded`);
+}
+
+let initPromise = null;
+
+function ensureInitialized() {
+  initPromise ||= init().catch((error) => {
+    runtime.initialized = false;
+    console.error(`[${MODULE}] initialization failed`, error);
+    runtime.lastError = error.message || "åˆå§‹åŒ–å¤±è´¥";
+    render();
+    throw error;
+  });
+  return initPromise;
+}
+
+export async function onActivate() {
+  await ensureUiMounted();
+  return ensureInitialized();
+}
+
+export async function onEnable() {
+  await ensureUiMounted();
+  return ensureInitialized();
+}
+
+export async function openPanel() {
+  await ensureUiMounted();
+  setPanelVisible(true);
+}
+
+Promise.resolve().then(() => {
+  ensureInitialized().catch(() => {
+    // The lifecycle hook may retry initialization after the app is ready.
+    initPromise = null;
+  });
+});

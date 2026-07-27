@@ -460,4 +460,538 @@ function hydrateTavernMemory(tavernCharacterKey, characterId = "") {
   if (inbox.recent?.saveId === activeSaveId) {
     branch.tavernRecent = inbox.recent;
   }
-  branch.updatedAt = Da◊M∫∂âûÀk∫wµÁuïÕÕÖùï%ëÃËÅmt∞(ÄÄÄÄÄÅ¡°ΩπïM’µµÖ…‰ËÅ¡ÖÂ±ΩÖêπ¡°ΩπïM’µµÖ…‰ÅÒÅπ’±∞∞(ÄÄÄÄÄÅ—ÖŸï…πM’µµÖ…‰ËÅ¡ÖÂ±ΩÖêπ—ÖŸï…πM’µµÖ…‰ÅÒÅπ’±∞∞(ÄÄÄÄÄÅ—ÖŸï…πIïçïπ–ËÅ¡ÖÂ±ΩÖêπ—ÖŸï…πIïçïπ–ÅÒÅπ’±∞∞(ÄÄÄÄÄÅç±Ω’ëIïŸ•Õ•Ω∏ËÄ¿∞(ÄÄÄÄÄÅç…ïÖ—ïë–ËÅ9’µâï»°¡ÖÂ±ΩÖêπç…ïÖ—ïë–§ÅÒÅÖ—îππΩ‹†§∞(ÄÄÄÄÄÅ’¡ëÖ—ïë–ËÅÖ—îππΩ‹†§∞(ÄÄÄÅÙÏ(ÄÄÄÅÕ—Ö—îπç°Ö—	…Öπç°ïÕmâ…Öπç†π•ëtÄÙÅâ…Öπç†Ï(ÄÅÙ((ÄÅçΩπÕ–Å¡…•Ω…IïŸ•Õ•Ω∏ÄÙÅ9’µâï»°â…Öπç†πç±Ω’ëIïŸ•Õ•Ω∏§ÅÒÄ¿Ï(ÄÅçΩπÕ–Å…ïµΩ—ïIïŸ•Õ•Ω∏ÄÙÅ9’µâï»°ÕπÖ¡Õ°Ω–π…ïŸ•Õ•Ω∏§ÅÒÄ¿Ï(ÄÅçΩπÕ–Å…ïµΩ—ï5ïÕÕÖùïÃÄÙÄ°……Ö‰π•Õ……Ö‰°¡ÖÂ±ΩÖêπµïÕÕÖùïÃ§Ä¸Å¡ÖÂ±ΩÖêπµïÕÕÖùïÃÄËÅmt§(ÄÄÄÄπô•±—ï»†°µïÕÕÖùî§ÄÙ¯ÅµïÕÕÖùî¸π•êÄòòÅµïÕÕÖùî¸πçΩπ—ïπ–§(ÄÄÄÄπµÖ¿°çΩµ¡Öç—5ïÕÕÖùî§Ï(ÄÅçΩπÕ–Å…ïµΩ—ï%ëÃÄÙÅπï‹ÅMï–°…ïµΩ—ï5ïÕÕÖùïÃπµÖ¿†°µïÕÕÖùî§ÄÙ¯ÅµïÕÕÖùîπ•ê§§Ï(ÄÅçΩπÕ–Å…ïµΩ—ïï±ï—ïêÄÙÅπï‹ÅMï–†(ÄÄÄÅ……Ö‰π•Õ……Ö‰°¡ÖÂ±ΩÖêπëï±ï—ïë5ïÕÕÖùï%ëÃ§(ÄÄÄÄÄÄ¸Å¡ÖÂ±ΩÖêπëï±ï—ïë5ïÕÕÖùï%ëÃπµÖ¿°M—…•πú§(ÄÄÄÄÄÄËÅmt∞(ÄÄ§Ï(ÄÅçΩπÕ–Å±ΩçÖ±ï±ï—ïêÄÙÅπï‹ÅMï–†(ÄÄÄÅ……Ö‰π•Õ……Ö‰°â…Öπç†πëï±ï—ïë5ïÕÕÖùï%ëÃ§(ÄÄÄÄÄÄ¸Åâ…Öπç†πëï±ï—ïë5ïÕÕÖùï%ëÃπµÖ¿°M—…•πú§(ÄÄÄÄÄÄËÅmt∞(ÄÄ§Ï(ÄÅçΩπÕ–Åëï±ï—ïë%ëÃÄÙÅπï‹ÅMï–°l∏∏π±ΩçÖ±ï±ï—ïê∞Ä∏∏π…ïµΩ—ïï±ï—ïët§Ï(ÄÅçΩπÕ–Å±ΩçÖ±	Â%êÄÙÅπï‹Å5Ö¿†(ÄÄÄÄ°â…Öπç†πµïÕÕÖùïÃÅÒÅmt§πµÖ¿†°µïÕÕÖùî§ÄÙ¯ÅmµïÕÕÖùîπ•ê∞ÅµïÕÕÖùït§∞(ÄÄ§Ï((ÄÅ…ïµΩ—ï5ïÕÕÖùïÃπôΩ…Öç††°…ïµΩ—ï5ïÕÕÖùî§ÄÙ¯ÅÏ(ÄÄÄÅçΩπÕ–Å±ΩçÖ±5ïÕÕÖùîÄÙÅ±ΩçÖ±	Â%êπùï–°…ïµΩ—ï5ïÕÕÖùîπ•ê§Ï(ÄÄÄÅçΩπÕ–Å±ΩçÖ±Q•µïÕ—Öµ¿ÄÙ(ÄÄÄÄÄÅ9’µâï»°±ΩçÖ±5ïÕÕÖùî¸π’¡ëÖ—ïë–§ÅÒÅ9’µâï»°±ΩçÖ±5ïÕÕÖùî¸πç…ïÖ—ïë–§ÅÒÄ¿Ï(ÄÄÄÅçΩπÕ–Å…ïµΩ—ïQ•µïÕ—Öµ¿ÄÙ(ÄÄÄÄÄÅ9’µâï»°…ïµΩ—ï5ïÕÕÖùîπ’¡ëÖ—ïë–§ÅÒÅ9’µâï»°…ïµΩ—ï5ïÕÕÖùîπç…ïÖ—ïë–§ÅÒÄ¿Ï(ÄÄÄÅ•òÄ†Ö±ΩçÖ±5ïÕÕÖùîÅÒÅ…ïµΩ—ïQ•µïÕ—Öµ¿Ä¯ÙÅ±ΩçÖ±Q•µïÕ—Öµ¿§ÅÏ(ÄÄÄÄÄÅ±ΩçÖ±	Â%êπÕï–°…ïµΩ—ï5ïÕÕÖùîπ•ê∞Å…ïµΩ—ï5ïÕÕÖùî§Ï(ÄÄÄÅÙ(ÄÅÙ§Ï(ÄÅâ…Öπç†πµïÕÕÖùïÃÄÙÅl∏∏π±ΩçÖ±	Â%êπŸÖ±’ïÃ†•t(ÄÄÄÄπô•±—ï»†°µïÕÕÖùî§ÄÙ¯ÄÖëï±ï—ïë%ëÃπ°ÖÃ°µïÕÕÖùîπ•ê§§(ÄÄÄÄπÕΩ…–†(ÄÄÄÄÄÄ°±ïô–∞Å…•ù°–§ÄÙ¯(ÄÄÄÄÄÄÄÄ°9’µâï»°±ïô–πç…ïÖ—ïë–§ÅÒÄ¿§Ä¥Ä°9’µâï»°…•ù°–πç…ïÖ—ïë–§ÅÒÄ¿§∞(ÄÄÄÄ§Ï(ÄÅçΩπÕ–Å…ï¡Ö•…ïëE’ï’ïë5ïÕÕÖùïÃÄÙÅç±ïÖ…πÕ›ï…ïëE’ï’ïë5ïÕÕÖùïÃ°â…Öπç†πµïÕÕÖùïÃ§Ï(ÄÅâ…Öπç†πëï±ï—ïë5ïÕÕÖùï%ëÃÄÙÅl∏∏πëï±ï—ïë%ëÕtπÕ±•çî†¥»¿¿§Ï(ÄÅâ…Öπç†πç±Ω’ë	…Öπç°%êÄÙ(ÄÄÄÅâ…Öπç†π—ÖŸï…π°Ö…Öç—ï…-ï‰ÄòòÅâ…Öπç†π—ÖŸï…πMÖŸï%ê(ÄÄÄÄÄÄ¸ÅÅ—ÖŸï…π|ëÌÕ—Öâ±ïQï·—!ÖÕ††(ÄÄÄÄÄÄÄÄÄÅÄëÌâ…Öπç†π—ÖŸï…π°Ö…Öç—ï…-ïÂıëÌâ…Öπç†π—ÖŸï…πMÖŸï%ëıÄ∞(ÄÄÄÄÄÄÄÄ•ıÄ(ÄÄÄÄÄÄËÅç±Ω’ë	…Öπç°%êÏ(ÄÅâ…Öπç†πç±Ω’ëIïŸ•Õ•Ω∏ÄÙÅ5Ö—†πµÖ‡°¡…•Ω…IïŸ•Õ•Ω∏∞Å…ïµΩ—ïIïŸ•Õ•Ω∏§Ï(ÄÅâ…Öπç†π—•—±îÄÙÅ¡ÖÂ±ΩÖêπâ…Öπç°Q•—±îÅÒÅâ…Öπç†π—•—±îÏ(ÄÅâ…Öπç†π—ÖŸï…πMÖŸï%êÄÙÅ¡ÖÂ±ΩÖêπ—ÖŸï…πMÖŸï%êÅÒÅâ…Öπç†π—ÖŸï…πMÖŸï%êÅÒÄààÏ(ÄÅâ…Öπç†π—ÖŸï…π°Ö…Öç—ï…-ï‰ÄÙ(ÄÄÄÅ¡ÖÂ±ΩÖêπ—ÖŸï…π°Ö…Öç—ï…-ï‰ÅÒÅâ…Öπç†π—ÖŸï…π°Ö…Öç—ï…-ï‰ÅÒÄààÏ(ÄÅ•òÄ°=â©ïç–π¡…Ω—Ω—Â¡îπ°ÖÕ=›πA…Ω¡ï…—‰πçÖ±∞°¡ÖÂ±ΩÖê∞Äâ¡°ΩπïM’µµÖ…‰à§§ÅÏ(ÄÄÄÅ•òÄ†Ö¡ÖÂ±ΩÖêπ¡°ΩπïM’µµÖ…‰ÄòòÅ…ïµΩ—ïIïŸ•Õ•Ω∏Ä¯ÙÅ¡…•Ω…IïŸ•Õ•Ω∏§ÅÏ(ÄÄÄÄÄÅâ…Öπç†π¡°ΩπïM’µµÖ…‰ÄÙÅπ’±∞Ï(ÄÄÄÅÙÅï±ÕîÅ•òÄ°¡ÖÂ±ΩÖêπ¡°ΩπïM’µµÖ…‰§ÅÏ(ÄÄÄÄÄÅçΩπÕ–Å±ΩçÖ±M’µµÖ…ÂQ•µîÄÙÅ9’µâï»°â…Öπç†π¡°ΩπïM’µµÖ…‰¸π’¡ëÖ—ïë–§ÅÒÄ¿Ï(ÄÄÄÄÄÅçΩπÕ–Å…ïµΩ—ïM’µµÖ…ÂQ•µîÄÙÅ9’µâï»°¡ÖÂ±ΩÖêπ¡°ΩπïM’µµÖ…‰π’¡ëÖ—ïë–§ÅÒÄ¿Ï(ÄÄÄÄÄÅ•òÄ°…ïµΩ—ïM’µµÖ…ÂQ•µîÄ¯ÙÅ±ΩçÖ±M’µµÖ…ÂQ•µî§ÅÏ(ÄÄÄÄÄÄÄÅâ…Öπç†π¡°ΩπïM’µµÖ…‰ÄÙÅ¡ÖÂ±ΩÖêπ¡°ΩπïM’µµÖ…‰Ï(ÄÄÄÄÄÅÙ(ÄÄÄÅÙ(ÄÅÙ(ÄÅâ…Öπç†π—ÖŸï…πM’µµÖ…‰ÄÙÅ¡ÖÂ±ΩÖêπ—ÖŸï…πM’µµÖ…‰ÅÒÅâ…Öπç†π—ÖŸï…πM’µµÖ…‰Ï(ÄÅâ…Öπç†π—ÖŸï…πIïçïπ–ÄÙÅ¡ÖÂ±ΩÖêπ—ÖŸï…πIïçïπ–ÅÒÅâ…Öπç†π—ÖŸï…πIïçïπ–Ï(ÄÅâ…Öπç†π’¡ëÖ—ïë–ÄÙÅ5Ö—†πµÖ‡†(ÄÄÄÅ9’µâï»°â…Öπç†π’¡ëÖ—ïë–§ÅÒÄ¿∞(ÄÄÄÅ9’µâï»°¡ÖÂ±ΩÖêπ’¡ëÖ—ïë–§ÅÒÅÖ—îππΩ‹†§∞(ÄÄ§Ï(ÄÅ•òÄ†ÖÕ—Ö—îπÖç—•Ÿï	…Öπç°%ëÕmç°Ö…Öç—ï…%ët§ÅÏ(ÄÄÄÅÕ—Ö—îπÖç—•Ÿï	…Öπç°%ëÕmç°Ö…Öç—ï…%ëtÄÙÅâ…Öπç†π•êÏ(ÄÅÙ(ÄÅÕ—Ö—îπç’……ïπ—°Ö…Öç—ï…%êÅÒÙÅç°Ö…Öç—ï…%êÏ((ÄÅçΩπÕ–Å›•πëΩ›M—Ö…—ïë–ÄÙ(ÄÄÄÅ9’µâï»°¡ÖÂ±ΩÖêπ›•πëΩ›M—Ö…—ïë–§ÅÒ(ÄÄÄÅ9’µâï»°…ïµΩ—ï5ïÕÕÖùïÕl¡t¸πç…ïÖ—ïë–§ÅÒ(ÄÄÄÅ9’µâï»π5a}M}%9QHÏ(ÄÅçΩπÕ–Å°ÖÕIïçïπ—1ΩçÖ±=π±‰ÄÙÅâ…Öπç†πµïÕÕÖùïÃπÕΩµî†(ÄÄÄÄ°µïÕÕÖùî§ÄÙ¯(ÄÄÄÄÄÅ9’µâï»°µïÕÕÖùîπç…ïÖ—ïë–§Ä¯ÙÅ›•πëΩ›M—Ö…—ïë–Äòò(ÄÄÄÄÄÄÖ…ïµΩ—ï%ëÃπ°ÖÃ°µïÕÕÖùîπ•ê§Äòò(ÄÄÄÄÄÄÖëï±ï—ïë%ëÃπ°ÖÃ°µïÕÕÖùîπ•ê§∞(ÄÄ§Ï(ÄÅçΩπÕ–Å°ÖÕ1ΩçÖ±=π±Âï±ï—•Ω∏ÄÙÅl∏∏π±ΩçÖ±ï±ï—ïëtπÕΩµî†(ÄÄÄÄ°µïÕÕÖùï%ê§ÄÙ¯ÄÖ…ïµΩ—ïï±ï—ïêπ°ÖÃ°µïÕÕÖùï%ê§∞(ÄÄ§Ï(ÄÅ•òÄ†(ÄÄÄÅÕπÖ¡Õ°Ω–πÕΩ’…çï}ëïŸ•çï}•êÄÑÙÙÅÕÂπçM—Ö—îπëïŸ•çîπ•êÄòò(ÄÄÄÅ…ïµΩ—ïIïŸ•Õ•Ω∏Ä¯ÙÅ¡…•Ω…IïŸ•Õ•Ω∏Äòò(ÄÄÄÄ°°ÖÕIïçïπ—1ΩçÖ±=π±‰ÅÒÅ°ÖÕ1ΩçÖ±=π±Âï±ï—•Ω∏§(ÄÄ§ÅÏ(ÄÄÄÅ≈’ï’ïA°Ωπï°Ö—MÂπå°ç°Ö…Öç—ï…%ê∞Äâç°Ö–πçΩπŸï…ùîà∞Åâ…Öπç†π•ê§Ï(ÄÅÙÅï±ÕîÅ•òÄ°…ï¡Ö•…ïëE’ï’ïë5ïÕÕÖùïÃ§ÅÏ(ÄÄÄÅ≈’ï’ïA°Ωπï°Ö—MÂπå°ç°Ö…Öç—ï…%ê∞ÄâµïÕÕÖùîπ…ï¡Ö•»à∞Åâ…Öπç†π•ê§Ï(ÄÅÙ)Ù()ô’πç—•Ω∏ÅÖ¡¡±ÂMπÖ¡Õ°Ω–°ÕπÖ¡Õ°Ω–§ÅÏ(ÄÅ•òÄ†ÖÕπÖ¡Õ°Ω–§Å…ï—’…∏Ï(ÄÅ’¡Õï…—MπÖ¡Õ°Ω—Öç°î°ÕπÖ¡Õ°Ω–§Ï(ÄÅ•òÄ°ÕπÖ¡Õ°Ω–π•Õ}ëï±ï—ïê§Å…ï—’…∏Ï(ÄÅ•òÄ°ÕπÖ¡Õ°Ω–πïπ—•—Â}—Â¡îπÕ—Ö…—Õ]•—††â—ÖŸï…∏∏à§§ÅÖ¡¡±ÂQÖŸï…πMπÖ¡Õ°Ω–°ÕπÖ¡Õ°Ω–§Ï(ÄÅ•òÄ°ÕπÖ¡Õ°Ω–πïπ—•—Â}—Â¡îÄÙÙÙÄâ¡°Ωπîπç°Ö–à§ÅÖ¡¡±ÂA°ΩπïMπÖ¡Õ°Ω–°ÕπÖ¡Õ°Ω–§Ï)Ù()ÖÕÂπåÅô’πç—•Ω∏Åôï—ç°MπÖ¡Õ°Ω–°ïπ—•—ÂQÂ¡î∞Åïπ—•—Â%ê§ÅÏ(ÄÅçΩπÕ–ÅÏÅëÖ—Ñ∞Åï……Ω»ÅÙÄÙÅÖ›Ö•–ÅÕ’¡ÖâÖÕî(ÄÄÄÄπô…Ω¥†â±Ö—ïÕ—}ÕπÖ¡Õ°Ω—Ãà§(ÄÄÄÄπÕï±ïç–°M9AM!=Q}%1L§(ÄÄÄÄπïƒ†âïπ—•—Â}—Â¡îà∞Åïπ—•—ÂQÂ¡î§(ÄÄÄÄπïƒ†âïπ—•—Â}•êà∞Åïπ—•—Â%ê§(ÄÄÄÄπµÖÂâïM•πù±î†§Ï(ÄÅ•òÄ°ï……Ω»§Å—°…Ω‹Åï……Ω»Ï(ÄÅ•òÄ°ëÖ—Ñ§ÅÖ¡¡±ÂMπÖ¡Õ°Ω–°ëÖ—Ñ§Ï(ÄÅ…ï—’…∏ÅëÖ—ÑÏ)Ù()ï·¡Ω…–ÅÖÕÂπåÅô’πç—•Ω∏Å…ïô…ïÕ°	…Öπç°5ïµΩ…ÂΩ…§°ç°Ö…Öç—ï…%ê∞Åâ…Öπç°%êÄÙÄàà§ÅÏ(ÄÅçΩπÕ–Åç°Ö…Öç—ï»ÄÙÅÕ—Ö—îπç°Ö…Öç—ï…Ãπô•πê†°•—ï¥§ÄÙ¯Å•—ï¥π•êÄÙÙÙÅç°Ö…Öç—ï…%ê§Ï(ÄÅçΩπÕ–Å•π•—•Ö±	…Öπç†ÄÙ(ÄÄÄÅÕ—Ö—îπç°Ö—	…Öπç°ïÕmâ…Öπç°%ëtÅÒÅÖç—•Ÿï	…Öπç°Ω…°Ö…Öç—ï»°ç°Ö…Öç—ï…%ê§Ï(ÄÅ•òÄ†Öç°Ö…Öç—ï»ÅÒÄÖ•π•—•Ö±	…Öπç†ÅÒÄÖÕÂπçM—Ö—îπ•π•—•Ö±•Èïê§Å…ï—’…∏Å•π•—•Ö±	…Öπç†Ï((ÄÅÖ›Ö•–Å¡’±±A…Ωµ•ÕîπçÖ—ç†††§ÄÙ¯ÅÌÙ§Ï(ÄÅçΩπÕ–Å—ÖŸï…π°Ö…Öç—ï…-ï‰ÄÙ(ÄÄÄÅ•π•—•Ö±	…Öπç†π—ÖŸï…π°Ö…Öç—ï…-ï‰ÅÒ(ÄÄÄÅç°Ö…Öç—ï»π—ÖŸï…π°Ö…Öç—ï…-ï‰ÅÒ(ÄÄÄÅ=â©ïç–πïπ—…•ïÃ°Õ—Ö—îπÕÂπåπç°Ö…Öç—ï…	•πë•πùÃ§πô•πê†(ÄÄÄÄÄÄ°l∞ÅâΩ’πë°Ö…Öç—ï…%ët§ÄÙ¯ÅâΩ’πë°Ö…Öç—ï…%êÄÙÙÙÅç°Ö…Öç—ï…%ê∞(ÄÄÄÄ§¸πl¡tÅÒ(ÄÄÄÄààÏ(ÄÅ•òÄ†Ö—ÖŸï…π°Ö…Öç—ï…-ï‰§Å…ï—’…∏Å•π•—•Ö±	…Öπç†Ï((ÄÅçΩπÕ–Åïπ—•—Â%êÄÙÅÅç°Ö…Öç—ï»ËëÌ—ÖŸï…π°Ö…Öç—ï…-ïÂıÄÏ(ÄÅ—…‰ÅÏ(ÄÄÄÅÖ›Ö•–Åôï—ç°MπÖ¡Õ°Ω–†â—ÖŸï…∏πÖç—•Ÿîà∞Åïπ—•—Â%ê§Ï(ÄÄÄÅÖ›Ö•–ÅA…Ωµ•ÕîπÖ±∞°l(ÄÄÄÄÄÅôï—ç°MπÖ¡Õ°Ω–†â—ÖŸï…∏πÕ’µµÖ…‰à∞Åïπ—•—Â%ê§∞(ÄÄÄÄÄÅôï—ç°MπÖ¡Õ°Ω–†â—ÖŸï…∏π…ïçïπ–à∞Åïπ—•—Â%ê§∞(ÄÄÄÅt§Ï(ÄÄÄÅ…ï—’…∏Ä†(ÄÄÄÄÄÅ°Âë…Ö—ïQÖŸï…π5ïµΩ…‰°—ÖŸï…π°Ö…Öç—ï…-ï‰∞Åç°Ö…Öç—ï…%ê§ÅÒ(ÄÄÄÄÄÅÕ—Ö—îπç°Ö—	…Öπç°ïÕmâ…Öπç°%ëtÅÒ(ÄÄÄÄÄÅÖç—•Ÿï	…Öπç°Ω…°Ö…Öç—ï»°ç°Ö…Öç—ï…%ê§(ÄÄÄÄ§Ï(ÄÅÙÅçÖ—ç†Ä°ï……Ω»§ÅÏ(ÄÄÄÅÕÂπçM—Ö—îπï……Ω»ÄÙÅï……Ω»πµïÕÕÖùîÅÒÄâ$Éñn{ñí7ñ&7ñ"ﬂöZ√¶K¶ö¢∫√ñ˛ñí«¢“îàÏ(ÄÄÄÅ…ï—’…∏Ä†(ÄÄÄÄÄÅ°Âë…Ö—ïQÖŸï…π5ïµΩ…‰°—ÖŸï…π°Ö…Öç—ï…-ï‰∞Åç°Ö…Öç—ï…%ê§ÅÒ(ÄÄÄÄÄÅÕ—Ö—îπç°Ö—	…Öπç°ïÕmâ…Öπç°%ëtÅÒ(ÄÄÄÄÄÅÖç—•Ÿï	…Öπç°Ω…°Ö…Öç—ï»°ç°Ö…Öç—ï…%ê§(ÄÄÄÄ§Ï(ÄÅÙ)Ù()ÖÕÂπåÅô’πç—•Ω∏ÅÖç≠πΩ›±ïëùî°Õïƒ§ÅÏ(ÄÅ•òÄ†ÖÕïƒÅÒÄÖÕÂπçM—Ö—îπëïŸ•çîπ•ê§Å…ï—’…∏Ï(ÄÅçΩπÕ–ÅÏÅï……Ω»ÅÙÄÙÅÖ›Ö•–ÅÕ’¡ÖâÖÕîπ…¡å†âÖç≠}ÕÂπç}ç’…ÕΩ»à∞ÅÏ(ÄÄÄÅ¡}ëïŸ•çï}•êËÅÕÂπçM—Ö—îπëïŸ•çîπ•ê∞(ÄÄÄÅ¡}±ÖÕ—}Öç≠}ÕïƒËÅÕïƒ∞(ÄÅÙ§Ï(ÄÅ•òÄ°ï……Ω»§Å—°…Ω‹Åï……Ω»Ï(ÄÅÕ—Ö—îπÕÂπåπ±ÖÕ—ç≠MïƒÄÙÅ5Ö—†πµÖ‡°9’µâï»°Õ—Ö—îπÕÂπåπ±ÖÕ—ç≠Mïƒ§ÅÒÄ¿∞Å9’µâï»°Õïƒ§ÅÒÄ¿§Ï)Ù()ÖÕÂπåÅô’πç—•Ω∏Å¡’±±Aïπë•πùŸïπ—Ã†§ÅÏ(ÄÅ±ï–Åç’…ÕΩ»ÄÙÅ5Ö—†πµÖ‡†¿∞Å9’µâï»°Õ—Ö—îπÕÂπåπ±ÖÕ—ç≠Mïƒ§ÅÒÄ¿§Ï(ÄÅôΩ»Ä†ÏÏ§ÅÏ(ÄÄÄÅçΩπÕ–ÅÏÅëÖ—Ñ∞Åï……Ω»ÅÙÄÙÅÖ›Ö•–ÅÕ’¡ÖâÖÕî(ÄÄÄÄÄÄπô…Ω¥†âÕÂπç}ïŸïπ—Ãà§(ÄÄÄÄÄÄπÕï±ïç–†(ÄÄÄÄÄÄÄÄâÕï…Ÿï…}Õïƒ±ïŸïπ—}•ê±ÕΩ’…çï}ëïŸ•çï}•ê±ïπ—•—Â}—Â¡î±ïπ—•—Â}•ê±Ω¡ï…Ö—•Ω∏±…ïŸ•Õ•Ω∏±¡ÖÂ±ΩÖê±ç…ïÖ—ïë}Ö–à∞(ÄÄÄÄÄÄ§(ÄÄÄÄÄÄπù–†âÕï…Ÿï…}Õïƒà∞Åç’…ÕΩ»§(ÄÄÄÄÄÄπΩ…ëï»†âÕï…Ÿï…}Õïƒà∞ÅÏÅÖÕçïπë•πúËÅ—…’îÅÙ§(ÄÄÄÄÄÄπ±•µ•–†»¿¿§Ï(ÄÄÄÅ•òÄ°ï……Ω»§Å—°…Ω‹Åï……Ω»Ï(ÄÄÄÅ•òÄ†ÖëÖ—Ñ¸π±ïπù—†§Åâ…ïÖ¨Ï(ÄÄÄÅôΩ»Ä°çΩπÕ–ÅïŸïπ–ÅΩòÅëÖ—Ñ§ÅÏ(ÄÄÄÄÄÅ•òÄ°ïŸïπ–πΩ¡ï…Ö—•Ω∏ÄÑÙÙÄâëï±ï—îà§ÅÏ(ÄÄÄÄÄÄÄÅÖ›Ö•–Åôï—ç°MπÖ¡Õ°Ω–°ïŸïπ–πïπ—•—Â}—Â¡î∞ÅïŸïπ–πïπ—•—Â}•ê§Ï(ÄÄÄÄÄÅÙ(ÄÄÄÄÄÅç’…ÕΩ»ÄÙÅ9’µâï»°ïŸïπ–πÕï…Ÿï…}Õïƒ§Ï(ÄÄÄÅÙ(ÄÄÄÅÖ›Ö•–ÅÖç≠πΩ›±ïëùî°ç’…ÕΩ»§Ï(ÄÄÄÅ•òÄ°ëÖ—Ñπ±ïπù—†ÄÄ»¿¿§Åâ…ïÖ¨Ï(ÄÅÙ(ÄÅÕÂπçM—Ö—îπ±ÖÕ—A’±±–ÄÙÅÖ—îππΩ‹†§Ï)Ù()ô’πç—•Ω∏Å≈’ï’ïA’±∞†§ÅÏ(ÄÅ¡’±±A…Ωµ•ÕîÄÙÅ¡’±±A…Ωµ•Õî(ÄÄÄÄπ—°ï∏††§ÄÙ¯Å¡’±±Aïπë•πùŸïπ—Ã†§§(ÄÄÄÄπçÖ—ç††°ï……Ω»§ÄÙ¯ÅÏ(ÄÄÄÄÄÅÕÂπçM—Ö—îπï……Ω»ÄÙÅï……Ω»πµïÕÕÖùîÅÒÄãñB3ö∂óíÍ/íÓ€¢æÔñ>[ñí«¢“îàÏ(ÄÄÄÅÙ§Ï(ÄÅ…ï—’…∏Å¡’±±A…Ωµ•ÕîÏ)Ù()ÖÕÂπåÅô’πç—•Ω∏Å±ΩÖë±Ω’ëM—Ö—î†§ÅÏ(ÄÅçΩπÕ–ÅmëïŸ•çïÕIïÕ’±–∞ÅÕπÖ¡Õ°Ω—ÕIïÕ’±–∞Å’ÕÖùïIïÕ’±—tÄÙÅÖ›Ö•–ÅA…Ωµ•ÕîπÖ±∞°l(ÄÄÄÅÕ’¡ÖâÖÕîπô…Ω¥†â’Õï…}ëïŸ•çïÃà§πÕï±ïç–°Y%}%1L§πΩ…ëï»†â±ÖÕ—}Õïïπ}Ö–à∞ÅÏ(ÄÄÄÄÄÅÖÕçïπë•πúËÅôÖ±Õî∞(ÄÄÄÅÙ§∞(ÄÄÄÅÕ’¡ÖâÖÕîπô…Ω¥†â±Ö—ïÕ—}ÕπÖ¡Õ°Ω—Ãà§πÕï±ïç–°M9AM!=Q}%1L§∞(ÄÄÄÅÕ’¡ÖâÖÕîπô…Ω¥†â’Õï…}ÕÂπç}’ÕÖùîà§πÕï±ïç–†à®à§πµÖÂâïM•πù±î†§∞(ÄÅt§Ï(ÄÅ•òÄ°ëïŸ•çïÕIïÕ’±–πï……Ω»§Å—°…Ω‹ÅëïŸ•çïÕIïÕ’±–πï……Ω»Ï(ÄÅ•òÄ°ÕπÖ¡Õ°Ω—ÕIïÕ’±–πï……Ω»§Å—°…Ω‹ÅÕπÖ¡Õ°Ω—ÕIïÕ’±–πï……Ω»Ï(ÄÅ•òÄ°’ÕÖùïIïÕ’±–πï……Ω»§Å—°…Ω‹Å’ÕÖùïIïÕ’±–πï……Ω»Ï(ÄÅÕÂπçM—Ö—îπëïŸ•çïÃÄÙÅëïŸ•çïÕIïÕ’±–πëÖ—ÑÅÒÅmtÏ(ÄÅÕÂπçM—Ö—îπÕπÖ¡Õ°Ω—ÃÄÙÅmtÏ(ÄÅ…ïŸ•Õ•Ωπ%πëï‡πç±ïÖ»†§Ï(ÄÄ°ÕπÖ¡Õ°Ω—ÕIïÕ’±–πëÖ—ÑÅÒÅmt§πôΩ…Öç†°Ö¡¡±ÂMπÖ¡Õ°Ω–§Ï(ÄÅ=â©ïç–π≠ïÂÃ°Õ—Ö—îπÕÂπåπ—ÖŸï…π%πâΩ‡§πôΩ…Öç††°—ÖŸï…π°Ö…Öç—ï…-ï‰§ÄÙ¯ÅÏ(ÄÄÄÅ°Âë…Ö—ïQÖŸï…π5ïµΩ…‰°—ÖŸï…π°Ö…Öç—ï…-ï‰§Ï(ÄÄÄÅ’¡ëÖ—ï5•ÕµÖ—ç†°—ÖŸï…π°Ö…Öç—ï…-ï‰§Ï(ÄÅÙ§Ï(ÄÅÕÂπçM—Ö—îπ’ÕÖùîÄÙÅ’ÕÖùïIïÕ’±–πëÖ—ÑÅÒÅπ’±∞Ï)Ù()ÖÕÂπåÅô’πç—•Ω∏Å…ïù•Õ—ï…ïŸ•çî†§ÅÏ(ÄÅÕÂπçM—Ö—îπëïŸ•çîÄÙÅùï—ïŸ•çï%ëïπ—•—‰†§Ï(ÄÅçΩπÕ–ÅÏÅëÖ—Ñ∞Åï……Ω»ÅÙÄÙÅÖ›Ö•–ÅÕ’¡ÖâÖÕîπ…¡å†â…ïù•Õ—ï…}ÕÂπç}ëïŸ•çîà∞ÅÏ(ÄÄÄÅ¡}ëïŸ•çï}•êËÅÕÂπçM—Ö—îπëïŸ•çîπ•ê∞(ÄÄÄÅ¡}ëïŸ•çï}πÖµîËÅÕÂπçM—Ö—îπëïŸ•çîππÖµî∞(ÄÄÄÅ¡}¡±Ö—ôΩ…¥ËÅÕÂπçM—Ö—îπëïŸ•çîπ¡±Ö—ôΩ…¥∞(ÄÄÄÅ¡}Ö¡¡}Ÿï…Õ•Ω∏ËÅAA}YIM%=8∞(ÄÅÙ§Ï(ÄÅ•òÄ°ï……Ω»§Å—°…Ω‹Åï……Ω»Ï(ÄÅçΩπÕ–Å…ïù•Õ—ï…ïêÄÙÅ……Ö‰π•Õ……Ö‰°ëÖ—Ñ§Ä¸ÅëÖ—Öl¡tÄËÅëÖ—ÑÏ(ÄÅÕ—Ö—îπÕÂπåπ±ÖÕ—ç≠MïƒÄÙÅ5Ö—†πµÖ‡†(ÄÄÄÅ9’µâï»°Õ—Ö—îπÕÂπåπ±ÖÕ—ç≠Mïƒ§ÅÒÄ¿∞(ÄÄÄÅ9’µâï»°…ïù•Õ—ï…ïê¸π±ÖÕ—}Öç≠}Õïƒ§ÅÒÄ¿∞(ÄÄÄÅ9’µâï»°…ïù•Õ—ï…ïê¸π©Ω•πïë}Õïƒ§ÅÒÄ¿∞(ÄÄ§Ï(ÄÅ…ï—’…∏Å…ïù•Õ—ï…ïêÏ)Ù()ô’πç—•Ω∏ÅÕ’âÕç…•âïIïÖ±—•µî°’Õï…%ê§ÅÏ(ÄÅ•òÄ°…ïÖ±—•µï°Öππï∞§ÅÕ’¡ÖâÖÕîπ…ïµΩŸï°Öππï∞°…ïÖ±—•µï°Öππï∞§Ï(ÄÅ…ïÖ±—•µï°Öππï∞ÄÙÅÕ’¡ÖâÖÕî(ÄÄÄÄπç°Öππï∞°Å±•πï¡°ΩπîµÕÂπå¥ëÌÕÂπçM—Ö—îπëïŸ•çîπ•ëıÄ§(ÄÄÄÄπΩ∏†(ÄÄÄÄÄÄâ¡ΩÕ—ù…ïÕ}ç°ÖπùïÃà∞(ÄÄÄÄÄÅÏ(ÄÄÄÄÄÄÄÅïŸïπ–ËÄâ%9MIPà∞(ÄÄÄÄÄÄÄÅÕç°ïµÑËÄâ¡’â±•åà∞(ÄÄÄÄÄÄÄÅ—Öâ±îËÄâÕÂπç}ïŸïπ—Ãà∞(ÄÄÄÄÄÄÄÅô•±—ï»ËÅÅ’Õï…}•êıïƒ∏ëÌ’Õï…%ëıÄ∞(ÄÄÄÄÄÅÙ∞(ÄÄÄÄÄÄ†§ÄÙ¯Å≈’ï’ïA’±∞†§∞(ÄÄÄÄ§(ÄÄÄÄπÕ’âÕç…•âî†°Õ—Ö—’Ã§ÄÙ¯ÅÏ(ÄÄÄÄÄÅÕÂπçM—Ö—îπçΩππïç—ïêÄÙÅÕ—Ö—’ÃÄÙÙÙÄâMU	MI%	àÏ(ÄÄÄÅÙ§Ï)Ù()ÖÕÂπåÅô’πç—•Ω∏Åô±’Õ°•…—Â	…Öπç°ïÃ†§ÅÏ(ÄÅçΩπÕ–Å±Ö—ïÕ—•…—Â	Â°Ö…Öç—ï»ÄÙÅπï‹Å5Ö¿†§Ï(ÄÅ=â©ïç–πŸÖ±’ïÃ°Õ—Ö—îπç°Ö—	…Öπç°ïÃ§(ÄÄÄÄπô•±—ï»†°â…Öπç†§ÄÙ¯Åâ…Öπç†π±ΩçÖ±•…—Â–§(ÄÄÄÄπôΩ…Öç††°â…Öπç†§ÄÙ¯ÅÏ(ÄÄÄÄÄÅçΩπÕ–Å¡…•Ω»ÄÙÅ±Ö—ïÕ—•…—Â	Â°Ö…Öç—ï»πùï–°â…Öπç†πç°Ö…Öç—ï…%ê§Ï(ÄÄÄÄÄÅ•òÄ†Ö¡…•Ω»ÅÒÅâ…Öπç†π±ΩçÖ±•…—Â–Ä¯Å¡…•Ω»π±ΩçÖ±•…—Â–§ÅÏ(ÄÄÄÄÄÄÄÅ±Ö—ïÕ—•…—Â	Â°Ö…Öç—ï»πÕï–°â…Öπç†πç°Ö…Öç—ï…%ê∞Åâ…Öπç†§Ï(ÄÄÄÄÄÅÙ(ÄÄÄÅÙ§Ï(ÄÅôΩ»Ä°çΩπÕ–Åâ…Öπç†ÅΩòÅ±Ö—ïÕ—•…—Â	Â°Ö…Öç—ï»πŸÖ±’ïÃ†§§ÅÏ(ÄÄÄÅÖ›Ö•–ÅÕÂπçA°Ωπï°Ö—9Ω‹°â…Öπç†πç°Ö…Öç—ï…%ê∞ÄâΩôô±•πîπô±’Õ†à∞Åâ…Öπç†π•ê§Ï(ÄÅÙ)Ù()ï·¡Ω…–ÅÖÕÂπåÅô’πç—•Ω∏Å•π•—•Ö±•ÈïMÂπå°’Õï…%ê§ÅÏ(ÄÅ•òÄ†Ö’Õï…%êÅÒÄ°ÕÂπçM—Ö—îπ•π•—•Ö±•ÈïêÄòòÅÕÂπçM—Ö—îπ’Õï…%êÄÙÙÙÅ’Õï…%ê§§Å…ï—’…∏Ï(ÄÅÕÂπçM—Ö—îπâ’Õ‰ÄÙÅ—…’îÏ(ÄÅÕÂπçM—Ö—îπï……Ω»ÄÙÄààÏ(ÄÅÕÂπçM—Ö—îπ’Õï…%êÄÙÅ’Õï…%êÏ(ÄÅ—…‰ÅÏ(ÄÄÄÅÖ›Ö•–Å…ïù•Õ—ï…ïŸ•çî†§Ï(ÄÄÄÅÖ›Ö•–Å±ΩÖë±Ω’ëM—Ö—î†§Ï(ÄÄÄÅÕ’âÕç…•âïIïÖ±—•µî°’Õï…%ê§Ï(ÄÄÄÅÖ›Ö•–Å≈’ï’ïA’±∞†§Ï(ÄÄÄÅÕÂπçM—Ö—îπ•π•—•Ö±•ÈïêÄÙÅ—…’îÏ(ÄÄÄÅÖ›Ö•–Åô±’Õ°•…—Â	…Öπç°ïÃ†§Ï(ÄÅÙÅçÖ—ç†Ä°ï……Ω»§ÅÏ(ÄÄÄÅÕÂπçM—Ö—îπï……Ω»ÄÙÅï……Ω»πµïÕÕÖùîÅÒÄãñB3ö∂óñ"wñû/ñ2[ñí«¢“îàÏ(ÄÅÙÅô•πÖ±±‰ÅÏ(ÄÄÄÅÕÂπçM—Ö—îπâ’Õ‰ÄÙÅôÖ±ÕîÏ(ÄÅÙ)Ù()ï·¡Ω…–Åô’πç—•Ω∏ÅÕ—Ω¡MÂπå†§ÅÏ(ÄÅ•òÄ°…ïÖ±—•µï°Öππï∞§ÅÕ’¡ÖâÖÕîπ…ïµΩŸï°Öππï∞°…ïÖ±—•µï°Öππï∞§Ï(ÄÅ…ïÖ±—•µï°Öππï∞ÄÙÅπ’±∞Ï(ÄÅ›…•—ïQ•µï…ÃπôΩ…Öç††°—•µï»§ÄÙ¯Åç±ïÖ…Q•µïΩ’–°—•µï»§§Ï(ÄÅ›…•—ïQ•µï…Ãπç±ïÖ»†§Ï(ÄÅÕÂπçM—Ö—îπ•π•—•Ö±•ÈïêÄÙÅôÖ±ÕîÏ(ÄÅÕÂπçM—Ö—îπçΩππïç—ïêÄÙÅôÖ±ÕîÏ(ÄÅÕÂπçM—Ö—îπ’Õï…%êÄÙÄààÏ)Ù()ï·¡Ω…–ÅÖÕÂπåÅô’πç—•Ω∏Å…ïô…ïÕ°MÂπçÖ—Ñ†§ÅÏ(ÄÅ•òÄ†ÖÕÂπçM—Ö—îπ’Õï…%ê§Å…ï—’…∏Ï(ÄÅÕÂπçM—Ö—îπâ’Õ‰ÄÙÅ—…’îÏ(ÄÅÕÂπçM—Ö—îπï……Ω»ÄÙÄààÏ(ÄÅ—…‰ÅÏ(ÄÄÄÅÖ›Ö•–Å…ïù•Õ—ï…ïŸ•çî†§Ï(ÄÄÄÅÖ›Ö•–Å±ΩÖë±Ω’ëM—Ö—î†§Ï(ÄÄÄÅÖ›Ö•–Å≈’ï’ïA’±∞†§Ï(ÄÅÙÅçÖ—ç†Ä°ï……Ω»§ÅÏ(ÄÄÄÅÕÂπçM—Ö—îπï……Ω»ÄÙÅï……Ω»πµïÕÕÖùîÅÒÄãñB3ö∂óñ"ﬂöZ√ñí«¢“îàÏ(ÄÅÙÅô•πÖ±±‰ÅÏ(ÄÄÄÅÕÂπçM—Ö—îπâ’Õ‰ÄÙÅôÖ±ÕîÏ(ÄÅÙ)Ù()ï·¡Ω…–ÅÖÕÂπåÅô’πç—•Ω∏Å’¡ëÖ—ïïŸ•çï9Öµî°πÖµî§ÅÏ(ÄÅÕÂπçM—Ö—îπëïŸ•çîÄÙÅ…ïπÖµï1ΩçÖ±ïŸ•çî°πÖµî§Ï(ÄÅÖ›Ö•–Å…ïù•Õ—ï…ïŸ•çî†§Ï(ÄÅÖ›Ö•–Å±ΩÖë±Ω’ëM—Ö—î†§Ï)Ù()ï·¡Ω…–ÅÖÕÂπåÅô’πç—•Ω∏ÅçΩµµ•—MÂπçMπÖ¡Õ°Ω–°Ï(ÄÅïπ—•—ÂQÂ¡î∞(ÄÅïπ—•—Â%ê∞(ÄÅÕπÖ¡Õ°Ω—AÖÂ±ΩÖê∞(ÄÅïŸïπ—AÖÂ±ΩÖêÄÙÅπ’±∞∞)Ù§ÅÏ(ÄÅ•òÄ†ÖÕÂπçM—Ö—îπ•π•—•Ö±•ÈïêÅÒÄÖÕÂπçM—Ö—îπëïŸ•çîπ•ê§Å…ï—’…∏Åπ’±∞Ï(ÄÅçΩπÕ–Å≠ï‰ÄÙÅïπ—•—Â-ï‰°ïπ—•—ÂQÂ¡î∞Åïπ—•—Â%ê§Ï(ÄÅ±ï–Å…ïŸ•Õ•Ω∏ÄÙÄ°…ïŸ•Õ•Ωπ%πëï‡πùï–°≠ï‰§ÅÒÄ¿§Ä¨ÄƒÏ(ÄÅçΩπÕ–ÅïŸïπ—%êÄÙÅç…Â¡—ºπ…ÖπëΩµUU%†§Ï(ÄÅçΩπÕ–Å…ï≈’ïÕ–ÄÙÄ†§ÄÙ¯(ÄÄÄÅÕ’¡ÖâÖÕîπ…¡å†âçΩµµ•—}ÕÂπç}ç°Öπùîà∞ÅÏ(ÄÄÄÄÄÅ¡}ïŸïπ—}•êËÅïŸïπ—%ê∞(ÄÄÄÄÄÅ¡}ÕΩ’…çï}ëïŸ•çï}•êËÅÕÂπçM—Ö—îπëïŸ•çîπ•ê∞(ÄÄÄÄÄÅ¡}ïπ—•—Â}—Â¡îËÅïπ—•—ÂQÂ¡î∞(ÄÄÄÄÄÅ¡}ïπ—•—Â}•êËÅïπ—•—Â%ê∞(ÄÄÄÄÄÅ¡}…ïŸ•Õ•Ω∏ËÅ…ïŸ•Õ•Ω∏∞(ÄÄÄÄÄÅ¡}Ω¡ï…Ö—•Ω∏ËÄâ’¡Õï…–à∞(ÄÄÄÄÄÅ¡}ÕπÖ¡Õ°Ω—}¡ÖÂ±ΩÖêËÅÕπÖ¡Õ°Ω—AÖÂ±ΩÖê∞(ÄÄÄÄÄÅ¡}ïŸïπ—}¡ÖÂ±ΩÖêËÅïŸïπ—AÖÂ±ΩÖêÅÒÅÕπÖ¡Õ°Ω—AÖÂ±ΩÖê∞(ÄÄÄÅÙ§Ï((ÄÅÕÂπçM—Ö—îπ¡ïπë•πù]…•—ïÃÄ¨ÙÄƒÏ(ÄÅ—…‰ÅÏ(ÄÄÄÅ±ï–Å…ïÕ’±–ÄÙÅÖ›Ö•–Å…ï≈’ïÕ–†§Ï(ÄÄÄÅ•òÄ†(ÄÄÄÄÄÅ…ïÕ’±–πï……Ω»Äòò(ÄÄÄÄÄÅM—…•πú°…ïÕ’±–πï……Ω»πµïÕÕÖùîÅÒÄàà§π•πç±’ëïÃ†âÕ—Ö±ï}ÕπÖ¡Õ°Ω—}…ïŸ•Õ•Ω∏à§(ÄÄÄÄ§ÅÏ(ÄÄÄÄÄÅçΩπÕ–Åç’……ïπ–ÄÙÅÖ›Ö•–Åôï—ç°MπÖ¡Õ°Ω–°ïπ—•—ÂQÂ¡î∞Åïπ—•—Â%ê§Ï(ÄÄÄÄÄÅ…ïŸ•Õ•Ω∏ÄÙÄ°9’µâï»°ç’……ïπ–¸π…ïŸ•Õ•Ω∏§ÅÒÄ¿§Ä¨ÄƒÏ(ÄÄÄÄÄÅ…ïÕ’±–ÄÙÅÖ›Ö•–Å…ï≈’ïÕ–†§Ï(ÄÄÄÅÙ(ÄÄÄÅ•òÄ°…ïÕ’±–πï……Ω»§Å—°…Ω‹Å…ïÕ’±–πï……Ω»Ï(ÄÄÄÅ…ïŸ•Õ•Ωπ%πëï‡πÕï–°≠ï‰∞Å…ïŸ•Õ•Ω∏§Ï(ÄÄÄÅ…ï—’…∏ÅÏÅÕï…Ÿï…MïƒËÅ9’µâï»°…ïÕ’±–πëÖ—Ñ§ÅÒÄ¿∞Å…ïŸ•Õ•Ω∏ÅÙÏ(ÄÅÙÅô•πÖ±±‰ÅÏ(ÄÄÄÅÕÂπçM—Ö—îπ¡ïπë•πù]…•—ïÃÄÙÅ5Ö—†πµÖ‡†¿∞ÅÕÂπçM—Ö—îπ¡ïπë•πù]…•—ïÃÄ¥Äƒ§Ï(ÄÅÙ)Ù()ï·¡Ω…–ÅÖÕÂπåÅô’πç—•Ω∏ÅÕÂπçA°Ωπï°Ö—9Ω‹†(ÄÅç°Ö…Öç—ï…%ê∞(ÄÅ≠•πêÄÙÄâç°Ö–π’¡ëÖ—îà∞(ÄÅâ…Öπç°%êÄÙÄàà∞(§ÅÏ(ÄÅçΩπÕ–Åç°Ö…Öç—ï»ÄÙÅÕ—Ö—îπç°Ö…Öç—ï…Ãπô•πê†°•—ï¥§ÄÙ¯Å•—ï¥π•êÄÙÙÙÅç°Ö…Öç—ï…%ê§Ï(ÄÅçΩπÕ–Åâ…Öπç†ÄÙ(ÄÄÄÅÕ—Ö—îπç°Ö—	…Öπç°ïÕmâ…Öπç°%ëtÅÒÅÖç—•Ÿï	…Öπç°Ω…°Ö…Öç—ï»°ç°Ö…Öç—ï…%ê§Ï(ÄÅ•òÄ†Öç°Ö…Öç—ï»ÅÒÄÖâ…Öπç†ÅÒÄÖÕÂπçM—Ö—îπ•π•—•Ö±•Èïê§Å…ï—’…∏Åπ’±∞Ï(ÄÅçΩπÕ–Åç°Ö…Öç—ï…MÂπç-ï‰ÄÙÅç±Ω’ë°Ö…Öç—ï…-ï‰°ç°Ö…Öç—ï»§Ï(ÄÅâ…Öπç†πç±Ω’ë	…Öπç°%êÅÒÙ(ÄÄÄÅâ…Öπç†π—ÖŸï…πMÖŸï%ê(ÄÄÄÄÄÄ¸ÅÅ—ÖŸï…π|ëÌÕ—Öâ±ïQï·—!ÖÕ††(ÄÄÄÄÄÄÄÄÄÅÄëÌâ…Öπç†π—ÖŸï…π°Ö…Öç—ï…-ïÂıëÌâ…Öπç†π—ÖŸï…πMÖŸï%ëıÄ∞(ÄÄÄÄÄÄÄÄ•ıÄ(ÄÄÄÄÄÄËÄâµÖ•∏àÏ(ÄÅçΩπÕ–ÅµïÕÕÖùïÃÄÙÅçΩµ¡Öç—5ïÕÕÖùïÃ°â…Öπç†πµïÕÕÖùïÃ∞Åâ…Öπç†π¡°ΩπïM’µµÖ…‰§Ï(ÄÅçΩπÕ–Åë•…—Â—M—Ö…–ÄÙÅ9’µâï»°â…Öπç†π±ΩçÖ±•…—Â–§ÅÒÅÖ—îππΩ‹†§Ï(ÄÅçΩπÕ–Å¡ÖÂ±ΩÖêÄÙÅÏ(ÄÄÄÅÕç°ïµÖYï…Õ•Ω∏ËÄ»∞(ÄÄÄÅç°Ö…Öç—ï…MÂπç-ï‰∞(ÄÄÄÅç°Ö…Öç—ï…%ê∞(ÄÄÄÅç°Ö…Öç—ï…9ÖµîËÅç°Ö…Öç—ï»ππÖµî∞(ÄÄÄÅç°Ö…Öç—ï…Ö…êËÅç°Ö…Öç—ï…Ö…ëAÖÂ±ΩÖê°ç°Ö…Öç—ï»§∞(ÄÄÄÅç°Ö…Öç—ï…U¡ëÖ—ïë–Ë(ÄÄÄÄÄÅ9’µâï»°ç°Ö…Öç—ï»π’¡ëÖ—ïë–§ÅÒÅ9’µâï»°ç°Ö…Öç—ï»π•µ¡Ω…—ïë–§ÅÒÅÖ—îππΩ‹†§∞(ÄÄÄÅâ…Öπç°%êËÅâ…Öπç†π•ê∞(ÄÄÄÅç±Ω’ë	…Öπç°%êËÅâ…Öπç†πç±Ω’ë	…Öπç°%ê∞(ÄÄÄÅâ…Öπç°Q•—±îËÅâ…Öπç†π—•—±î∞(ÄÄÄÅΩ…•ù•∏ËÅâ…Öπç†πΩ…•ù•∏∞(ÄÄÄÅ—ÖŸï…πMÖŸï%êËÅâ…Öπç†π—ÖŸï…πMÖŸï%êÅÒÄàà∞(ÄÄÄÅ—ÖŸï…π°Ö…Öç—ï…-ï‰ËÅâ…Öπç†π—ÖŸï…π°Ö…Öç—ï…-ï‰ÅÒÄàà∞(ÄÄÄÅµïÕÕÖùïÃ∞(ÄÄÄÅ›•πëΩ›M—Ö…—ïë–ËÅ9’µâï»°µïÕÕÖùïÕl¡t¸πç…ïÖ—ïë–§ÅÒÄ¿∞(ÄÄÄÅëï±ï—ïë5ïÕÕÖùï%ëÃËÄ°â…Öπç†πëï±ï—ïë5ïÕÕÖùï%ëÃÅÒÅmt§πÕ±•çî†¥»¿¿§∞(ÄÄÄÅ¡°ΩπïM’µµÖ…‰ËÅâ…Öπç†π¡°ΩπïM’µµÖ…‰ÅÒÅπ’±∞∞(ÄÄÄÅç…ïÖ—ïë–ËÅâ…Öπç†πç…ïÖ—ïë–∞(ÄÄÄÅ’¡ëÖ—ïë–ËÅÖ—îππΩ‹†§∞(ÄÅÙÏ(ÄÅçΩπÕ–Å…ïÕ’±–ÄÙÅÖ›Ö•–ÅçΩµµ•—MÂπçMπÖ¡Õ°Ω–°Ï(ÄÄÄÅïπ—•—ÂQÂ¡îËÄâ¡°Ωπîπç°Ö–à∞(ÄÄÄÅïπ—•—Â%êËÅÅç°Ö…Öç—ï»ËëÌç°Ö…Öç—ï…MÂπç-ïÂıÄ∞(ÄÄÄÅÕπÖ¡Õ°Ω—AÖÂ±ΩÖêËÅ¡ÖÂ±ΩÖê∞(ÄÄÄÅïŸïπ—AÖÂ±ΩÖêËÅÏ(ÄÄÄÄÄÅ≠•πê∞(ÄÄÄÄÄÅç°Ö…Öç—ï…MÂπç-ï‰∞(ÄÄÄÄÄÅç±Ω’ë	…Öπç°%êËÅâ…Öπç†πç±Ω’ë	…Öπç°%ê∞(ÄÄÄÄÄÅ’¡ëÖ—ïë–ËÅ¡ÖÂ±ΩÖêπ’¡ëÖ—ïë–∞(ÄÄÄÅÙ∞(ÄÅÙ§Ï(ÄÅ•òÄ°…ïÕ’±–§ÅÏ(ÄÄÄÅâ…Öπç†πç±Ω’ëIïŸ•Õ•Ω∏ÄÙÅ…ïÕ’±–π…ïŸ•Õ•Ω∏Ï(ÄÄÄÅ•òÄ†°9’µâï»°â…Öπç†π±ΩçÖ±•…—Â–§ÅÒÄ¿§ÄÙÅë•…—Â—M—Ö…–§ÅÏ(ÄÄÄÄÄÅâ…Öπç†π±ΩçÖ±•…—Â–ÄÙÄ¿Ï(ÄÄÄÅÙ(ÄÅÙ(ÄÅ…ï—’…∏Å…ïÕ’±–Ï)Ù()ï·¡Ω…–Åô’πç—•Ω∏Å≈’ï’ïA°Ωπï°Ö—MÂπå†(ÄÅç°Ö…Öç—ï…%ê∞(ÄÅ≠•πêÄÙÄâç°Ö–π’¡ëÖ—îà∞(ÄÅâ…Öπç°%êÄÙÄàà∞(§ÅÏ(ÄÅçΩπÕ–Åâ…Öπç†ÄÙ(ÄÄÄÅÕ—Ö—îπç°Ö—	…Öπç°ïÕmâ…Öπç°%ëtÅÒÅÖç—•Ÿï	…Öπç°Ω…°Ö…Öç—ï»°ç°Ö…Öç—ï…%ê§Ï(ÄÅ•òÄ†Öâ…Öπç†§Å…ï—’…∏Ï(ÄÅâ…Öπç†π’¡ëÖ—ïë–ÄÙÅÖ—îππΩ‹†§Ï(ÄÅâ…Öπç†π±ΩçÖ±•…—Â–ÄÙÅÖ—îππΩ‹†§Ï(ÄÅçΩπÕ–Å—•µï…-ï‰ÄÙÅâ…Öπç†π•êÏ(ÄÅç±ïÖ…Q•µïΩ’–°›…•—ïQ•µï…Ãπùï–°—•µï…-ï‰§§Ï(ÄÅ›…•—ïQ•µï…ÃπÕï–†(ÄÄÄÅ—•µï…-ï‰∞(ÄÄÄÅÕï—Q•µïΩ’–††§ÄÙ¯ÅÏ(ÄÄÄÄÄÅ›…•—ïQ•µï…Ãπëï±ï—î°—•µï…-ï‰§Ï(ÄÄÄÄÄÅÕÂπçA°Ωπï°Ö—9Ω‹°ç°Ö…Öç—ï…%ê∞Å≠•πê∞Åâ…Öπç†π•ê§πçÖ—ç††°ï……Ω»§ÄÙ¯ÅÏ(ÄÄÄÄÄÄÄÅÕÂπçM—Ö—îπï……Ω»ÄÙÅï……Ω»πµïÕÕÖùîÅÒÄã¢+ñíßí‚+íÚÉñí«¢“îàÏ(ÄÄÄÄÄÅÙ§Ï(ÄÄÄÅÙ∞Ä‹¿¿§∞(ÄÄ§Ï)Ù
+  branch.updatedAt = Date.now();
+  return branch;
+}
+
+function applyTavernSnapshot(snapshot) {
+  const payload = snapshot.payload || {};
+  const tavernCharacterKey =
+    payload.tavernCharacterKey || payload.characterKey || payload.characterId;
+  if (!tavernCharacterKey) return;
+  const inbox = (state.sync.tavernInbox[tavernCharacterKey] ||= {
+    characterName: payload.characterName || "",
+  });
+  if (payload.characterName) inbox.characterName = payload.characterName;
+  inbox.revision = Math.max(Number(inbox.revision) || 0, Number(snapshot.revision) || 0);
+  inbox.updatedAt = snapshot.updated_at || new Date().toISOString();
+  if (snapshot.entity_type === "tavern.active") inbox.active = payload;
+  if (snapshot.entity_type === "tavern.summary") inbox.summary = payload;
+  if (snapshot.entity_type === "tavern.recent") inbox.recent = payload;
+  if (snapshot.entity_type === "tavern.character") {
+    inbox.character = payload;
+    ensureTavernCharacter(payload);
+  }
+  if (snapshot.entity_type === "tavern.lorebooks") inbox.lorebooks = payload;
+  if (snapshot.entity_type === "tavern.lorebook.part") {
+    inbox.lorebookParts ||= {};
+    inbox.lorebookParts[snapshot.entity_id] = payload;
+  }
+
+  const characterId =
+    state.sync.characterBindings[tavernCharacterKey] ||
+    autoBindCharacter(tavernCharacterKey, payload.characterName || inbox.characterName);
+  if (characterId) hydrateTavernMemory(tavernCharacterKey, characterId);
+  if (
+    snapshot.entity_type === "tavern.character" ||
+    snapshot.entity_type === "tavern.lorebooks" ||
+    snapshot.entity_type === "tavern.lorebook.part"
+  ) {
+    rebuildTavernLorebooks(tavernCharacterKey);
+  }
+  updateMismatch(tavernCharacterKey);
+}
+
+function applyPhoneSnapshot(snapshot) {
+  const payload = snapshot.payload || {};
+  const character = ensurePhoneCharacter(snapshot);
+  if (!character) return;
+  const characterId = character.id;
+  const legacyMainBranch = /_main$/i.test(String(payload.branchId || ""));
+  const cloudBranchId =
+    payload.cloudBranchId ||
+    (legacyMainBranch ? "main" : payload.branchId) ||
+    "main";
+  let branch = branchesForCharacter(characterId).find(
+    (item) => item.cloudBranchId === cloudBranchId,
+  );
+  if (!branch && !payload.tavernCharacterKey && !payload.tavernSaveId) {
+    const knownTavernKey =
+      character.tavernCharacterKey ||
+      Object.entries(state.sync.characterBindings).find(
+        ([, boundCharacterId]) => boundCharacterId === characterId,
+      )?.[0] ||
+      "";
+    const activeSaveId =
+      state.sync.tavernInbox[knownTavernKey]?.active?.saveId || "";
+    branch = branchesForCharacter(characterId).find(
+      (item) =>
+        item.tavernCharacterKey === knownTavernKey &&
+        item.tavernSaveId === activeSaveId,
+    );
+  }
+  if (!branch) {
+    branch = {
+      id: createId("branch"),
+      characterId,
+      title: payload.branchTitle || "ÂêåÊ≠•ËÅäÂ§©",
+      origin: payload.origin || "phone",
+      tavernSaveId: payload.tavernSaveId || "",
+      tavernCharacterKey: payload.tavernCharacterKey || "",
+      cloudBranchId,
+      messages: [],
+      deletedMessageIds: [],
+      phoneSummary: payload.phoneSummary || null,
+      tavernSummary: payload.tavernSummary || null,
+      tavernRecent: payload.tavernRecent || null,
+      cloudRevision: 0,
+      createdAt: Number(payload.createdAt) || Date.now(),
+      updatedAt: Date.now(),
+    };
+    state.chatBranches[branch.id] = branch;
+  }
+
+  const priorRevision = Number(branch.cloudRevision) || 0;
+  const remoteRevision = Number(snapshot.revision) || 0;
+  const remoteMessages = (Array.isArray(payload.messages) ? payload.messages : [])
+    .filter((message) => message?.id && message?.content)
+    .map(compactMessage);
+  const remoteIds = new Set(remoteMessages.map((message) => message.id));
+  const remoteDeleted = new Set(
+    Array.isArray(payload.deletedMessageIds)
+      ? payload.deletedMessageIds.map(String)
+      : [],
+  );
+  const localDeleted = new Set(
+    Array.isArray(branch.deletedMessageIds)
+      ? branch.deletedMessageIds.map(String)
+      : [],
+  );
+  const deletedIds = new Set([...localDeleted, ...remoteDeleted]);
+  const localById = new Map(
+    (branch.messages || []).map((message) => [message.id, message]),
+  );
+
+  remoteMessages.forEach((remoteMessage) => {
+    const localMessage = localById.get(remoteMessage.id);
+    const localTimestamp =
+      Number(localMessage?.updatedAt) || Number(localMessage?.createdAt) || 0;
+    const remoteTimestamp =
+      Number(remoteMessage.updatedAt) || Number(remoteMessage.createdAt) || 0;
+    if (!localMessage || remoteTimestamp >= localTimestamp) {
+      localById.set(remoteMessage.id, remoteMessage);
+    }
+  });
+  branch.messages = [...localById.values()]
+    .filter((message) => !deletedIds.has(message.id))
+    .sort(
+      (left, right) =>
+        (Number(left.createdAt) || 0) - (Number(right.createdAt) || 0),
+    );
+  const repairedQueuedMessages = clearAnsweredQueuedMessages(branch.messages);
+  branch.deletedMessageIds = [...deletedIds].slice(-200);
+  branch.cloudBranchId =
+    branch.tavernCharacterKey && branch.tavernSaveId
+      ? `tavern_${stableTextHash(
+          `${branch.tavernCharacterKey}|${branch.tavernSaveId}`,
+        )}`
+      : cloudBranchId;
+  branch.cloudRevision = Math.max(priorRevision, remoteRevision);
+  branch.title = payload.branchTitle || branch.title;
+  branch.tavernSaveId = payload.tavernSaveId || branch.tavernSaveId || "";
+  branch.tavernCharacterKey =
+    payload.tavernCharacterKey || branch.tavernCharacterKey || "";
+  if (Object.prototype.hasOwnProperty.call(payload, "phoneSummary")) {
+    if (!payload.phoneSummary && remoteRevision >= priorRevision) {
+      branch.phoneSummary = null;
+    } else if (payload.phoneSummary) {
+      const localSummaryTime = Number(branch.phoneSummary?.updatedAt) || 0;
+      const remoteSummaryTime = Number(payload.phoneSummary.updatedAt) || 0;
+      if (remoteSummaryTime >= localSummaryTime) {
+        branch.phoneSummary = payload.phoneSummary;
+      }
+    }
+  }
+  branch.tavernSummary = payload.tavernSummary || branch.tavernSummary;
+  branch.tavernRecent = payload.tavernRecent || branch.tavernRecent;
+  branch.updatedAt = Math.max(
+    Number(branch.updatedAt) || 0,
+    Number(payload.updatedAt) || Date.now(),
+  );
+  if (!state.activeBranchIds[characterId]) {
+    state.activeBranchIds[characterId] = branch.id;
+  }
+  state.currentCharacterId ||= characterId;
+
+  const windowStartedAt =
+    Number(payload.windowStartedAt) ||
+    Number(remoteMessages[0]?.createdAt) ||
+    Number.MAX_SAFE_INTEGER;
+  const hasRecentLocalOnly = branch.messages.some(
+    (message) =>
+      Number(message.createdAt) >= windowStartedAt &&
+      !remoteIds.has(message.id) &&
+      !deletedIds.has(message.id),
+  );
+  const hasLocalOnlyDeletion = [...localDeleted].some(
+    (messageId) => !remoteDeleted.has(messageId),
+  );
+  if (
+    snapshot.source_device_id !== syncState.device.id &&
+    remoteRevision >= priorRevision &&
+    (hasRecentLocalOnly || hasLocalOnlyDeletion)
+  ) {
+    queuePhoneChatSync(characterId, "chat.converge", branch.id);
+  } else if (repairedQueuedMessages) {
+    queuePhoneChatSync(characterId, "message.repair", branch.id);
+  }
+}
+
+function applySnapshot(snapshot) {
+  if (!snapshot) return;
+  upsertSnapshotCache(snapshot);
+  if (snapshot.is_deleted) return;
+  if (snapshot.entity_type.startsWith("tavern.")) applyTavernSnapshot(snapshot);
+  if (snapshot.entity_type === "phone.chat") applyPhoneSnapshot(snapshot);
+}
+
+async function fetchSnapshot(entityType, entityId) {
+  const { data, error } = await supabase
+    .from("latest_snapshots")
+    .select(SNAPSHOT_FIELDS)
+    .eq("entity_type", entityType)
+    .eq("entity_id", entityId)
+    .maybeSingle();
+  if (error) throw error;
+  if (data) applySnapshot(data);
+  return data;
+}
+
+export async function refreshBranchMemoryForAi(characterId, branchId = "") {
+  const character = state.characters.find((item) => item.id === characterId);
+  const initialBranch =
+    state.chatBranches[branchId] || activeBranchForCharacter(characterId);
+  if (!character || !initialBranch || !syncState.initialized) return initialBranch;
+
+  await pullPromise.catch(() => {});
+  const tavernCharacterKey =
+    initialBranch.tavernCharacterKey ||
+    character.tavernCharacterKey ||
+    Object.entries(state.sync.characterBindings).find(
+      ([, boundCharacterId]) => boundCharacterId === characterId,
+    )?.[0] ||
+    "";
+  if (!tavernCharacterKey) return initialBranch;
+
+  const entityId = `character:${tavernCharacterKey}`;
+  try {
+    await fetchSnapshot("tavern.active", entityId);
+    await Promise.all([
+      fetchSnapshot("tavern.summary", entityId),
+      fetchSnapshot("tavern.recent", entityId),
+    ]);
+    return (
+      hydrateTavernMemory(tavernCharacterKey, characterId) ||
+      state.chatBranches[branchId] ||
+      activeBranchForCharacter(characterId)
+    );
+  } catch (error) {
+    syncState.error = error.message || "AI ÂõûÂ§çÂâçÂà∑Êñ∞ÈÖíÈ¶ÜËÆ∞ÂøÜÂ§±Ë¥•";
+    return (
+      hydrateTavernMemory(tavernCharacterKey, characterId) ||
+      state.chatBranches[branchId] ||
+      activeBranchForCharacter(characterId)
+    );
+  }
+}
+
+async function acknowledge(seq) {
+  if (!seq || !syncState.device.id) return;
+  const { error } = await supabase.rpc("ack_sync_cursor", {
+    p_device_id: syncState.device.id,
+    p_last_ack_seq: seq,
+  });
+  if (error) throw error;
+  state.sync.lastAckSeq = Math.max(Number(state.sync.lastAckSeq) || 0, Number(seq) || 0);
+}
+
+async function pullPendingEvents() {
+  let cursor = Math.max(0, Number(state.sync.lastAckSeq) || 0);
+  for (;;) {
+    const { data, error } = await supabase
+      .from("sync_events")
+      .select(
+        "server_seq,event_id,source_device_id,entity_type,entity_id,operation,revision,payload,created_at",
+      )
+      .gt("server_seq", cursor)
+      .order("server_seq", { ascending: true })
+      .limit(200);
+    if (error) throw error;
+    if (!data?.length) break;
+    for (const event of data) {
+      if (event.operation !== "delete") {
+        await fetchSnapshot(event.entity_type, event.entity_id);
+      }
+      cursor = Number(event.server_seq);
+    }
+    await acknowledge(cursor);
+    if (data.length < 200) break;
+  }
+  syncState.lastPullAt = Date.now();
+}
+
+function queuePull() {
+  pullPromise = pullPromise
+    .then(() => pullPendingEvents())
+    .catch((error) => {
+      syncState.error = error.message || "ÂêåÊ≠•‰∫ã‰ª∂ËØªÂèñÂ§±Ë¥•";
+    });
+  return pullPromise;
+}
+
+async function loadCloudState() {
+  const [devicesResult, snapshotsResult, usageResult] = await Promise.all([
+    supabase.from("user_devices").select(DEVICE_FIELDS).order("last_seen_at", {
+      ascending: false,
+    }),
+    supabase.from("latest_snapshots").select(SNAPSHOT_FIELDS),
+    supabase.from("user_sync_usage").select("*").maybeSingle(),
+  ]);
+  if (devicesResult.error) throw devicesResult.error;
+  if (snapshotsResult.error) throw snapshotsResult.error;
+  if (usageResult.error) throw usageResult.error;
+  syncState.devices = devicesResult.data || [];
+  syncState.snapshots = [];
+  revisionIndex.clear();
+  (snapshotsResult.data || []).forEach(applySnapshot);
+  Object.keys(state.sync.tavernInbox).forEach((tavernCharacterKey) => {
+    hydrateTavernMemory(tavernCharacterKey);
+    updateMismatch(tavernCharacterKey);
+  });
+  syncState.usage = usageResult.data || null;
+}
+
+async function registerDevice() {
+  syncState.device = getDeviceIdentity();
+  const { data, error } = await supabase.rpc("register_sync_device", {
+    p_device_id: syncState.device.id,
+    p_device_name: syncState.device.name,
+    p_platform: syncState.device.platform,
+    p_app_version: APP_VERSION,
+  });
+  if (error) throw error;
+  const registered = Array.isArray(data) ? data[0] : data;
+  state.sync.lastAckSeq = Math.max(
+    Number(state.sync.lastAckSeq) || 0,
+    Number(registered?.last_ack_seq) || 0,
+    Number(registered?.joined_seq) || 0,
+  );
+  return registered;
+}
+
+function subscribeRealtime(userId) {
+  if (realtimeChannel) supabase.removeChannel(realtimeChannel);
+  realtimeChannel = supabase
+    .channel(`linephone-sync-${syncState.device.id}`)
+    .on(
+      "postgres_changes",
+      {
+        event: "INSERT",
+        schema: "public",
+        table: "sync_events",
+        filter: `user_id=eq.${userId}`,
+      },
+      () => queuePull(),
+    )
+    .subscribe((status) => {
+      syncState.connected = status === "SUBSCRIBED";
+    });
+}
+
+async function flushDirtyBranches() {
+  const latestDirtyByCharacter = new Map();
+  Object.values(state.chatBranches)
+    .filter((branch) => branch.localDirtyAt)
+    .forEach((branch) => {
+      const prior = latestDirtyByCharacter.get(branch.characterId);
+      if (!prior || branch.localDirtyAt > prior.localDirtyAt) {
+        latestDirtyByCharacter.set(branch.characterId, branch);
+      }
+    });
+  for (const branch of latestDirtyByCharacter.values()) {
+    await syncPhoneChatNow(branch.characterId, "offline.flush", branch.id);
+  }
+}
+
+export async function initializeSync(userId) {
+  if (!userId || (syncState.initialized && syncState.userId === userId)) return;
+  syncState.busy = true;
+  syncState.error = "";
+  syncState.userId = userId;
+  try {
+    await registerDevice();
+    await loadCloudState();
+    subscribeRealtime(userId);
+    await queuePull();
+    syncState.initialized = true;
+    await flushDirtyBranches();
+  } catch (error) {
+    syncState.error = error.message || "ÂêåÊ≠•ÂàùÂßãÂåñÂ§±Ë¥•";
+  } finally {
+    syncState.busy = false;
+  }
+}
+
+export function stopSync() {
+  if (realtimeChannel) supabase.removeChannel(realtimeChannel);
+  realtimeChannel = null;
+  writeTimers.forEach((timer) => clearTimeout(timer));
+  writeTimers.clear();
+  syncState.initialized = false;
+  syncState.connected = false;
+  syncState.userId = "";
+}
+
+export async function refreshSyncData() {
+  if (!syncState.userId) return;
+  syncState.busy = true;
+  syncState.error = "";
+  try {
+    await registerDevice();
+    await loadCloudState();
+    await queuePull();
+  } catch (error) {
+    syncState.error = error.message || "ÂêåÊ≠•Âà∑Êñ∞Â§±Ë¥•";
+  } finally {
+    syncState.busy = false;
+  }
+}
+
+export async function updateDeviceName(name) {
+  syncState.device = renameLocalDevice(name);
+  await registerDevice();
+  await loadCloudState();
+}
+
+export async function commitSyncSnapshot({
+  entityType,
+  entityId,
+  snapshotPayload,
+  eventPayload = null,
+}) {
+  if (!syncState.initialized || !syncState.device.id) return null;
+  const key = entityKey(entityType, entityId);
+  let revision = (revisionIndex.get(key) || 0) + 1;
+  const eventId = crypto.randomUUID();
+  const request = () =>
+    supabase.rpc("commit_sync_change", {
+      p_event_id: eventId,
+      p_source_device_id: syncState.device.id,
+      p_entity_type: entityType,
+      p_entity_id: entityId,
+      p_revision: revision,
+      p_operation: "upsert",
+      p_snapshot_payload: snapshotPayload,
+      p_event_payload: eventPayload || snapshotPayload,
+    });
+
+  syncState.pendingWrites += 1;
+  try {
+    let result = await request();
+    if (
+      result.error &&
+      String(result.error.message || "").includes("stale_snapshot_revision")
+    ) {
+      const current = await fetchSnapshot(entityType, entityId);
+      revision = (Number(current?.revision) || 0) + 1;
+      result = await request();
+    }
+    if (result.error) throw result.error;
+    revisionIndex.set(key, revision);
+    return { serverSeq: Number(result.data) || 0, revision };
+  } finally {
+    syncState.pendingWrites = Math.max(0, syncState.pendingWrites - 1);
+  }
+}
+
+export async function syncPhoneChatNow(
+  characterId,
+  kind = "chat.update",
+  branchId = "",
+) {
+  const character = state.characters.find((item) => item.id === characterId);
+  const branch =
+    state.chatBranches[branchId] || activeBranchForCharacter(characterId);
+  if (!character || !branch || !syncState.initialized) return null;
+  const characterSyncKey = cloudCharacterKey(character);
+  branch.cloudBranchId ||=
+    branch.tavernSaveId
+      ? `tavern_${stableTextHash(
+          `${branch.tavernCharacterKey}|${branch.tavernSaveId}`,
+        )}`
+      : "main";
+  const messages = compactMessages(branch.messages, branch.phoneSummary);
+  const dirtyAtStart = Number(branch.localDirtyAt) || Date.now();
+  const payload = {
+    schemaVersion: 2,
+    characterSyncKey,
+    characterId,
+    characterName: character.name,
+    characterCard: characterCardPayload(character),
+    characterUpdatedAt:
+      Number(character.updatedAt) || Number(character.importedAt) || Date.now(),
+    branchId: branch.id,
+    cloudBranchId: branch.cloudBranchId,
+    branchTitle: branch.title,
+    origin: branch.origin,
+    tavernSaveId: branch.tavernSaveId || "",
+    tavernCharacterKey: branch.tavernCharacterKey || "",
+    messages,
+    windowStartedAt: Number(messages[0]?.createdAt) || 0,
+    deletedMessageIds: (branch.deletedMessageIds || []).slice(-200),
+    phoneSummary: branch.phoneSummary || null,
+    createdAt: branch.createdAt,
+    updatedAt: Date.now(),
+  };
+  const result = await commitSyncSnapshot({
+    entityType: "phone.chat",
+    entityId: `character:${characterSyncKey}`,
+    snapshotPayload: payload,
+    eventPayload: {
+      kind,
+      characterSyncKey,
+      cloudBranchId: branch.cloudBranchId,
+      updatedAt: payload.updatedAt,
+    },
+  });
+  if (result) {
+    branch.cloudRevision = result.revision;
+    if ((Number(branch.localDirtyAt) || 0) <= dirtyAtStart) {
+      branch.localDirtyAt = 0;
+    }
+  }
+  return result;
+}
+
+export function queuePhoneChatSync(
+  characterId,
+  kind = "chat.update",
+  branchId = "",
+) {
+  const branch =
+    state.chatBranches[branchId] || activeBranchForCharacter(characterId);
+  if (!branch) return;
+  branch.updatedAt = Date.now();
+  branch.localDirtyAt = Date.now();
+  const timerKey = branch.id;
+  clearTimeout(writeTimers.get(timerKey));
+  writeTimers.set(
+    timerKey,
+    setTimeout(() => {
+      writeTimers.delete(timerKey);
+      syncPhoneChatNow(characterId, kind, branch.id).catch((error) => {
+        syncState.error = error.message || "ËÅäÂ§©‰∏ä‰º†Â§±Ë¥•";
+      });
+    }, 700),
+  );
+}
