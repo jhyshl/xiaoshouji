@@ -1,4 +1,4 @@
-function ot(t, e) {
+function lt(t, e) {
   var r = {};
   for (var s in t) Object.prototype.hasOwnProperty.call(t, s) && e.indexOf(s) < 0 && (r[s] = t[s]);
   if (t != null && typeof Object.getOwnPropertySymbols == "function")
@@ -13,28 +13,28 @@ function as(t, e, r, s) {
     });
   }
   return new (r || (r = Promise))(function(i, a) {
-    function o(h) {
+    function o(u) {
       try {
-        c(s.next(h));
-      } catch (u) {
-        a(u);
+        c(s.next(u));
+      } catch (h) {
+        a(h);
       }
     }
-    function l(h) {
+    function l(u) {
       try {
-        c(s.throw(h));
-      } catch (u) {
-        a(u);
+        c(s.throw(u));
+      } catch (h) {
+        a(h);
       }
     }
-    function c(h) {
-      h.done ? i(h.value) : n(h.value).then(o, l);
+    function c(u) {
+      u.done ? i(u.value) : n(u.value).then(o, l);
     }
     c((s = s.apply(t, e || [])).next());
   });
 }
 const os = (t) => t ? (...e) => t(...e) : (...e) => fetch(...e);
-class Nt extends Error {
+class Ut extends Error {
   constructor(e, r = "FunctionsError", s) {
     super(e), this.name = r, this.context = s;
   }
@@ -46,25 +46,25 @@ class Nt extends Error {
     };
   }
 }
-class ls extends Nt {
+class ls extends Ut {
   constructor(e) {
     super("Failed to send a request to the Edge Function", "FunctionsFetchError", e);
   }
 }
-class Mt extends Nt {
+class Mt extends Ut {
   constructor(e) {
     super("Relay Error invoking the Edge Function", "FunctionsRelayError", e);
   }
 }
-class Kt extends Nt {
+class Kt extends Ut {
   constructor(e) {
     super("Edge Function returned a non-2xx status code", "FunctionsHttpError", e);
   }
 }
-var _t;
+var St;
 (function(t) {
   t.Any = "any", t.ApNortheast1 = "ap-northeast-1", t.ApNortheast2 = "ap-northeast-2", t.ApSouth1 = "ap-south-1", t.ApSoutheast1 = "ap-southeast-1", t.ApSoutheast2 = "ap-southeast-2", t.CaCentral1 = "ca-central-1", t.EuCentral1 = "eu-central-1", t.EuWest1 = "eu-west-1", t.EuWest2 = "eu-west-2", t.EuWest3 = "eu-west-3", t.SaEast1 = "sa-east-1", t.UsEast1 = "us-east-1", t.UsWest1 = "us-west-1", t.UsWest2 = "us-west-2";
-})(_t || (_t = {}));
+})(St || (St = {}));
 class cs {
   /**
    * Creates a new Functions client bound to an Edge Functions URL.
@@ -89,7 +89,7 @@ class cs {
    * })
    * ```
    */
-  constructor(e, { headers: r = {}, customFetch: s, region: n = _t.Any } = {}) {
+  constructor(e, { headers: r = {}, customFetch: s, region: n = St.Any } = {}) {
     this.url = e, this.headers = r, this.region = n, this.fetch = os(s);
   }
   /**
@@ -238,18 +238,18 @@ class cs {
       var n, i;
       let a, o, l;
       try {
-        const { headers: c, method: h, body: u, signal: d, timeout: f } = s;
+        const { headers: c, method: u, body: h, signal: d, timeout: f } = s;
         let p = {}, { region: y } = s;
         y || (y = this.region);
-        const v = new URL(`${this.url}/${r}`);
-        y && y !== "any" && (p["x-region"] = y, v.searchParams.set("forceFunctionRegion", y));
+        const m = new URL(`${this.url}/${r}`);
+        y && y !== "any" && (p["x-region"] = y, m.searchParams.set("forceFunctionRegion", y));
         let w;
         const S = !!c && Object.keys(c).some((Se) => Se.toLowerCase() === "content-type");
-        u && !S ? typeof Blob < "u" && u instanceof Blob || u instanceof ArrayBuffer ? (p["Content-Type"] = "application/octet-stream", w = u) : typeof u == "string" ? (p["Content-Type"] = "text/plain", w = u) : typeof FormData < "u" && u instanceof FormData ? w = u : (p["Content-Type"] = "application/json", w = JSON.stringify(u)) : u && typeof u != "string" && !(typeof Blob < "u" && u instanceof Blob) && !(u instanceof ArrayBuffer) && !(typeof FormData < "u" && u instanceof FormData) ? w = JSON.stringify(u) : w = u;
+        h && !S ? typeof Blob < "u" && h instanceof Blob || h instanceof ArrayBuffer ? (p["Content-Type"] = "application/octet-stream", w = h) : typeof h == "string" ? (p["Content-Type"] = "text/plain", w = h) : typeof FormData < "u" && h instanceof FormData ? w = h : (p["Content-Type"] = "application/json", w = JSON.stringify(h)) : h && typeof h != "string" && !(typeof Blob < "u" && h instanceof Blob) && !(h instanceof ArrayBuffer) && !(typeof FormData < "u" && h instanceof FormData) ? w = JSON.stringify(h) : w = h;
         let _ = d;
         f && (o = new AbortController(), a = setTimeout(() => o.abort(), f), d ? (_ = o.signal, l = () => o.abort(), d.addEventListener("abort", l)) : _ = o.signal);
-        const E = yield this.fetch(v.toString(), {
-          method: h || "POST",
+        const E = yield this.fetch(m.toString(), {
+          method: u || "POST",
           // headers priority is (high to low):
           // 1. invoke-level headers
           // 2. client-level headers
@@ -419,381 +419,17684 @@ var ds = class {
   * ```
   */
   stripNulls() {
-    if (this.headers.get("Accept") === "text/csv") throw new Error("strÛMz÷{h‘éì¶»§q«^tKˆÂˆ‹‹˜KˆÛÝ™\™Y›ÝYÚˆËˆÛÛ[ˆ‹œÝ[[X\žHˆ‹ˆÛÝ\˜ÙR\Úˆ‹œÛÝ\˜ÙR\Úˆ‹ˆÝ[NˆH\‹œÝ[[X\žTÝ[KˆX[X[QY]Y]ˆ‹›X[X[QY]Y]ˆKˆÂˆÚ[™ˆœÝ[[X\žKœ™\XÙH‹ˆ]™\›Ú\˜XÝ\’Ù^Nˆ]™\›Ú\˜XÝ\’Ù^KˆØ]™RYˆœØ]™RYˆÛÝ™\™Y›ÝYÚˆÂˆBˆ
-K]ØZ]ÙJˆ]™\›‹œ™XÙ[‹ˆKˆÂˆ‹‹˜KˆÝ\ÐY\ŽˆËˆ›Ý[™Îˆ‚ˆKˆÂˆÚ[™ˆœ™XÙ[œ™\XÙH‹ˆ]™\›Ú\˜XÝ\’Ù^Nˆ]™\›Ú\˜XÝ\’Ù^KˆØ]™RYˆœØ]™RYˆ›ÛÜÛÝ[ˆ‹›[™ÝˆBˆ
-NÂŸB˜\Þ[˜È[˜Ý[Ûˆ]
-Âˆ›Ü˜ÙU\ØYˆHLKˆ[ÝÔÝ[[X\žNˆHHLˆ™Yœ™\Ú\ÜÙ]ÎˆˆHLBŸHHßJHÂˆYˆ
-Ë˜\ÞH^
+    if (this.headers.get("Accept") === "text/csv") throw new Error("stripNulls() cannot be used with csv()");
+    return this.shouldStripNulls = !0, this;
+  }
+  /**
+  * Set an HTTP header on this single PostgREST request, overriding any header
+  * with the same name set on the client.
+  *
+  * This is an advanced escape hatch for one-off needs (passing a custom
+  * `Authorization` for a single query, attaching a tracing header, etc.).
+  * Most callers do not need it: configure client-wide headers via the
+  * `headers` option when constructing the client, and authentication via
+  * Supabase Auth.
+  *
+  * @param name - HTTP header name
+  * @param value - HTTP header value
+  *
+  * @category Database
+  * @subcategory Using modifiers
+  */
+  setHeader(t, e) {
+    return this.headers = new Headers(this.headers), this.headers.set(t, e), this;
+  }
+  /**
+  * @category Database
+  * @subcategory Using modifiers
+  *
+  * Configure retry behavior for this request.
+  *
+  * By default, retries are enabled for idempotent requests (GET, HEAD, OPTIONS)
+  * that fail with network errors or specific HTTP status codes (503, 520).
+  * Retries use exponential backoff (1s, 2s, 4s) with a maximum of 3 attempts.
+  *
+  * @param enabled - Whether to enable retries for this request
+  *
+  * @example
+  * ```ts
+  * // Disable retries for a specific query
+  * const { data, error } = await supabase
+  *   .from('users')
+  *   .select()
+  *   .retry(false)
+  * ```
+  */
+  retry(t) {
+    return this.retryEnabled = t, this;
+  }
+  then(t, e) {
+    var r = this;
+    if (this.schema === void 0 || (["GET", "HEAD"].includes(this.method) ? this.headers.set("Accept-Profile", this.schema) : this.headers.set("Content-Profile", this.schema)), this.method !== "GET" && this.method !== "HEAD" && this.headers.set("Content-Type", "application/json"), this.shouldStripNulls) {
+      const a = this.headers.get("Accept");
+      a === "application/vnd.pgrst.object+json" ? this.headers.set("Accept", "application/vnd.pgrst.object+json;nulls=stripped") : (!a || a === "application/json") && this.headers.set("Accept", "application/vnd.pgrst.array+json;nulls=stripped");
+    }
+    const s = this.fetch;
+    let i = (async () => {
+      let a = 0;
+      for (; ; ) {
+        const c = {};
+        r.headers.forEach((h, d) => {
+          c[d] = h;
+        }), a > 0 && (c["X-Retry-Count"] = String(a));
+        let u;
+        try {
+          u = await s(r.url.toString(), {
+            method: r.method,
+            headers: c,
+            body: JSON.stringify(r.body, (h, d) => typeof d == "bigint" ? d.toString() : d),
+            signal: r.signal
+          });
+        } catch (h) {
+          if (h?.name === "AbortError" || h?.code === "ABORT_ERR" || !Pr.includes(r.method)) throw h;
+          if (r.retryEnabled && a < Cr) {
+            const d = Ft(a);
+            a++, await Vt(d, r.signal);
+            continue;
+          }
+          throw h;
+        }
+        if (hs(r.method, u.status, a, r.retryEnabled)) {
+          var o, l;
+          const h = (o = (l = u.headers) === null || l === void 0 ? void 0 : l.get("Retry-After")) !== null && o !== void 0 ? o : null, d = h !== null ? Math.max(0, parseInt(h, 10) || 0) * 1e3 : Ft(a);
+          await u.text(), a++, await Vt(d, r.signal);
+          continue;
+        }
+        return await r.processResponse(u);
+      }
+    })();
+    return this.shouldThrowOnError || (i = i.catch((a) => {
+      var o;
+      let l = "", c = "", u = "";
+      const h = a?.cause;
+      if (h) {
+        var d, f, p, y;
+        const S = (d = h?.message) !== null && d !== void 0 ? d : "", _ = (f = h?.code) !== null && f !== void 0 ? f : "";
+        l = `${(p = a?.name) !== null && p !== void 0 ? p : "FetchError"}: ${a?.message}`, l += `
 
-K™[˜X›Y
-H™]\›ŽÂˆ]ÎÂˆžHÂˆÈH]ØZ]
+Caused by: ${(y = h?.name) !== null && y !== void 0 ? y : "Error"}: ${S}`, _ && (l += ` (${_})`), h?.stack && (l += `
+${h.stack}`);
+      } else {
+        var m;
+        l = (m = a?.stack) !== null && m !== void 0 ? m : "";
+      }
+      const w = this.url.toString().length;
+      return a?.name === "AbortError" || a?.code === "ABORT_ERR" ? (u = "", c = "Request was aborted (timeout or manual cancellation)", w > this.urlLengthLimit && (c += `. Note: Your request URL is ${w} characters, which may exceed server limits. If selecting many fields, consider using views. If filtering with large arrays (e.g., .in('id', [many IDs])), consider using an RPC function to pass values server-side.`)) : (h?.name === "HeadersOverflowError" || h?.code === "UND_ERR_HEADERS_OVERFLOW") && (u = "", c = "HTTP headers exceeded server limits (typically 16KB)", w > this.urlLengthLimit && (c += `. Your request URL is ${w} characters. If selecting many fields, consider using views. If filtering with large arrays (e.g., .in('id', [200+ IDs])), consider using an RPC function instead.`)), {
+        success: !1,
+        error: {
+          message: `${(o = a?.name) !== null && o !== void 0 ? o : "FetchError"}: ${a?.message}`,
+          details: l,
+          hint: c,
+          code: u
+        },
+        data: null,
+        count: null,
+        status: 0,
+        statusText: ""
+      };
+    })), i.then(t, e);
+  }
+  /**
+  * Process a fetch response and return the standardized postgrest response.
+  */
+  async processResponse(t) {
+    var e = this;
+    let r = null, s = null, n = null, i = t.status, a = t.statusText;
+    if (t.ok) {
+      var o, l;
+      if (e.method !== "HEAD") {
+        var c;
+        const d = await t.text();
+        if (d !== "") if (e.headers.get("Accept") === "text/csv") s = d;
+        else if (e.headers.get("Accept") && (!((c = e.headers.get("Accept")) === null || c === void 0) && c.includes("application/vnd.pgrst.plan+text"))) s = d;
+        else try {
+          s = JSON.parse(d);
+        } catch {
+          if (r = { message: d }, s = null, e.shouldThrowOnError) throw new Wt({
+            message: d,
+            details: "",
+            hint: "",
+            code: ""
+          });
+        }
+      }
+      const u = (o = e.headers.get("Prefer")) === null || o === void 0 ? void 0 : o.match(/count=(exact|planned|estimated)/), h = (l = t.headers.get("content-range")) === null || l === void 0 ? void 0 : l.split("/");
+      u && h && h.length > 1 && (n = parseInt(h[1])), e.isMaybeSingle && Array.isArray(s) && (s.length > 1 ? (r = {
+        code: "PGRST116",
+        details: `Results contain ${s.length} rows, application/vnd.pgrst.object+json requires 1 row`,
+        hint: null,
+        message: "JSON object requested, multiple (or no) rows returned"
+      }, s = null, n = null, i = 406, a = "Not Acceptable") : s.length === 1 ? s = s[0] : s = null);
+    } else {
+      const u = await t.text();
+      try {
+        r = JSON.parse(u), Array.isArray(r) && t.status === 404 && (s = [], r = null, i = 200, a = "OK");
+      } catch {
+        t.status === 404 && u === "" ? (i = 204, a = "No Content") : r = { message: u };
+      }
+      if (r && e.shouldThrowOnError) throw new Wt(r);
+    }
+    return {
+      success: r === null,
+      error: r,
+      data: s,
+      count: n,
+      status: i,
+      statusText: a
+    };
+  }
+  /**
+  * Override the type of the returned `data`.
+  *
+  * @typeParam NewResult - The new result type to override with
+  * @deprecated Use overrideTypes<yourType, { merge: false }>() method at the end of your call chain instead
+  *
+  * @category Database
+  * @subcategory Using modifiers
+  */
+  returns() {
+    return this;
+  }
+  /**
+  * Override the type of the returned `data` field in the response.
+  *
+  * @typeParam NewResult - The new type to cast the response data to
+  * @typeParam Options - Optional type configuration (defaults to { merge: true })
+  * @typeParam Options.merge - When true, merges the new type with existing return type. When false, replaces the existing types entirely (defaults to true)
+  * @example
+  * ```typescript
+  * // Merge with existing types (default behavior)
+  * const query = supabase
+  *   .from('users')
+  *   .select()
+  *   .overrideTypes<{ custom_field: string }>()
+  *
+  * // Replace existing types completely
+  * const replaceQuery = supabase
+  *   .from('users')
+  *   .select()
+  *   .overrideTypes<{ id: number; name: string }, { merge: false }>()
+  * ```
+  * @returns A PostgrestBuilder instance with the new type
+  *
+  * @category Database
+  * @subcategory Using modifiers
+  *
+  * @example Complete Override type of successful response
+  * ```ts
+  * const { data } = await supabase
+  *   .from('countries')
+  *   .select()
+  *   .overrideTypes<Array<MyType>, { merge: false }>()
+  * ```
+  *
+  * @exampleResponse Complete Override type of successful response
+  * ```ts
+  * let x: typeof data // MyType[]
+  * ```
+  *
+  * @example Complete Override type of object response
+  * ```ts
+  * const { data } = await supabase
+  *   .from('countries')
+  *   .select()
+  *   .maybeSingle()
+  *   .overrideTypes<MyType, { merge: false }>()
+  * ```
+  *
+  * @exampleResponse Complete Override type of object response
+  * ```ts
+  * let x: typeof data // MyType | null
+  * ```
+  *
+  * @example Partial Override type of successful response
+  * ```ts
+  * const { data } = await supabase
+  *   .from('countries')
+  *   .select()
+  *   .overrideTypes<Array<{ status: "A" | "B" }>>()
+  * ```
+  *
+  * @exampleResponse Partial Override type of successful response
+  * ```ts
+  * let x: typeof data // Array<CountryRowProperties & { status: "A" | "B" }>
+  * ```
+  *
+  * @example Partial Override type of object response
+  * ```ts
+  * const { data } = await supabase
+  *   .from('countries')
+  *   .select()
+  *   .maybeSingle()
+  *   .overrideTypes<{ status: "A" | "B" }>()
+  * ```
+  *
+  * @exampleResponse Partial Override type of object response
+  * ```ts
+  * let x: typeof data // CountryRowProperties & { status: "A" | "B" } | null
+  * ```
+  *
+  * @example Merge vs replace existing types
+  * ```typescript
+  * // Merge with existing types (default behavior)
+  * const query = supabase
+  *   .from('users')
+  *   .select()
+  *   .overrideTypes<{ custom_field: string }>()
+  *
+  * // Replace existing types completely
+  * const replaceQuery = supabase
+  *   .from('users')
+  *   .select()
+  *   .overrideTypes<{ id: number; name: string }, { merge: false }>()
+  * ```
+  */
+  overrideTypes() {
+    return this;
+  }
+}, fs = class extends ds {
+  throwOnError() {
+    return super.throwOnError();
+  }
+  /**
+  * Perform a SELECT on the query result.
+  *
+  * By default, `.insert()`, `.update()`, `.upsert()`, and `.delete()` do not
+  * return modified rows. By calling this method, modified rows are returned in
+  * `data`.
+  *
+  * @param columns - The columns to retrieve, separated by commas
+  *
+  * @category Database
+  * @subcategory Using modifiers
+  *
+  * @example With `upsert()`
+  * ```ts
+  * const { data, error } = await supabase
+  *   .from('characters')
+  *   .upsert({ id: 1, name: 'Han Solo' })
+  *   .select()
+  * ```
+  *
+  * @exampleSql With `upsert()`
+  * ```sql
+  * create table
+  *   characters (id int8 primary key, name text);
+  *
+  * insert into
+  *   characters (id, name)
+  * values
+  *   (1, 'Han');
+  * ```
+  *
+  * @exampleResponse With `upsert()`
+  * ```json
+  * {
+  *   "data": [
+  *     {
+  *       "id": 1,
+  *       "name": "Han Solo"
+  *     }
+  *   ],
+  *   "status": 201,
+  *   "statusText": "Created"
+  * }
+  * ```
+  */
+  select(t) {
+    let e = !1;
+    const r = (t ?? "*").split("").map((s) => /\s/.test(s) && !e ? "" : (s === '"' && (e = !e), s)).join("");
+    return this.url.searchParams.set("select", r), this.headers.append("Prefer", "return=representation"), this;
+  }
+  /**
+  * Order the query result by `column`.
+  *
+  * You can call this method multiple times to order by multiple columns.
+  *
+  * You can order referenced tables, but it only affects the ordering of the
+  * parent table if you use `!inner` in the query.
+  *
+  * @param column - The column to order by
+  * @param options - Named parameters
+  * @param options.ascending - If `true`, the result will be in ascending order
+  * @param options.nullsFirst - If `true`, `null`s appear first. If `false`,
+  * `null`s appear last.
+  * @param options.referencedTable - Set this to order a referenced table by
+  * its columns
+  * @param options.foreignTable - Deprecated, use `options.referencedTable`
+  * instead
+  *
+  * @category Database
+  * @subcategory Using modifiers
+  *
+  * @example With `select()`
+  * ```ts
+  * const { data, error } = await supabase
+  *   .from('characters')
+  *   .select('id, name')
+  *   .order('id', { ascending: false })
+  * ```
+  *
+  * @exampleSql With `select()`
+  * ```sql
+  * create table
+  *   characters (id int8 primary key, name text);
+  *
+  * insert into
+  *   characters (id, name)
+  * values
+  *   (1, 'Luke'),
+  *   (2, 'Leia'),
+  *   (3, 'Han');
+  * ```
+  *
+  * @exampleResponse With `select()`
+  * ```json
+  * {
+  *   "data": [
+  *     {
+  *       "id": 3,
+  *       "name": "Han"
+  *     },
+  *     {
+  *       "id": 2,
+  *       "name": "Leia"
+  *     },
+  *     {
+  *       "id": 1,
+  *       "name": "Luke"
+  *     }
+  *   ],
+  *   "status": 200,
+  *   "statusText": "OK"
+  * }
+  * ```
+  *
+  * @exampleDescription On a referenced table
+  * Ordering with `referencedTable` doesn't affect the ordering of the
+  * parent table.
+  *
+  * @example On a referenced table
+  * ```ts
+  *   const { data, error } = await supabase
+  *     .from('orchestral_sections')
+  *     .select(`
+  *       name,
+  *       instruments (
+  *         name
+  *       )
+  *     `)
+  *     .order('name', { referencedTable: 'instruments', ascending: false })
+  *
+  * ```
+  *
+  * @exampleSql On a referenced table
+  * ```sql
+  * create table
+  *   orchestral_sections (id int8 primary key, name text);
+  * create table
+  *   instruments (
+  *     id int8 primary key,
+  *     section_id int8 not null references orchestral_sections,
+  *     name text
+  *   );
+  *
+  * insert into
+  *   orchestral_sections (id, name)
+  * values
+  *   (1, 'strings'),
+  *   (2, 'woodwinds');
+  * insert into
+  *   instruments (id, section_id, name)
+  * values
+  *   (1, 1, 'harp'),
+  *   (2, 1, 'violin');
+  * ```
+  *
+  * @exampleResponse On a referenced table
+  * ```json
+  * {
+  *   "data": [
+  *     {
+  *       "name": "strings",
+  *       "instruments": [
+  *         {
+  *           "name": "violin"
+  *         },
+  *         {
+  *           "name": "harp"
+  *         }
+  *       ]
+  *     },
+  *     {
+  *       "name": "woodwinds",
+  *       "instruments": []
+  *     }
+  *   ],
+  *   "status": 200,
+  *   "statusText": "OK"
+  * }
+  * ```
+  *
+  * @exampleDescription Order parent table by a referenced table
+  * Ordering with `referenced_table(col)` affects the ordering of the
+  * parent table.
+  *
+  * @example Order parent table by a referenced table
+  * ```ts
+  *   const { data, error } = await supabase
+  *     .from('instruments')
+  *     .select(`
+  *       name,
+  *       section:orchestral_sections (
+  *         name
+  *       )
+  *     `)
+  *     .order('section(name)', { ascending: true })
+  *
+  * ```
+  *
+  * @exampleSql Order parent table by a referenced table
+  * ```sql
+  * create table
+  *   orchestral_sections (id int8 primary key, name text);
+  * create table
+  *   instruments (
+  *     id int8 primary key,
+  *     section_id int8 not null references orchestral_sections,
+  *     name text
+  *   );
+  *
+  * insert into
+  *   orchestral_sections (id, name)
+  * values
+  *   (1, 'strings'),
+  *   (2, 'woodwinds');
+  * insert into
+  *   instruments (id, section_id, name)
+  * values
+  *   (1, 2, 'flute'),
+  *   (2, 1, 'violin');
+  * ```
+  *
+  * @exampleResponse Order parent table by a referenced table
+  * ```json
+  * {
+  *   "data": [
+  *     {
+  *       "name": "violin",
+  *       "orchestral_sections": {"name": "strings"}
+  *     },
+  *     {
+  *       "name": "flute",
+  *       "orchestral_sections": {"name": "woodwinds"}
+  *     }
+  *   ],
+  *   "status": 200,
+  *   "statusText": "OK"
+  * }
+  * ```
+  */
+  order(t, { ascending: e = !0, nullsFirst: r, foreignTable: s, referencedTable: n = s } = {}) {
+    const i = n ? `${n}.order` : "order", a = this.url.searchParams.get(i);
+    return this.url.searchParams.set(i, `${a ? `${a},` : ""}${t}.${e ? "asc" : "desc"}${r === void 0 ? "" : r ? ".nullsfirst" : ".nullslast"}`), this;
+  }
+  /**
+  * Limit the query result by `rows`.
+  *
+  * @param rows - The maximum number of rows to return
+  * @param options - Named parameters
+  * @param options.referencedTable - Set this to limit rows of referenced
+  * tables instead of the parent table
+  * @param options.foreignTable - Deprecated, use `options.referencedTable`
+  * instead
+  *
+  * @category Database
+  * @subcategory Using modifiers
+  *
+  * @example With `select()`
+  * ```ts
+  * const { data, error } = await supabase
+  *   .from('characters')
+  *   .select('name')
+  *   .limit(1)
+  * ```
+  *
+  * @exampleSql With `select()`
+  * ```sql
+  * create table
+  *   characters (id int8 primary key, name text);
+  *
+  * insert into
+  *   characters (id, name)
+  * values
+  *   (1, 'Luke'),
+  *   (2, 'Leia'),
+  *   (3, 'Han');
+  * ```
+  *
+  * @exampleResponse With `select()`
+  * ```json
+  * {
+  *   "data": [
+  *     {
+  *       "name": "Luke"
+  *     }
+  *   ],
+  *   "status": 200,
+  *   "statusText": "OK"
+  * }
+  * ```
+  *
+  * @example On a referenced table
+  * ```ts
+  * const { data, error } = await supabase
+  *   .from('orchestral_sections')
+  *   .select(`
+  *     name,
+  *     instruments (
+  *       name
+  *     )
+  *   `)
+  *   .limit(1, { referencedTable: 'instruments' })
+  * ```
+  *
+  * @exampleSql On a referenced table
+  * ```sql
+  * create table
+  *   orchestral_sections (id int8 primary key, name text);
+  * create table
+  *   instruments (
+  *     id int8 primary key,
+  *     section_id int8 not null references orchestral_sections,
+  *     name text
+  *   );
+  *
+  * insert into
+  *   orchestral_sections (id, name)
+  * values
+  *   (1, 'strings');
+  * insert into
+  *   instruments (id, section_id, name)
+  * values
+  *   (1, 1, 'harp'),
+  *   (2, 1, 'violin');
+  * ```
+  *
+  * @exampleResponse On a referenced table
+  * ```json
+  * {
+  *   "data": [
+  *     {
+  *       "name": "strings",
+  *       "instruments": [
+  *         {
+  *           "name": "violin"
+  *         }
+  *       ]
+  *     }
+  *   ],
+  *   "status": 200,
+  *   "statusText": "OK"
+  * }
+  * ```
+  */
+  limit(t, { foreignTable: e, referencedTable: r = e } = {}) {
+    const s = typeof r > "u" ? "limit" : `${r}.limit`;
+    return this.url.searchParams.set(s, `${t}`), this;
+  }
+  /**
+  * Limit the query result by starting at an offset `from` and ending at the offset `to`.
+  * Only records within this range are returned.
+  * This respects the query order and if there is no order clause the range could behave unexpectedly.
+  * The `from` and `to` values are 0-based and inclusive: `range(1, 3)` will include the second, third
+  * and fourth rows of the query.
+  *
+  * @param from - The starting index from which to limit the result
+  * @param to - The last index to which to limit the result
+  * @param options - Named parameters
+  * @param options.referencedTable - Set this to limit rows of referenced
+  * tables instead of the parent table
+  * @param options.foreignTable - Deprecated, use `options.referencedTable`
+  * instead
+  *
+  * @category Database
+  * @subcategory Using modifiers
+  *
+  * @example With `select()`
+  * ```ts
+  * const { data, error } = await supabase
+  *   .from('characters')
+  *   .select('name')
+  *   .range(0, 1)
+  * ```
+  *
+  * @exampleSql With `select()`
+  * ```sql
+  * create table
+  *   characters (id int8 primary key, name text);
+  *
+  * insert into
+  *   characters (id, name)
+  * values
+  *   (1, 'Luke'),
+  *   (2, 'Leia'),
+  *   (3, 'Han');
+  * ```
+  *
+  * @exampleResponse With `select()`
+  * ```json
+  * {
+  *   "data": [
+  *     {
+  *       "name": "Luke"
+  *     },
+  *     {
+  *       "name": "Leia"
+  *     }
+  *   ],
+  *   "status": 200,
+  *   "statusText": "OK"
+  * }
+  * ```
+  */
+  range(t, e, { foreignTable: r, referencedTable: s = r } = {}) {
+    const n = typeof s > "u" ? "offset" : `${s}.offset`, i = typeof s > "u" ? "limit" : `${s}.limit`;
+    return this.url.searchParams.set(n, `${t}`), this.url.searchParams.set(i, `${e - t + 1}`), this;
+  }
+  /**
+  * Set the AbortSignal for the fetch request.
+  *
+  * @param signal - The AbortSignal to use for the fetch request
+  *
+  * @category Database
+  * @subcategory Using modifiers
+  *
+  * @remarks
+  * You can use this to set a timeout for the request.
+  *
+  * @exampleDescription Aborting requests in-flight
+  * You can use an [`AbortController`](https://developer.mozilla.org/en-US/docs/Web/API/AbortController) to abort requests.
+  * Note that `status` and `statusText` don't mean anything for aborted requests as the request wasn't fulfilled.
+  *
+  * @example Aborting requests in-flight
+  * ```ts
+  * const ac = new AbortController()
+  *
+  * const { data, error } = await supabase
+  *   .from('very_big_table')
+  *   .select()
+  *   .abortSignal(ac.signal)
+  *
+  * // Abort the request after 100 ms
+  * setTimeout(() => ac.abort(), 100)
+  * ```
+  *
+  * @exampleResponse Aborting requests in-flight
+  * ```json
+  *   {
+  *     "error": {
+  *       "message": "AbortError: The user aborted a request.",
+  *       "details": "",
+  *       "hint": "The request was aborted locally via the provided AbortSignal.",
+  *       "code": ""
+  *     },
+  *     "status": 0,
+  *     "statusText": ""
+  *   }
+  *
+  * ```
+  *
+  * @example Set a timeout
+  * ```ts
+  * const { data, error } = await supabase
+  *   .from('very_big_table')
+  *   .select()
+  *   .abortSignal(AbortSignal.timeout(1000 /* ms *\/))
+  * ```
+  *
+  * @exampleResponse Set a timeout
+  * ```json
+  *   {
+  *     "error": {
+  *       "message": "FetchError: The user aborted a request.",
+  *       "details": "",
+  *       "hint": "",
+  *       "code": ""
+  *     },
+  *     "status": 400,
+  *     "statusText": "Bad Request"
+  *   }
+  *
+  * ```
+  */
+  abortSignal(t) {
+    return this.signal = t, this;
+  }
+  /**
+  * Return `data` as a single object instead of an array of objects.
+  *
+  * Query result must be one row (e.g. using `.limit(1)`), otherwise this
+  * returns an error.
+  *
+  * @category Database
+  * @subcategory Using modifiers
+  *
+  * @example With `select()`
+  * ```ts
+  * const { data, error } = await supabase
+  *   .from('characters')
+  *   .select('name')
+  *   .limit(1)
+  *   .single()
+  * ```
+  *
+  * @exampleSql With `select()`
+  * ```sql
+  * create table
+  *   characters (id int8 primary key, name text);
+  *
+  * insert into
+  *   characters (id, name)
+  * values
+  *   (1, 'Luke'),
+  *   (2, 'Leia'),
+  *   (3, 'Han');
+  * ```
+  *
+  * @exampleResponse With `select()`
+  * ```json
+  * {
+  *   "data": {
+  *     "name": "Luke"
+  *   },
+  *   "status": 200,
+  *   "statusText": "OK"
+  * }
+  * ```
+  */
+  single() {
+    return this.headers.set("Accept", "application/vnd.pgrst.object+json"), this;
+  }
+  /**
+  * Return `data` as a single object instead of an array of objects.
+  *
+  * Query result must be zero or one row (e.g. using `.limit(1)`), otherwise
+  * this returns an error.
+  *
+  * @category Database
+  * @subcategory Using modifiers
+  *
+  * @example With `select()`
+  * ```ts
+  * const { data, error } = await supabase
+  *   .from('characters')
+  *   .select()
+  *   .eq('name', 'Katniss')
+  *   .maybeSingle()
+  * ```
+  *
+  * @exampleSql With `select()`
+  * ```sql
+  * create table
+  *   characters (id int8 primary key, name text);
+  *
+  * insert into
+  *   characters (id, name)
+  * values
+  *   (1, 'Luke'),
+  *   (2, 'Leia'),
+  *   (3, 'Han');
+  * ```
+  *
+  * @exampleResponse With `select()`
+  * ```json
+  * {
+  *   "status": 200,
+  *   "statusText": "OK"
+  * }
+  * ```
+  */
+  maybeSingle() {
+    return this.isMaybeSingle = !0, this;
+  }
+  /**
+  * Return `data` as a string in CSV format.
+  *
+  * @category Database
+  * @subcategory Using modifiers
+  *
+  * @exampleDescription Return data as CSV
+  * By default, the data is returned in JSON format, but can also be returned as Comma Separated Values.
+  *
+  * @example Return data as CSV
+  * ```ts
+  * const { data, error } = await supabase
+  *   .from('characters')
+  *   .select()
+  *   .csv()
+  * ```
+  *
+  * @exampleSql Return data as CSV
+  * ```sql
+  * create table
+  *   characters (id int8 primary key, name text);
+  *
+  * insert into
+  *   characters (id, name)
+  * values
+  *   (1, 'Luke'),
+  *   (2, 'Leia'),
+  *   (3, 'Han');
+  * ```
+  *
+  * @exampleResponse Return data as CSV
+  * ```json
+  * {
+  *   "data": "id,name\n1,Luke\n2,Leia\n3,Han",
+  *   "status": 200,
+  *   "statusText": "OK"
+  * }
+  * ```
+  */
+  csv() {
+    return this.headers.set("Accept", "text/csv"), this;
+  }
+  /**
+  * Return `data` as an object in [GeoJSON](https://geojson.org) format.
+  *
+  * @category Database
+  * @subcategory Using modifiers
+  */
+  geojson() {
+    return this.headers.set("Accept", "application/geo+json"), this;
+  }
+  /**
+  * Return `data` as the EXPLAIN plan for the query.
+  *
+  * You need to enable the
+  * [db_plan_enabled](https://supabase.com/docs/guides/database/debugging-performance#enabling-explain)
+  * setting before using this method.
+  *
+  * @param options - Named parameters
+  *
+  * @param options.analyze - If `true`, the query will be executed and the
+  * actual run time will be returned
+  *
+  * @param options.verbose - If `true`, the query identifier will be returned
+  * and `data` will include the output columns of the query
+  *
+  * @param options.settings - If `true`, include information on configuration
+  * parameters that affect query planning
+  *
+  * @param options.buffers - If `true`, include information on buffer usage
+  *
+  * @param options.wal - If `true`, include information on WAL record generation
+  *
+  * @param options.format - The format of the output, can be `"text"` (default)
+  * or `"json"`
+  *
+  * @category Database
+  * @subcategory Using modifiers
+  *
+  * @exampleDescription Get the execution plan
+  * By default, the data is returned in TEXT format, but can also be returned as JSON by using the `format` parameter.
+  *
+  * @example Get the execution plan
+  * ```ts
+  * const { data, error } = await supabase
+  *   .from('characters')
+  *   .select()
+  *   .explain()
+  * ```
+  *
+  * @exampleSql Get the execution plan
+  * ```sql
+  * create table
+  *   characters (id int8 primary key, name text);
+  *
+  * insert into
+  *   characters (id, name)
+  * values
+  *   (1, 'Luke'),
+  *   (2, 'Leia'),
+  *   (3, 'Han');
+  * ```
+  *
+  * @exampleResponse Get the execution plan
+  * ```js
+  * Aggregate  (cost=33.34..33.36 rows=1 width=112)
+  *   ->  Limit  (cost=0.00..18.33 rows=1000 width=40)
+  *         ->  Seq Scan on characters  (cost=0.00..22.00 rows=1200 width=40)
+  * ```
+  *
+  * @exampleDescription Get the execution plan with analyze and verbose
+  * By default, the data is returned in TEXT format, but can also be returned as JSON by using the `format` parameter.
+  *
+  * @example Get the execution plan with analyze and verbose
+  * ```ts
+  * const { data, error } = await supabase
+  *   .from('characters')
+  *   .select()
+  *   .explain({analyze:true,verbose:true})
+  * ```
+  *
+  * @exampleSql Get the execution plan with analyze and verbose
+  * ```sql
+  * create table
+  *   characters (id int8 primary key, name text);
+  *
+  * insert into
+  *   characters (id, name)
+  * values
+  *   (1, 'Luke'),
+  *   (2, 'Leia'),
+  *   (3, 'Han');
+  * ```
+  *
+  * @exampleResponse Get the execution plan with analyze and verbose
+  * ```js
+  * Aggregate  (cost=33.34..33.36 rows=1 width=112) (actual time=0.041..0.041 rows=1 loops=1)
+  *   Output: NULL::bigint, count(ROW(characters.id, characters.name)), COALESCE(json_agg(ROW(characters.id, characters.name)), '[]'::json), NULLIF(current_setting('response.headers'::text, true), ''::text), NULLIF(current_setting('response.status'::text, true), ''::text)
+  *   ->  Limit  (cost=0.00..18.33 rows=1000 width=40) (actual time=0.005..0.006 rows=3 loops=1)
+  *         Output: characters.id, characters.name
+  *         ->  Seq Scan on public.characters  (cost=0.00..22.00 rows=1200 width=40) (actual time=0.004..0.005 rows=3 loops=1)
+  *               Output: characters.id, characters.name
+  * Query Identifier: -4730654291623321173
+  * Planning Time: 0.407 ms
+  * Execution Time: 0.119 ms
+  * ```
+  */
+  explain({ analyze: t = !1, verbose: e = !1, settings: r = !1, buffers: s = !1, wal: n = !1, format: i = "text" } = {}) {
+    var a;
+    const o = [
+      t ? "analyze" : null,
+      e ? "verbose" : null,
+      r ? "settings" : null,
+      s ? "buffers" : null,
+      n ? "wal" : null
+    ].filter(Boolean).join("|"), l = (a = this.headers.get("Accept")) !== null && a !== void 0 ? a : "application/json";
+    return this.headers.set("Accept", `application/vnd.pgrst.plan+${i}; for="${l}"; options=${o};`), i === "json" ? this : this;
+  }
+  /**
+  * Dry-run this request: execute the query but discard the changes.
+  *
+  * Server-side, PostgREST runs the query inside a transaction and rolls it back
+  * instead of committing. The response still contains the data that *would* have
+  * been returned â€” `RETURNING` clauses execute and RLS, triggers, and constraints
+  * are all evaluated â€” but no row is actually inserted, updated, or deleted.
+  *
+  * This affects only the single request it is chained to. The JS caller has no
+  * handle on the transaction: supabase-js does not group multiple queries into
+  * one transaction. For multi-statement transactional logic, use a database
+  * function (`supabase.rpc(...)`).
+  *
+  * Sets the `Prefer: tx=rollback` header. See PostgREST's docs on transaction
+  * preferences for the underlying mechanism.
+  *
+  * @category Database
+  * @subcategory Using modifiers
+  *
+  * @example Validate an insert without persisting
+  * ```ts
+  * const { data, error } = await supabase
+  *   .from('countries')
+  *   .insert({ name: 'France' })
+  *   .select()
+  *   .rollback()
+  * // `data` shows what would have been inserted; nothing is saved.
+  * ```
+  */
+  rollback() {
+    return this.headers.append("Prefer", "tx=rollback"), this;
+  }
+  /**
+  * Override the type of the returned `data`.
+  *
+  * @typeParam NewResult - The new result type to override with
+  * @deprecated Use overrideTypes<yourType, { merge: false }>() method at the end of your call chain instead
+  *
+  * @category Database
+  * @subcategory Using modifiers
+  *
+  * @remarks
+  * - Deprecated: use overrideTypes method instead
+  *
+  * @example Override type of successful response
+  * ```ts
+  * const { data } = await supabase
+  *   .from('countries')
+  *   .select()
+  *   .returns<Array<MyType>>()
+  * ```
+  *
+  * @exampleResponse Override type of successful response
+  * ```js
+  * let x: typeof data // MyType[]
+  * ```
+  *
+  * @example Override type of object response
+  * ```ts
+  * const { data } = await supabase
+  *   .from('countries')
+  *   .select()
+  *   .maybeSingle()
+  *   .returns<MyType>()
+  * ```
+  *
+  * @exampleResponse Override type of object response
+  * ```js
+  * let x: typeof data // MyType | null
+  * ```
+  */
+  returns() {
+    return this;
+  }
+  /**
+  * Set the maximum number of rows that can be affected by the query.
+  * Only available in PostgREST v13+ and only works with PATCH and DELETE methods.
+  *
+  * @param rows - The maximum number of rows that can be affected
+  *
+  * @category Database
+  * @subcategory Using modifiers
+  */
+  maxAffected(t) {
+    return this.headers.append("Prefer", "handling=strict"), this.headers.append("Prefer", `max-affected=${t}`), this;
+  }
+};
+const zt = /* @__PURE__ */ new RegExp("[,()]");
+var pe = class extends fs {
+  throwOnError() {
+    return super.throwOnError();
+  }
+  /**
+  * Match only rows where `column` is equal to `value`.
+  *
+  * To check if the value of `column` is NULL, you should use `.is()` instead.
+  *
+  * @param column - The column to filter on
+  * @param value - The value to filter with
+  *
+  * @category Database
+  * @subcategory Using filters
+  *
+  * @example With `select()`
+  * ```ts
+  * const { data, error } = await supabase
+  *   .from('characters')
+  *   .select()
+  *   .eq('name', 'Leia')
+  * ```
+  *
+  * @exampleSql With `select()`
+  * ```sql
+  * create table
+  *   characters (id int8 primary key, name text);
+  *
+  * insert into
+  *   characters (id, name)
+  * values
+  *   (1, 'Luke'),
+  *   (2, 'Leia'),
+  *   (3, 'Han');
+  * ```
+  *
+  * @exampleResponse With `select()`
+  * ```json
+  * {
+  *   "data": [
+  *     {
+  *       "id": 2,
+  *       "name": "Leia"
+  *     }
+  *   ],
+  *   "status": 200,
+  *   "statusText": "OK"
+  * }
+  * ```
+  */
+  eq(t, e) {
+    return this.url.searchParams.append(t, `eq.${e}`), this;
+  }
+  /**
+  * Match only rows where `column` is not equal to `value`.
+  *
+  * This filter does not include rows where `column` is `NULL`. To match null
+  * values, use `.is(column, null)` instead.
+  *
+  * @param column - The column to filter on
+  * @param value - The value to filter with
+  *
+  * @category Database
+  * @subcategory Using filters
+  *
+  * @example With `select()`
+  * ```ts
+  * const { data, error } = await supabase
+  *   .from('characters')
+  *   .select()
+  *   .neq('name', 'Leia')
+  * ```
+  *
+  * @exampleSql With `select()`
+  * ```sql
+  * create table
+  *   characters (id int8 primary key, name text);
+  *
+  * insert into
+  *   characters (id, name)
+  * values
+  *   (1, 'Luke'),
+  *   (2, 'Leia'),
+  *   (3, 'Han');
+  * ```
+  *
+  * @exampleResponse With `select()`
+  * ```json
+  * {
+  *   "data": [
+  *     {
+  *       "id": 1,
+  *       "name": "Luke"
+  *     },
+  *     {
+  *       "id": 3,
+  *       "name": "Han"
+  *     }
+  *   ],
+  *   "status": 200,
+  *   "statusText": "OK"
+  * }
+  * ```
+  */
+  neq(t, e) {
+    return this.url.searchParams.append(t, `neq.${e}`), this;
+  }
+  gt(t, e) {
+    return this.url.searchParams.append(t, `gt.${e}`), this;
+  }
+  gte(t, e) {
+    return this.url.searchParams.append(t, `gte.${e}`), this;
+  }
+  lt(t, e) {
+    return this.url.searchParams.append(t, `lt.${e}`), this;
+  }
+  lte(t, e) {
+    return this.url.searchParams.append(t, `lte.${e}`), this;
+  }
+  like(t, e) {
+    return this.url.searchParams.append(t, `like.${e}`), this;
+  }
+  likeAllOf(t, e) {
+    return this.url.searchParams.append(t, `like(all).{${e.join(",")}}`), this;
+  }
+  likeAnyOf(t, e) {
+    return this.url.searchParams.append(t, `like(any).{${e.join(",")}}`), this;
+  }
+  ilike(t, e) {
+    return this.url.searchParams.append(t, `ilike.${e}`), this;
+  }
+  ilikeAllOf(t, e) {
+    return this.url.searchParams.append(t, `ilike(all).{${e.join(",")}}`), this;
+  }
+  ilikeAnyOf(t, e) {
+    return this.url.searchParams.append(t, `ilike(any).{${e.join(",")}}`), this;
+  }
+  regexMatch(t, e) {
+    return this.url.searchParams.append(t, `match.${e}`), this;
+  }
+  regexIMatch(t, e) {
+    return this.url.searchParams.append(t, `imatch.${e}`), this;
+  }
+  is(t, e) {
+    return this.url.searchParams.append(t, `is.${e}`), this;
+  }
+  /**
+  * Match only rows where `column` IS DISTINCT FROM `value`.
+  *
+  * Unlike `.neq()`, this treats `NULL` as a comparable value. Two `NULL` values
+  * are considered equal (not distinct), and comparing `NULL` with any non-NULL
+  * value returns true (distinct).
+  *
+  * @param column - The column to filter on
+  * @param value - The value to filter with
+  */
+  isDistinct(t, e) {
+    return this.url.searchParams.append(t, `isdistinct.${e}`), this;
+  }
+  /**
+  * Match only rows where `column` is included in the `values` array.
+  *
+  * @param column - The column to filter on
+  * @param values - The values array to filter with
+  *
+  * @category Database
+  * @subcategory Using filters
+  *
+  * @example With `select()`
+  * ```ts
+  * const { data, error } = await supabase
+  *   .from('characters')
+  *   .select()
+  *   .in('name', ['Leia', 'Han'])
+  * ```
+  *
+  * @exampleSql With `select()`
+  * ```sql
+  * create table
+  *   characters (id int8 primary key, name text);
+  *
+  * insert into
+  *   characters (id, name)
+  * values
+  *   (1, 'Luke'),
+  *   (2, 'Leia'),
+  *   (3, 'Han');
+  * ```
+  *
+  * @exampleResponse With `select()`
+  * ```json
+  * {
+  *   "data": [
+  *     {
+  *       "id": 2,
+  *       "name": "Leia"
+  *     },
+  *     {
+  *       "id": 3,
+  *       "name": "Han"
+  *     }
+  *   ],
+  *   "status": 200,
+  *   "statusText": "OK"
+  * }
+  * ```
+  */
+  in(t, e) {
+    const r = Array.from(new Set(e)).map((s) => typeof s == "string" && zt.test(s) ? `"${s}"` : `${s}`).join(",");
+    return this.url.searchParams.append(t, `in.(${r})`), this;
+  }
+  /**
+  * Match only rows where `column` is NOT included in the `values` array.
+  *
+  * @param column - The column to filter on
+  * @param values - The values array to filter with
+  */
+  notIn(t, e) {
+    const r = Array.from(new Set(e)).map((s) => typeof s == "string" && zt.test(s) ? `"${s}"` : `${s}`).join(",");
+    return this.url.searchParams.append(t, `not.in.(${r})`), this;
+  }
+  contains(t, e) {
+    return typeof e == "string" ? this.url.searchParams.append(t, `cs.${e}`) : Array.isArray(e) ? this.url.searchParams.append(t, `cs.{${e.join(",")}}`) : this.url.searchParams.append(t, `cs.${JSON.stringify(e)}`), this;
+  }
+  containedBy(t, e) {
+    return typeof e == "string" ? this.url.searchParams.append(t, `cd.${e}`) : Array.isArray(e) ? this.url.searchParams.append(t, `cd.{${e.join(",")}}`) : this.url.searchParams.append(t, `cd.${JSON.stringify(e)}`), this;
+  }
+  rangeGt(t, e) {
+    return this.url.searchParams.append(t, `sr.${e}`), this;
+  }
+  rangeGte(t, e) {
+    return this.url.searchParams.append(t, `nxl.${e}`), this;
+  }
+  rangeLt(t, e) {
+    return this.url.searchParams.append(t, `sl.${e}`), this;
+  }
+  rangeLte(t, e) {
+    return this.url.searchParams.append(t, `nxr.${e}`), this;
+  }
+  rangeAdjacent(t, e) {
+    return this.url.searchParams.append(t, `adj.${e}`), this;
+  }
+  overlaps(t, e) {
+    return typeof e == "string" ? this.url.searchParams.append(t, `ov.${e}`) : this.url.searchParams.append(t, `ov.{${e.join(",")}}`), this;
+  }
+  textSearch(t, e, { config: r, type: s } = {}) {
+    let n = "";
+    s === "plain" ? n = "pl" : s === "phrase" ? n = "ph" : s === "websearch" && (n = "w");
+    const i = r === void 0 ? "" : `(${r})`;
+    return this.url.searchParams.append(t, `${n}fts${i}.${e}`), this;
+  }
+  match(t) {
+    return Object.entries(t).filter(([e, r]) => r !== void 0).forEach(([e, r]) => {
+      this.url.searchParams.append(e, `eq.${r}`);
+    }), this;
+  }
+  /**
+  * Match only rows which doesn't satisfy the filter.
+  *
+  * Unlike most filters, `opearator` and `value` are used as-is and need to
+  * follow [PostgREST
+  * syntax](https://postgrest.org/en/stable/api.html#operators). You also need
+  * to make sure they are properly sanitized.
+  *
+  * @param column - The column to filter on
+  * @param operator - The operator to be negated to filter with, following
+  * PostgREST syntax
+  * @param value - The value to filter with, following PostgREST syntax
+  *
+  * @category Database
+  * @subcategory Using filters
+  *
+  * @remarks
+  * not() expects you to use the raw PostgREST syntax for the filter values.
+  *
+  * ```ts
+  * .not('id', 'in', '(5,6,7)')  // Use `()` for `in` filter
+  * .not('arraycol', 'cs', '{"a","b"}')  // Use `cs` for `contains()`, `{}` for array values
+  * ```
+  *
+  * @example With `select()`
+  * ```ts
+  * const { data, error } = await supabase
+  *   .from('countries')
+  *   .select()
+  *   .not('name', 'is', null)
+  * ```
+  *
+  * @exampleSql With `select()`
+  * ```sql
+  * create table
+  *   countries (id int8 primary key, name text);
+  *
+  * insert into
+  *   countries (id, name)
+  * values
+  *   (1, 'null'),
+  *   (2, null);
+  * ```
+  *
+  * @exampleResponse With `select()`
+  * ```json
+  *   {
+  *     "data": [
+  *       {
+  *         "id": 1,
+  *         "name": "null"
+  *       }
+  *     ],
+  *     "status": 200,
+  *     "statusText": "OK"
+  *   }
+  *
+  * ```
+  */
+  not(t, e, r) {
+    return this.url.searchParams.append(t, `not.${e}.${r}`), this;
+  }
+  /**
+  * Match only rows which satisfy at least one of the filters.
+  *
+  * Unlike most filters, `filters` is used as-is and needs to follow [PostgREST
+  * syntax](https://postgrest.org/en/stable/api.html#operators). You also need
+  * to make sure it's properly sanitized.
+  *
+  * It's currently not possible to do an `.or()` filter across multiple tables.
+  *
+  * @param filters - The filters to use, following PostgREST syntax
+  * @param options - Named parameters
+  * @param options.referencedTable - Set this to filter on referenced tables
+  * instead of the parent table
+  * @param options.foreignTable - Deprecated, use `referencedTable` instead
+  *
+  * @category Database
+  * @subcategory Using filters
+  *
+  * @remarks
+  * or() expects you to use the raw PostgREST syntax for the filter names and values.
+  *
+  * ```ts
+  * .or('id.in.(5,6,7), arraycol.cs.{"a","b"}')  // Use `()` for `in` filter, `{}` for array values and `cs` for `contains()`.
+  * .or('id.in.(5,6,7), arraycol.cd.{"a","b"}')  // Use `cd` for `containedBy()`
+  * ```
+  *
+  * @example With `select()`
+  * ```ts
+  * const { data, error } = await supabase
+  *   .from('characters')
+  *   .select('name')
+  *   .or('id.eq.2,name.eq.Han')
+  * ```
+  *
+  * @exampleSql With `select()`
+  * ```sql
+  * create table
+  *   characters (id int8 primary key, name text);
+  *
+  * insert into
+  *   characters (id, name)
+  * values
+  *   (1, 'Luke'),
+  *   (2, 'Leia'),
+  *   (3, 'Han');
+  * ```
+  *
+  * @exampleResponse With `select()`
+  * ```json
+  * {
+  *   "data": [
+  *     {
+  *       "name": "Leia"
+  *     },
+  *     {
+  *       "name": "Han"
+  *     }
+  *   ],
+  *   "status": 200,
+  *   "statusText": "OK"
+  * }
+  * ```
+  *
+  * @example Use `or` with `and`
+  * ```ts
+  * const { data, error } = await supabase
+  *   .from('characters')
+  *   .select('name')
+  *   .or('id.gt.3,and(id.eq.1,name.eq.Luke)')
+  * ```
+  *
+  * @exampleSql Use `or` with `and`
+  * ```sql
+  * create table
+  *   characters (id int8 primary key, name text);
+  *
+  * insert into
+  *   characters (id, name)
+  * values
+  *   (1, 'Luke'),
+  *   (2, 'Leia'),
+  *   (3, 'Han');
+  * ```
+  *
+  * @exampleResponse Use `or` with `and`
+  * ```json
+  * {
+  *   "data": [
+  *     {
+  *       "name": "Luke"
+  *     }
+  *   ],
+  *   "status": 200,
+  *   "statusText": "OK"
+  * }
+  * ```
+  *
+  * @example Use `or` on referenced tables
+  * ```ts
+  * const { data, error } = await supabase
+  *   .from('orchestral_sections')
+  *   .select(`
+  *     name,
+  *     instruments!inner (
+  *       name
+  *     )
+  *   `)
+  *   .or('section_id.eq.1,name.eq.guzheng', { referencedTable: 'instruments' })
+  * ```
+  *
+  * @exampleSql Use `or` on referenced tables
+  * ```sql
+  * create table
+  *   orchestral_sections (id int8 primary key, name text);
+  * create table
+  *   instruments (
+  *     id int8 primary key,
+  *     section_id int8 not null references orchestral_sections,
+  *     name text
+  *   );
+  *
+  * insert into
+  *   orchestral_sections (id, name)
+  * values
+  *   (1, 'strings'),
+  *   (2, 'woodwinds');
+  * insert into
+  *   instruments (id, section_id, name)
+  * values
+  *   (1, 2, 'flute'),
+  *   (2, 1, 'violin');
+  * ```
+  *
+  * @exampleResponse Use `or` on referenced tables
+  * ```json
+  * {
+  *   "data": [
+  *     {
+  *       "name": "strings",
+  *       "instruments": [
+  *         {
+  *           "name": "violin"
+  *         }
+  *       ]
+  *     }
+  *   ],
+  *   "status": 200,
+  *   "statusText": "OK"
+  * }
+  * ```
+  */
+  or(t, { foreignTable: e, referencedTable: r = e } = {}) {
+    const s = r ? `${r}.or` : "or";
+    return this.url.searchParams.append(s, `(${t})`), this;
+  }
+  filter(t, e, r) {
+    return this.url.searchParams.append(t, `${e}.${r}`), this;
+  }
+}, ps = class {
+  /**
+  * Creates a query builder scoped to a Postgres table or view.
+  *
+  * @category Database
+  *
+  * @param url - The URL for the query
+  * @param options - Named parameters
+  * @param options.headers - Custom headers
+  * @param options.schema - Postgres schema to use
+  * @param options.fetch - Custom fetch implementation
+  * @param options.urlLengthLimit - Maximum URL length before warning
+  * @param options.retry - Enable automatic retries for transient errors (default: true)
+  *
+  * @example Using supabase-js (recommended)
+  * ```ts
+  * import { createClient } from '@supabase/supabase-js'
+  *
+  * const supabase = createClient('https://xyzcompany.supabase.co', 'your-publishable-key')
+  * const { data, error } = await supabase.from('users').select('*')
+  * ```
+  *
+  * @example Standalone import for bundle-sensitive environments
+  * ```ts
+  * import { PostgrestQueryBuilder } from '@supabase/postgrest-js'
+  *
+  * const query = new PostgrestQueryBuilder(
+  *   new URL('https://xyzcompany.supabase.co/rest/v1/users'),
+  *   { headers: { apikey: 'your-publishable-key' }, retry: true }
+  * )
+  * ```
+  */
+  constructor(t, { headers: e = {}, schema: r, fetch: s, urlLengthLimit: n = 8e3, retry: i }) {
+    this.url = t, this.headers = new Headers(e), this.schema = r, this.fetch = s, this.urlLengthLimit = n, this.retry = i;
+  }
+  /**
+  * Clone URL and headers to prevent shared state between operations.
+  */
+  cloneRequestState() {
+    return {
+      url: new URL(this.url.toString()),
+      headers: new Headers(this.headers)
+    };
+  }
+  /**
+  * Perform a SELECT query on the table or view.
+  *
+  * @param columns - The columns to retrieve, separated by commas. Columns can be renamed when returned with `customName:columnName`
+  *
+  * @param options - Named parameters
+  *
+  * @param options.head - When set to `true`, `data` will not be returned.
+  * Useful if you only need the count.
+  *
+  * @param options.count - Count algorithm to use to count rows in the table or view.
+  *
+  * `"exact"`: Exact but slow count algorithm. Performs a `COUNT(*)` under the
+  * hood.
+  *
+  * `"planned"`: Approximated but fast count algorithm. Uses the Postgres
+  * statistics under the hood.
+  *
+  * `"estimated"`: Uses exact count for low numbers and planned count for high
+  * numbers.
+  *
+  * @remarks
+  * When using `count` with `.range()` or `.limit()`, the returned `count` is the total number of rows
+  * that match your filters, not the number of rows in the current page. Use this to build pagination UI.
+  
+  * - By default, Supabase projects return a maximum of 1,000 rows. This setting can be changed in your project's [API settings](/dashboard/project/_/settings/api). It's recommended that you keep it low to limit the payload size of accidental or malicious requests. You can use `range()` queries to paginate through your data.
+  * - `select()` can be combined with [Filters](/docs/reference/javascript/using-filters)
+  * - `select()` can be combined with [Modifiers](/docs/reference/javascript/using-modifiers)
+  * - `apikey` is a reserved keyword if you're using the [Supabase Platform](/docs/guides/platform) and [should be avoided as a column name](https://github.com/supabase/supabase/issues/5465). *
+  * @category Database
+  *
+  * @example Getting your data
+  * ```js
+  * const { data, error } = await supabase
+  *   .from('characters')
+  *   .select()
+  * ```
+  *
+  * @exampleSql Getting your data
+  * ```sql
+  * create table
+  *   characters (id int8 primary key, name text);
+  *
+  * insert into
+  *   characters (id, name)
+  * values
+  *   (1, 'Harry'),
+  *   (2, 'Frodo'),
+  *   (3, 'Katniss');
+  * ```
+  *
+  * @exampleResponse Getting your data
+  * ```json
+  * {
+  *   "data": [
+  *     {
+  *       "id": 1,
+  *       "name": "Harry"
+  *     },
+  *     {
+  *       "id": 2,
+  *       "name": "Frodo"
+  *     },
+  *     {
+  *       "id": 3,
+  *       "name": "Katniss"
+  *     }
+  *   ],
+  *   "status": 200,
+  *   "statusText": "OK"
+  * }
+  * ```
+  *
+  * @exampleDescription Handling errors
+  * The most useful field on a Postgres error is usually `hint` â€” when the database knows the fix, it puts the literal SQL there. For example, a permission-denied error (`code: '42501'`) arrives with a `hint` like `"Grant the required privileges to the current role with: GRANT SELECT ON public.characters TO anon;"`. Log the full `error` object so the hint isn't hidden behind `error.message`.
+  *
+  * @example Handling errors
+  * ```js
+  * const { data, error } = await supabase.from('characters').select()
+  * if (error) {
+  *   // Logs the full error: message, code, details, and hint.
+  *   console.error(error)
+  *   return
+  * }
+  * ```
+  *
+  * @exampleResponse Handling errors
+  * ```json
+  * {
+  *   "error": {
+  *     "code": "42501",
+  *     "details": null,
+  *     "hint": "Grant the required privileges to the current role with: GRANT SELECT ON public.characters TO anon;",
+  *     "message": "permission denied for table characters"
+  *   },
+  *   "status": 401,
+  *   "statusText": "Unauthorized"
+  * }
+  * ```
+  *
+  * @example Selecting specific columns
+  * ```js
+  * const { data, error } = await supabase
+  *   .from('characters')
+  *   .select('name')
+  * ```
+  *
+  * @exampleSql Selecting specific columns
+  * ```sql
+  * create table
+  *   characters (id int8 primary key, name text);
+  *
+  * insert into
+  *   characters (id, name)
+  * values
+  *   (1, 'Frodo'),
+  *   (2, 'Harry'),
+  *   (3, 'Katniss');
+  * ```
+  *
+  * @exampleResponse Selecting specific columns
+  * ```json
+  * {
+  *   "data": [
+  *     {
+  *       "name": "Frodo"
+  *     },
+  *     {
+  *       "name": "Harry"
+  *     },
+  *     {
+  *       "name": "Katniss"
+  *     }
+  *   ],
+  *   "status": 200,
+  *   "statusText": "OK"
+  * }
+  * ```
+  *
+  * @exampleDescription Query referenced tables
+  * If your database has foreign key relationships, you can query related tables too.
+  *
+  * @example Query referenced tables
+  * ```js
+  * const { data, error } = await supabase
+  *   .from('orchestral_sections')
+  *   .select(`
+  *     name,
+  *     instruments (
+  *       name
+  *     )
+  *   `)
+  * ```
+  *
+  * @exampleSql Query referenced tables
+  * ```sql
+  * create table
+  *   orchestral_sections (id int8 primary key, name text);
+  * create table
+  *   instruments (
+  *     id int8 primary key,
+  *     section_id int8 not null references orchestral_sections,
+  *     name text
+  *   );
+  *
+  * insert into
+  *   orchestral_sections (id, name)
+  * values
+  *   (1, 'strings'),
+  *   (2, 'woodwinds');
+  * insert into
+  *   instruments (id, section_id, name)
+  * values
+  *   (1, 2, 'flute'),
+  *   (2, 1, 'violin');
+  * ```
+  *
+  * @exampleResponse Query referenced tables
+  * ```json
+  * {
+  *   "data": [
+  *     {
+  *       "name": "strings",
+  *       "instruments": [
+  *         {
+  *           "name": "violin"
+  *         }
+  *       ]
+  *     },
+  *     {
+  *       "name": "woodwinds",
+  *       "instruments": [
+  *         {
+  *           "name": "flute"
+  *         }
+  *       ]
+  *     }
+  *   ],
+  *   "status": 200,
+  *   "statusText": "OK"
+  * }
+  * ```
+  *
+  * @exampleDescription Query referenced tables with spaces in their names
+  * If your table name contains spaces, you must use double quotes in the `select` statement to reference the table.
+  *
+  * @example Query referenced tables with spaces in their names
+  * ```js
+  * const { data, error } = await supabase
+  *   .from('orchestral sections')
+  *   .select(`
+  *     name,
+  *     "musical instruments" (
+  *       name
+  *     )
+  *   `)
+  * ```
+  *
+  * @exampleSql Query referenced tables with spaces in their names
+  * ```sql
+  * create table
+  *   "orchestral sections" (id int8 primary key, name text);
+  * create table
+  *   "musical instruments" (
+  *     id int8 primary key,
+  *     section_id int8 not null references "orchestral sections",
+  *     name text
+  *   );
+  *
+  * insert into
+  *   "orchestral sections" (id, name)
+  * values
+  *   (1, 'strings'),
+  *   (2, 'woodwinds');
+  * insert into
+  *   "musical instruments" (id, section_id, name)
+  * values
+  *   (1, 2, 'flute'),
+  *   (2, 1, 'violin');
+  * ```
+  *
+  * @exampleResponse Query referenced tables with spaces in their names
+  * ```json
+  * {
+  *   "data": [
+  *     {
+  *       "name": "strings",
+  *       "musical instruments": [
+  *         {
+  *           "name": "violin"
+  *         }
+  *       ]
+  *     },
+  *     {
+  *       "name": "woodwinds",
+  *       "musical instruments": [
+  *         {
+  *           "name": "flute"
+  *         }
+  *       ]
+  *     }
+  *   ],
+  *   "status": 200,
+  *   "statusText": "OK"
+  * }
+  * ```
+  *
+  * @exampleDescription Query referenced tables through a join table
+  * If you're in a situation where your tables are **NOT** directly
+  * related, but instead are joined by a _join table_, you can still use
+  * the `select()` method to query the related data. The join table needs
+  * to have the foreign keys as part of its composite primary key.
+  *
+  * @example Query referenced tables through a join table
+  * ```ts
+  * const { data, error } = await supabase
+  *   .from('users')
+  *   .select(`
+  *     name,
+  *     teams (
+  *       name
+  *     )
+  *   `)
+  *   
+  * ```
+  *
+  * @exampleSql Query referenced tables through a join table
+  * ```sql
+  * create table
+  *   users (
+  *     id int8 primary key,
+  *     name text
+  *   );
+  * create table
+  *   teams (
+  *     id int8 primary key,
+  *     name text
+  *   );
+  * -- join table
+  * create table
+  *   users_teams (
+  *     user_id int8 not null references users,
+  *     team_id int8 not null references teams,
+  *     -- both foreign keys must be part of a composite primary key
+  *     primary key (user_id, team_id)
+  *   );
+  *
+  * insert into
+  *   users (id, name)
+  * values
+  *   (1, 'Kiran'),
+  *   (2, 'Evan');
+  * insert into
+  *   teams (id, name)
+  * values
+  *   (1, 'Green'),
+  *   (2, 'Blue');
+  * insert into
+  *   users_teams (user_id, team_id)
+  * values
+  *   (1, 1),
+  *   (1, 2),
+  *   (2, 2);
+  * ```
+  *
+  * @exampleResponse Query referenced tables through a join table
+  * ```json
+  *   {
+  *     "data": [
+  *       {
+  *         "name": "Kiran",
+  *         "teams": [
+  *           {
+  *             "name": "Green"
+  *           },
+  *           {
+  *             "name": "Blue"
+  *           }
+  *         ]
+  *       },
+  *       {
+  *         "name": "Evan",
+  *         "teams": [
+  *           {
+  *             "name": "Blue"
+  *           }
+  *         ]
+  *       }
+  *     ],
+  *     "status": 200,
+  *     "statusText": "OK"
+  *   }
+  *   
+  * ```
+  *
+  * @exampleDescription Query the same referenced table multiple times
+  * If you need to query the same referenced table twice, use the name of the
+  * joined column to identify which join to use. You can also give each
+  * column an alias.
+  *
+  * @example Query the same referenced table multiple times
+  * ```ts
+  * const { data, error } = await supabase
+  *   .from('messages')
+  *   .select(`
+  *     content,
+  *     from:sender_id(name),
+  *     to:receiver_id(name)
+  *   `)
+  *
+  * // To infer types, use the name of the table (in this case `users`) and
+  * // the name of the foreign key constraint.
+  * const { data, error } = await supabase
+  *   .from('messages')
+  *   .select(`
+  *     content,
+  *     from:users!messages_sender_id_fkey(name),
+  *     to:users!messages_receiver_id_fkey(name)
+  *   `)
+  * ```
+  *
+  * @exampleSql Query the same referenced table multiple times
+  * ```sql
+  *  create table
+  *  users (id int8 primary key, name text);
+  *
+  *  create table
+  *    messages (
+  *      sender_id int8 not null references users,
+  *      receiver_id int8 not null references users,
+  *      content text
+  *    );
+  *
+  *  insert into
+  *    users (id, name)
+  *  values
+  *    (1, 'Kiran'),
+  *    (2, 'Evan');
+  *
+  *  insert into
+  *    messages (sender_id, receiver_id, content)
+  *  values
+  *    (1, 2, 'ðŸ‘‹');
+  *  ```
+  * ```
+  *
+  * @exampleResponse Query the same referenced table multiple times
+  * ```json
+  * {
+  *   "data": [
+  *     {
+  *       "content": "ðŸ‘‹",
+  *       "from": {
+  *         "name": "Kiran"
+  *       },
+  *       "to": {
+  *         "name": "Evan"
+  *       }
+  *     }
+  *   ],
+  *   "status": 200,
+  *   "statusText": "OK"
+  * }
+  * ```
+  *
+  * @exampleDescription Query nested foreign tables through a join table
+  * You can use the result of a joined table to gather data in
+  * another foreign table. With multiple references to the same foreign
+  * table you must specify the column on which to conduct the join.
+  *
+  * @example Query nested foreign tables through a join table
+  * ```ts
+  *   const { data, error } = await supabase
+  *     .from('games')
+  *     .select(`
+  *       game_id:id,
+  *       away_team:teams!games_away_team_fkey (
+  *         users (
+  *           id,
+  *           name
+  *         )
+  *       )
+  *     `)
+  *   
+  * ```
+  *
+  * @exampleSql Query nested foreign tables through a join table
+  * ```sql
+  * ```sql
+  * create table
+  *   users (
+  *     id int8 primary key,
+  *     name text
+  *   );
+  * create table
+  *   teams (
+  *     id int8 primary key,
+  *     name text
+  *   );
+  * -- join table
+  * create table
+  *   users_teams (
+  *     user_id int8 not null references users,
+  *     team_id int8 not null references teams,
+  *
+  *     primary key (user_id, team_id)
+  *   );
+  * create table
+  *   games (
+  *     id int8 primary key,
+  *     home_team int8 not null references teams,
+  *     away_team int8 not null references teams,
+  *     name text
+  *   );
+  *
+  * insert into users (id, name)
+  * values
+  *   (1, 'Kiran'),
+  *   (2, 'Evan');
+  * insert into
+  *   teams (id, name)
+  * values
+  *   (1, 'Green'),
+  *   (2, 'Blue');
+  * insert into
+  *   users_teams (user_id, team_id)
+  * values
+  *   (1, 1),
+  *   (1, 2),
+  *   (2, 2);
+  * insert into
+  *   games (id, home_team, away_team, name)
+  * values
+  *   (1, 1, 2, 'Green vs Blue'),
+  *   (2, 2, 1, 'Blue vs Green');
+  * ```
+  *
+  * @exampleResponse Query nested foreign tables through a join table
+  * ```json
+  *   {
+  *     "data": [
+  *       {
+  *         "game_id": 1,
+  *         "away_team": {
+  *           "users": [
+  *             {
+  *               "id": 1,
+  *               "name": "Kiran"
+  *             },
+  *             {
+  *               "id": 2,
+  *               "name": "Evan"
+  *             }
+  *           ]
+  *         }
+  *       },
+  *       {
+  *         "game_id": 2,
+  *         "away_team": {
+  *           "users": [
+  *             {
+  *               "id": 1,
+  *               "name": "Kiran"
+  *             }
+  *           ]
+  *         }
+  *       }
+  *     ],
+  *     "status": 200,
+  *     "statusText": "OK"
+  *   }
+  *   
+  * ```
+  *
+  * @exampleDescription Filtering through referenced tables
+  * If the filter on a referenced table's column is not satisfied, the referenced
+  * table returns `[]` or `null` but the parent table is not filtered out.
+  * If you want to filter out the parent table rows, use the `!inner` hint
+  *
+  * @example Filtering through referenced tables
+  * ```ts
+  * const { data, error } = await supabase
+  *   .from('instruments')
+  *   .select('name, orchestral_sections(*)')
+  *   .eq('orchestral_sections.name', 'percussion')
+  * ```
+  *
+  * @exampleSql Filtering through referenced tables
+  * ```sql
+  * create table
+  *   orchestral_sections (id int8 primary key, name text);
+  * create table
+  *   instruments (
+  *     id int8 primary key,
+  *     section_id int8 not null references orchestral_sections,
+  *     name text
+  *   );
+  *
+  * insert into
+  *   orchestral_sections (id, name)
+  * values
+  *   (1, 'strings'),
+  *   (2, 'woodwinds');
+  * insert into
+  *   instruments (id, section_id, name)
+  * values
+  *   (1, 2, 'flute'),
+  *   (2, 1, 'violin');
+  * ```
+  *
+  * @exampleResponse Filtering through referenced tables
+  * ```json
+  * {
+  *   "data": [
+  *     {
+  *       "name": "flute",
+  *       "orchestral_sections": null
+  *     },
+  *     {
+  *       "name": "violin",
+  *       "orchestral_sections": null
+  *     }
+  *   ],
+  *   "status": 200,
+  *   "statusText": "OK"
+  * }
+  * ```
+  *
+  * @exampleDescription Querying referenced table with count
+  * You can get the number of rows in a related table by using the
+  * **count** property.
+  *
+  * @example Querying referenced table with count
+  * ```ts
+  * const { data, error } = await supabase
+  *   .from('orchestral_sections')
+  *   .select(`*, instruments(count)`)
+  * ```
+  *
+  * @exampleSql Querying referenced table with count
+  * ```sql
+  * create table orchestral_sections (
+  *   "id" "uuid" primary key default "extensions"."uuid_generate_v4"() not null,
+  *   "name" text
+  * );
+  *
+  * create table characters (
+  *   "id" "uuid" primary key default "extensions"."uuid_generate_v4"() not null,
+  *   "name" text,
+  *   "section_id" "uuid" references public.orchestral_sections on delete cascade
+  * );
+  *
+  * with section as (
+  *   insert into orchestral_sections (name)
+  *   values ('strings') returning id
+  * )
+  * insert into instruments (name, section_id) values
+  * ('violin', (select id from section)),
+  * ('viola', (select id from section)),
+  * ('cello', (select id from section)),
+  * ('double bass', (select id from section));
+  * ```
+  *
+  * @exampleResponse Querying referenced table with count
+  * ```json
+  * [
+  *   {
+  *     "id": "693694e7-d993-4360-a6d7-6294e325d9b6",
+  *     "name": "strings",
+  *     "instruments": [
+  *       {
+  *         "count": 4
+  *       }
+  *     ]
+  *   }
+  * ]
+  * ```
+  *
+  * @exampleDescription Querying with count option
+  * You can get the number of rows by using the
+  * [count](/docs/reference/javascript/select#parameters) option.
+  *
+  * @example Querying with count option
+  * ```ts
+  * const { count, error } = await supabase
+  *   .from('characters')
+  *   .select('*', { count: 'exact', head: true })
+  * ```
+  *
+  * @exampleSql Querying with count option
+  * ```sql
+  * create table
+  *   characters (id int8 primary key, name text);
+  *
+  * insert into
+  *   characters (id, name)
+  * values
+  *   (1, 'Luke'),
+  *   (2, 'Leia'),
+  *   (3, 'Han');
+  * ```
+  *
+  * @exampleResponse Querying with count option
+  * ```json
+  * {
+  *   "count": 3,
+  *   "status": 200,
+  *   "statusText": "OK"
+  * }
+  * ```
+  *
+  * @exampleDescription Querying JSON data
+  * You can select and filter data inside of
+  * [JSON](/docs/guides/database/json) columns. Postgres offers some
+  * [operators](/docs/guides/database/json#query-the-jsonb-data) for
+  * querying JSON data.
+  *
+  * @example Querying JSON data
+  * ```ts
+  * const { data, error } = await supabase
+  *   .from('users')
+  *   .select(`
+  *     id, name,
+  *     address->city
+  *   `)
+  * ```
+  *
+  * @exampleSql Querying JSON data
+  * ```sql
+  * create table
+  *   users (
+  *     id int8 primary key,
+  *     name text,
+  *     address jsonb
+  *   );
+  *
+  * insert into
+  *   users (id, name, address)
+  * values
+  *   (1, 'Frodo', '{"city":"Hobbiton"}');
+  * ```
+  *
+  * @exampleResponse Querying JSON data
+  * ```json
+  * {
+  *   "data": [
+  *     {
+  *       "id": 1,
+  *       "name": "Frodo",
+  *       "city": "Hobbiton"
+  *     }
+  *   ],
+  *   "status": 200,
+  *   "statusText": "OK"
+  * }
+  * ```
+  *
+  * @exampleDescription Querying referenced table with inner join
+  * If you don't want to return the referenced table contents, you can leave the parenthesis empty.
+  * Like `.select('name, orchestral_sections!inner()')`.
+  *
+  * @example Querying referenced table with inner join
+  * ```ts
+  * const { data, error } = await supabase
+  *   .from('instruments')
+  *   .select('name, orchestral_sections!inner(name)')
+  *   .eq('orchestral_sections.name', 'woodwinds')
+  *   .limit(1)
+  * ```
+  *
+  * @exampleSql Querying referenced table with inner join
+  * ```sql
+  * create table orchestral_sections (
+  *   "id" "uuid" primary key default "extensions"."uuid_generate_v4"() not null,
+  *   "name" text
+  * );
+  *
+  * create table instruments (
+  *   "id" "uuid" primary key default "extensions"."uuid_generate_v4"() not null,
+  *   "name" text,
+  *   "section_id" "uuid" references public.orchestral_sections on delete cascade
+  * );
+  *
+  * with section as (
+  *   insert into orchestral_sections (name)
+  *   values ('woodwinds') returning id
+  * )
+  * insert into instruments (name, section_id) values
+  * ('flute', (select id from section)),
+  * ('clarinet', (select id from section)),
+  * ('bassoon', (select id from section)),
+  * ('piccolo', (select id from section));
+  * ```
+  *
+  * @exampleResponse Querying referenced table with inner join
+  * ```json
+  * {
+  *   "data": [
+  *     {
+  *       "name": "flute",
+  *       "orchestral_sections": {"name": "woodwinds"}
+  *     }
+  *   ],
+  *   "status": 200,
+  *   "statusText": "OK"
+  * }
+  * ```
+  *
+  * @exampleDescription Switching schemas per query
+  * In addition to setting the schema during initialization, you can also switch schemas on a per-query basis.
+  * Make sure you've set up your [database privileges and API settings](/docs/guides/api/using-custom-schemas).
+  *
+  * @example Switching schemas per query
+  * ```ts
+  * const { data, error } = await supabase
+  *   .schema('myschema')
+  *   .from('mytable')
+  *   .select()
+  * ```
+  *
+  * @exampleSql Switching schemas per query
+  * ```sql
+  * create schema myschema;
+  *
+  * create table myschema.mytable (
+  *   id uuid primary key default gen_random_uuid(),
+  *   data text
+  * );
+  *
+  * insert into myschema.mytable (data) values ('mydata');
+  * ```
+  *
+  * @exampleResponse Switching schemas per query
+  * ```json
+  * {
+  *   "data": [
+  *     {
+  *       "id": "4162e008-27b0-4c0f-82dc-ccaeee9a624d",
+  *       "data": "mydata"
+  *     }
+  *   ],
+  *   "status": 200,
+  *   "statusText": "OK"
+  * }
+  * ```
+  */
+  select(t, e) {
+    const { head: r = !1, count: s } = e ?? {}, n = r ? "HEAD" : "GET";
+    let i = !1;
+    const a = (t ?? "*").split("").map((c) => /\s/.test(c) && !i ? "" : (c === '"' && (i = !i), c)).join(""), { url: o, headers: l } = this.cloneRequestState();
+    return o.searchParams.set("select", a), s && l.append("Prefer", `count=${s}`), new pe({
+      method: n,
+      url: o,
+      headers: l,
+      schema: this.schema,
+      fetch: this.fetch,
+      urlLengthLimit: this.urlLengthLimit,
+      retry: this.retry
+    });
+  }
+  /**
+  * Perform an INSERT into the table or view.
+  *
+  * By default, inserted rows are not returned. To return it, chain the call
+  * with `.select()`.
+  *
+  * @param values - The values to insert. Pass an object to insert a single row
+  * or an array to insert multiple rows.
+  *
+  * @param options - Named parameters
+  *
+  * @param options.count - Count algorithm to use to count inserted rows.
+  *
+  * `"exact"`: Exact but slow count algorithm. Performs a `COUNT(*)` under the
+  * hood.
+  *
+  * `"planned"`: Approximated but fast count algorithm. Uses the Postgres
+  * statistics under the hood.
+  *
+  * `"estimated"`: Uses exact count for low numbers and planned count for high
+  * numbers.
+  *
+  * @param options.defaultToNull - Make missing fields default to `null`.
+  * Otherwise, use the default value for the column. Only applies for bulk
+  * inserts.
+  *
+  * @category Database
+  *
+  * @example Create a record
+  * ```ts
+  * const { error } = await supabase
+  *   .from('countries')
+  *   .insert({ id: 1, name: 'Mordor' })
+  * ```
+  *
+  * @exampleSql Create a record
+  * ```sql
+  * create table
+  *   countries (id int8 primary key, name text);
+  * ```
+  *
+  * @exampleResponse Create a record
+  * ```json
+  * {
+  *   "status": 201,
+  *   "statusText": "Created"
+  * }
+  * ```
+  *
+  * @exampleDescription Handling errors
+  * `error.hint` from Postgres often contains the actionable fix (e.g. `"Grant the required privileges to the current role with: GRANT INSERT ON public.countries TO anon;"` for a `42501` permission-denied error). Log the full `error` object so it isn't hidden behind `error.message`.
+  *
+  * @example Handling errors
+  * ```js
+  * const { error } = await supabase.from('countries').insert({ id: 1, name: 'Mordor' })
+  * if (error) console.error(error)
+  * ```
+  *
+  * @example Create a record and return it
+  * ```ts
+  * const { data, error } = await supabase
+  *   .from('countries')
+  *   .insert({ id: 1, name: 'Mordor' })
+  *   .select()
+  * ```
+  *
+  * @exampleSql Create a record and return it
+  * ```sql
+  * create table
+  *   countries (id int8 primary key, name text);
+  * ```
+  *
+  * @exampleResponse Create a record and return it
+  * ```json
+  * {
+  *   "data": [
+  *     {
+  *       "id": 1,
+  *       "name": "Mordor"
+  *     }
+  *   ],
+  *   "status": 201,
+  *   "statusText": "Created"
+  * }
+  * ```
+  *
+  * @exampleDescription Bulk create
+  * A bulk create operation is handled in a single transaction.
+  * If any of the inserts fail, none of the rows are inserted.
+  *
+  * @example Bulk create
+  * ```ts
+  * const { error } = await supabase
+  *   .from('countries')
+  *   .insert([
+  *     { id: 1, name: 'Mordor' },
+  *     { id: 1, name: 'The Shire' },
+  *   ])
+  * ```
+  *
+  * @exampleSql Bulk create
+  * ```sql
+  * create table
+  *   countries (id int8 primary key, name text);
+  * ```
+  *
+  * @exampleResponse Bulk create
+  * ```json
+  * {
+  *   "error": {
+  *     "code": "23505",
+  *     "details": "Key (id)=(1) already exists.",
+  *     "hint": null,
+  *     "message": "duplicate key value violates unique constraint \"countries_pkey\""
+  *   },
+  *   "status": 409,
+  *   "statusText": "Conflict"
+  * }
+  * ```
+  */
+  insert(t, { count: e, defaultToNull: r = !0 } = {}) {
+    var s;
+    const n = "POST", { url: i, headers: a } = this.cloneRequestState();
+    if (e && a.append("Prefer", `count=${e}`), r || a.append("Prefer", "missing=default"), Array.isArray(t)) {
+      const o = t.reduce((l, c) => l.concat(Object.keys(c)), []);
+      if (o.length > 0) {
+        const l = [...new Set(o)].map((c) => `"${c}"`);
+        i.searchParams.set("columns", l.join(","));
+      }
+    }
+    return new pe({
+      method: n,
+      url: i,
+      headers: a,
+      schema: this.schema,
+      body: t,
+      fetch: (s = this.fetch) !== null && s !== void 0 ? s : fetch,
+      urlLengthLimit: this.urlLengthLimit,
+      retry: this.retry
+    });
+  }
+  /**
+  * Perform an UPSERT on the table or view. Depending on the column(s) passed
+  * to `onConflict`, `.upsert()` allows you to perform the equivalent of
+  * `.insert()` if a row with the corresponding `onConflict` columns doesn't
+  * exist, or if it does exist, perform an alternative action depending on
+  * `ignoreDuplicates`.
+  *
+  * By default, upserted rows are not returned. To return it, chain the call
+  * with `.select()`.
+  *
+  * @param values - The values to upsert with. Pass an object to upsert a
+  * single row or an array to upsert multiple rows.
+  *
+  * @param options - Named parameters
+  *
+  * @param options.onConflict - Comma-separated UNIQUE column(s) to specify how
+  * duplicate rows are determined. Two rows are duplicates if all the
+  * `onConflict` columns are equal.
+  *
+  * @param options.ignoreDuplicates - If `true`, duplicate rows are ignored. If
+  * `false`, duplicate rows are merged with existing rows.
+  *
+  * @param options.count - Count algorithm to use to count upserted rows.
+  *
+  * `"exact"`: Exact but slow count algorithm. Performs a `COUNT(*)` under the
+  * hood.
+  *
+  * `"planned"`: Approximated but fast count algorithm. Uses the Postgres
+  * statistics under the hood.
+  *
+  * `"estimated"`: Uses exact count for low numbers and planned count for high
+  * numbers.
+  *
+  * @param options.defaultToNull - Make missing fields default to `null`.
+  * Otherwise, use the default value for the column. This only applies when
+  * inserting new rows, not when merging with existing rows under
+  * `ignoreDuplicates: false`. This also only applies when doing bulk upserts.
+  *
+  * @example Upsert a single row using a unique key
+  * ```ts
+  * // Upserting a single row, overwriting based on the 'username' unique column
+  * const { data, error } = await supabase
+  *   .from('users')
+  *   .upsert({ username: 'supabot' }, { onConflict: 'username' })
+  *
+  * // Example response:
+  * // {
+  * //   data: [
+  * //     { id: 4, message: 'bar', username: 'supabot' }
+  * //   ],
+  * //   error: null
+  * // }
+  * ```
+  *
+  * @example Upsert with conflict resolution and exact row counting
+  * ```ts
+  * // Upserting and returning exact count
+  * const { data, error, count } = await supabase
+  *   .from('users')
+  *   .upsert(
+  *     {
+  *       id: 3,
+  *       message: 'foo',
+  *       username: 'supabot'
+  *     },
+  *     {
+  *       onConflict: 'username',
+  *       count: 'exact'
+  *     }
+  *   )
+  *
+  * // Example response:
+  * // {
+  * //   data: [
+  * //     {
+  * //       id: 42,
+  * //       handle: "saoirse",
+  * //       display_name: "Saoirse"
+  * //     }
+  * //   ],
+  * //   count: 1,
+  * //   error: null
+  * // }
+  * ```
+  *
+  * @category Database
+  *
+  * @remarks
+  * - Primary keys must be included in `values` to use upsert.
+  *
+  * @example Upsert your data
+  * ```ts
+  * const { data, error } = await supabase
+  *   .from('instruments')
+  *   .upsert({ id: 1, name: 'piano' })
+  *   .select()
+  * ```
+  *
+  * @exampleSql Upsert your data
+  * ```sql
+  * create table
+  *   instruments (id int8 primary key, name text);
+  *
+  * insert into
+  *   instruments (id, name)
+  * values
+  *   (1, 'harpsichord');
+  * ```
+  *
+  * @exampleResponse Upsert your data
+  * ```json
+  * {
+  *   "data": [
+  *     {
+  *       "id": 1,
+  *       "name": "piano"
+  *     }
+  *   ],
+  *   "status": 201,
+  *   "statusText": "Created"
+  * }
+  * ```
+  *
+  * @exampleDescription Handling errors
+  * `error.hint` from Postgres often contains the actionable fix (e.g. `"Grant the required privileges to the current role with: GRANT INSERT, UPDATE ON public.instruments TO anon;"` for a `42501` permission-denied error). Log the full `error` object so it isn't hidden behind `error.message`.
+  *
+  * @example Handling errors
+  * ```js
+  * const { data, error } = await supabase.from('instruments').upsert({ id: 1, name: 'piano' }).select()
+  * if (error) console.error(error)
+  * ```
+  *
+  * @example Bulk Upsert your data
+  * ```ts
+  * const { data, error } = await supabase
+  *   .from('instruments')
+  *   .upsert([
+  *     { id: 1, name: 'piano' },
+  *     { id: 2, name: 'harp' },
+  *   ])
+  *   .select()
+  * ```
+  *
+  * @exampleSql Bulk Upsert your data
+  * ```sql
+  * create table
+  *   instruments (id int8 primary key, name text);
+  *
+  * insert into
+  *   instruments (id, name)
+  * values
+  *   (1, 'harpsichord');
+  * ```
+  *
+  * @exampleResponse Bulk Upsert your data
+  * ```json
+  * {
+  *   "data": [
+  *     {
+  *       "id": 1,
+  *       "name": "piano"
+  *     },
+  *     {
+  *       "id": 2,
+  *       "name": "harp"
+  *     }
+  *   ],
+  *   "status": 201,
+  *   "statusText": "Created"
+  * }
+  * ```
+  *
+  * @exampleDescription Upserting into tables with constraints
+  * In the following query, `upsert()` implicitly uses the `id`
+  * (primary key) column to determine conflicts. If there is no existing
+  * row with the same `id`, `upsert()` inserts a new row, which
+  * will fail in this case as there is already a row with `handle` `"saoirse"`.
+  * Using the `onConflict` option, you can instruct `upsert()` to use
+  * another column with a unique constraint to determine conflicts.
+  *
+  * @example Upserting into tables with constraints
+  * ```ts
+  * const { data, error } = await supabase
+  *   .from('users')
+  *   .upsert({ id: 42, handle: 'saoirse', display_name: 'Saoirse' })
+  *   .select()
+  * ```
+  *
+  * @exampleSql Upserting into tables with constraints
+  * ```sql
+  * create table
+  *   users (
+  *     id int8 generated by default as identity primary key,
+  *     handle text not null unique,
+  *     display_name text
+  *   );
+  *
+  * insert into
+  *   users (id, handle, display_name)
+  * values
+  *   (1, 'saoirse', null);
+  * ```
+  *
+  * @exampleResponse Upserting into tables with constraints
+  * ```json
+  * {
+  *   "error": {
+  *     "code": "23505",
+  *     "details": "Key (handle)=(saoirse) already exists.",
+  *     "hint": null,
+  *     "message": "duplicate key value violates unique constraint \"users_handle_key\""
+  *   },
+  *   "status": 409,
+  *   "statusText": "Conflict"
+  * }
+  * ```
+  */
+  upsert(t, { onConflict: e, ignoreDuplicates: r = !1, count: s, defaultToNull: n = !0 } = {}) {
+    var i;
+    const a = "POST", { url: o, headers: l } = this.cloneRequestState();
+    if (l.append("Prefer", `resolution=${r ? "ignore" : "merge"}-duplicates`), e !== void 0 && o.searchParams.set("on_conflict", e), s && l.append("Prefer", `count=${s}`), n || l.append("Prefer", "missing=default"), Array.isArray(t)) {
+      const c = t.reduce((u, h) => u.concat(Object.keys(h)), []);
+      if (c.length > 0) {
+        const u = [...new Set(c)].map((h) => `"${h}"`);
+        o.searchParams.set("columns", u.join(","));
+      }
+    }
+    return new pe({
+      method: a,
+      url: o,
+      headers: l,
+      schema: this.schema,
+      body: t,
+      fetch: (i = this.fetch) !== null && i !== void 0 ? i : fetch,
+      urlLengthLimit: this.urlLengthLimit,
+      retry: this.retry
+    });
+  }
+  /**
+  * Perform an UPDATE on the table or view.
+  *
+  * By default, updated rows are not returned. To return it, chain the call
+  * with `.select()` after filters.
+  *
+  * @param values - The values to update with
+  *
+  * @param options - Named parameters
+  *
+  * @param options.count - Count algorithm to use to count updated rows.
+  *
+  * `"exact"`: Exact but slow count algorithm. Performs a `COUNT(*)` under the
+  * hood.
+  *
+  * `"planned"`: Approximated but fast count algorithm. Uses the Postgres
+  * statistics under the hood.
+  *
+  * `"estimated"`: Uses exact count for low numbers and planned count for high
+  * numbers.
+  *
+  * @category Database
+  *
+  * @remarks
+  * - `update()` should always be combined with [Filters](/docs/reference/javascript/using-filters) to target the item(s) you wish to update.
+  *
+  * @example Updating your data
+  * ```ts
+  * const { error } = await supabase
+  *   .from('instruments')
+  *   .update({ name: 'piano' })
+  *   .eq('id', 1)
+  * ```
+  *
+  * @exampleSql Updating your data
+  * ```sql
+  * create table
+  *   instruments (id int8 primary key, name text);
+  *
+  * insert into
+  *   instruments (id, name)
+  * values
+  *   (1, 'harpsichord');
+  * ```
+  *
+  * @exampleResponse Updating your data
+  * ```json
+  * {
+  *   "status": 204,
+  *   "statusText": "No Content"
+  * }
+  * ```
+  *
+  * @exampleDescription Handling errors
+  * `error.hint` from Postgres often contains the actionable fix (e.g. `"Grant the required privileges to the current role with: GRANT UPDATE ON public.instruments TO anon;"` for a `42501` permission-denied error). Log the full `error` object so it isn't hidden behind `error.message`.
+  *
+  * @example Handling errors
+  * ```js
+  * const { error } = await supabase.from('instruments').update({ name: 'piano' }).eq('id', 1)
+  * if (error) console.error(error)
+  * ```
+  *
+  * @example Update a record and return it
+  * ```ts
+  * const { data, error } = await supabase
+  *   .from('instruments')
+  *   .update({ name: 'piano' })
+  *   .eq('id', 1)
+  *   .select()
+  * ```
+  *
+  * @exampleSql Update a record and return it
+  * ```sql
+  * create table
+  *   instruments (id int8 primary key, name text);
+  *
+  * insert into
+  *   instruments (id, name)
+  * values
+  *   (1, 'harpsichord');
+  * ```
+  *
+  * @exampleResponse Update a record and return it
+  * ```json
+  * {
+  *   "data": [
+  *     {
+  *       "id": 1,
+  *       "name": "piano"
+  *     }
+  *   ],
+  *   "status": 200,
+  *   "statusText": "OK"
+  * }
+  * ```
+  *
+  * @exampleDescription Updating JSON data
+  * Postgres offers some
+  * [operators](/docs/guides/database/json#query-the-jsonb-data) for
+  * working with JSON data. Currently, it is only possible to update the entire JSON document.
+  *
+  * @example Updating JSON data
+  * ```ts
+  * const { data, error } = await supabase
+  *   .from('users')
+  *   .update({
+  *     address: {
+  *       street: 'Melrose Place',
+  *       postcode: 90210
+  *     }
+  *   })
+  *   .eq('address->postcode', 90210)
+  *   .select()
+  * ```
+  *
+  * @exampleSql Updating JSON data
+  * ```sql
+  * create table
+  *   users (
+  *     id int8 primary key,
+  *     name text,
+  *     address jsonb
+  *   );
+  *
+  * insert into
+  *   users (id, name, address)
+  * values
+  *   (1, 'Michael', '{ "postcode": 90210 }');
+  * ```
+  *
+  * @exampleResponse Updating JSON data
+  * ```json
+  * {
+  *   "data": [
+  *     {
+  *       "id": 1,
+  *       "name": "Michael",
+  *       "address": {
+  *         "street": "Melrose Place",
+  *         "postcode": 90210
+  *       }
+  *     }
+  *   ],
+  *   "status": 200,
+  *   "statusText": "OK"
+  * }
+  * ```
+  */
+  update(t, { count: e } = {}) {
+    var r;
+    const s = "PATCH", { url: n, headers: i } = this.cloneRequestState();
+    return e && i.append("Prefer", `count=${e}`), new pe({
+      method: s,
+      url: n,
+      headers: i,
+      schema: this.schema,
+      body: t,
+      fetch: (r = this.fetch) !== null && r !== void 0 ? r : fetch,
+      urlLengthLimit: this.urlLengthLimit,
+      retry: this.retry
+    });
+  }
+  /**
+  * Perform a DELETE on the table or view.
+  *
+  * By default, deleted rows are not returned. To return it, chain the call
+  * with `.select()` after filters.
+  *
+  * @param options - Named parameters
+  *
+  * @param options.count - Count algorithm to use to count deleted rows.
+  *
+  * `"exact"`: Exact but slow count algorithm. Performs a `COUNT(*)` under the
+  * hood.
+  *
+  * `"planned"`: Approximated but fast count algorithm. Uses the Postgres
+  * statistics under the hood.
+  *
+  * `"estimated"`: Uses exact count for low numbers and planned count for high
+  * numbers.
+  *
+  * @category Database
+  *
+  * @remarks
+  * - `delete()` should always be combined with [filters](/docs/reference/javascript/using-filters) to target the item(s) you wish to delete.
+  * - If you use `delete()` with filters and you have
+  *   [RLS](/docs/learn/auth-deep-dive/auth-row-level-security) enabled, only
+  *   rows visible through `SELECT` policies are deleted. Note that by default
+  *   no rows are visible, so you need at least one `SELECT`/`ALL` policy that
+  *   makes the rows visible.
+  * - When using `delete().in()`, specify an array of values to target multiple rows with a single query. This is particularly useful for batch deleting entries that share common criteria, such as deleting users by their IDs. Ensure that the array you provide accurately represents all records you intend to delete to avoid unintended data removal.
+  *
+  * @example Delete a single record
+  * ```ts
+  * const response = await supabase
+  *   .from('countries')
+  *   .delete()
+  *   .eq('id', 1)
+  * ```
+  *
+  * @exampleSql Delete a single record
+  * ```sql
+  * create table
+  *   countries (id int8 primary key, name text);
+  *
+  * insert into
+  *   countries (id, name)
+  * values
+  *   (1, 'Mordor');
+  * ```
+  *
+  * @exampleResponse Delete a single record
+  * ```json
+  * {
+  *   "status": 204,
+  *   "statusText": "No Content"
+  * }
+  * ```
+  *
+  * @exampleDescription Handling errors
+  * `error.hint` from Postgres often contains the actionable fix (e.g. `"Grant the required privileges to the current role with: GRANT DELETE ON public.countries TO anon;"` for a `42501` permission-denied error). Log the full `error` object so it isn't hidden behind `error.message`.
+  *
+  * @example Handling errors
+  * ```js
+  * const { error } = await supabase.from('countries').delete().eq('id', 1)
+  * if (error) console.error(error)
+  * ```
+  *
+  * @example Delete a record and return it
+  * ```ts
+  * const { data, error } = await supabase
+  *   .from('countries')
+  *   .delete()
+  *   .eq('id', 1)
+  *   .select()
+  * ```
+  *
+  * @exampleSql Delete a record and return it
+  * ```sql
+  * create table
+  *   countries (id int8 primary key, name text);
+  *
+  * insert into
+  *   countries (id, name)
+  * values
+  *   (1, 'Mordor');
+  * ```
+  *
+  * @exampleResponse Delete a record and return it
+  * ```json
+  * {
+  *   "data": [
+  *     {
+  *       "id": 1,
+  *       "name": "Mordor"
+  *     }
+  *   ],
+  *   "status": 200,
+  *   "statusText": "OK"
+  * }
+  * ```
+  *
+  * @example Delete multiple records
+  * ```ts
+  * const response = await supabase
+  *   .from('countries')
+  *   .delete()
+  *   .in('id', [1, 2, 3])
+  * ```
+  *
+  * @exampleSql Delete multiple records
+  * ```sql
+  * create table
+  *   countries (id int8 primary key, name text);
+  *
+  * insert into
+  *   countries (id, name)
+  * values
+  *   (1, 'Rohan'), (2, 'The Shire'), (3, 'Mordor');
+  * ```
+  *
+  * @exampleResponse Delete multiple records
+  * ```json
+  * {
+  *   "status": 204,
+  *   "statusText": "No Content"
+  * }
+  * ```
+  */
+  delete({ count: t } = {}) {
+    var e;
+    const r = "DELETE", { url: s, headers: n } = this.cloneRequestState();
+    return t && n.append("Prefer", `count=${t}`), new pe({
+      method: r,
+      url: s,
+      headers: n,
+      schema: this.schema,
+      fetch: (e = this.fetch) !== null && e !== void 0 ? e : fetch,
+      urlLengthLimit: this.urlLengthLimit,
+      retry: this.retry
+    });
+  }
+};
+function $e(t) {
+  "@babel/helpers - typeof";
+  return $e = typeof Symbol == "function" && typeof Symbol.iterator == "symbol" ? function(e) {
+    return typeof e;
+  } : function(e) {
+    return e && typeof Symbol == "function" && e.constructor === Symbol && e !== Symbol.prototype ? "symbol" : typeof e;
+  }, $e(t);
+}
+function gs(t, e) {
+  if ($e(t) != "object" || !t) return t;
+  var r = t[Symbol.toPrimitive];
+  if (r !== void 0) {
+    var s = r.call(t, e);
+    if ($e(s) != "object") return s;
+    throw new TypeError("@@toPrimitive must return a primitive value.");
+  }
+  return (e === "string" ? String : Number)(t);
+}
+function ys(t) {
+  var e = gs(t, "string");
+  return $e(e) == "symbol" ? e : e + "";
+}
+function ms(t, e, r) {
+  return (e = ys(e)) in t ? Object.defineProperty(t, e, {
+    value: r,
+    enumerable: !0,
+    configurable: !0,
+    writable: !0
+  }) : t[e] = r, t;
+}
+function Jt(t, e) {
+  var r = Object.keys(t);
+  if (Object.getOwnPropertySymbols) {
+    var s = Object.getOwnPropertySymbols(t);
+    e && (s = s.filter(function(n) {
+      return Object.getOwnPropertyDescriptor(t, n).enumerable;
+    })), r.push.apply(r, s);
+  }
+  return r;
+}
+function qe(t) {
+  for (var e = 1; e < arguments.length; e++) {
+    var r = arguments[e] != null ? arguments[e] : {};
+    e % 2 ? Jt(Object(r), !0).forEach(function(s) {
+      ms(t, s, r[s]);
+    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(t, Object.getOwnPropertyDescriptors(r)) : Jt(Object(r)).forEach(function(s) {
+      Object.defineProperty(t, s, Object.getOwnPropertyDescriptor(r, s));
+    });
+  }
+  return t;
+}
+var vs = class Ir {
+  /**
+  * Creates a PostgREST client.
+  *
+  * @param url - URL of the PostgREST endpoint
+  * @param options - Named parameters
+  * @param options.headers - Custom headers
+  * @param options.schema - Postgres schema to switch to
+  * @param options.fetch - Custom fetch
+  * @param options.timeout - Optional timeout in milliseconds for all requests. When set, requests will automatically abort after this duration to prevent indefinite hangs.
+  * @param options.urlLengthLimit - Maximum URL length in characters before warnings/errors are triggered. Defaults to 8000.
+  * @param options.retry - Enable or disable automatic retries for transient errors.
+  *   When enabled, idempotent requests (GET, HEAD, OPTIONS) that fail with network
+  *   errors or HTTP 503/520 responses will be automatically retried up to 3 times
+  *   with exponential backoff (1s, 2s, 4s). Defaults to `true`.
+  * @example Using supabase-js (recommended)
+  * ```ts
+  * import { createClient } from '@supabase/supabase-js'
+  *
+  * const supabase = createClient('https://xyzcompany.supabase.co', 'your-publishable-key')
+  * const { data, error } = await supabase.from('profiles').select('*')
+  * ```
+  *
+  * @category Database
+  *
+  * @remarks
+  * - A `timeout` option (in milliseconds) can be set to automatically abort requests that take too long.
+  * - A `urlLengthLimit` option (default: 8000) can be set to control when URL length warnings are included in error messages for aborted requests.
+  *
+  * @example Standalone import for bundle-sensitive environments
+  * ```ts
+  * import { PostgrestClient } from '@supabase/postgrest-js'
+  *
+  * const postgrest = new PostgrestClient('https://xyzcompany.supabase.co/rest/v1', {
+  *   headers: { apikey: 'your-publishable-key' },
+  *   schema: 'public',
+  *   timeout: 30000, // 30 second timeout
+  * })
+  * ```
+  */
+  constructor(e, { headers: r = {}, schema: s, fetch: n, timeout: i, urlLengthLimit: a = 8e3, retry: o } = {}) {
+    this.url = e, this.headers = new Headers(r), this.schemaName = s, this.urlLengthLimit = a;
+    const l = n ?? globalThis.fetch;
+    i !== void 0 && i > 0 ? this.fetch = (c, u) => {
+      const h = new AbortController(), d = setTimeout(() => h.abort(), i), f = u?.signal;
+      if (f) {
+        if (f.aborted)
+          return clearTimeout(d), l(c, u);
+        const p = () => {
+          clearTimeout(d), h.abort();
+        };
+        return f.addEventListener("abort", p, { once: !0 }), l(c, qe(qe({}, u), {}, { signal: h.signal })).finally(() => {
+          clearTimeout(d), f.removeEventListener("abort", p);
+        });
+      }
+      return l(c, qe(qe({}, u), {}, { signal: h.signal })).finally(() => clearTimeout(d));
+    } : this.fetch = l, this.retry = o;
+  }
+  from(e) {
+    if (!e || typeof e != "string" || e.trim() === "") throw new Error("Invalid relation name: relation must be a non-empty string.");
+    return new ps(new URL(`${this.url}/${e}`), {
+      headers: new Headers(this.headers),
+      schema: this.schemaName,
+      fetch: this.fetch,
+      urlLengthLimit: this.urlLengthLimit,
+      retry: this.retry
+    });
+  }
+  /**
+  * Select a schema to query or perform an function (rpc) call.
+  *
+  * The schema needs to be on the list of exposed schemas inside Supabase.
+  *
+  * @param schema - The schema to query
+  *
+  * @category Database
+  */
+  schema(e) {
+    return new Ir(this.url, {
+      headers: this.headers,
+      schema: e,
+      fetch: this.fetch,
+      urlLengthLimit: this.urlLengthLimit,
+      retry: this.retry
+    });
+  }
+  /**
+  * Perform a function call.
+  *
+  * @param fn - The function name to call
+  * @param args - The arguments to pass to the function call
+  * @param options - Named parameters
+  * @param options.head - When set to `true`, `data` will not be returned.
+  * Useful if you only need the count.
+  * @param options.get - When set to `true`, the function will be called with
+  * read-only access mode.
+  * @param options.count - Count algorithm to use to count rows returned by the
+  * function. Only applicable for [set-returning
+  * functions](https://www.postgresql.org/docs/current/functions-srf.html).
+  *
+  * `"exact"`: Exact but slow count algorithm. Performs a `COUNT(*)` under the
+  * hood.
+  *
+  * `"planned"`: Approximated but fast count algorithm. Uses the Postgres
+  * statistics under the hood.
+  *
+  * `"estimated"`: Uses exact count for low numbers and planned count for high
+  * numbers.
+  *
+  * @example
+  * ```ts
+  * // For cross-schema functions where type inference fails, use overrideTypes:
+  * const { data } = await supabase
+  *   .schema('schema_b')
+  *   .rpc('function_a', {})
+  *   .overrideTypes<{ id: string; user_id: string }[]>()
+  * ```
+  *
+  * @category Database
+  *
+  * @example Call a Postgres function without arguments
+  * ```ts
+  * const { data, error } = await supabase.rpc('hello_world')
+  * ```
+  *
+  * @exampleSql Call a Postgres function without arguments
+  * ```sql
+  * create function hello_world() returns text as $$
+  *   select 'Hello world';
+  * $$ language sql;
+  * ```
+  *
+  * @exampleResponse Call a Postgres function without arguments
+  * ```json
+  * {
+  *   "data": "Hello world",
+  *   "status": 200,
+  *   "statusText": "OK"
+  * }
+  * ```
+  *
+  * @example Call a Postgres function with arguments
+  * ```ts
+  * const { data, error } = await supabase.rpc('echo', { say: 'ðŸ‘‹' })
+  * ```
+  *
+  * @exampleSql Call a Postgres function with arguments
+  * ```sql
+  * create function echo(say text) returns text as $$
+  *   select say;
+  * $$ language sql;
+  * ```
+  *
+  * @exampleResponse Call a Postgres function with arguments
+  * ```json
+  *   {
+  *     "data": "ðŸ‘‹",
+  *     "status": 200,
+  *     "statusText": "OK"
+  *   }
+  *
+  * ```
+  *
+  * @exampleDescription Bulk processing
+  * You can process large payloads by passing in an array as an argument.
+  *
+  * @example Bulk processing
+  * ```ts
+  * const { data, error } = await supabase.rpc('add_one_each', { arr: [1, 2, 3] })
+  * ```
+  *
+  * @exampleSql Bulk processing
+  * ```sql
+  * create function add_one_each(arr int[]) returns int[] as $$
+  *   select array_agg(n + 1) from unnest(arr) as n;
+  * $$ language sql;
+  * ```
+  *
+  * @exampleResponse Bulk processing
+  * ```json
+  * {
+  *   "data": [
+  *     2,
+  *     3,
+  *     4
+  *   ],
+  *   "status": 200,
+  *   "statusText": "OK"
+  * }
+  * ```
+  *
+  * @exampleDescription Call a Postgres function with filters
+  * Postgres functions that return tables can also be combined with [Filters](/docs/reference/javascript/using-filters) and [Modifiers](/docs/reference/javascript/using-modifiers).
+  *
+  * @example Call a Postgres function with filters
+  * ```ts
+  * const { data, error } = await supabase
+  *   .rpc('list_stored_countries')
+  *   .eq('id', 1)
+  *   .single()
+  * ```
+  *
+  * @exampleSql Call a Postgres function with filters
+  * ```sql
+  * create table
+  *   countries (id int8 primary key, name text);
+  *
+  * insert into
+  *   countries (id, name)
+  * values
+  *   (1, 'Rohan'),
+  *   (2, 'The Shire');
+  *
+  * create function list_stored_countries() returns setof countries as $$
+  *   select * from countries;
+  * $$ language sql;
+  * ```
+  *
+  * @exampleResponse Call a Postgres function with filters
+  * ```json
+  * {
+  *   "data": {
+  *     "id": 1,
+  *     "name": "Rohan"
+  *   },
+  *   "status": 200,
+  *   "statusText": "OK"
+  * }
+  * ```
+  *
+  * @example Call a read-only Postgres function
+  * ```ts
+  * const { data, error } = await supabase.rpc('hello_world', undefined, { get: true })
+  * ```
+  *
+  * @exampleSql Call a read-only Postgres function
+  * ```sql
+  * create function hello_world() returns text as $$
+  *   select 'Hello world';
+  * $$ language sql;
+  * ```
+  *
+  * @exampleResponse Call a read-only Postgres function
+  * ```json
+  * {
+  *   "data": "Hello world",
+  *   "status": 200,
+  *   "statusText": "OK"
+  * }
+  * ```
+  */
+  rpc(e, r = {}, { head: s = !1, get: n = !1, count: i } = {}) {
+    var a;
+    let o;
+    const l = new URL(`${this.url}/rpc/${e}`);
+    let c;
+    const u = (f) => f !== null && typeof f == "object" && (!Array.isArray(f) || f.some(u)), h = s && Object.values(r).some(u);
+    h ? (o = "POST", c = r) : s || n ? (o = s ? "HEAD" : "GET", Object.entries(r).filter(([f, p]) => p !== void 0).map(([f, p]) => [f, Array.isArray(p) ? `{${p.join(",")}}` : `${p}`]).forEach(([f, p]) => {
+      l.searchParams.append(f, p);
+    })) : (o = "POST", c = r);
+    const d = new Headers(this.headers);
+    return h ? d.set("Prefer", i ? `count=${i},return=minimal` : "return=minimal") : i && d.set("Prefer", `count=${i}`), new pe({
+      method: o,
+      url: l,
+      headers: d,
+      schema: this.schemaName,
+      body: c,
+      fetch: (a = this.fetch) !== null && a !== void 0 ? a : fetch,
+      urlLengthLimit: this.urlLengthLimit,
+      retry: this.retry
+    });
+  }
+};
+class ws {
+  /**
+   * Static-only utility â€“ prevent instantiation.
+   */
+  constructor() {
+  }
+  static detectEnvironment() {
+    var e;
+    if (typeof WebSocket < "u")
+      return { type: "native", wsConstructor: WebSocket };
+    const r = globalThis;
+    if (typeof globalThis < "u" && typeof r.WebSocket < "u")
+      return { type: "native", wsConstructor: r.WebSocket };
+    const s = typeof global < "u" ? global : void 0;
+    if (s && typeof s.WebSocket < "u")
+      return { type: "native", wsConstructor: s.WebSocket };
+    if (typeof globalThis < "u" && typeof r.WebSocketPair < "u" && typeof globalThis.WebSocket > "u")
+      return {
+        type: "cloudflare",
+        error: "Cloudflare Workers detected. WebSocket clients are not supported in Cloudflare Workers.",
+        workaround: "Use Cloudflare Workers WebSocket API for server-side WebSocket handling, or deploy to a different runtime."
+      };
+    if (typeof globalThis < "u" && r.EdgeRuntime || typeof navigator < "u" && (!((e = navigator.userAgent) === null || e === void 0) && e.includes("Vercel-Edge")))
+      return {
+        type: "unsupported",
+        error: "Edge runtime detected (Vercel Edge/Netlify Edge). WebSockets are not supported in edge functions.",
+        workaround: "Use serverless functions or a different deployment target for WebSocket functionality."
+      };
+    const n = globalThis.process;
+    if (n) {
+      const i = n.versions;
+      if (i && i.node)
+        return {
+          type: "unsupported",
+          error: "Node.js detected but native WebSocket not found.",
+          workaround: "Ensure you are running Node.js 22+ or provide a WebSocket implementation via the transport option."
+        };
+    }
+    return {
+      type: "unsupported",
+      error: "Unknown JavaScript runtime without WebSocket support.",
+      workaround: "Ensure you're running in a supported environment (browser, Node.js, Deno) or provide a custom WebSocket implementation."
+    };
+  }
+  /**
+   * Returns the best available WebSocket constructor for the current runtime.
+   *
+   * @category Realtime
+   *
+   * @example Example with error handling
+   * ```ts
+   * try {
+   *   const WS = WebSocketFactory.getWebSocketConstructor()
+   *   const socket = new WS('wss://example.com/socket')
+   * } catch (error) {
+   *   console.error('WebSocket not available in this environment.', error)
+   * }
+   * ```
+   */
+  static getWebSocketConstructor() {
+    const e = this.detectEnvironment();
+    if (e.wsConstructor)
+      return e.wsConstructor;
+    let r = e.error || "WebSocket not supported in this environment.";
+    throw e.workaround && (r += `
 
-NÂˆHØ]Ú
-ŠHÂˆË›\Ý\œ›ÜˆH‹›Y\ÜØYÙHº+îùcå¹odùbcz b¹i*yi,z-)H‹ÛÛœÛÛK™\œ›ÜŠÉÒ_WH˜Z[YÈ™XYHÝ\œ™[Ú]ŠKŠ
-NÂˆ™]\›ŽÂˆBˆYˆ
-Ë˜Ý\œ™[HË\ÊHÂˆŠ
-NÂˆ™]\›ŽÂˆBˆË˜\ÞHHLË›\Ý\œ›ÜˆHˆŽÂˆžHÂˆÛÛœÝˆH
-Ë˜ÛÛ^˜Ú]
-KHH
-Ë˜ÛÛ^
-NÂˆYˆ
+Suggested solution: ${e.workaround}`), new Error(r);
+  }
+  /**
+   * Detects whether the runtime can establish WebSocket connections.
+   *
+   * @category Realtime
+   *
+   * @example Example in a Node.js script
+   * ```ts
+   * if (!WebSocketFactory.isWebSocketSupported()) {
+   *   console.error('WebSockets are required for this script.')
+   *   process.exitCode = 1
+   * }
+   * ```
+   */
+  static isWebSocketSupported() {
+    try {
+      return this.detectEnvironment().type === "native";
+    } catch {
+      return !1;
+    }
+  }
+}
+const _s = "2.110.8", bs = `realtime-js/${_s}`, Ss = "1.0.0", $r = "2.0.0", ks = $r, Es = 1e4, Ts = 100, te = {
+  closed: "closed",
+  errored: "errored",
+  joined: "joined",
+  joining: "joining",
+  leaving: "leaving"
+}, jr = {
+  close: "phx_close",
+  error: "phx_error",
+  join: "phx_join",
+  leave: "phx_leave",
+  access_token: "access_token"
+}, kt = {
+  connecting: "connecting",
+  closing: "closing",
+  closed: "closed"
+};
+class As {
+  constructor(e) {
+    this.HEADER_LENGTH = 1, this.USER_BROADCAST_PUSH_META_LENGTH = 6, this.KINDS = { userBroadcastPush: 3, userBroadcast: 4 }, this.BINARY_ENCODING = 0, this.JSON_ENCODING = 1, this.BROADCAST_EVENT = "broadcast", this.allowedMetadataKeys = [], this.allowedMetadataKeys = e ?? [];
+  }
+  encode(e, r) {
+    if (e.event === this.BROADCAST_EVENT && !(e.payload instanceof ArrayBuffer) && typeof e.payload.event == "string")
+      return r(this._binaryEncodeUserBroadcastPush(e));
+    let s = [e.join_ref, e.ref, e.topic, e.event, e.payload];
+    return r(JSON.stringify(s));
+  }
+  _binaryEncodeUserBroadcastPush(e) {
+    var r;
+    return this._isArrayBuffer((r = e.payload) === null || r === void 0 ? void 0 : r.payload) ? this._encodeBinaryUserBroadcastPush(e) : this._encodeJsonUserBroadcastPush(e);
+  }
+  _encodeBinaryUserBroadcastPush(e) {
+    var r, s;
+    const n = (s = (r = e.payload) === null || r === void 0 ? void 0 : r.payload) !== null && s !== void 0 ? s : new ArrayBuffer(0);
+    return this._encodeUserBroadcastPush(e, this.BINARY_ENCODING, n);
+  }
+  _encodeJsonUserBroadcastPush(e) {
+    var r, s;
+    const n = (s = (r = e.payload) === null || r === void 0 ? void 0 : r.payload) !== null && s !== void 0 ? s : {}, a = new TextEncoder().encode(JSON.stringify(n)).buffer;
+    return this._encodeUserBroadcastPush(e, this.JSON_ENCODING, a);
+  }
+  _encodeUserBroadcastPush(e, r, s) {
+    var n, i;
+    const a = new TextEncoder(), o = a.encode(e.topic), l = a.encode((n = e.ref) !== null && n !== void 0 ? n : ""), c = a.encode((i = e.join_ref) !== null && i !== void 0 ? i : ""), u = a.encode(e.payload.event), h = this.allowedMetadataKeys ? this._pick(e.payload, this.allowedMetadataKeys) : {}, d = a.encode(Object.keys(h).length === 0 ? "" : JSON.stringify(h));
+    if (c.length > 255)
+      throw new Error(`joinRef length ${c.length} exceeds maximum of 255`);
+    if (l.length > 255)
+      throw new Error(`ref length ${l.length} exceeds maximum of 255`);
+    if (o.length > 255)
+      throw new Error(`topic length ${o.length} exceeds maximum of 255`);
+    if (u.length > 255)
+      throw new Error(`userEvent length ${u.length} exceeds maximum of 255`);
+    if (d.length > 255)
+      throw new Error(`metadata length ${d.length} exceeds maximum of 255`);
+    const f = this.USER_BROADCAST_PUSH_META_LENGTH + c.length + l.length + o.length + u.length + d.length, p = new ArrayBuffer(this.HEADER_LENGTH + f), y = new DataView(p), m = new Uint8Array(p);
+    let w = 0;
+    y.setUint8(w++, this.KINDS.userBroadcastPush), y.setUint8(w++, c.length), y.setUint8(w++, l.length), y.setUint8(w++, o.length), y.setUint8(w++, u.length), y.setUint8(w++, d.length), y.setUint8(w++, r), m.set(c, w), w += c.length, m.set(l, w), w += l.length, m.set(o, w), w += o.length, m.set(u, w), w += u.length, m.set(d, w), w += d.length;
+    var S = new Uint8Array(p.byteLength + s.byteLength);
+    return S.set(new Uint8Array(p), 0), S.set(new Uint8Array(s), p.byteLength), S.buffer;
+  }
+  decode(e, r) {
+    if (this._isArrayBuffer(e)) {
+      let s = this._binaryDecode(e);
+      return r(s);
+    }
+    if (typeof e == "string") {
+      const s = JSON.parse(e), [n, i, a, o, l] = s;
+      return r({ join_ref: n, ref: i, topic: a, event: o, payload: l });
+    }
+    return r({});
+  }
+  _binaryDecode(e) {
+    const r = new DataView(e), s = r.getUint8(0), n = new TextDecoder();
+    if (s === this.KINDS.userBroadcast)
+      return this._decodeUserBroadcast(e, r, n);
+  }
+  _decodeUserBroadcast(e, r, s) {
+    const n = r.getUint8(1), i = r.getUint8(2), a = r.getUint8(3), o = r.getUint8(4);
+    let l = this.HEADER_LENGTH + 4;
+    const c = s.decode(e.slice(l, l + n));
+    l = l + n;
+    const u = s.decode(e.slice(l, l + i));
+    l = l + i;
+    const h = s.decode(e.slice(l, l + a));
+    l = l + a;
+    const d = e.slice(l, e.byteLength), f = o === this.JSON_ENCODING ? JSON.parse(s.decode(d)) : d, p = {
+      type: this.BROADCAST_EVENT,
+      event: u,
+      payload: f
+    };
+    return a > 0 && (p.meta = JSON.parse(h)), { join_ref: null, ref: null, topic: c, event: this.BROADCAST_EVENT, payload: p };
+  }
+  _isArrayBuffer(e) {
+    var r;
+    return e instanceof ArrayBuffer || ((r = e?.constructor) === null || r === void 0 ? void 0 : r.name) === "ArrayBuffer";
+  }
+  _pick(e, r) {
+    return !e || typeof e != "object" ? {} : Object.fromEntries(Object.entries(e).filter(([s]) => r.includes(s)));
+  }
+}
+var A;
+(function(t) {
+  t.abstime = "abstime", t.bool = "bool", t.date = "date", t.daterange = "daterange", t.float4 = "float4", t.float8 = "float8", t.int2 = "int2", t.int4 = "int4", t.int4range = "int4range", t.int8 = "int8", t.int8range = "int8range", t.json = "json", t.jsonb = "jsonb", t.money = "money", t.numeric = "numeric", t.oid = "oid", t.reltime = "reltime", t.text = "text", t.time = "time", t.timestamp = "timestamp", t.timestamptz = "timestamptz", t.timetz = "timetz", t.tsrange = "tsrange", t.tstzrange = "tstzrange";
+})(A || (A = {}));
+const Gt = (t, e, r = {}) => {
+  var s;
+  const n = (s = r.skipTypes) !== null && s !== void 0 ? s : [];
+  return e ? Object.keys(e).reduce((i, a) => (i[a] = Rs(a, t, e, n), i), {}) : {};
+}, Rs = (t, e, r, s) => {
+  const n = e.find((o) => o.name === t), i = n?.type, a = r[t];
+  return i && !s.includes(i) ? xr(i, a) : Et(a);
+}, xr = (t, e) => {
+  if (t.charAt(0) === "_") {
+    const r = t.slice(1, t.length);
+    return Is(e, r);
+  }
+  switch (t) {
+    case A.bool:
+      return Os(e);
+    case A.float4:
+    case A.float8:
+    case A.int2:
+    case A.int4:
+    case A.int8:
+    case A.numeric:
+    case A.oid:
+      return Cs(e);
+    case A.json:
+    case A.jsonb:
+      return Ps(e);
+    case A.timestamp:
+      return $s(e);
+    // Format to be consistent with PostgREST
+    case A.abstime:
+    // To allow users to cast it based on Timezone
+    case A.date:
+    // To allow users to cast it based on Timezone
+    case A.daterange:
+    case A.int4range:
+    case A.int8range:
+    case A.money:
+    case A.reltime:
+    // To allow users to cast it based on Timezone
+    case A.text:
+    case A.time:
+    // To allow users to cast it based on Timezone
+    case A.timestamptz:
+    // To allow users to cast it based on Timezone
+    case A.timetz:
+    // To allow users to cast it based on Timezone
+    case A.tsrange:
+    case A.tstzrange:
+      return Et(e);
+    default:
+      return Et(e);
+  }
+}, Et = (t) => t, Os = (t) => {
+  switch (t) {
+    case "t":
+      return !0;
+    case "f":
+      return !1;
+    default:
+      return t;
+  }
+}, Cs = (t) => {
+  if (typeof t == "string") {
+    const e = parseFloat(t);
+    if (!Number.isNaN(e))
+      return e;
+  }
+  return t;
+}, Ps = (t) => {
+  if (typeof t == "string")
+    try {
+      return JSON.parse(t);
+    } catch {
+      return t;
+    }
+  return t;
+}, Is = (t, e) => {
+  if (typeof t != "string")
+    return t;
+  const r = t.length - 1, s = t[r];
+  if (t[0] === "{" && s === "}") {
+    let i;
+    const a = t.slice(1, r);
+    try {
+      i = JSON.parse("[" + a + "]");
+    } catch {
+      i = a ? a.split(",") : [];
+    }
+    return i.map((o) => xr(e, o));
+  }
+  return t;
+}, $s = (t) => typeof t == "string" ? t.replace(" ", "T") : t, Nr = (t) => {
+  const e = new URL(t);
+  return e.protocol = e.protocol.replace(/^ws/i, "http"), e.pathname = e.pathname.replace(/\/+$/, "").replace(/\/socket\/websocket$/i, "").replace(/\/socket$/i, "").replace(/\/websocket$/i, ""), e.pathname === "" || e.pathname === "/" ? e.pathname = "/api/broadcast" : e.pathname = e.pathname + "/api/broadcast", e.href;
+};
+var we = (t) => typeof t == "function" ? (
+  /** @type {() => T} */
+  t
+) : function() {
+  return t;
+}, js = typeof self < "u" ? self : null, ge = typeof window < "u" ? window : null, V = js || ge || globalThis, xs = "2.0.0", Ns = 1e4, Us = 1e3, Ls = 100, z = (
+  /** @type {const} */
+  { connecting: 0, open: 1, closing: 2, closed: 3 }
+), L = (
+  /** @type {const} */
+  {
+    closed: "closed",
+    errored: "errored",
+    joined: "joined",
+    joining: "joining",
+    leaving: "leaving"
+  }
+), X = (
+  /** @type {const} */
+  {
+    close: "phx_close",
+    error: "phx_error",
+    join: "phx_join",
+    reply: "phx_reply",
+    leave: "phx_leave"
+  }
+), Tt = (
+  /** @type {const} */
+  {
+    longpoll: "longpoll",
+    websocket: "websocket"
+  }
+), Ds = (
+  /** @type {const} */
+  {
+    complete: 4
+  }
+), At = "base64url.bearer.phx.", Me = class {
+  /**
+   * Initializes the Push
+   * @param {Channel} channel - The Channel
+   * @param {ChannelEvent} event - The event, for example `"phx_join"`
+   * @param {() => Record<string, unknown>} payload - The payload, for example `{user_id: 123}`
+   * @param {number} timeout - The push timeout in milliseconds
+   */
+  constructor(t, e, r, s) {
+    this.channel = t, this.event = e, this.payload = r || function() {
+      return {};
+    }, this.receivedResp = null, this.timeout = s, this.timeoutTimer = null, this.recHooks = [], this.sent = !1, this.ref = void 0;
+  }
+  /**
+   *
+   * @param {number} timeout
+   */
+  resend(t) {
+    this.timeout = t, this.reset(), this.send();
+  }
+  /**
+   *
+   */
+  send() {
+    this.hasReceived("timeout") || (this.startTimeout(), this.sent = !0, this.channel.socket.push({
+      topic: this.channel.topic,
+      event: this.event,
+      payload: this.payload(),
+      ref: this.ref,
+      join_ref: this.channel.joinRef()
+    }));
+  }
+  /**
+   *
+   * @param {string} status
+   * @param {(response: any) => void} callback
+   */
+  receive(t, e) {
+    return this.hasReceived(t) && e(this.receivedResp.response), this.recHooks.push({ status: t, callback: e }), this;
+  }
+  reset() {
+    this.cancelRefEvent(), this.ref = null, this.refEvent = null, this.receivedResp = null, this.sent = !1;
+  }
+  destroy() {
+    this.cancelRefEvent(), this.cancelTimeout();
+  }
+  /**
+   * @private
+   */
+  matchReceive({ status: t, response: e, _ref: r }) {
+    this.recHooks.filter((s) => s.status === t).forEach((s) => s.callback(e));
+  }
+  /**
+   * @private
+   */
+  cancelRefEvent() {
+    this.refEvent && this.channel.off(this.refEvent);
+  }
+  cancelTimeout() {
+    clearTimeout(this.timeoutTimer), this.timeoutTimer = null;
+  }
+  startTimeout() {
+    this.timeoutTimer && this.cancelTimeout(), this.ref = this.channel.socket.makeRef(), this.refEvent = this.channel.replyEventName(this.ref), this.channel.on(this.refEvent, (t) => {
+      this.cancelRefEvent(), this.cancelTimeout(), this.receivedResp = t, this.matchReceive(t);
+    }), this.timeoutTimer = setTimeout(() => {
+      this.trigger("timeout", {});
+    }, this.timeout);
+  }
+  /**
+   * @private
+   */
+  hasReceived(t) {
+    return this.receivedResp && this.receivedResp.status === t;
+  }
+  trigger(t, e) {
+    this.channel.trigger(this.refEvent, { status: t, response: e });
+  }
+}, Ur = class {
+  /**
+  * @param {() => void} callback
+  * @param {(tries: number) => number} timerCalc
+  */
+  constructor(t, e) {
+    this.callback = t, this.timerCalc = e, this.timer = void 0, this.tries = 0;
+  }
+  reset() {
+    this.tries = 0, clearTimeout(this.timer);
+  }
+  /**
+   * Cancels any previous scheduleTimeout and schedules callback
+   */
+  scheduleTimeout() {
+    clearTimeout(this.timer), this.timer = setTimeout(() => {
+      this.tries = this.tries + 1, this.callback();
+    }, this.timerCalc(this.tries + 1));
+  }
+}, Bs = class {
+  /**
+   * @param {string} topic
+   * @param {Params | (() => Params)} params
+   * @param {Socket} socket
+   */
+  constructor(t, e, r) {
+    this.state = L.closed, this.topic = t, this.params = we(e || {}), this.socket = r, this.bindings = [], this.bindingRef = 0, this.timeout = this.socket.timeout, this.joinedOnce = !1, this.joinPush = new Me(this, X.join, this.params, this.timeout), this.pushBuffer = [], this.stateChangeRefs = [], this.rejoinTimer = new Ur(() => {
+      this.socket.isConnected() && this.rejoin();
+    }, this.socket.rejoinAfterMs), this.stateChangeRefs.push(this.socket.onError(() => this.rejoinTimer.reset())), this.stateChangeRefs.push(
+      this.socket.onOpen(() => {
+        this.rejoinTimer.reset(), this.isErrored() && this.rejoin();
+      })
+    ), this.joinPush.receive("ok", () => {
+      this.state = L.joined, this.rejoinTimer.reset(), this.pushBuffer.forEach((s) => s.send()), this.pushBuffer = [];
+    }), this.joinPush.receive("error", (s) => {
+      this.state = L.errored, this.socket.hasLogger() && this.socket.log("channel", `error ${this.topic}`, s), this.socket.isConnected() && this.rejoinTimer.scheduleTimeout();
+    }), this.onClose(() => {
+      this.rejoinTimer.reset(), this.socket.hasLogger() && this.socket.log("channel", `close ${this.topic}`), this.state = L.closed, this.socket.remove(this);
+    }), this.onError((s) => {
+      this.socket.hasLogger() && this.socket.log("channel", `error ${this.topic}`, s), this.isJoining() && this.joinPush.reset(), this.state = L.errored, this.socket.isConnected() && this.rejoinTimer.scheduleTimeout();
+    }), this.joinPush.receive("timeout", () => {
+      this.socket.hasLogger() && this.socket.log("channel", `timeout ${this.topic}`, this.joinPush.timeout), new Me(this, X.leave, we({}), this.timeout).send(), this.state = L.errored, this.joinPush.reset(), this.socket.isConnected() && this.rejoinTimer.scheduleTimeout();
+    }), this.on(X.reply, (s, n) => {
+      this.trigger(this.replyEventName(n), s);
+    });
+  }
+  /**
+   * Join the channel
+   * @param {number} timeout
+   * @returns {Push}
+   */
+  join(t = this.timeout) {
+    if (this.joinedOnce)
+      throw new Error("tried to join multiple times. 'join' can only be called a single time per channel instance");
+    return this.timeout = t, this.joinedOnce = !0, this.rejoin(), this.joinPush;
+  }
+  /**
+   * Teardown the channel.
+   *
+   * Destroys and stops related timers.
+   */
+  teardown() {
+    this.pushBuffer.forEach((t) => t.destroy()), this.pushBuffer = [], this.rejoinTimer.reset(), this.joinPush.destroy(), this.state = L.closed, this.bindings = [];
+  }
+  /**
+   * Hook into channel close
+   * @param {ChannelBindingCallback} callback
+   */
+  onClose(t) {
+    this.on(X.close, t);
+  }
+  /**
+   * Hook into channel errors
+   * @param {ChannelOnErrorCallback} callback
+   * @return {number}
+   */
+  onError(t) {
+    return this.on(X.error, (e) => t(e));
+  }
+  /**
+   * Subscribes on channel events
+   *
+   * Subscription returns a ref counter, which can be used later to
+   * unsubscribe the exact event listener
+   *
+   * @example
+   * const ref1 = channel.on("event", do_stuff)
+   * const ref2 = channel.on("event", do_other_stuff)
+   * channel.off("event", ref1)
+   * // Since unsubscription, do_stuff won't fire,
+   * // while do_other_stuff will keep firing on the "event"
+   *
+   * @param {string} event
+   * @param {ChannelBindingCallback} callback
+   * @returns {number} ref
+   */
+  on(t, e) {
+    let r = this.bindingRef++;
+    return this.bindings.push({ event: t, ref: r, callback: e }), r;
+  }
+  /**
+   * Unsubscribes off of channel events
+   *
+   * Use the ref returned from a channel.on() to unsubscribe one
+   * handler, or pass nothing for the ref to unsubscribe all
+   * handlers for the given event.
+   *
+   * @example
+   * // Unsubscribe the do_stuff handler
+   * const ref1 = channel.on("event", do_stuff)
+   * channel.off("event", ref1)
+   *
+   * // Unsubscribe all handlers from event
+   * channel.off("event")
+   *
+   * @param {string} event
+   * @param {number} [ref]
+   */
+  off(t, e) {
+    this.bindings = this.bindings.filter((r) => !(r.event === t && (typeof e > "u" || e === r.ref)));
+  }
+  /**
+   * @private
+   */
+  canPush() {
+    return this.socket.isConnected() && this.isJoined();
+  }
+  /**
+   * Sends a message `event` to phoenix with the payload `payload`.
+   * Phoenix receives this in the `handle_in(event, payload, socket)`
+   * function. if phoenix replies or it times out (default 10000ms),
+   * then optionally the reply can be received.
+   *
+   * @example
+   * channel.push("event")
+   *   .receive("ok", payload => console.log("phoenix replied:", payload))
+   *   .receive("error", err => console.log("phoenix errored", err))
+   *   .receive("timeout", () => console.log("timed out pushing"))
+   * @param {string} event
+   * @param {Object} payload
+   * @param {number} [timeout]
+   * @returns {Push}
+   */
+  push(t, e, r = this.timeout) {
+    if (e = e || {}, !this.joinedOnce)
+      throw new Error(`tried to push '${t}' to '${this.topic}' before joining. Use channel.join() before pushing events`);
+    let s = new Me(this, t, function() {
+      return e;
+    }, r);
+    return this.canPush() ? s.send() : (s.startTimeout(), this.pushBuffer.push(s)), s;
+  }
+  /** Leaves the channel
+   *
+   * Unsubscribes from server events, and
+   * instructs channel to terminate on server
+   *
+   * Triggers onClose() hooks
+   *
+   * To receive leave acknowledgements, use the `receive`
+   * hook to bind to the server ack, ie:
+   *
+   * @example
+   * channel.leave().receive("ok", () => alert("left!") )
+   *
+   * @param {number} timeout
+   * @returns {Push}
+   */
+  leave(t = this.timeout) {
+    this.rejoinTimer.reset(), this.joinPush.cancelTimeout(), this.state = L.leaving;
+    let e = () => {
+      this.socket.hasLogger() && this.socket.log("channel", `leave ${this.topic}`), this.trigger(X.close, "leave");
+    }, r = new Me(this, X.leave, we({}), t);
+    return r.receive("ok", () => e()).receive("timeout", () => e()), r.send(), this.canPush() || r.trigger("ok", {}), r;
+  }
+  /**
+   * Overridable message hook
+   *
+   * Receives all events for specialized message handling
+   * before dispatching to the channel callbacks.
+   *
+   * Must return the payload, modified or unmodified
+   * @type{ChannelOnMessage}
+   */
+  onMessage(t, e, r) {
+    return e;
+  }
+  /**
+   * Overridable filter hook
+   *
+   * If this function returns `true`, `binding`'s callback will be called.
+   *
+   * @type{ChannelFilterBindings}
+   */
+  filterBindings(t, e, r) {
+    return !0;
+  }
+  isMember(t, e, r, s) {
+    return this.topic !== t ? !1 : s && s !== this.joinRef() ? (this.socket.hasLogger() && this.socket.log("channel", "dropping outdated message", { topic: t, event: e, payload: r, joinRef: s }), !1) : !0;
+  }
+  joinRef() {
+    return this.joinPush.ref;
+  }
+  /**
+   * @private
+   */
+  rejoin(t = this.timeout) {
+    this.isLeaving() || (this.socket.leaveOpenTopic(this.topic), this.state = L.joining, this.joinPush.resend(t));
+  }
+  /**
+   * @param {string} event
+   * @param {unknown} [payload]
+   * @param {?string} [ref]
+   * @param {?string} [joinRef]
+   */
+  trigger(t, e, r, s) {
+    let n = this.onMessage(t, e, r, s);
+    if (e && !n)
+      throw new Error("channel onMessage callbacks must return the payload, modified or unmodified");
+    let i = this.bindings.filter((a) => a.event === t && this.filterBindings(a, e, r));
+    for (let a = 0; a < i.length; a++)
+      i[a].callback(n, r, s || this.joinRef());
+  }
+  /**
+  * @param {string} ref
+  */
+  replyEventName(t) {
+    return `chan_reply_${t}`;
+  }
+  isClosed() {
+    return this.state === L.closed;
+  }
+  isErrored() {
+    return this.state === L.errored;
+  }
+  isJoined() {
+    return this.state === L.joined;
+  }
+  isJoining() {
+    return this.state === L.joining;
+  }
+  isLeaving() {
+    return this.state === L.leaving;
+  }
+}, Xe = class {
+  static request(t, e, r, s, n, i, a) {
+    if (V.XDomainRequest) {
+      let o = new V.XDomainRequest();
+      return this.xdomainRequest(o, t, e, s, n, i, a);
+    } else if (V.XMLHttpRequest) {
+      let o = new V.XMLHttpRequest();
+      return this.xhrRequest(o, t, e, r, s, n, i, a);
+    } else {
+      if (V.fetch && V.AbortController)
+        return this.fetchRequest(t, e, r, s, n, i, a);
+      throw new Error("No suitable XMLHttpRequest implementation found");
+    }
+  }
+  static fetchRequest(t, e, r, s, n, i, a) {
+    let o = {
+      method: t,
+      headers: r,
+      body: s
+    }, l = null;
+    return n && (l = new AbortController(), setTimeout(() => l.abort(), n), o.signal = l.signal), V.fetch(e, o).then((c) => c.text()).then((c) => this.parseJSON(c)).then((c) => a && a(c)).catch((c) => {
+      c.name === "AbortError" && i ? i() : a && a(null);
+    }), l;
+  }
+  static xdomainRequest(t, e, r, s, n, i, a) {
+    return t.timeout = n, t.open(e, r), t.onload = () => {
+      let o = this.parseJSON(t.responseText);
+      a && a(o);
+    }, i && (t.ontimeout = i), t.onprogress = () => {
+    }, t.send(s), t;
+  }
+  static xhrRequest(t, e, r, s, n, i, a, o) {
+    t.open(e, r, !0), t.timeout = i;
+    for (let [l, c] of Object.entries(s))
+      t.setRequestHeader(l, c);
+    return t.onerror = () => o && o(null), t.onreadystatechange = () => {
+      if (t.readyState === Ds.complete && o) {
+        let l = this.parseJSON(t.responseText);
+        o(l);
+      }
+    }, a && (t.ontimeout = a), t.send(n), t;
+  }
+  static parseJSON(t) {
+    if (!t || t === "")
+      return null;
+    try {
+      return JSON.parse(t);
+    } catch {
+      return console && console.log("failed to parse JSON response", t), null;
+    }
+  }
+  static serialize(t, e) {
+    let r = [];
+    for (var s in t) {
+      if (!Object.prototype.hasOwnProperty.call(t, s))
+        continue;
+      let n = e ? `${e}[${s}]` : s, i = t[s];
+      typeof i == "object" ? r.push(this.serialize(i, n)) : r.push(encodeURIComponent(n) + "=" + encodeURIComponent(i));
+    }
+    return r.join("&");
+  }
+  static appendParams(t, e) {
+    if (Object.keys(e).length === 0)
+      return t;
+    let r = t.match(/\?/) ? "&" : "?";
+    return `${t}${r}${this.serialize(e)}`;
+  }
+}, Hs = (t) => {
+  let e = "", r = new Uint8Array(t), s = r.byteLength;
+  for (let n = 0; n < s; n++)
+    e += String.fromCharCode(r[n]);
+  return btoa(e);
+}, ue = class {
+  constructor(t, e) {
+    e && e.length === 2 && e[1].startsWith(At) && (this.authToken = atob(e[1].slice(At.length))), this.endPoint = null, this.token = null, this.skipHeartbeat = !0, this.reqs = /* @__PURE__ */ new Set(), this.awaitingBatchAck = !1, this.currentBatch = null, this.currentBatchTimer = null, this.batchBuffer = [], this.onopen = function() {
+    }, this.onerror = function() {
+    }, this.onmessage = function() {
+    }, this.onclose = function() {
+    }, this.pollEndpoint = this.normalizeEndpoint(t), this.readyState = z.connecting, setTimeout(() => this.poll(), 0);
+  }
+  normalizeEndpoint(t) {
+    return t.replace("ws://", "http://").replace("wss://", "https://").replace(new RegExp("(.*)/" + Tt.websocket), "$1/" + Tt.longpoll);
+  }
+  endpointURL() {
+    return Xe.appendParams(this.pollEndpoint, { token: this.token });
+  }
+  closeAndRetry(t, e, r) {
+    this.close(t, e, r), this.readyState = z.connecting;
+  }
+  ontimeout() {
+    this.onerror("timeout"), this.closeAndRetry(1005, "timeout", !1);
+  }
+  isActive() {
+    return this.readyState === z.open || this.readyState === z.connecting;
+  }
+  poll() {
+    const t = { Accept: "application/json" };
+    this.authToken && (t["X-Phoenix-AuthToken"] = this.authToken), this.ajax("GET", t, null, () => this.ontimeout(), (e) => {
+      if (e) {
+        var { status: r, token: s, messages: n } = e;
+        if (r === 410 && this.token !== null) {
+          this.onerror(410), this.closeAndRetry(3410, "session_gone", !1);
+          return;
+        }
+        this.token = s;
+      } else
+        r = 0;
+      switch (r) {
+        case 200:
+          n.forEach((i) => {
+            setTimeout(() => this.onmessage({ data: i }), 0);
+          }), this.poll();
+          break;
+        case 204:
+          this.poll();
+          break;
+        case 410:
+          this.readyState = z.open, this.onopen({}), this.poll();
+          break;
+        case 403:
+          this.onerror(403), this.close(1008, "forbidden", !1);
+          break;
+        case 0:
+        case 500:
+          this.onerror(500), this.closeAndRetry(1011, "internal server error", 500);
+          break;
+        default:
+          throw new Error(`unhandled poll status ${r}`);
+      }
+    });
+  }
+  // we collect all pushes within the current event loop by
+  // setTimeout 0, which optimizes back-to-back procedural
+  // pushes against an empty buffer
+  send(t) {
+    typeof t != "string" && (t = Hs(t)), this.currentBatch ? this.currentBatch.push(t) : this.awaitingBatchAck ? this.batchBuffer.push(t) : (this.currentBatch = [t], this.currentBatchTimer = setTimeout(() => {
+      this.batchSend(this.currentBatch), this.currentBatch = null;
+    }, 0));
+  }
+  batchSend(t, e = 0) {
+    this.awaitingBatchAck = !0;
+    const r = e + Ls, s = t.slice(e, r);
+    this.ajax("POST", { "Content-Type": "application/x-ndjson" }, s.join(`
+`), () => this.onerror("timeout"), (n) => {
+      !n || n.status !== 200 ? (this.awaitingBatchAck = !1, this.onerror(n && n.status), this.closeAndRetry(1011, "internal server error", !1)) : r < t.length ? this.batchSend(t, r) : this.batchBuffer.length > 0 ? (this.batchSend(this.batchBuffer), this.batchBuffer = []) : this.awaitingBatchAck = !1;
+    });
+  }
+  close(t, e, r) {
+    for (let n of this.reqs)
+      n.abort();
+    this.readyState = z.closed;
+    let s = Object.assign({ code: 1e3, reason: void 0, wasClean: !0 }, { code: t, reason: e, wasClean: r });
+    this.batchBuffer = [], clearTimeout(this.currentBatchTimer), this.currentBatchTimer = null, typeof CloseEvent < "u" ? this.onclose(new CloseEvent("close", s)) : this.onclose(s);
+  }
+  ajax(t, e, r, s, n) {
+    let i, a = () => {
+      this.reqs.delete(i), s();
+    };
+    i = Xe.request(t, this.endpointURL(), e, r, this.timeout, a, (o) => {
+      this.reqs.delete(i), this.isActive() && n(o);
+    }), this.reqs.add(i);
+  }
+}, qs = class Te {
+  /**
+   * Initializes the Presence
+   * @param {Channel} channel - The Channel
+   * @param {PresenceOptions} [opts] - The options, for example `{events: {state: "state", diff: "diff"}}`
+   */
+  constructor(e, r = {}) {
+    let s = r.events || /** @type {PresenceEvents} */
+    { state: "presence_state", diff: "presence_diff" };
+    this.state = /* @__PURE__ */ Object.create(null), this.pendingDiffs = [], this.channel = e, this.joinRef = null, this.caller = {
+      onJoin: function() {
+      },
+      onLeave: function() {
+      },
+      onSync: function() {
+      }
+    }, this.channel.on(s.state, (n) => {
+      let { onJoin: i, onLeave: a, onSync: o } = this.caller;
+      this.joinRef = this.channel.joinRef(), this.state = Te.syncState(this.state, n, i, a), this.pendingDiffs.forEach((l) => {
+        this.state = Te.syncDiff(this.state, l, i, a);
+      }), this.pendingDiffs = [], o();
+    }), this.channel.on(s.diff, (n) => {
+      let { onJoin: i, onLeave: a, onSync: o } = this.caller;
+      this.inPendingSyncState() ? this.pendingDiffs.push(n) : (this.state = Te.syncDiff(this.state, n, i, a), o());
+    });
+  }
+  /**
+   * @param {PresenceOnJoin} callback
+   */
+  onJoin(e) {
+    this.caller.onJoin = e;
+  }
+  /**
+   * @param {PresenceOnLeave} callback
+   */
+  onLeave(e) {
+    this.caller.onLeave = e;
+  }
+  /**
+   * @param {PresenceOnSync} callback
+   */
+  onSync(e) {
+    this.caller.onSync = e;
+  }
+  /**
+   * Returns the array of presences, with selected metadata.
+   *
+   * @template [T=PresenceState]
+   * @param {((key: string, obj: PresenceState) => T)} [by]
+   *
+   * @returns {T[]}
+   */
+  list(e) {
+    return Te.list(this.state, e);
+  }
+  inPendingSyncState() {
+    return !this.joinRef || this.joinRef !== this.channel.joinRef();
+  }
+  // lower-level public static API
+  /**
+   * Used to sync the list of presences on the server
+   * with the client's state. An optional `onJoin` and `onLeave` callback can
+   * be provided to react to changes in the client's local presences across
+   * disconnects and reconnects with the server.
+   *
+   * @param {Record<string, PresenceState>} currentState
+   * @param {Record<string, PresenceState>} newState
+   * @param {PresenceOnJoin} onJoin
+   * @param {PresenceOnLeave} onLeave
+   *
+   * @returns {Record<string, PresenceState>}
+   */
+  static syncState(e, r, s, n) {
+    let i = this.toNullProtoObj(this.clone(e));
+    r = this.toNullProtoObj(r);
+    let a = /* @__PURE__ */ Object.create(null), o = /* @__PURE__ */ Object.create(null);
+    return this.map(i, (l, c) => {
+      r[l] || (o[l] = c);
+    }), this.map(r, (l, c) => {
+      let u = i[l];
+      if (u) {
+        let h = c.metas.map((y) => y.phx_ref), d = u.metas.map((y) => y.phx_ref), f = c.metas.filter((y) => d.indexOf(y.phx_ref) < 0), p = u.metas.filter((y) => h.indexOf(y.phx_ref) < 0);
+        f.length > 0 && (a[l] = c, a[l].metas = f), p.length > 0 && (o[l] = this.clone(u), o[l].metas = p);
+      } else
+        a[l] = c;
+    }), this.syncDiff(i, { joins: a, leaves: o }, s, n);
+  }
+  /**
+   *
+   * Used to sync a diff of presence join and leave
+   * events from the server, as they happen. Like `syncState`, `syncDiff`
+   * accepts optional `onJoin` and `onLeave` callbacks to react to a user
+   * joining or leaving from a device.
+   *
+   * @param {Record<string, PresenceState>} state
+   * @param {PresenceDiff} diff
+   * @param {PresenceOnJoin} onJoin
+   * @param {PresenceOnLeave} onLeave
+   *
+   * @returns {Record<string, PresenceState>}
+   */
+  static syncDiff(e, r, s, n) {
+    e = this.toNullProtoObj(e);
+    let { joins: i, leaves: a } = this.clone(r);
+    return s || (s = function() {
+    }), n || (n = function() {
+    }), this.map(i, (o, l) => {
+      let c = e[o];
+      if (e[o] = this.clone(l), c) {
+        let u = e[o].metas.map((d) => d.phx_ref), h = c.metas.filter((d) => u.indexOf(d.phx_ref) < 0);
+        e[o].metas.unshift(...h);
+      }
+      s(o, c, l);
+    }), this.map(a, (o, l) => {
+      let c = e[o];
+      if (!c)
+        return;
+      let u = l.metas.map((h) => h.phx_ref);
+      c.metas = c.metas.filter((h) => u.indexOf(h.phx_ref) < 0), n(o, c, l), c.metas.length === 0 && delete e[o];
+    }), e;
+  }
+  /**
+   * Returns the array of presences, with selected metadata.
+   *
+   * @template [T=PresenceState]
+   * @param {Record<string, PresenceState>} presences
+   * @param {((key: string, obj: PresenceState) => T)} [chooser]
+   *
+   * @returns {T[]}
+   */
+  static list(e, r) {
+    return r || (r = function(s, n) {
+      return n;
+    }), this.map(e, (s, n) => r(s, n));
+  }
+  // private
+  /**
+  * @template T
+  * @param {Record<string, PresenceState>} obj
+  * @param {(key: string, obj: PresenceState) => T} func
+  */
+  static map(e, r) {
+    return Object.getOwnPropertyNames(e).map((s) => r(s, e[s]));
+  }
+  // Presence keys are chosen on the server and may collide with
+  // Object.prototype properties ("__proto__", "constructor", ...), so any
+  // object indexed by presence key must not have a prototype chain
+  //
+  // TODO: replace the null-prototype objects with Maps in Phoenix 2.0
+  // (breaking change for the lower-level static API)
+  static toNullProtoObj(e) {
+    if (Object.getPrototypeOf(e) === null)
+      return e;
+    let r = /* @__PURE__ */ Object.create(null);
+    return Object.getOwnPropertyNames(e).forEach((s) => {
+      r[s] = e[s];
+    }), r;
+  }
+  /**
+  * @template T
+  * @param {T} obj
+  * @returns {T}
+  */
+  static clone(e) {
+    return JSON.parse(JSON.stringify(e));
+  }
+}, Ke = {
+  HEADER_LENGTH: 1,
+  META_LENGTH: 4,
+  KINDS: { push: 0, reply: 1, broadcast: 2 },
+  /**
+  * @template T
+  * @param {Message<Record<string, any>>} msg
+  * @param {(msg: ArrayBuffer | string) => T} callback
+  * @returns {T}
+  */
+  encode(t, e) {
+    if (t.payload.constructor === ArrayBuffer)
+      return e(this.binaryEncode(t));
+    {
+      let r = [t.join_ref, t.ref, t.topic, t.event, t.payload];
+      return e(JSON.stringify(r));
+    }
+  },
+  /**
+  * @template T
+  * @param {ArrayBuffer | string} rawPayload
+  * @param {(msg: Message<unknown>) => T} callback
+  * @returns {T}
+  */
+  decode(t, e) {
+    if (t.constructor === ArrayBuffer)
+      return e(this.binaryDecode(t));
+    {
+      let [r, s, n, i, a] = JSON.parse(t);
+      return e({ join_ref: r, ref: s, topic: n, event: i, payload: a });
+    }
+  },
+  /** @private */
+  binaryEncode(t) {
+    let { join_ref: e, ref: r, event: s, topic: n, payload: i } = t, a = new TextEncoder(), o = a.encode(e), l = a.encode(r), c = a.encode(n), u = a.encode(s);
+    this.assertFieldSize(o.byteLength, "join_ref"), this.assertFieldSize(l.byteLength, "ref"), this.assertFieldSize(c.byteLength, "topic"), this.assertFieldSize(u.byteLength, "event");
+    let h = this.META_LENGTH + o.byteLength + l.byteLength + c.byteLength + u.byteLength, d = new ArrayBuffer(this.HEADER_LENGTH + h), f = new Uint8Array(d), p = new DataView(d), y = 0;
+    p.setUint8(y++, this.KINDS.push), p.setUint8(y++, o.byteLength), p.setUint8(y++, l.byteLength), p.setUint8(y++, c.byteLength), p.setUint8(y++, u.byteLength), f.set(o, y), y += o.byteLength, f.set(l, y), y += l.byteLength, f.set(c, y), y += c.byteLength, f.set(u, y), y += u.byteLength;
+    var m = new Uint8Array(d.byteLength + i.byteLength);
+    return m.set(f, 0), m.set(new Uint8Array(i), d.byteLength), m.buffer;
+  },
+  assertFieldSize(t, e) {
+    if (t > 255)
+      throw new Error(`unable to convert ${e} to binary: must be less than or equal to 255 bytes, but is ${t} bytes`);
+  },
+  /**
+  * @private
+  */
+  binaryDecode(t) {
+    let e = new DataView(t), r = e.getUint8(0), s = new TextDecoder();
+    switch (r) {
+      case this.KINDS.push:
+        return this.decodePush(t, e, s);
+      case this.KINDS.reply:
+        return this.decodeReply(t, e, s);
+      case this.KINDS.broadcast:
+        return this.decodeBroadcast(t, e, s);
+    }
+  },
+  /** @private */
+  decodePush(t, e, r) {
+    let s = e.getUint8(1), n = e.getUint8(2), i = e.getUint8(3), a = this.HEADER_LENGTH + this.META_LENGTH - 1, o = r.decode(t.slice(a, a + s));
+    a = a + s;
+    let l = r.decode(t.slice(a, a + n));
+    a = a + n;
+    let c = r.decode(t.slice(a, a + i));
+    a = a + i;
+    let u = t.slice(a, t.byteLength);
+    return { join_ref: o, ref: null, topic: l, event: c, payload: u };
+  },
+  /** @private */
+  decodeReply(t, e, r) {
+    let s = e.getUint8(1), n = e.getUint8(2), i = e.getUint8(3), a = e.getUint8(4), o = this.HEADER_LENGTH + this.META_LENGTH, l = r.decode(t.slice(o, o + s));
+    o = o + s;
+    let c = r.decode(t.slice(o, o + n));
+    o = o + n;
+    let u = r.decode(t.slice(o, o + i));
+    o = o + i;
+    let h = r.decode(t.slice(o, o + a));
+    o = o + a;
+    let d = t.slice(o, t.byteLength), f = { status: h, response: d };
+    return { join_ref: l, ref: c, topic: u, event: X.reply, payload: f };
+  },
+  /** @private */
+  decodeBroadcast(t, e, r) {
+    let s = e.getUint8(1), n = e.getUint8(2), i = this.HEADER_LENGTH + 2, a = r.decode(t.slice(i, i + s));
+    i = i + s;
+    let o = r.decode(t.slice(i, i + n));
+    i = i + n;
+    let l = t.slice(i, t.byteLength);
+    return { join_ref: null, ref: null, topic: a, event: o, payload: l };
+  }
+}, Ms = class {
+  /** Initializes the Socket *
+   *
+   * For IE8 support use an ES5-shim (https://github.com/es-shims/es5-shim)
+   *
+   * @constructor
+   * @param {string} endPoint - The string WebSocket endpoint, ie, `"ws://example.com/socket"`,
+   *                                               `"wss://example.com"`
+   *                                               `"/socket"` (inherited host & protocol)
+   * @param {SocketOptions} [opts] - Optional configuration
+   */
+  constructor(t, e = {}) {
+    this.stateChangeCallbacks = { open: [], close: [], error: [], message: [] }, this.channels = [], this.sendBuffer = [], this.ref = 0, this.fallbackRef = null, this.timeout = e.timeout || Ns, this.transport = e.transport || V.WebSocket || ue, this.conn = void 0, this.primaryPassedHealthCheck = !1, this.longPollFallbackMs = e.longPollFallbackMs, this.fallbackTimer = null;
+    let r = null;
+    try {
+      r = V && V.sessionStorage;
+    } catch {
+    }
+    this.sessionStore = e.sessionStorage || r, this.establishedConnections = 0, this.defaultEncoder = Ke.encode.bind(Ke), this.defaultDecoder = Ke.decode.bind(Ke), this.closeWasClean = !0, this.disconnecting = !1, this.binaryType = e.binaryType || "arraybuffer", this.connectClock = 1, this.pageHidden = !1, this.encode = void 0, this.decode = void 0, this.transport !== ue ? (this.encode = e.encode || this.defaultEncoder, this.decode = e.decode || this.defaultDecoder) : (this.encode = this.defaultEncoder, this.decode = this.defaultDecoder);
+    let s = null;
+    ge && ge.addEventListener && (ge.addEventListener("pagehide", (n) => {
+      this.conn && (this.disconnect(), s = this.connectClock);
+    }), ge.addEventListener("pageshow", (n) => {
+      s === this.connectClock && (s = null, this.connect());
+    }), ge.addEventListener("visibilitychange", () => {
+      document.visibilityState === "hidden" ? this.pageHidden = !0 : (this.pageHidden = !1, !this.isConnected() && !this.closeWasClean && this.teardown(() => this.connect()));
+    })), this.heartbeatIntervalMs = e.heartbeatIntervalMs || 3e4, this.autoSendHeartbeat = e.autoSendHeartbeat ?? !0, this.heartbeatCallback = e.heartbeatCallback ?? (() => {
+    }), this.rejoinAfterMs = (n) => e.rejoinAfterMs ? e.rejoinAfterMs(n) : [1e3, 2e3, 5e3][n - 1] || 1e4, this.reconnectAfterMs = (n) => e.reconnectAfterMs ? e.reconnectAfterMs(n) : [10, 50, 100, 150, 200, 250, 500, 1e3, 2e3][n - 1] || 5e3, this.logger = e.logger || null, !this.logger && e.debug && (this.logger = (n, i, a) => {
+      console.log(`${n}: ${i}`, a);
+    }), this.longpollerTimeout = e.longpollerTimeout || 2e4, this.params = we(e.params || {}), this.endPoint = `${t}/${Tt.websocket}`, this.vsn = e.vsn || xs, this.heartbeatTimeoutTimer = null, this.heartbeatTimer = null, this.heartbeatSentAt = null, this.pendingHeartbeatRef = null, this.reconnectTimer = new Ur(() => {
+      if (this.pageHidden) {
+        this.log("Not reconnecting as page is hidden!"), this.teardown();
+        return;
+      }
+      this.teardown(async () => {
+        e.beforeReconnect && await e.beforeReconnect(), this.connect();
+      });
+    }, this.reconnectAfterMs), this.authToken = e.authToken && we(e.authToken);
+  }
+  /**
+   * Returns the LongPoll transport reference
+   */
+  getLongPollTransport() {
+    return ue;
+  }
+  /**
+   * Disconnects and replaces the active transport
+   *
+   * @param {SocketTransport} newTransport - The new transport class to instantiate
+   *
+   */
+  replaceTransport(t) {
+    this.connectClock++, this.closeWasClean = !0, clearTimeout(this.fallbackTimer), this.reconnectTimer.reset(), this.conn && (this.conn.close(), this.conn = null), this.transport = t;
+  }
+  /**
+   * Returns the socket protocol
+   *
+   * @returns {"wss" | "ws"}
+   */
+  protocol() {
+    return location.protocol.match(/^https/) ? "wss" : "ws";
+  }
+  /**
+   * The fully qualified socket url
+   *
+   * @returns {string}
+   */
+  endPointURL() {
+    let t = Xe.appendParams(
+      Xe.appendParams(this.endPoint, this.params()),
+      { vsn: this.vsn }
+    );
+    return t.charAt(0) !== "/" ? t : t.charAt(1) === "/" ? `${this.protocol()}:${t}` : `${this.protocol()}://${location.host}${t}`;
+  }
+  /**
+   * Disconnects the socket
+   *
+   * See https://developer.mozilla.org/en-US/docs/Web/API/CloseEvent#Status_codes for valid status codes.
+   *
+   * @param {() => void} [callback] - Optional callback which is called after socket is disconnected.
+   * @param {number} [code] - A status code for disconnection (Optional).
+   * @param {string} [reason] - A textual description of the reason to disconnect. (Optional)
+   */
+  disconnect(t, e, r) {
+    this.connectClock++, this.disconnecting = !0, this.closeWasClean = !0, clearTimeout(this.fallbackTimer), this.reconnectTimer.reset(), this.teardown(() => {
+      this.disconnecting = !1, t && t();
+    }, e, r);
+  }
+  /**
+   * @param {Params} [params] - [DEPRECATED] The params to send when connecting, for example `{user_id: userToken}`
+   *
+   * Passing params to connect is deprecated; pass them in the Socket constructor instead:
+   * `new Socket("/socket", {params: {user_id: userToken}})`.
+   */
+  connect(t) {
+    t && (console && console.log("passing params to connect is deprecated. Instead pass :params to the Socket constructor"), this.params = we(t)), !(this.conn && !this.disconnecting) && (this.longPollFallbackMs && this.transport !== ue ? this.connectWithFallback(ue, this.longPollFallbackMs) : this.transportConnect());
+  }
+  /**
+   * Logs the message. Override `this.logger` for specialized logging. noops by default
+   * @param {string} kind
+   * @param {string} msg
+   * @param {Object} data
+   */
+  log(t, e, r) {
+    this.logger && this.logger(t, e, r);
+  }
+  /**
+   * Returns true if a logger has been set on this socket.
+   */
+  hasLogger() {
+    return this.logger !== null;
+  }
+  /**
+   * Registers callbacks for connection open events
+   *
+   * @example socket.onOpen(function(){ console.info("the socket was opened") })
+   *
+   * @param {SocketOnOpen} callback
+   */
+  onOpen(t) {
+    let e = this.makeRef();
+    return this.stateChangeCallbacks.open.push([e, t]), e;
+  }
+  /**
+   * Registers callbacks for connection close events
+   * @param {SocketOnClose} callback
+   * @returns {string}
+   */
+  onClose(t) {
+    let e = this.makeRef();
+    return this.stateChangeCallbacks.close.push([e, t]), e;
+  }
+  /**
+   * Registers callbacks for connection error events
+   *
+   * @example socket.onError(function(error){ alert("An error occurred") })
+   *
+   * @param {SocketOnError} callback
+   * @returns {string}
+   */
+  onError(t) {
+    let e = this.makeRef();
+    return this.stateChangeCallbacks.error.push([e, t]), e;
+  }
+  /**
+   * Registers callbacks for connection message events
+   * @param {SocketOnMessage} callback
+   * @returns {string}
+   */
+  onMessage(t) {
+    let e = this.makeRef();
+    return this.stateChangeCallbacks.message.push([e, t]), e;
+  }
+  /**
+   * Sets a callback that receives lifecycle events for internal heartbeat messages.
+   * Useful for instrumenting connection health (e.g. sent/ok/timeout/disconnected).
+   * @param {HeartbeatCallback} callback
+   */
+  onHeartbeat(t) {
+    this.heartbeatCallback = t;
+  }
+  /**
+   * Pings the server and invokes the callback with the RTT in milliseconds
+   * @param {(timeDelta: number) => void} callback
+   *
+   * Returns true if the ping was pushed or false if unable to be pushed.
+   */
+  ping(t) {
+    if (!this.isConnected())
+      return !1;
+    let e = this.makeRef(), r = Date.now();
+    this.push({ topic: "phoenix", event: "heartbeat", payload: {}, ref: e });
+    let s = this.onMessage((n) => {
+      n.ref === e && (this.off([s]), t(Date.now() - r));
+    });
+    return !0;
+  }
+  /**
+   * @private
+   *
+   * @param {Function}
+   */
+  transportName(t) {
+    return t === ue ? "LongPoll" : t.name;
+  }
+  /**
+   * @private
+   */
+  transportConnect() {
+    this.connectClock++, this.closeWasClean = !1;
+    let t;
+    this.authToken && (t = ["phoenix", `${At}${btoa(this.authToken()).replace(/=/g, "")}`]), this.conn = new this.transport(this.endPointURL(), t), this.conn.binaryType = this.binaryType, this.conn.timeout = this.longpollerTimeout, this.conn.onopen = () => this.onConnOpen(), this.conn.onerror = (e) => this.onConnError(e), this.conn.onmessage = (e) => this.onConnMessage(e), this.conn.onclose = (e) => this.onConnClose(e);
+  }
+  getSession(t) {
+    return this.sessionStore && this.sessionStore.getItem(t);
+  }
+  storeSession(t, e) {
+    this.sessionStore && this.sessionStore.setItem(t, e);
+  }
+  connectWithFallback(t, e = 2500) {
+    clearTimeout(this.fallbackTimer);
+    let r = !1, s = !0, n, i, a = this.transportName(t), o = (l) => {
+      this.log("transport", `falling back to ${a}...`, l), this.off([n, i]), s = !1, this.replaceTransport(t), this.transportConnect();
+    };
+    if (this.getSession(`phx:fallback:${a}`))
+      return o("memorized");
+    this.fallbackTimer = setTimeout(o, e), i = this.onError((l) => {
+      this.log("transport", "error", l), s && !r && (clearTimeout(this.fallbackTimer), o(l));
+    }), this.fallbackRef && this.off([this.fallbackRef]), this.fallbackRef = this.onOpen(() => {
+      if (r = !0, !s) {
+        let l = this.transportName(t);
+        return this.primaryPassedHealthCheck || this.storeSession(`phx:fallback:${l}`, "true"), this.log("transport", `established ${l} fallback`);
+      }
+      clearTimeout(this.fallbackTimer), this.fallbackTimer = setTimeout(o, e), this.ping((l) => {
+        this.log("transport", "connected to primary after", l), this.primaryPassedHealthCheck = !0, clearTimeout(this.fallbackTimer);
+      });
+    }), this.transportConnect();
+  }
+  clearHeartbeats() {
+    clearTimeout(this.heartbeatTimer), clearTimeout(this.heartbeatTimeoutTimer);
+  }
+  onConnOpen() {
+    this.hasLogger() && this.log("transport", `connected to ${this.endPointURL()}`), this.closeWasClean = !1, this.disconnecting = !1, this.establishedConnections++, this.flushSendBuffer(), this.reconnectTimer.reset(), this.autoSendHeartbeat && this.resetHeartbeat(), this.triggerStateCallbacks("open");
+  }
+  /**
+   * @private
+   */
+  heartbeatTimeout() {
+    if (this.pendingHeartbeatRef) {
+      this.pendingHeartbeatRef = null, this.heartbeatSentAt = null, this.hasLogger() && this.log("transport", "heartbeat timeout. Attempting to re-establish connection");
+      try {
+        this.heartbeatCallback("timeout");
+      } catch (t) {
+        this.log("error", "error in heartbeat callback", t);
+      }
+      this.triggerChanError(new Error("heartbeat timeout")), this.closeWasClean = !1, this.teardown(() => this.reconnectTimer.scheduleTimeout(), Us, "heartbeat timeout");
+    }
+  }
+  resetHeartbeat() {
+    this.conn && this.conn.skipHeartbeat || (this.pendingHeartbeatRef = null, this.clearHeartbeats(), this.heartbeatTimer = setTimeout(() => this.sendHeartbeat(), this.heartbeatIntervalMs));
+  }
+  teardown(t, e, r) {
+    if (!this.conn)
+      return t && t();
+    const s = this.conn;
+    this.waitForBufferDone(s, () => {
+      e ? s.close(e, r || "") : s.close(), this.waitForSocketClosed(s, () => {
+        this.conn === s && (this.conn.onopen = function() {
+        }, this.conn.onerror = function() {
+        }, this.conn.onmessage = function() {
+        }, this.conn.onclose = function() {
+        }, this.conn = null), t && t();
+      });
+    });
+  }
+  waitForBufferDone(t, e, r = 1) {
+    if (r === 5 || !t.bufferedAmount) {
+      e();
+      return;
+    }
+    setTimeout(() => {
+      this.waitForBufferDone(t, e, r + 1);
+    }, 150 * r);
+  }
+  waitForSocketClosed(t, e, r = 1) {
+    if (r === 5 || t.readyState === z.closed) {
+      e();
+      return;
+    }
+    setTimeout(() => {
+      this.waitForSocketClosed(t, e, r + 1);
+    }, 150 * r);
+  }
+  /**
+  * @param {CloseEvent} event
+  */
+  onConnClose(t) {
+    this.conn && (this.conn.onclose = () => {
+    }), this.hasLogger() && this.log("transport", "close", t), this.triggerChanError(t), this.clearHeartbeats(), this.closeWasClean || this.reconnectTimer.scheduleTimeout(), this.triggerStateCallbacks("close", t);
+  }
+  /**
+   * @private
+   * @param {Event} error
+   */
+  onConnError(t) {
+    this.hasLogger() && this.log("transport", "error", t);
+    let e = this.transport, r = this.establishedConnections;
+    this.triggerStateCallbacks("error", t, e, r), (e === this.transport || r > 0) && this.triggerChanError(t);
+  }
+  /**
+   * @private
+   * @param {unknown} [reason] underlying close/error event forwarded to channel error listeners
+   */
+  triggerChanError(t) {
+    this.channels.forEach((e) => {
+      e.isErrored() || e.isLeaving() || e.isClosed() || e.trigger(X.error, t);
+    });
+  }
+  /**
+   * @returns {string}
+   */
+  connectionState() {
+    switch (this.conn && this.conn.readyState) {
+      case z.connecting:
+        return "connecting";
+      case z.open:
+        return "open";
+      case z.closing:
+        return "closing";
+      default:
+        return "closed";
+    }
+  }
+  /**
+   * @returns {boolean}
+   */
+  isConnected() {
+    return this.connectionState() === "open";
+  }
+  /**
+   *
+   * @param {Channel} channel
+   */
+  remove(t) {
+    this.off(t.stateChangeRefs), this.channels = this.channels.filter((e) => e !== t);
+  }
+  /**
+   * Removes `onOpen`, `onClose`, `onError,` and `onMessage` registrations.
+   *
+   * @param {string[]} refs - list of refs returned by calls to
+   *                 `onOpen`, `onClose`, `onError,` and `onMessage`
+   */
+  off(t) {
+    for (let e in this.stateChangeCallbacks)
+      this.stateChangeCallbacks[e] = this.stateChangeCallbacks[e].filter(([r]) => t.indexOf(r) === -1);
+  }
+  /**
+   * Initiates a new channel for the given topic
+   *
+   * @param {string} topic
+   * @param {Params | (() => Params)} [chanParams]- Parameters for the channel
+   * @returns {Channel}
+   */
+  channel(t, e = {}) {
+    let r = new Bs(t, e, this);
+    return this.channels.push(r), r;
+  }
+  /**
+   * @param {Message<Record<string, any>>} data
+   */
+  push(t) {
+    if (this.hasLogger()) {
+      let { topic: e, event: r, payload: s, ref: n, join_ref: i } = t;
+      this.log("push", `${e} ${r} (${i}, ${n})`, s);
+    }
+    this.isConnected() ? this.encode(t, (e) => this.conn.send(e)) : this.sendBuffer.push(() => this.encode(t, (e) => this.conn.send(e)));
+  }
+  /**
+   * Return the next message ref, accounting for overflows
+   * @returns {string}
+   */
+  makeRef() {
+    let t = this.ref + 1;
+    return t === this.ref ? this.ref = 0 : this.ref = t, this.ref.toString();
+  }
+  sendHeartbeat() {
+    if (!this.isConnected()) {
+      try {
+        this.heartbeatCallback("disconnected");
+      } catch (t) {
+        this.log("error", "error in heartbeat callback", t);
+      }
+      return;
+    }
+    if (this.pendingHeartbeatRef) {
+      this.heartbeatTimeout();
+      return;
+    }
+    this.pendingHeartbeatRef = this.makeRef(), this.heartbeatSentAt = Date.now(), this.push({ topic: "phoenix", event: "heartbeat", payload: {}, ref: this.pendingHeartbeatRef });
+    try {
+      this.heartbeatCallback("sent");
+    } catch (t) {
+      this.log("error", "error in heartbeat callback", t);
+    }
+    this.heartbeatTimeoutTimer = setTimeout(() => this.heartbeatTimeout(), this.heartbeatIntervalMs);
+  }
+  flushSendBuffer() {
+    this.isConnected() && this.sendBuffer.length > 0 && (this.sendBuffer.forEach((t) => t()), this.sendBuffer = []);
+  }
+  /**
+  * @param {MessageEvent<any>} rawMessage
+  */
+  onConnMessage(t) {
+    this.decode(t.data, (e) => {
+      let { topic: r, event: s, payload: n, ref: i, join_ref: a } = e;
+      if (i && i === this.pendingHeartbeatRef) {
+        const o = this.heartbeatSentAt ? Date.now() - this.heartbeatSentAt : void 0;
+        this.clearHeartbeats();
+        try {
+          this.heartbeatCallback(n.status === "ok" ? "ok" : "error", o);
+        } catch (l) {
+          this.log("error", "error in heartbeat callback", l);
+        }
+        this.pendingHeartbeatRef = null, this.heartbeatSentAt = null, this.autoSendHeartbeat && (this.heartbeatTimer = setTimeout(() => this.sendHeartbeat(), this.heartbeatIntervalMs));
+      }
+      this.hasLogger() && this.log("receive", `${n.status || ""} ${r} ${s} ${i && "(" + i + ")" || ""}`.trim(), n);
+      for (let o = 0; o < this.channels.length; o++) {
+        const l = this.channels[o];
+        l.isMember(r, s, n, a) && l.trigger(s, n, i, a);
+      }
+      this.triggerStateCallbacks("message", e);
+    });
+  }
+  /**
+   * @private
+   * @template {keyof SocketStateChangeCallbacks} K
+   * @param {K} event
+   * @param {...Parameters<SocketStateChangeCallbacks[K][number][1]>} args
+   * @returns {void}
+   */
+  triggerStateCallbacks(t, ...e) {
+    try {
+      this.stateChangeCallbacks[t].forEach(([r, s]) => {
+        try {
+          s(...e);
+        } catch (n) {
+          this.log("error", `error in ${t} callback`, n);
+        }
+      });
+    } catch (r) {
+      this.log("error", `error triggering ${t} callbacks`, r);
+    }
+  }
+  leaveOpenTopic(t) {
+    let e = this.channels.find((r) => r.topic === t && (r.isJoined() || r.isJoining()));
+    e && (this.hasLogger() && this.log("transport", `leaving duplicate topic "${t}"`), e.leave());
+  }
+};
+class Ce {
+  constructor(e, r) {
+    const s = Fs(r);
+    this.presence = new qs(e.getChannel(), s), this.presence.onJoin((n, i, a) => {
+      const o = Ce.onJoinPayload(n, i, a);
+      e.getChannel().trigger("presence", o);
+    }), this.presence.onLeave((n, i, a) => {
+      const o = Ce.onLeavePayload(n, i, a);
+      e.getChannel().trigger("presence", o);
+    }), this.presence.onSync(() => {
+      e.getChannel().trigger("presence", { event: "sync" });
+    });
+  }
+  get state() {
+    return Ce.transformState(this.presence.state);
+  }
+  /**
+   * @private
+   * Remove 'metas' key
+   * Change 'phx_ref' to 'presence_ref'
+   * Remove 'phx_ref' and 'phx_ref_prev'
+   *
+   * @example Transform state
+   * // returns {
+   *  abc123: [
+   *    { presence_ref: '2', user_id: 1 },
+   *    { presence_ref: '3', user_id: 2 }
+   *  ]
+   * }
+   * RealtimePresence.transformState({
+   *  abc123: {
+   *    metas: [
+   *      { phx_ref: '2', phx_ref_prev: '1' user_id: 1 },
+   *      { phx_ref: '3', user_id: 2 }
+   *    ]
+   *  }
+   * })
+   *
+   */
+  static transformState(e) {
+    return e = Ks(e), Object.getOwnPropertyNames(e).reduce((r, s) => {
+      const n = e[s];
+      return r[s] = Ye(n), r;
+    }, {});
+  }
+  static onJoinPayload(e, r, s) {
+    const n = Yt(r), i = Ye(s);
+    return {
+      event: "join",
+      key: e,
+      currentPresences: n,
+      newPresences: i
+    };
+  }
+  static onLeavePayload(e, r, s) {
+    const n = Yt(r), i = Ye(s);
+    return {
+      event: "leave",
+      key: e,
+      currentPresences: n,
+      leftPresences: i
+    };
+  }
+}
+function Ye(t) {
+  return t.metas.map((e) => (e.presence_ref = e.phx_ref, delete e.phx_ref, delete e.phx_ref_prev, e));
+}
+function Ks(t) {
+  return JSON.parse(JSON.stringify(t));
+}
+function Fs(t) {
+  return t?.events && { events: t.events };
+}
+function Yt(t) {
+  return t?.metas ? Ye(t) : [];
+}
+var Xt;
+(function(t) {
+  t.SYNC = "sync", t.JOIN = "join", t.LEAVE = "leave";
+})(Xt || (Xt = {}));
+class Ws {
+  get state() {
+    return this.presenceAdapter.state;
+  }
+  /**
+   * Creates a Presence helper that keeps the local presence state in sync with the server.
+   *
+   * @param channel - The realtime channel to bind to.
+   * @param opts - Optional custom event names, e.g. `{ events: { state: 'state', diff: 'diff' } }`.
+   *
+   * @category Realtime
+   *
+   * @example Example for a presence channel
+   * ```ts
+   * const presence = new RealtimePresence(channel)
+   *
+   * channel.on('presence', ({ event, key }) => {
+   *   console.log(`Presence ${event} on ${key}`)
+   * })
+   * ```
+   */
+  constructor(e, r) {
+    this.channel = e, this.presenceAdapter = new Ce(this.channel.channelAdapter, r);
+  }
+}
+function Vs(t) {
+  if (t instanceof Error)
+    return t;
+  if (typeof t == "string")
+    return new Error(t);
+  if (t && typeof t == "object") {
+    const e = t;
+    if (typeof e.code == "number") {
+      const r = typeof e.reason == "string" && e.reason ? ` (${e.reason})` : "";
+      return new Error(`socket closed: ${e.code}${r}`, { cause: t });
+    }
+    return new Error("channel error: transport failure", { cause: t });
+  }
+  return new Error("channel error: connection lost");
+}
+class zs {
+  constructor(e, r, s) {
+    const n = Js(s);
+    this.channel = e.getSocket().channel(r, n), this.socket = e;
+  }
+  get state() {
+    return this.channel.state;
+  }
+  set state(e) {
+    this.channel.state = e;
+  }
+  get joinedOnce() {
+    return this.channel.joinedOnce;
+  }
+  get joinPush() {
+    return this.channel.joinPush;
+  }
+  get rejoinTimer() {
+    return this.channel.rejoinTimer;
+  }
+  on(e, r) {
+    return this.channel.on(e, r);
+  }
+  off(e, r) {
+    this.channel.off(e, r);
+  }
+  subscribe(e) {
+    return this.channel.join(e);
+  }
+  unsubscribe(e) {
+    return this.channel.leave(e);
+  }
+  teardown() {
+    this.channel.teardown();
+  }
+  onClose(e) {
+    this.channel.onClose(e);
+  }
+  onError(e) {
+    return this.channel.onError(e);
+  }
+  push(e, r, s) {
+    let n;
+    try {
+      n = this.channel.push(e, r, s);
+    } catch {
+      throw new Error(`tried to push '${e}' to '${this.channel.topic}' before joining. Use channel.subscribe() before pushing events`);
+    }
+    if (this.channel.pushBuffer.length > Ts) {
+      const i = this.channel.pushBuffer.shift();
+      i.cancelTimeout(), this.socket.log("channel", `discarded push due to buffer overflow: ${i.event}`, i.payload());
+    }
+    return n;
+  }
+  updateJoinPayload(e) {
+    const r = this.channel.joinPush.payload();
+    this.channel.joinPush.payload = () => Object.assign(Object.assign({}, r), e);
+  }
+  canPush() {
+    return this.socket.isConnected() && this.state === te.joined;
+  }
+  isJoined() {
+    return this.state === te.joined;
+  }
+  isJoining() {
+    return this.state === te.joining;
+  }
+  isClosed() {
+    return this.state === te.closed;
+  }
+  isLeaving() {
+    return this.state === te.leaving;
+  }
+  updateFilterBindings(e) {
+    this.channel.filterBindings = e;
+  }
+  updatePayloadTransform(e) {
+    this.channel.onMessage = e;
+  }
+  /**
+   * @internal
+   */
+  getChannel() {
+    return this.channel;
+  }
+}
+function Js(t) {
+  return {
+    config: Object.assign({
+      broadcast: { ack: !1, self: !1 },
+      presence: { key: "", enabled: !1 },
+      private: !1
+    }, t.config)
+  };
+}
+const Gs = /[,()"\\]/, Ys = (t) => Gs.test(t) || t !== t.trim(), Xs = (t) => `"${t.replace(/\\/g, "\\\\").replace(/"/g, '\\"')}"`, Qt = (t) => {
+  const e = t === null ? "null" : String(t);
+  return Ys(e) ? Xs(e) : e;
+}, Qs = (t) => t === null ? "null" : String(t), Zs = (t, e) => {
+  if (t === "in") {
+    const r = Array.isArray(e) ? e : [e];
+    if (r.length === 0)
+      throw new Error("Realtime `in` filter requires at least one value.");
+    return `in.(${Array.from(new Set(r)).map((n) => Qt(n)).join(",")})`;
+  }
+  return t === "is" ? `is.${Qs(e)}` : `${t}.${Qt(e)}`;
+};
+class en {
+  constructor() {
+    this.filters = [];
+  }
+  add(e, r, s, n = !1) {
+    const i = n ? "not." : "";
+    return this.filters.push(`${e}=${i}${Zs(r, s)}`), this;
+  }
+  /** Match rows where `column` equals `value` (`column=eq.value`). */
+  eq(e, r) {
+    return this.add(e, "eq", r);
+  }
+  /** Match rows where `column` does not equal `value` (`column=neq.value`). */
+  neq(e, r) {
+    return this.add(e, "neq", r);
+  }
+  /** Match rows where `column` is greater than `value` (`column=gt.value`). */
+  gt(e, r) {
+    return this.add(e, "gt", r);
+  }
+  /** Match rows where `column` is greater than or equal to `value` (`column=gte.value`). */
+  gte(e, r) {
+    return this.add(e, "gte", r);
+  }
+  /** Match rows where `column` is less than `value` (`column=lt.value`). */
+  lt(e, r) {
+    return this.add(e, "lt", r);
+  }
+  /** Match rows where `column` is less than or equal to `value` (`column=lte.value`). */
+  lte(e, r) {
+    return this.add(e, "lte", r);
+  }
+  /**
+   * Match rows where `column` is one of `values` (`column=in.(a,b,c)`).
+   * Requires at least one value; duplicates are removed. An element containing a
+   * reserved character is double-quoted (`in.("a,b",c)`), so commas inside an
+   * element are preserved. `null` is intentionally not accepted (`IN (null)`
+   * never matches in SQL) â€” use `is`/`not('col','is',null)` for null checks.
+   */
+  in(e, r) {
+    return this.add(e, "in", r);
+  }
+  /** Match rows where `column` matches the case-sensitive `pattern` (`column=like.pattern`). */
+  like(e, r) {
+    return this.add(e, "like", r);
+  }
+  /** Match rows where `column` matches the case-insensitive `pattern` (`column=ilike.pattern`). */
+  ilike(e, r) {
+    return this.add(e, "ilike", r);
+  }
+  /** Match rows where `column` matches the POSIX regex `pattern` (`column=match.pattern`). */
+  match(e, r) {
+    return this.add(e, "match", r);
+  }
+  /** Match rows where `column` matches the case-insensitive POSIX regex `pattern` (`column=imatch.pattern`). */
+  imatch(e, r) {
+    return this.add(e, "imatch", r);
+  }
+  /**
+   * Match rows where `column` `IS` the given value (`column=is.null`).
+   * Accepts `null`, a boolean, or the keywords `'null' | 'true' | 'false' | 'unknown'`.
+   */
+  is(e, r) {
+    return this.add(e, "is", r);
+  }
+  /** Match rows where `column` is distinct from `value` (`column=isdistinct.value`). NULL-safe inequality. */
+  isDistinct(e, r) {
+    return this.add(e, "isdistinct", r);
+  }
+  not(e, r, s) {
+    return this.add(e, r, s, !0);
+  }
+  /**
+   * Serialize all conditions into the comma-separated (AND) filter string.
+   *
+   * Conditions are joined by commas, which the server applies as `AND`. A scalar
+   * value (or single `in` element) that contains a reserved character â€” `,`,
+   * `(`, `)`, `"`, `\` â€” or surrounding whitespace is double-quoted and escaped
+   * the way PostgREST does, so commas inside a value are preserved rather than
+   * read as a condition boundary.
+   */
+  build() {
+    return this.filters.join(",");
+  }
+  /** Alias for {@link build}; lets the builder be used wherever a string is expected. */
+  toString() {
+    return this.build();
+  }
+}
+var Zt;
+(function(t) {
+  t.ALL = "*", t.INSERT = "INSERT", t.UPDATE = "UPDATE", t.DELETE = "DELETE";
+})(Zt || (Zt = {}));
+var me;
+(function(t) {
+  t.BROADCAST = "broadcast", t.PRESENCE = "presence", t.POSTGRES_CHANGES = "postgres_changes", t.SYSTEM = "system";
+})(me || (me = {}));
+var Q;
+(function(t) {
+  t.SUBSCRIBED = "SUBSCRIBED", t.TIMED_OUT = "TIMED_OUT", t.CLOSED = "CLOSED", t.CHANNEL_ERROR = "CHANNEL_ERROR";
+})(Q || (Q = {}));
+class Pe {
+  get state() {
+    return this.channelAdapter.state;
+  }
+  set state(e) {
+    this.channelAdapter.state = e;
+  }
+  get joinedOnce() {
+    return this.channelAdapter.joinedOnce;
+  }
+  get timeout() {
+    return this.socket.timeout;
+  }
+  get joinPush() {
+    return this.channelAdapter.joinPush;
+  }
+  get rejoinTimer() {
+    return this.channelAdapter.rejoinTimer;
+  }
+  /**
+   * Creates a channel that can broadcast messages, sync presence, and listen to Postgres changes.
+   *
+   * The topic determines which realtime stream you are subscribing to. Config options let you
+   * enable acknowledgement for broadcasts, presence tracking, or private channels.
+   *
+   * @category Realtime
+   *
+   * @example Using supabase-js (recommended)
+   * ```ts
+   * import { createClient } from '@supabase/supabase-js'
+   *
+   * const supabase = createClient('https://xyzcompany.supabase.co', 'your-publishable-key')
+   * const channel = supabase.channel('room1')
+   * channel
+   *   .on('broadcast', { event: 'cursor-pos' }, (payload) => console.log(payload))
+   *   .subscribe()
+   * ```
+   *
+   * @example Standalone import for bundle-sensitive environments
+   * ```ts
+   * import RealtimeClient from '@supabase/realtime-js'
+   *
+   * const client = new RealtimeClient('https://xyzcompany.supabase.co/realtime/v1', {
+   *   params: { apikey: 'your-publishable-key' },
+   * })
+   * const channel = new RealtimeChannel('realtime:public:messages', { config: {} }, client)
+   * ```
+   */
+  constructor(e, r = { config: {} }, s) {
+    var n, i;
+    if (this.topic = e, this.params = r, this.socket = s, this.bindings = {}, this.subTopic = e.replace(/^realtime:/i, ""), this.params.config = Object.assign({
+      broadcast: { ack: !1, self: !1 },
+      presence: { key: "", enabled: !1 },
+      private: !1
+    }, r.config), this.channelAdapter = new zs(this.socket.socketAdapter, e, this.params), this.presence = new Ws(this), this._onClose(() => {
+      this.socket._remove(this);
+    }), this._updateFilterTransform(), this.broadcastEndpointURL = Nr(this.socket.socketAdapter.endPointURL()), this.private = this.params.config.private || !1, !this.private && (!((i = (n = this.params.config) === null || n === void 0 ? void 0 : n.broadcast) === null || i === void 0) && i.replay))
+      throw new Error(`tried to use replay on public channel '${this.topic}'. It must be a private channel.`);
+  }
+  /**
+   * Subscribe registers your client with the server.
+   *
+   * The optional `callback` receives a `status` and, on failure, an `err` argument.
+   * Log the full `err` so its `cause`, `name`, and any structured fields aren't hidden
+   * behind `err.message`.
+   *
+   * @category Realtime
+   *
+   * @example Handling errors
+   * ```js
+   * supabase.channel('room1').subscribe((status, err) => {
+   *   if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT') {
+   *     // Log the full error: its `cause` often holds the underlying reason.
+   *     console.error(status, err)
+   *   }
+   * })
+   * ```
+   */
+  subscribe(e, r = this.timeout) {
+    var s, n, i;
+    if (this.socket.isConnected() || this.socket.connect(), this.channelAdapter.isClosed()) {
+      const { config: { broadcast: a, presence: o, private: l } } = this.params, c = (n = (s = this.bindings.postgres_changes) === null || s === void 0 ? void 0 : s.map((f) => f.filter)) !== null && n !== void 0 ? n : [], u = !!this.bindings[me.PRESENCE] && this.bindings[me.PRESENCE].length > 0 || ((i = this.params.config.presence) === null || i === void 0 ? void 0 : i.enabled) === !0, h = {}, d = {
+        broadcast: a,
+        presence: Object.assign(Object.assign({}, o), { enabled: u }),
+        postgres_changes: c,
+        private: l
+      };
+      this.socket.accessTokenValue && (h.access_token = this.socket.accessTokenValue), this._onError((f) => {
+        e?.(Q.CHANNEL_ERROR, Vs(f));
+      }), this._onClose(() => e?.(Q.CLOSED)), this.updateJoinPayload(Object.assign({ config: d }, h)), this._updateFilterMessage(), this.channelAdapter.subscribe(r).receive("ok", async ({ postgres_changes: f }) => {
+        if (this.socket._isManualToken() || this.socket.setAuth(), f === void 0) {
+          e?.(Q.SUBSCRIBED);
+          return;
+        }
+        this._updatePostgresBindings(f, e);
+      }).receive("error", (f) => {
+        this.state = te.errored;
+        const p = Object.values(f).join(", ") || "error";
+        e?.(Q.CHANNEL_ERROR, new Error(p, { cause: f }));
+      }).receive("timeout", () => {
+        e?.(Q.TIMED_OUT);
+      });
+    }
+    return this;
+  }
+  _updatePostgresBindings(e, r) {
+    var s;
+    const n = this.bindings.postgres_changes, i = (s = n?.length) !== null && s !== void 0 ? s : 0, a = [];
+    for (let o = 0; o < i; o++) {
+      const l = n[o], { filter: { event: c, schema: u, table: h, filter: d } } = l, f = e && e[o];
+      if (f && f.event === c && Pe.isFilterValueEqual(f.schema, u) && Pe.isFilterValueEqual(f.table, h) && Pe.isFilterValueEqual(f.filter, d))
+        a.push(Object.assign(Object.assign({}, l), { id: f.id }));
+      else {
+        this.unsubscribe(), this.state = te.errored, r?.(Q.CHANNEL_ERROR, new Error("mismatch between server and client bindings for postgres changes"));
+        return;
+      }
+    }
+    this.bindings.postgres_changes = a, this.state != te.errored && r && r(Q.SUBSCRIBED);
+  }
+  /**
+   * Returns the current presence state for this channel.
+   *
+   * The shape is a map keyed by presence key (for example a user id) where each entry contains the
+   * tracked metadata for that user.
+   *
+   * @category Realtime
+   */
+  presenceState() {
+    return this.presence.state;
+  }
+  /**
+   * Sends the supplied payload to the presence tracker so other subscribers can see that this
+   * client is online. Use `untrack` to stop broadcasting presence for the same key.
+   *
+   * Tracking makes this client visible to other subscribers immediately, regardless of this
+   * channel's `config.presence.enabled` setting or whether it has a `presence` listener â€” that
+   * flag only affects whether *this* client receives presence updates from others (and, on
+   * RLS-protected channels, whether it's authorized to do so).
+   *
+   * @category Realtime
+   */
+  async track(e, r = {}) {
+    return await this.send({
+      type: "presence",
+      event: "track",
+      payload: e
+    }, r);
+  }
+  /**
+   * Removes the current presence state for this client.
+   *
+   * @category Realtime
+   */
+  async untrack(e = {}) {
+    return await this.send({
+      type: "presence",
+      event: "untrack"
+    }, e);
+  }
+  /**
+   * Listen to realtime events on this channel.
+   * @category Realtime
+   *
+   * @remarks
+   * - By default, Broadcast and Presence are enabled for all projects.
+   * - By default, listening to database changes is disabled for new projects due to database performance and security concerns. You can turn it on by managing Realtime's [replication](/docs/guides/api#realtime-api-overview).
+   * - You can receive the "previous" data for updates and deletes by setting the table's `REPLICA IDENTITY` to `FULL` (e.g., `ALTER TABLE your_table REPLICA IDENTITY FULL;`).
+   * - Row level security is not applied to delete statements. When RLS is enabled and replica identity is set to full, only the primary key is sent to clients.
+   *
+   * @example Listen to broadcast messages
+   * ```js
+   * const channel = supabase.channel("room1")
+   *
+   * channel.on("broadcast", { event: "cursor-pos" }, (payload) => {
+   *   console.log("Cursor position received!", payload);
+   * }).subscribe((status) => {
+   *   if (status === "SUBSCRIBED") {
+   *     channel.send({
+   *       type: "broadcast",
+   *       event: "cursor-pos",
+   *       payload: { x: Math.random(), y: Math.random() },
+   *     });
+   *   }
+   * });
+   * ```
+   *
+   * @example Listen to presence sync
+   * ```js
+   * const channel = supabase.channel('room1')
+   * channel
+   *   .on('presence', { event: 'sync' }, () => {
+   *     console.log('Synced presence state: ', channel.presenceState())
+   *   })
+   *   .subscribe(async (status) => {
+   *     if (status === 'SUBSCRIBED') {
+   *       await channel.track({ online_at: new Date().toISOString() })
+   *     }
+   *   })
+   * ```
+   *
+   * @example Listen to presence join
+   * ```js
+   * const channel = supabase.channel('room1')
+   * channel
+   *   .on('presence', { event: 'join' }, ({ newPresences }) => {
+   *     console.log('Newly joined presences: ', newPresences)
+   *   })
+   *   .subscribe(async (status) => {
+   *     if (status === 'SUBSCRIBED') {
+   *       await channel.track({ online_at: new Date().toISOString() })
+   *     }
+   *   })
+   * ```
+   *
+   * @example Listen to presence leave
+   * ```js
+   * const channel = supabase.channel('room1')
+   * channel
+   *   .on('presence', { event: 'leave' }, ({ leftPresences }) => {
+   *     console.log('Newly left presences: ', leftPresences)
+   *   })
+   *   .subscribe(async (status) => {
+   *     if (status === 'SUBSCRIBED') {
+   *       await channel.track({ online_at: new Date().toISOString() })
+   *       await channel.untrack()
+   *     }
+   *   })
+   * ```
+   *
+   * @example Listen to all database changes
+   * ```js
+   * supabase
+   *   .channel('room1')
+   *   .on('postgres_changes', { event: '*', schema: '*' }, payload => {
+   *     console.log('Change received!', payload)
+   *   })
+   *   .subscribe()
+   * ```
+   *
+   * @example Listen to a specific table
+   * ```js
+   * supabase
+   *   .channel('room1')
+   *   .on('postgres_changes', { event: '*', schema: 'public', table: 'countries' }, payload => {
+   *     console.log('Change received!', payload)
+   *   })
+   *   .subscribe()
+   * ```
+   *
+   * @example Listen to inserts
+   * ```js
+   * supabase
+   *   .channel('room1')
+   *   .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'countries' }, payload => {
+   *     console.log('Change received!', payload)
+   *   })
+   *   .subscribe()
+   * ```
+   *
+   * @exampleDescription Listen to updates
+   * By default, Supabase will send only the updated record. If you want to receive the previous values as well you can
+   * enable full replication for the table you are listening to:
+   *
+   * ```sql
+   * alter table "your_table" replica identity full;
+   * ```
+   *
+   * @example Listen to updates
+   * ```js
+   * supabase
+   *   .channel('room1')
+   *   .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'countries' }, payload => {
+   *     console.log('Change received!', payload)
+   *   })
+   *   .subscribe()
+   * ```
+   *
+   * @exampleDescription Listen to deletes
+   * By default, Supabase does not send deleted records. If you want to receive the deleted record you can
+   * enable full replication for the table you are listening to:
+   *
+   * ```sql
+   * alter table "your_table" replica identity full;
+   * ```
+   *
+   * @example Listen to deletes
+   * ```js
+   * supabase
+   *   .channel('room1')
+   *   .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'countries' }, payload => {
+   *     console.log('Change received!', payload)
+   *   })
+   *   .subscribe()
+   * ```
+   *
+   * @exampleDescription Listen to multiple events
+   * You can chain listeners if you want to listen to multiple events for each table.
+   *
+   * @example Listen to multiple events
+   * ```js
+   * supabase
+   *   .channel('room1')
+   *   .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'countries' }, handleRecordInserted)
+   *   .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'countries' }, handleRecordDeleted)
+   *   .subscribe()
+   * ```
+   *
+   * @exampleDescription Listen to row level changes
+   * You can listen to individual rows using the format `{table}:{col}=eq.{val}` - where `{col}` is the column name, and `{val}` is the value which you want to match.
+   *
+   * @example Listen to row level changes
+   * ```js
+   * supabase
+   *   .channel('room1')
+   *   .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'countries', filter: 'id=eq.200' }, handleRecordUpdated)
+   *   .subscribe()
+   * ```
+   */
+  on(e, r, s) {
+    const n = this.channelAdapter.isJoined() || this.channelAdapter.isJoining(), i = e === me.PRESENCE || e === me.POSTGRES_CHANGES;
+    if (n && i)
+      throw this.socket.log("channel", `cannot add \`${e}\` callbacks for ${this.topic} after \`subscribe()\`.`), new Error(`cannot add \`${e}\` callbacks for ${this.topic} after \`subscribe()\`.`);
+    return this._on(e, r, s);
+  }
+  /**
+   * Sends a broadcast message explicitly via REST API.
+   *
+   * This method always uses the REST API endpoint regardless of WebSocket connection state.
+   * Useful when you want to guarantee REST delivery or when gradually migrating from implicit REST fallback.
+   *
+   * Payloads that are `ArrayBuffer` or `ArrayBufferView` (e.g. `Uint8Array`) are sent as
+   * `application/octet-stream`; all other payloads are JSON-encoded.
+   *
+   * @param event The name of the broadcast event
+   * @param payload Payload to be sent (required)
+   * @param opts Options including timeout
+   * @returns Promise resolving to object with success status, and error details if failed
+   *
+   * @category Realtime
+   */
+  async httpSend(e, r, s = {}) {
+    var n;
+    if (r == null)
+      return Promise.reject(new Error("Payload is required for httpSend()"));
+    const i = r instanceof ArrayBuffer || ArrayBuffer.isView(r), a = {
+      apikey: this.socket.apiKey ? this.socket.apiKey : "",
+      "Content-Type": i ? "application/octet-stream" : "application/json"
+    };
+    this.socket.accessTokenValue && (a.Authorization = `Bearer ${this.socket.accessTokenValue}`);
+    const o = new URL(this.broadcastEndpointURL);
+    o.pathname += `/${encodeURIComponent(this.subTopic)}/events/${encodeURIComponent(e)}`, this.private && o.searchParams.set("private", "true");
+    const l = {
+      method: "POST",
+      headers: a,
+      body: i ? r : JSON.stringify(r)
+    }, c = await this._fetchWithTimeout(o.toString(), l, (n = s.timeout) !== null && n !== void 0 ? n : this.timeout);
+    if (c.status === 202)
+      return { success: !0 };
+    if (c.status === 404)
+      return Promise.reject(new Error("httpSend() requires Realtime server v2.97.0 or newer; the endpoint returned 404. Update your Supabase CLI to a recent version, or upgrade the Realtime server in your self-hosted setup. See https://github.com/supabase/supabase-js/blob/master/packages/core/realtime-js/migrations/httpsend-server-version.md"));
+    let u = c.statusText;
+    try {
+      const h = await c.json();
+      u = h.error || h.message || u;
+    } catch {
+    }
+    return Promise.reject(new Error(u));
+  }
+  /**
+   * Sends a message into the channel.
+   *
+   * @param args Arguments to send to channel
+   * @param args.type The type of event to send
+   * @param args.event The name of the event being sent
+   * @param args.payload Payload to be sent
+   * @param opts Options to be used during the send process
+   *
+   * @category Realtime
+   *
+   * @remarks
+   * - When using REST you don't need to subscribe to the channel
+   * - REST calls are only available from 2.37.0 onwards
+   * - If you create a channel only to send a REST broadcast, remove it from
+   *   the client when the send completes
+   *
+   * @example Send a message via websocket
+   * ```js
+   * const channel = supabase.channel('room1')
+   *
+   * channel.subscribe((status) => {
+   *   if (status === 'SUBSCRIBED') {
+   *     channel.send({
+   *       type: 'broadcast',
+   *       event: 'cursor-pos',
+   *       payload: { x: Math.random(), y: Math.random() },
+   *     })
+   *   }
+   * })
+   * ```
+   *
+   * @exampleResponse Send a message via websocket
+   * ```js
+   * ok | timed out | error
+   * ```
+   *
+   * @example Send a message via REST
+   * ```js
+   * const channel = supabase.channel('room1')
+   *
+   * try {
+   *   await channel.httpSend('cursor-pos', { x: Math.random(), y: Math.random() })
+   * } finally {
+   *   await supabase.removeChannel(channel)
+   * }
+   * ```
+   */
+  async send(e, r = {}) {
+    var s, n;
+    if (!this.channelAdapter.canPush() && e.type === "broadcast") {
+      console.warn("Realtime send() is automatically falling back to REST API. This behavior will be deprecated in the future. Please use httpSend() explicitly for REST delivery.");
+      const { event: i, payload: a } = e, o = {
+        apikey: this.socket.apiKey ? this.socket.apiKey : "",
+        "Content-Type": "application/json"
+      };
+      this.socket.accessTokenValue && (o.Authorization = `Bearer ${this.socket.accessTokenValue}`);
+      const l = {
+        method: "POST",
+        headers: o,
+        body: JSON.stringify({
+          messages: [
+            {
+              topic: this.subTopic,
+              event: i,
+              payload: a,
+              private: this.private
+            }
+          ]
+        })
+      };
+      try {
+        const c = await this._fetchWithTimeout(this.broadcastEndpointURL, l, (s = r.timeout) !== null && s !== void 0 ? s : this.timeout);
+        return await ((n = c.body) === null || n === void 0 ? void 0 : n.cancel()), c.ok ? "ok" : "error";
+      } catch (c) {
+        return c instanceof Error && c.name === "AbortError" ? "timed out" : "error";
+      }
+    } else
+      return new Promise((i) => {
+        var a, o, l;
+        const c = this.channelAdapter.push(e.type, e, r.timeout || this.timeout);
+        e.type === "broadcast" && !(!((l = (o = (a = this.params) === null || a === void 0 ? void 0 : a.config) === null || o === void 0 ? void 0 : o.broadcast) === null || l === void 0) && l.ack) && i("ok"), c.receive("ok", () => i("ok")), c.receive("error", () => i("error")), c.receive("timeout", () => i("timed out"));
+      });
+  }
+  /**
+   * Updates the payload that will be sent the next time the channel joins (reconnects).
+   * Useful for rotating access tokens or updating config without re-creating the channel.
+   *
+   * @category Realtime
+   */
+  updateJoinPayload(e) {
+    this.channelAdapter.updateJoinPayload(e);
+  }
+  /**
+   * Leaves the channel.
+   *
+   * Unsubscribes from server events, and instructs channel to terminate on server.
+   * Triggers onClose() hooks.
+   *
+   * To receive leave acknowledgements, use the a `receive` hook to bind to the server ack, ie:
+   * channel.unsubscribe().receive("ok", () => alert("left!") )
+   *
+   * @category Realtime
+   */
+  async unsubscribe(e = this.timeout) {
+    return new Promise((r) => {
+      this.channelAdapter.unsubscribe(e).receive("ok", () => r("ok")).receive("timeout", () => r("timed out")).receive("error", () => r("error"));
+    });
+  }
+  /**
+   * Destroys and stops related timers.
+   *
+   * @category Realtime
+   */
+  teardown() {
+    this.channelAdapter.teardown();
+  }
+  /** @internal */
+  async _fetchWithTimeout(e, r, s) {
+    const n = new AbortController(), i = setTimeout(() => n.abort(), s), a = await this.socket.fetch(e, Object.assign(Object.assign({}, r), { signal: n.signal }));
+    return clearTimeout(i), a;
+  }
+  /** @internal */
+  _on(e, r, s) {
+    const n = e.toLocaleLowerCase(), i = r?.filter;
+    (i instanceof en || typeof i == "object" && i !== null && typeof i.build == "function") && (r = Object.assign(Object.assign({}, r), { filter: i.build() }));
+    const a = this.channelAdapter.on(e, s), o = {
+      type: n,
+      filter: r,
+      callback: s,
+      ref: a
+    };
+    return this.bindings[n] ? this.bindings[n].push(o) : this.bindings[n] = [o], this._updateFilterMessage(), this;
+  }
+  /**
+   * Registers a callback that will be executed when the channel closes.
+   *
+   * @internal
+   */
+  _onClose(e) {
+    this.channelAdapter.onClose(e);
+  }
+  /**
+   * Registers a callback that will be executed when the channel encounteres an error.
+   *
+   * @internal
+   */
+  _onError(e) {
+    this.channelAdapter.onError(e);
+  }
+  /** @internal */
+  _updateFilterMessage() {
+    this.channelAdapter.updateFilterBindings((e, r, s) => {
+      var n, i, a, o, l, c, u;
+      const h = e.event.toLocaleLowerCase();
+      if (this._notThisChannelEvent(h, s))
+        return !1;
+      const d = (n = this.bindings[h]) === null || n === void 0 ? void 0 : n.find((f) => f.ref === e.ref);
+      if (!d)
+        return !0;
+      if (["broadcast", "presence", "postgres_changes"].includes(h))
+        if ("id" in d) {
+          const f = d.id, p = (i = d.filter) === null || i === void 0 ? void 0 : i.event;
+          return f && ((a = r.ids) === null || a === void 0 ? void 0 : a.includes(f)) && (p === "*" || p?.toLocaleLowerCase() === ((o = r.data) === null || o === void 0 ? void 0 : o.type.toLocaleLowerCase()));
+        } else {
+          const f = (c = (l = d?.filter) === null || l === void 0 ? void 0 : l.event) === null || c === void 0 ? void 0 : c.toLocaleLowerCase();
+          return f === "*" || f === ((u = r?.event) === null || u === void 0 ? void 0 : u.toLocaleLowerCase());
+        }
+      else
+        return d.type.toLocaleLowerCase() === h;
+    });
+  }
+  /** @internal */
+  _notThisChannelEvent(e, r) {
+    const { close: s, error: n, leave: i, join: a } = jr;
+    return r && [s, n, i, a].includes(e) && r !== this.joinPush.ref;
+  }
+  /** @internal */
+  _updateFilterTransform() {
+    this.channelAdapter.updatePayloadTransform((e, r, s) => {
+      if (typeof r == "object" && "ids" in r) {
+        const n = r.data, { schema: i, table: a, commit_timestamp: o, type: l, errors: c } = n;
+        return Object.assign(Object.assign({}, {
+          schema: i,
+          table: a,
+          commit_timestamp: o,
+          eventType: l,
+          new: {},
+          old: {},
+          errors: c
+        }), this._getPayloadRecords(n));
+      }
+      return r;
+    });
+  }
+  copyBindings(e) {
+    if (this.joinedOnce)
+      throw new Error("cannot copy bindings into joined channel");
+    for (const r in e.bindings)
+      for (const s of e.bindings[r])
+        this._on(s.type, s.filter, s.callback);
+  }
+  /**
+   * Compares two optional filter values for equality.
+   * Treats undefined, null, and empty string as equivalent empty values.
+   * @internal
+   */
+  static isFilterValueEqual(e, r) {
+    return (e ?? void 0) === (r ?? void 0);
+  }
+  /** @internal */
+  _getPayloadRecords(e) {
+    const r = {
+      new: {},
+      old: {}
+    };
+    return (e.type === "INSERT" || e.type === "UPDATE") && (r.new = Gt(e.columns, e.record)), (e.type === "UPDATE" || e.type === "DELETE") && (r.old = Gt(e.columns, e.old_record)), r;
+  }
+}
+class tn {
+  constructor(e, r) {
+    this.socket = new Ms(e, r);
+  }
+  get timeout() {
+    return this.socket.timeout;
+  }
+  get endPoint() {
+    return this.socket.endPoint;
+  }
+  get transport() {
+    return this.socket.transport;
+  }
+  get heartbeatIntervalMs() {
+    return this.socket.heartbeatIntervalMs;
+  }
+  get heartbeatCallback() {
+    return this.socket.heartbeatCallback;
+  }
+  set heartbeatCallback(e) {
+    this.socket.heartbeatCallback = e;
+  }
+  get heartbeatTimer() {
+    return this.socket.heartbeatTimer;
+  }
+  get pendingHeartbeatRef() {
+    return this.socket.pendingHeartbeatRef;
+  }
+  get reconnectTimer() {
+    return this.socket.reconnectTimer;
+  }
+  get vsn() {
+    return this.socket.vsn;
+  }
+  get encode() {
+    return this.socket.encode;
+  }
+  get decode() {
+    return this.socket.decode;
+  }
+  get reconnectAfterMs() {
+    return this.socket.reconnectAfterMs;
+  }
+  get sendBuffer() {
+    return this.socket.sendBuffer;
+  }
+  get stateChangeCallbacks() {
+    return this.socket.stateChangeCallbacks;
+  }
+  connect() {
+    this.socket.connect();
+  }
+  disconnect(e, r, s, n = 1e4) {
+    return new Promise((i) => {
+      setTimeout(() => i("timeout"), n), this.socket.disconnect(() => {
+        e(), i("ok");
+      }, r, s);
+    });
+  }
+  push(e) {
+    this.socket.push(e);
+  }
+  log(e, r, s) {
+    this.socket.log(e, r, s);
+  }
+  makeRef() {
+    return this.socket.makeRef();
+  }
+  onOpen(e) {
+    this.socket.onOpen(e);
+  }
+  onClose(e) {
+    this.socket.onClose(e);
+  }
+  onError(e) {
+    this.socket.onError(e);
+  }
+  onMessage(e) {
+    this.socket.onMessage(e);
+  }
+  isConnected() {
+    return this.socket.isConnected();
+  }
+  isConnecting() {
+    return this.socket.connectionState() == kt.connecting;
+  }
+  isDisconnecting() {
+    return this.socket.connectionState() == kt.closing;
+  }
+  connectionState() {
+    return this.socket.connectionState();
+  }
+  endPointURL() {
+    return this.socket.endPointURL();
+  }
+  sendHeartbeat() {
+    this.socket.sendHeartbeat();
+  }
+  /**
+   * @internal
+   */
+  getSocket() {
+    return this.socket;
+  }
+}
+const er = {
+  HEARTBEAT_INTERVAL: 25e3
+}, rn = [1e3, 2e3, 5e3, 1e4], sn = 1e4;
+function nn() {
+  const t = /* @__PURE__ */ new Map();
+  return {
+    get length() {
+      return t.size;
+    },
+    clear() {
+      t.clear();
+    },
+    getItem(e) {
+      return t.has(e) ? t.get(e) : null;
+    },
+    key(e) {
+      var r;
+      return (r = Array.from(t.keys())[e]) !== null && r !== void 0 ? r : null;
+    },
+    removeItem(e) {
+      t.delete(e);
+    },
+    setItem(e, r) {
+      t.set(e, String(r));
+    }
+  };
+}
+function an() {
+  try {
+    if (typeof globalThis < "u" && globalThis.sessionStorage)
+      return globalThis.sessionStorage;
+  } catch {
+  }
+  return nn();
+}
+const on = `
+  addEventListener("message", (e) => {
+    if (e.data.event === "start") {
+      setInterval(() => postMessage({ event: "keepAlive" }), e.data.interval);
+    }
+  });`;
+class ln {
+  get endPoint() {
+    return this.socketAdapter.endPoint;
+  }
+  get timeout() {
+    return this.socketAdapter.timeout;
+  }
+  get transport() {
+    return this.socketAdapter.transport;
+  }
+  get heartbeatCallback() {
+    return this.socketAdapter.heartbeatCallback;
+  }
+  get heartbeatIntervalMs() {
+    return this.socketAdapter.heartbeatIntervalMs;
+  }
+  get heartbeatTimer() {
+    return this.worker ? this._workerHeartbeatTimer : this.socketAdapter.heartbeatTimer;
+  }
+  get pendingHeartbeatRef() {
+    return this.worker ? this._pendingWorkerHeartbeatRef : this.socketAdapter.pendingHeartbeatRef;
+  }
+  get reconnectTimer() {
+    return this.socketAdapter.reconnectTimer;
+  }
+  get vsn() {
+    return this.socketAdapter.vsn;
+  }
+  get encode() {
+    return this.socketAdapter.encode;
+  }
+  get decode() {
+    return this.socketAdapter.decode;
+  }
+  get reconnectAfterMs() {
+    return this.socketAdapter.reconnectAfterMs;
+  }
+  get sendBuffer() {
+    return this.socketAdapter.sendBuffer;
+  }
+  get stateChangeCallbacks() {
+    return this.socketAdapter.stateChangeCallbacks;
+  }
+  /**
+   * Initializes the Socket.
+   *
+   * @param endPoint The string WebSocket endpoint, ie, "ws://example.com/socket", "wss://example.com", "/socket" (inherited host & protocol)
+   * @param options.transport The Websocket Transport, for example WebSocket. This can be a custom implementation
+   * @param options.timeout The default timeout in milliseconds to trigger push timeouts.
+   * @param options.params The optional params to pass when connecting.
+   * @param options.headers Deprecated: headers cannot be set on websocket connections and this option will be removed in the future.
+   * @param options.heartbeatIntervalMs The millisec interval to send a heartbeat message.
+   * @param options.heartbeatCallback The optional function to handle heartbeat status and latency.
+   * @param options.logger The optional function for specialized logging, ie: logger: (kind, msg, data) => { console.log(`${kind}: ${msg}`, data) }
+   * @param options.logLevel Sets the log level for Realtime
+   * @param options.encode The function to encode outgoing messages. Defaults to JSON: (payload, callback) => callback(JSON.stringify(payload))
+   * @param options.decode The function to decode incoming messages. Defaults to Serializer's decode.
+   * @param options.reconnectAfterMs he optional function that returns the millsec reconnect interval. Defaults to stepped backoff off.
+   * @param options.worker Use Web Worker to set a side flow. Defaults to false.
+   * @param options.workerUrl The URL of the worker script. Defaults to https://realtime.supabase.com/worker.js that includes a heartbeat event call to keep the connection alive.
+   * @param options.vsn The protocol version to use when connecting. Supported versions are "1.0.0" and "2.0.0". Defaults to "2.0.0".
+   *
+   * @category Realtime
+   *
+   * @example Using supabase-js (recommended)
+   * ```ts
+   * import { createClient } from '@supabase/supabase-js'
+   *
+   * const supabase = createClient('https://xyzcompany.supabase.co', 'your-publishable-key')
+   * const channel = supabase.channel('room1')
+   * channel
+   *   .on('broadcast', { event: 'cursor-pos' }, (payload) => console.log(payload))
+   *   .subscribe()
+   * ```
+   *
+   * @example Standalone import for bundle-sensitive environments
+   * ```ts
+   * import RealtimeClient from '@supabase/realtime-js'
+   *
+   * const client = new RealtimeClient('https://xyzcompany.supabase.co/realtime/v1', {
+   *   params: { apikey: 'your-publishable-key' },
+   * })
+   * client.connect()
+   * ```
+   */
+  constructor(e, r) {
+    var s;
+    if (this.channels = new Array(), this.accessTokenValue = null, this.accessToken = null, this.apiKey = null, this.httpEndpoint = "", this.headers = {}, this.params = {}, this.ref = 0, this.serializer = new As(), this._manuallySetToken = !1, this._authPromise = null, this._workerHeartbeatTimer = void 0, this._pendingWorkerHeartbeatRef = null, this._pendingDisconnectTimer = null, this._disconnectOnEmptyChannelsAfterMs = 0, this._resolveFetch = (i) => i ? (...a) => i(...a) : (...a) => fetch(...a), !(!((s = r?.params) === null || s === void 0) && s.apikey))
+      throw new Error("API key is required to connect to Realtime");
+    this.apiKey = r.params.apikey;
+    const n = this._initializeOptions(r);
+    this.socketAdapter = new tn(e, n), this.httpEndpoint = Nr(e), this.fetch = this._resolveFetch(r?.fetch);
+  }
+  /**
+   * Connects the socket, unless already connected.
+   *
+   * @category Realtime
+   */
+  connect() {
+    if (!(this.isConnecting() || this.isDisconnecting() || this.isConnected())) {
+      this.accessToken && !this._authPromise && this._setAuthSafely("connect"), this._setupConnectionHandlers();
+      try {
+        this.socketAdapter.connect();
+      } catch (e) {
+        const r = e.message;
+        throw new Error(`WebSocket not available: ${r}`);
+      }
+      this._handleNodeJsRaceCondition();
+    }
+  }
+  /**
+   * Returns the URL of the websocket.
+   * @returns string The URL of the websocket.
+   *
+   * @category Realtime
+   */
+  endpointURL() {
+    return this.socketAdapter.endPointURL();
+  }
+  /**
+   * Disconnects the socket.
+   *
+   * @param code A numeric status code to send on disconnect.
+   * @param reason A custom reason for the disconnect.
+   *
+   * @category Realtime
+   */
+  async disconnect(e, r) {
+    return this._cancelPendingDisconnect(), this.isDisconnecting() ? "ok" : await this.socketAdapter.disconnect(() => {
+      clearInterval(this._workerHeartbeatTimer), this._terminateWorker();
+    }, e, r);
+  }
+  /**
+   * Returns all created channels
+   *
+   * @category Realtime
+   */
+  getChannels() {
+    return this.channels;
+  }
+  /**
+   * Unsubscribes, removes and tears down a single channel
+   * @param channel A RealtimeChannel instance
+   *
+   * @category Realtime
+   */
+  async removeChannel(e) {
+    const r = await e.unsubscribe();
+    return r === "ok" && e.teardown(), r;
+  }
+  /**
+   * Unsubscribes, removes and tears down all channels
+   *
+   * @category Realtime
+   */
+  async removeAllChannels() {
+    const e = this.channels.map(async (s) => {
+      const n = await s.unsubscribe();
+      return s.teardown(), n;
+    }), r = await Promise.all(e);
+    return await this.disconnect(), r;
+  }
+  /**
+   * Logs the message.
+   *
+   * For customized logging, `this.logger` can be overridden in Client constructor.
+   *
+   * @category Realtime
+   */
+  log(e, r, s) {
+    this.socketAdapter.log(e, r, s);
+  }
+  /**
+   * Returns the current state of the socket.
+   *
+   * @category Realtime
+   */
+  connectionState() {
+    return this.socketAdapter.connectionState() || kt.closed;
+  }
+  /**
+   * Returns `true` is the connection is open.
+   *
+   * @category Realtime
+   */
+  isConnected() {
+    return this.socketAdapter.isConnected();
+  }
+  /**
+   * Returns `true` if the connection is currently connecting.
+   *
+   * @category Realtime
+   */
+  isConnecting() {
+    return this.socketAdapter.isConnecting();
+  }
+  /**
+   * Returns `true` if the connection is currently disconnecting.
+   *
+   * @category Realtime
+   */
+  isDisconnecting() {
+    return this.socketAdapter.isDisconnecting();
+  }
+  /**
+   * Creates (or reuses) a {@link RealtimeChannel} for the provided topic.
+   *
+   * Topics are automatically prefixed with `realtime:` to match the Realtime service.
+   * If a channel with the same topic already exists it will be returned instead of creating
+   * a duplicate connection.
+   *
+   * @category Realtime
+   */
+  channel(e, r = { config: {} }) {
+    const s = `realtime:${e}`, n = this.getChannels().find((i) => i.topic === s);
+    if (n)
+      return n;
+    {
+      const i = new Pe(`realtime:${e}`, r, this);
+      return this._cancelPendingDisconnect(), this.channels.push(i), i;
+    }
+  }
+  /**
+   * Push out a message if the socket is connected.
+   *
+   * If the socket is not connected, the message gets enqueued within a local buffer, and sent out when a connection is next established.
+   *
+   * @category Realtime
+   */
+  push(e) {
+    this.socketAdapter.push(e);
+  }
+  /**
+   * Sets the JWT access token used for channel subscription authorization and Realtime RLS.
+   *
+   * If param is null it will use the `accessToken` callback function or the token set on the client.
+   *
+   * On callback used, it will set the value of the token internal to the client.
+   *
+   * When a token is explicitly provided, it will be preserved across channel operations
+   * (including removeChannel and resubscribe). The `accessToken` callback will not be
+   * invoked until `setAuth()` is called without arguments.
+   *
+   * @param token A JWT string to override the token set on the client.
+   *
+   * @example Setting the authorization header
+   * // Use a manual token (preserved across resubscribes, ignores accessToken callback)
+   * client.realtime.setAuth('my-custom-jwt')
+   *
+   * // Switch back to using the accessToken callback
+   * client.realtime.setAuth()
+   *
+   * @category Realtime
+   */
+  async setAuth(e = null) {
+    this._authPromise = this._performAuth(e);
+    try {
+      await this._authPromise;
+    } finally {
+      this._authPromise = null;
+    }
+  }
+  /**
+   * Returns true if the current access token was explicitly set via setAuth(token),
+   * false if it was obtained via the accessToken callback.
+   * @internal
+   */
+  _isManualToken() {
+    return this._manuallySetToken;
+  }
+  /**
+   * Sends a heartbeat message if the socket is connected.
+   *
+   * @category Realtime
+   */
+  async sendHeartbeat() {
+    this.socketAdapter.sendHeartbeat();
+  }
+  /**
+   * Sets a callback that receives lifecycle events for internal heartbeat messages.
+   * Useful for instrumenting connection health (e.g. sent/ok/timeout).
+   *
+   * @category Realtime
+   */
+  onHeartbeat(e) {
+    this.socketAdapter.heartbeatCallback = this._wrapHeartbeatCallback(e);
+  }
+  /**
+   * Return the next message ref, accounting for overflows
+   *
+   * @internal
+   */
+  _makeRef() {
+    return this.socketAdapter.makeRef();
+  }
+  /**
+   * Removes a channel from RealtimeClient
+   *
+   * @param channel An open subscription.
+   *
+   * @internal
+   */
+  _remove(e) {
+    this.channels = this.channels.filter((r) => r.topic !== e.topic), this.channels.length === 0 && (this.log("transport", "no channels remaining, scheduling disconnect"), this._schedulePendingDisconnect());
+  }
+  /** @internal */
+  _schedulePendingDisconnect() {
+    if (this._cancelPendingDisconnect(), this._disconnectOnEmptyChannelsAfterMs === 0) {
+      this.log("transport", "disconnecting immediately - no channels"), this.disconnect();
+      return;
+    }
+    this._pendingDisconnectTimer = setTimeout(() => {
+      this._pendingDisconnectTimer = null, this.channels.length === 0 && (this.log("transport", "deferred disconnect fired - no channels, disconnecting"), this.disconnect());
+    }, this._disconnectOnEmptyChannelsAfterMs), this.log("transport", `deferred disconnect scheduled in ${this._disconnectOnEmptyChannelsAfterMs}ms`);
+  }
+  /** @internal */
+  _cancelPendingDisconnect() {
+    this._pendingDisconnectTimer !== null && (this.log("transport", "pending disconnect cancelled - channel activity detected"), clearTimeout(this._pendingDisconnectTimer), this._pendingDisconnectTimer = null);
+  }
+  /**
+   * Perform the actual auth operation
+   * @internal
+   */
+  async _performAuth(e = null) {
+    let r, s = !1;
+    if (e)
+      r = e, s = !0;
+    else if (this.accessToken)
+      try {
+        r = await this.accessToken();
+      } catch (n) {
+        this.log("error", "Error fetching access token from callback", n), r = this.accessTokenValue;
+      }
+    else
+      r = this.accessTokenValue;
+    s ? this._manuallySetToken = !0 : this.accessToken && (this._manuallySetToken = !1), this.accessTokenValue != r && (this.accessTokenValue = r, this.channels.forEach((n) => {
+      const i = {
+        access_token: r,
+        version: bs
+      };
+      r && n.updateJoinPayload(i), n.joinedOnce && n.channelAdapter.isJoined() && n.channelAdapter.push(jr.access_token, {
+        access_token: r
+      });
+    }));
+  }
+  /**
+   * Wait for any in-flight auth operations to complete
+   * @internal
+   */
+  async _waitForAuthIfNeeded() {
+    this._authPromise && await this._authPromise;
+  }
+  /**
+   * Safely call setAuth with standardized error handling
+   * @internal
+   */
+  _setAuthSafely(e = "general") {
+    this._isManualToken() || this.setAuth().catch((r) => {
+      this.log("error", `Error setting auth in ${e}`, r);
+    });
+  }
+  /** @internal */
+  _setupConnectionHandlers() {
+    this.socketAdapter.onOpen(() => {
+      (this._authPromise || (this.accessToken && !this.accessTokenValue ? this.setAuth() : Promise.resolve())).catch((r) => {
+        this.log("error", "error waiting for auth on connect", r);
+      }), this.worker && !this.workerRef && this._startWorkerHeartbeat();
+    }), this.socketAdapter.onClose(() => {
+      this.worker && this.workerRef && this._terminateWorker();
+    }), this.socketAdapter.onMessage((e) => {
+      e.ref && e.ref === this._pendingWorkerHeartbeatRef && (this._pendingWorkerHeartbeatRef = null);
+    });
+  }
+  /** @internal */
+  _handleNodeJsRaceCondition() {
+    this.socketAdapter.isConnected() && this.socketAdapter.getSocket().onConnOpen();
+  }
+  /** @internal */
+  _wrapHeartbeatCallback(e) {
+    return (r, s) => {
+      r !== "disconnected" && (r == "sent" && this._setAuthSafely(), e && e(r, s));
+    };
+  }
+  /** @internal */
+  _startWorkerHeartbeat() {
+    this.workerUrl ? this.log("worker", `starting worker for from ${this.workerUrl}`) : this.log("worker", "starting default worker");
+    const e = this._workerObjectUrl(this.workerUrl);
+    this.workerRef = new Worker(e), this.workerRef.onerror = (r) => {
+      this.log("worker", "worker error", r.message), this._terminateWorker(), this.disconnect();
+    }, this.workerRef.onmessage = (r) => {
+      r.data.event === "keepAlive" && this.sendHeartbeat();
+    }, this.workerRef.postMessage({
+      event: "start",
+      interval: this.heartbeatIntervalMs
+    });
+  }
+  /**
+   * Terminate the Web Worker and clear the reference
+   * @internal
+   */
+  _terminateWorker() {
+    this.workerRef && (this.log("worker", "terminating worker"), this.workerRef.terminate(), this.workerRef = void 0);
+  }
+  /** @internal */
+  _workerObjectUrl(e) {
+    let r;
+    if (e)
+      r = e;
+    else {
+      const s = new Blob([on], { type: "application/javascript" });
+      r = URL.createObjectURL(s);
+    }
+    return r;
+  }
+  /**
+   * Initialize socket options with defaults
+   * @internal
+   */
+  _initializeOptions(e) {
+    var r, s, n, i, a, o, l, c, u, h, d, f;
+    this.worker = (r = e?.worker) !== null && r !== void 0 ? r : !1, this.accessToken = (s = e?.accessToken) !== null && s !== void 0 ? s : null;
+    const p = {};
+    p.timeout = (n = e?.timeout) !== null && n !== void 0 ? n : Es, p.heartbeatIntervalMs = (i = e?.heartbeatIntervalMs) !== null && i !== void 0 ? i : er.HEARTBEAT_INTERVAL, this._disconnectOnEmptyChannelsAfterMs = (a = e?.disconnectOnEmptyChannelsAfterMs) !== null && a !== void 0 ? a : 2 * ((o = e?.heartbeatIntervalMs) !== null && o !== void 0 ? o : er.HEARTBEAT_INTERVAL), p.transport = (l = e?.transport) !== null && l !== void 0 ? l : ws.getWebSocketConstructor(), p.params = e?.params, p.logger = e?.logger, p.heartbeatCallback = this._wrapHeartbeatCallback(e?.heartbeatCallback), p.sessionStorage = (c = e?.sessionStorage) !== null && c !== void 0 ? c : an(), p.reconnectAfterMs = (u = e?.reconnectAfterMs) !== null && u !== void 0 ? u : ((S) => rn[S - 1] || sn);
+    let y, m;
+    const w = (h = e?.vsn) !== null && h !== void 0 ? h : ks;
+    switch (w) {
+      case Ss:
+        y = (S, _) => _(JSON.stringify(S)), m = (S, _) => _(JSON.parse(S));
+        break;
+      case $r:
+        y = this.serializer.encode.bind(this.serializer), m = this.serializer.decode.bind(this.serializer);
+        break;
+      default:
+        throw new Error(`Unsupported serializer version: ${p.vsn}`);
+    }
+    if (p.vsn = w, p.encode = (d = e?.encode) !== null && d !== void 0 ? d : y, p.decode = (f = e?.decode) !== null && f !== void 0 ? f : m, p.beforeReconnect = this._reconnectAuth.bind(this), (e?.logLevel || e?.log_level) && (this.logLevel = e.logLevel || e.log_level, p.params = Object.assign(Object.assign({}, p.params), { log_level: this.logLevel })), this.worker) {
+      if (typeof window < "u" && !window.Worker)
+        throw new Error("Web Worker is not supported");
+      this.workerUrl = e?.workerUrl, p.autoSendHeartbeat = !this.worker;
+    }
+    return p;
+  }
+  /** @internal */
+  async _reconnectAuth() {
+    await this._waitForAuthIfNeeded(), this.isConnected() || this.connect();
+  }
+}
+var je = class extends Error {
+  constructor(t, e) {
+    super(t), this.name = "IcebergError", this.status = e.status, this.icebergType = e.icebergType, this.icebergCode = e.icebergCode, this.details = e.details, this.isCommitStateUnknown = e.icebergType === "CommitStateUnknownException" || [500, 502, 504].includes(e.status) && e.icebergType?.includes("CommitState") === !0;
+  }
+  /**
+   * Returns true if the error is a 404 Not Found error.
+   */
+  isNotFound() {
+    return this.status === 404;
+  }
+  /**
+   * Returns true if the error is a 409 Conflict error.
+   */
+  isConflict() {
+    return this.status === 409;
+  }
+  /**
+   * Returns true if the error is a 419 Authentication Timeout error.
+   */
+  isAuthenticationTimeout() {
+    return this.status === 419;
+  }
+};
+function cn(t, e, r) {
+  const s = new URL(e, t);
+  if (r)
+    for (const [n, i] of Object.entries(r))
+      i !== void 0 && s.searchParams.set(n, i);
+  return s.toString();
+}
+async function un(t) {
+  return !t || t.type === "none" ? {} : t.type === "bearer" ? { Authorization: `Bearer ${t.token}` } : t.type === "header" ? { [t.name]: t.value } : t.type === "custom" ? await t.getHeaders() : {};
+}
+function hn(t) {
+  const e = t.fetchImpl ?? globalThis.fetch;
+  return {
+    async request({
+      method: r,
+      path: s,
+      query: n,
+      body: i,
+      headers: a
+    }) {
+      const o = cn(t.baseUrl, s, n), l = await un(t.auth), c = await e(o, {
+        method: r,
+        headers: {
+          ...i ? { "Content-Type": "application/json" } : {},
+          ...l,
+          ...a
+        },
+        body: i ? JSON.stringify(i) : void 0
+      }), u = await c.text(), h = (c.headers.get("content-type") || "").includes("application/json"), d = h && u ? JSON.parse(u) : u;
+      if (!c.ok) {
+        const f = h ? d : void 0, p = f?.error;
+        throw new je(
+          p?.message ?? `Request failed with status ${c.status}`,
+          {
+            status: c.status,
+            icebergType: p?.type,
+            icebergCode: p?.code,
+            details: f
+          }
+        );
+      }
+      return { status: c.status, headers: c.headers, data: d };
+    }
+  };
+}
+function Fe(t) {
+  return t.join("");
+}
+var dn = class {
+  constructor(t, e = "") {
+    this.client = t, this.prefix = e;
+  }
+  async listNamespaces(t) {
+    const e = t ? { parent: Fe(t.namespace) } : void 0;
+    return (await this.client.request({
+      method: "GET",
+      path: `${this.prefix}/namespaces`,
+      query: e
+    })).data.namespaces.map((s) => ({ namespace: s }));
+  }
+  async createNamespace(t, e) {
+    const r = {
+      namespace: t.namespace,
+      properties: e?.properties
+    };
+    return (await this.client.request({
+      method: "POST",
+      path: `${this.prefix}/namespaces`,
+      body: r
+    })).data;
+  }
+  async dropNamespace(t) {
+    await this.client.request({
+      method: "DELETE",
+      path: `${this.prefix}/namespaces/${Fe(t.namespace)}`
+    });
+  }
+  async loadNamespaceMetadata(t) {
+    return {
+      properties: (await this.client.request({
+        method: "GET",
+        path: `${this.prefix}/namespaces/${Fe(t.namespace)}`
+      })).data.properties
+    };
+  }
+  async namespaceExists(t) {
+    try {
+      return await this.client.request({
+        method: "HEAD",
+        path: `${this.prefix}/namespaces/${Fe(t.namespace)}`
+      }), !0;
+    } catch (e) {
+      if (e instanceof je && e.status === 404)
+        return !1;
+      throw e;
+    }
+  }
+  async createNamespaceIfNotExists(t, e) {
+    try {
+      return await this.createNamespace(t, e);
+    } catch (r) {
+      if (r instanceof je && r.status === 409)
+        return;
+      throw r;
+    }
+  }
+};
+function he(t) {
+  return t.join("");
+}
+var fn = class {
+  constructor(t, e = "", r) {
+    this.client = t, this.prefix = e, this.accessDelegation = r;
+  }
+  async listTables(t) {
+    return (await this.client.request({
+      method: "GET",
+      path: `${this.prefix}/namespaces/${he(t.namespace)}/tables`
+    })).data.identifiers;
+  }
+  async createTable(t, e) {
+    const r = {};
+    return this.accessDelegation && (r["X-Iceberg-Access-Delegation"] = this.accessDelegation), (await this.client.request({
+      method: "POST",
+      path: `${this.prefix}/namespaces/${he(t.namespace)}/tables`,
+      body: e,
+      headers: r
+    })).data.metadata;
+  }
+  async updateTable(t, e) {
+    const r = await this.client.request({
+      method: "POST",
+      path: `${this.prefix}/namespaces/${he(t.namespace)}/tables/${t.name}`,
+      body: e
+    });
+    return {
+      "metadata-location": r.data["metadata-location"],
+      metadata: r.data.metadata
+    };
+  }
+  async dropTable(t, e) {
+    await this.client.request({
+      method: "DELETE",
+      path: `${this.prefix}/namespaces/${he(t.namespace)}/tables/${t.name}`,
+      query: { purgeRequested: String(e?.purge ?? !1) }
+    });
+  }
+  async loadTable(t) {
+    const e = {};
+    return this.accessDelegation && (e["X-Iceberg-Access-Delegation"] = this.accessDelegation), (await this.client.request({
+      method: "GET",
+      path: `${this.prefix}/namespaces/${he(t.namespace)}/tables/${t.name}`,
+      headers: e
+    })).data.metadata;
+  }
+  async tableExists(t) {
+    const e = {};
+    this.accessDelegation && (e["X-Iceberg-Access-Delegation"] = this.accessDelegation);
+    try {
+      return await this.client.request({
+        method: "HEAD",
+        path: `${this.prefix}/namespaces/${he(t.namespace)}/tables/${t.name}`,
+        headers: e
+      }), !0;
+    } catch (r) {
+      if (r instanceof je && r.status === 404)
+        return !1;
+      throw r;
+    }
+  }
+  async createTableIfNotExists(t, e) {
+    try {
+      return await this.createTable(t, e);
+    } catch (r) {
+      if (r instanceof je && r.status === 409)
+        return await this.loadTable({ namespace: t.namespace, name: e.name });
+      throw r;
+    }
+  }
+}, pn = class {
+  /**
+   * Creates a new Iceberg REST Catalog client.
+   *
+   * @param options - Configuration options for the catalog client
+   */
+  constructor(t) {
+    let e = "v1";
+    t.catalogName && (e += `/${t.catalogName}`);
+    const r = t.baseUrl.endsWith("/") ? t.baseUrl : `${t.baseUrl}/`;
+    this.client = hn({
+      baseUrl: r,
+      auth: t.auth,
+      fetchImpl: t.fetch
+    }), this.accessDelegation = t.accessDelegation?.join(","), this.namespaceOps = new dn(this.client, e), this.tableOps = new fn(this.client, e, this.accessDelegation);
+  }
+  /**
+   * Lists all namespaces in the catalog.
+   *
+   * @param parent - Optional parent namespace to list children under
+   * @returns Array of namespace identifiers
+   *
+   * @example
+   * ```typescript
+   * // List all top-level namespaces
+   * const namespaces = await catalog.listNamespaces();
+   *
+   * // List namespaces under a parent
+   * const children = await catalog.listNamespaces({ namespace: ['analytics'] });
+   * ```
+   */
+  async listNamespaces(t) {
+    return this.namespaceOps.listNamespaces(t);
+  }
+  /**
+   * Creates a new namespace in the catalog.
+   *
+   * @param id - Namespace identifier to create
+   * @param metadata - Optional metadata properties for the namespace
+   * @returns Response containing the created namespace and its properties
+   *
+   * @example
+   * ```typescript
+   * const response = await catalog.createNamespace(
+   *   { namespace: ['analytics'] },
+   *   { properties: { owner: 'data-team' } }
+   * );
+   * console.log(response.namespace); // ['analytics']
+   * console.log(response.properties); // { owner: 'data-team', ... }
+   * ```
+   */
+  async createNamespace(t, e) {
+    return this.namespaceOps.createNamespace(t, e);
+  }
+  /**
+   * Drops a namespace from the catalog.
+   *
+   * The namespace must be empty (contain no tables) before it can be dropped.
+   *
+   * @param id - Namespace identifier to drop
+   *
+   * @example
+   * ```typescript
+   * await catalog.dropNamespace({ namespace: ['analytics'] });
+   * ```
+   */
+  async dropNamespace(t) {
+    await this.namespaceOps.dropNamespace(t);
+  }
+  /**
+   * Loads metadata for a namespace.
+   *
+   * @param id - Namespace identifier to load
+   * @returns Namespace metadata including properties
+   *
+   * @example
+   * ```typescript
+   * const metadata = await catalog.loadNamespaceMetadata({ namespace: ['analytics'] });
+   * console.log(metadata.properties);
+   * ```
+   */
+  async loadNamespaceMetadata(t) {
+    return this.namespaceOps.loadNamespaceMetadata(t);
+  }
+  /**
+   * Lists all tables in a namespace.
+   *
+   * @param namespace - Namespace identifier to list tables from
+   * @returns Array of table identifiers
+   *
+   * @example
+   * ```typescript
+   * const tables = await catalog.listTables({ namespace: ['analytics'] });
+   * console.log(tables); // [{ namespace: ['analytics'], name: 'events' }, ...]
+   * ```
+   */
+  async listTables(t) {
+    return this.tableOps.listTables(t);
+  }
+  /**
+   * Creates a new table in the catalog.
+   *
+   * @param namespace - Namespace to create the table in
+   * @param request - Table creation request including name, schema, partition spec, etc.
+   * @returns Table metadata for the created table
+   *
+   * @example
+   * ```typescript
+   * const metadata = await catalog.createTable(
+   *   { namespace: ['analytics'] },
+   *   {
+   *     name: 'events',
+   *     schema: {
+   *       type: 'struct',
+   *       fields: [
+   *         { id: 1, name: 'id', type: 'long', required: true },
+   *         { id: 2, name: 'timestamp', type: 'timestamp', required: true }
+   *       ],
+   *       'schema-id': 0
+   *     },
+   *     'partition-spec': {
+   *       'spec-id': 0,
+   *       fields: [
+   *         { source_id: 2, field_id: 1000, name: 'ts_day', transform: 'day' }
+   *       ]
+   *     }
+   *   }
+   * );
+   * ```
+   */
+  async createTable(t, e) {
+    return this.tableOps.createTable(t, e);
+  }
+  /**
+   * Updates an existing table's metadata.
+   *
+   * Can update the schema, partition spec, or properties of a table.
+   *
+   * @param id - Table identifier to update
+   * @param request - Update request with fields to modify
+   * @returns Response containing the metadata location and updated table metadata
+   *
+   * @example
+   * ```typescript
+   * const response = await catalog.updateTable(
+   *   { namespace: ['analytics'], name: 'events' },
+   *   {
+   *     properties: { 'read.split.target-size': '134217728' }
+   *   }
+   * );
+   * console.log(response['metadata-location']); // s3://...
+   * console.log(response.metadata); // TableMetadata object
+   * ```
+   */
+  async updateTable(t, e) {
+    return this.tableOps.updateTable(t, e);
+  }
+  /**
+   * Drops a table from the catalog.
+   *
+   * @param id - Table identifier to drop
+   *
+   * @example
+   * ```typescript
+   * await catalog.dropTable({ namespace: ['analytics'], name: 'events' });
+   * ```
+   */
+  async dropTable(t, e) {
+    await this.tableOps.dropTable(t, e);
+  }
+  /**
+   * Loads metadata for a table.
+   *
+   * @param id - Table identifier to load
+   * @returns Table metadata including schema, partition spec, location, etc.
+   *
+   * @example
+   * ```typescript
+   * const metadata = await catalog.loadTable({ namespace: ['analytics'], name: 'events' });
+   * console.log(metadata.schema);
+   * console.log(metadata.location);
+   * ```
+   */
+  async loadTable(t) {
+    return this.tableOps.loadTable(t);
+  }
+  /**
+   * Checks if a namespace exists in the catalog.
+   *
+   * @param id - Namespace identifier to check
+   * @returns True if the namespace exists, false otherwise
+   *
+   * @example
+   * ```typescript
+   * const exists = await catalog.namespaceExists({ namespace: ['analytics'] });
+   * console.log(exists); // true or false
+   * ```
+   */
+  async namespaceExists(t) {
+    return this.namespaceOps.namespaceExists(t);
+  }
+  /**
+   * Checks if a table exists in the catalog.
+   *
+   * @param id - Table identifier to check
+   * @returns True if the table exists, false otherwise
+   *
+   * @example
+   * ```typescript
+   * const exists = await catalog.tableExists({ namespace: ['analytics'], name: 'events' });
+   * console.log(exists); // true or false
+   * ```
+   */
+  async tableExists(t) {
+    return this.tableOps.tableExists(t);
+  }
+  /**
+   * Creates a namespace if it does not exist.
+   *
+   * If the namespace already exists, returns void. If created, returns the response.
+   *
+   * @param id - Namespace identifier to create
+   * @param metadata - Optional metadata properties for the namespace
+   * @returns Response containing the created namespace and its properties, or void if it already exists
+   *
+   * @example
+   * ```typescript
+   * const response = await catalog.createNamespaceIfNotExists(
+   *   { namespace: ['analytics'] },
+   *   { properties: { owner: 'data-team' } }
+   * );
+   * if (response) {
+   *   console.log('Created:', response.namespace);
+   * } else {
+   *   console.log('Already exists');
+   * }
+   * ```
+   */
+  async createNamespaceIfNotExists(t, e) {
+    return this.namespaceOps.createNamespaceIfNotExists(t, e);
+  }
+  /**
+   * Creates a table if it does not exist.
+   *
+   * If the table already exists, returns its metadata instead.
+   *
+   * @param namespace - Namespace to create the table in
+   * @param request - Table creation request including name, schema, partition spec, etc.
+   * @returns Table metadata for the created or existing table
+   *
+   * @example
+   * ```typescript
+   * const metadata = await catalog.createTableIfNotExists(
+   *   { namespace: ['analytics'] },
+   *   {
+   *     name: 'events',
+   *     schema: {
+   *       type: 'struct',
+   *       fields: [
+   *         { id: 1, name: 'id', type: 'long', required: true },
+   *         { id: 2, name: 'timestamp', type: 'timestamp', required: true }
+   *       ],
+   *       'schema-id': 0
+   *     }
+   *   }
+   * );
+   * ```
+   */
+  async createTableIfNotExists(t, e) {
+    return this.tableOps.createTableIfNotExists(t, e);
+  }
+};
+function xe(t) {
+  "@babel/helpers - typeof";
+  return xe = typeof Symbol == "function" && typeof Symbol.iterator == "symbol" ? function(e) {
+    return typeof e;
+  } : function(e) {
+    return e && typeof Symbol == "function" && e.constructor === Symbol && e !== Symbol.prototype ? "symbol" : typeof e;
+  }, xe(t);
+}
+function gn(t, e) {
+  if (xe(t) != "object" || !t) return t;
+  var r = t[Symbol.toPrimitive];
+  if (r !== void 0) {
+    var s = r.call(t, e);
+    if (xe(s) != "object") return s;
+    throw new TypeError("@@toPrimitive must return a primitive value.");
+  }
+  return (e === "string" ? String : Number)(t);
+}
+function yn(t) {
+  var e = gn(t, "string");
+  return xe(e) == "symbol" ? e : e + "";
+}
+function mn(t, e, r) {
+  return (e = yn(e)) in t ? Object.defineProperty(t, e, {
+    value: r,
+    enumerable: !0,
+    configurable: !0,
+    writable: !0
+  }) : t[e] = r, t;
+}
+function tr(t, e) {
+  var r = Object.keys(t);
+  if (Object.getOwnPropertySymbols) {
+    var s = Object.getOwnPropertySymbols(t);
+    e && (s = s.filter(function(n) {
+      return Object.getOwnPropertyDescriptor(t, n).enumerable;
+    })), r.push.apply(r, s);
+  }
+  return r;
+}
+function k(t) {
+  for (var e = 1; e < arguments.length; e++) {
+    var r = arguments[e] != null ? arguments[e] : {};
+    e % 2 ? tr(Object(r), !0).forEach(function(s) {
+      mn(t, s, r[s]);
+    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(t, Object.getOwnPropertyDescriptors(r)) : tr(Object(r)).forEach(function(s) {
+      Object.defineProperty(t, s, Object.getOwnPropertyDescriptor(r, s));
+    });
+  }
+  return t;
+}
+var ct = class extends Error {
+  constructor(t, e = "storage", r, s) {
+    super(t), this.__isStorageError = !0, this.namespace = e, this.name = e === "vectors" ? "StorageVectorsError" : "StorageError", this.status = r, this.statusCode = s;
+  }
+  toJSON() {
+    return {
+      name: this.name,
+      message: this.message,
+      status: this.status,
+      statusCode: this.statusCode
+    };
+  }
+};
+function ut(t) {
+  return typeof t == "object" && t !== null && "__isStorageError" in t;
+}
+var Rt = class extends ct {
+  constructor(t, e, r, s = "storage") {
+    super(t, s, e, r), this.name = s === "vectors" ? "StorageVectorsApiError" : "StorageApiError", this.status = e, this.statusCode = r;
+  }
+  toJSON() {
+    return k({}, super.toJSON());
+  }
+}, Lr = class extends ct {
+  constructor(t, e, r = "storage") {
+    super(t, r), this.name = r === "vectors" ? "StorageVectorsUnknownError" : "StorageUnknownError", this.originalError = e;
+  }
+};
+function Qe(t, e, r) {
+  const s = k({}, t), n = e.toLowerCase();
+  for (const i of Object.keys(s)) i.toLowerCase() === n && delete s[i];
+  return s[n] = r, s;
+}
+function vn(t) {
+  const e = {};
+  for (const [r, s] of Object.entries(t)) e[r.toLowerCase()] = s;
+  return e;
+}
+const wn = (t) => t ? (...e) => t(...e) : (...e) => fetch(...e), _n = (t) => {
+  if (typeof t != "object" || t === null) return !1;
+  const e = Object.getPrototypeOf(t);
+  return (e === null || e === Object.prototype || Object.getPrototypeOf(e) === null) && !(Symbol.toStringTag in t) && !(Symbol.iterator in t);
+}, Ot = (t) => {
+  if (Array.isArray(t)) return t.map((r) => Ot(r));
+  if (typeof t == "function" || t !== Object(t)) return t;
+  const e = {};
+  return Object.entries(t).forEach(([r, s]) => {
+    const n = r.replace(/([-_][a-z])/gi, (i) => i.toUpperCase().replace(/[-_]/g, ""));
+    e[n] = Ot(s);
+  }), e;
+}, bn = (t) => !t || typeof t != "string" || t.length === 0 || t.length > 100 || t.trim() !== t || t.includes("/") || t.includes("\\") ? !1 : /^[\w!.\*'() &$@=;:+,?-]+$/.test(t), Dr = (t) => t.split("/").map(encodeURIComponent).join("/"), rr = (t) => {
+  if (typeof t == "object" && t !== null) {
+    const e = t;
+    if (typeof e.msg == "string") return e.msg;
+    if (typeof e.message == "string") return e.message;
+    if (typeof e.error_description == "string") return e.error_description;
+    if (typeof e.error == "string") return e.error;
+    if (typeof e.error == "object" && e.error !== null) {
+      const r = e.error;
+      if (typeof r.message == "string") return r.message;
+    }
+  }
+  return JSON.stringify(t);
+}, Sn = async (t, e, r, s) => {
+  if (t !== null && typeof t == "object" && "json" in t && typeof t.json == "function") {
+    const n = t;
+    let i = parseInt(String(n.status), 10);
+    Number.isFinite(i) || (i = 500), n.json().then((a) => {
+      const o = a?.statusCode || a?.code || i + "";
+      e(new Rt(rr(a), i, o, s));
+    }).catch(() => {
+      const a = i + "";
+      e(new Rt(n.statusText || `HTTP ${i} error`, i, a, s));
+    });
+  } else e(new Lr(rr(t), t, s));
+}, kn = (t, e, r, s) => {
+  const n = {
+    method: t,
+    headers: e?.headers || {}
+  };
+  if (t === "GET" || t === "HEAD" || !s) return k(k({}, n), r);
+  if (_n(s)) {
+    var i;
+    const a = e?.headers || {};
+    let o;
+    for (const [l, c] of Object.entries(a)) l.toLowerCase() === "content-type" && (o = c);
+    n.headers = Qe(a, "Content-Type", (i = o) !== null && i !== void 0 ? i : "application/json"), n.body = JSON.stringify(s);
+  } else n.body = s;
+  return e?.duplex && (n.duplex = e.duplex), k(k({}, n), r);
+};
+async function ke(t, e, r, s, n, i, a) {
+  return new Promise((o, l) => {
+    t(r, kn(e, s, n, i)).then((c) => {
+      if (!c.ok) throw c;
+      if (s?.noResolveJson) return c;
+      if (a === "vectors") {
+        const u = c.headers.get("content-type");
+        if (c.headers.get("content-length") === "0" || c.status === 204) return {};
+        if (!u || !u.includes("application/json")) return {};
+      }
+      return c.json();
+    }).then((c) => o(c)).catch((c) => Sn(c, l, s, a));
+  });
+}
+function Br(t = "storage") {
+  return {
+    get: async (e, r, s, n) => ke(e, "GET", r, s, n, void 0, t),
+    post: async (e, r, s, n, i) => ke(e, "POST", r, n, i, s, t),
+    put: async (e, r, s, n, i) => ke(e, "PUT", r, n, i, s, t),
+    head: async (e, r, s, n) => ke(e, "HEAD", r, k(k({}, s), {}, { noResolveJson: !0 }), n, void 0, t),
+    remove: async (e, r, s, n, i) => ke(e, "DELETE", r, n, i, s, t)
+  };
+}
+const En = Br("storage"), { get: Ne, post: K, put: Ct, head: Tn, remove: Ue } = En, B = Br("vectors");
+var be = class {
+  /**
+  * Creates a new BaseApiClient instance
+  * @param url - Base URL for API requests
+  * @param headers - Default headers for API requests
+  * @param fetch - Optional custom fetch implementation
+  * @param namespace - Error namespace ('storage' or 'vectors')
+  */
+  constructor(t, e = {}, r, s = "storage") {
+    this.shouldThrowOnError = !1, this.url = t, this.headers = vn(e), this.fetch = wn(r), this.namespace = s;
+  }
+  /**
+  * Enable throwing errors instead of returning them.
+  * When enabled, errors are thrown instead of returned in { data, error } format.
+  *
+  * @returns this - For method chaining
+  */
+  throwOnError() {
+    return this.shouldThrowOnError = !0, this;
+  }
+  /**
+  * Set an HTTP header for the request.
+  * Creates a shallow copy of headers to avoid mutating shared state.
+  *
+  * @param name - Header name
+  * @param value - Header value
+  * @returns this - For method chaining
+  */
+  setHeader(t, e) {
+    return this.headers = Qe(this.headers, t, e), this;
+  }
+  /**
+  * Handles API operation with standardized error handling
+  * Eliminates repetitive try-catch blocks across all API methods
+  *
+  * This wrapper:
+  * 1. Executes the operation
+  * 2. Returns { data, error: null } on success
+  * 3. Returns { data: null, error } on failure (if shouldThrowOnError is false)
+  * 4. Throws error on failure (if shouldThrowOnError is true)
+  *
+  * @typeParam T - The expected data type from the operation
+  * @param operation - Async function that performs the API call
+  * @returns Promise with { data, error } tuple
+  *
+  * @example Handling an operation
+  * ```typescript
+  * async listBuckets() {
+  *   return this.handleOperation(async () => {
+  *     return await get(this.fetch, `${this.url}/bucket`, {
+  *       headers: this.headers,
+  *     })
+  *   })
+  * }
+  * ```
+  */
+  async handleOperation(t) {
+    var e = this;
+    try {
+      return {
+        data: await t(),
+        error: null
+      };
+    } catch (r) {
+      if (e.shouldThrowOnError) throw r;
+      if (ut(r)) return {
+        data: null,
+        error: r
+      };
+      throw r;
+    }
+  }
+};
+let Hr;
+Hr = Symbol.toStringTag;
+var An = class {
+  constructor(t, e) {
+    this.downloadFn = t, this.shouldThrowOnError = e, this[Hr] = "StreamDownloadBuilder", this.promise = null;
+  }
+  then(t, e) {
+    return this.getPromise().then(t, e);
+  }
+  catch(t) {
+    return this.getPromise().catch(t);
+  }
+  finally(t) {
+    return this.getPromise().finally(t);
+  }
+  getPromise() {
+    return this.promise || (this.promise = this.execute()), this.promise;
+  }
+  async execute() {
+    var t = this;
+    try {
+      return {
+        data: (await t.downloadFn()).body,
+        error: null
+      };
+    } catch (e) {
+      if (t.shouldThrowOnError) throw e;
+      if (ut(e)) return {
+        data: null,
+        error: e
+      };
+      throw e;
+    }
+  }
+};
+let qr;
+qr = Symbol.toStringTag;
+var Rn = class {
+  constructor(t, e) {
+    this.downloadFn = t, this.shouldThrowOnError = e, this[qr] = "BlobDownloadBuilder", this.promise = null;
+  }
+  asStream() {
+    return new An(this.downloadFn, this.shouldThrowOnError);
+  }
+  then(t, e) {
+    return this.getPromise().then(t, e);
+  }
+  catch(t) {
+    return this.getPromise().catch(t);
+  }
+  finally(t) {
+    return this.getPromise().finally(t);
+  }
+  getPromise() {
+    return this.promise || (this.promise = this.execute()), this.promise;
+  }
+  async execute() {
+    var t = this;
+    try {
+      return {
+        data: await (await t.downloadFn()).blob(),
+        error: null
+      };
+    } catch (e) {
+      if (t.shouldThrowOnError) throw e;
+      if (ut(e)) return {
+        data: null,
+        error: e
+      };
+      throw e;
+    }
+  }
+};
+const pt = {
+  limit: 100,
+  offset: 0,
+  sortBy: {
+    column: "name",
+    order: "asc"
+  }
+}, sr = {
+  cacheControl: "3600",
+  contentType: "text/plain;charset=UTF-8",
+  upsert: !1
+};
+var On = class extends be {
+  constructor(t, e = {}, r, s) {
+    super(t, e, s, "storage"), this.bucketId = r;
+  }
+  /**
+  * Uploads a file to an existing bucket or replaces an existing file at the specified path with a new one.
+  *
+  * @param method HTTP method.
+  * @param path The relative file path. Should be of the format `folder/subfolder/filename.png`. The bucket must already exist before attempting to upload.
+  * @param fileBody The body of the file to be stored in the bucket.
+  */
+  async uploadOrUpdate(t, e, r, s) {
+    var n = this;
+    return n.handleOperation(async () => {
+      let i;
+      const a = k(k({}, sr), s);
+      let o = k(k({}, n.headers), t === "POST" && { "x-upsert": String(a.upsert) });
+      const l = a.metadata;
+      if (typeof Blob < "u" && r instanceof Blob ? (i = new FormData(), i.append("cacheControl", a.cacheControl), l && i.append("metadata", n.encodeMetadata(l)), i.append("", r)) : typeof FormData < "u" && r instanceof FormData ? (i = r, i.has("cacheControl") || i.append("cacheControl", a.cacheControl), l && !i.has("metadata") && i.append("metadata", n.encodeMetadata(l))) : (i = r, o["cache-control"] = `max-age=${a.cacheControl}`, o["content-type"] = a.contentType, l && (o["x-metadata"] = n.toBase64(n.encodeMetadata(l))), (typeof ReadableStream < "u" && i instanceof ReadableStream || i && typeof i == "object" && "pipe" in i && typeof i.pipe == "function") && !a.duplex && (a.duplex = "half")), s?.headers) for (const [d, f] of Object.entries(s.headers)) o = Qe(o, d, f);
+      const c = n._removeEmptyFolders(e), u = n._getFinalPath(c), h = await (t == "PUT" ? Ct : K)(n.fetch, `${n.url}/object/${u}`, i, k({ headers: o }, a?.duplex ? { duplex: a.duplex } : {}));
+      return {
+        path: c,
+        id: h.Id,
+        fullPath: h.Key
+      };
+    });
+  }
+  /**
+  * Uploads a file to an existing bucket.
+  *
+  * @category Storage
+  * @subcategory File Buckets
+  * @param path The file path, including the file name. Should be of the format `folder/subfolder/filename.png`. The bucket must already exist before attempting to upload.
+  * @param fileBody The body of the file to be stored in the bucket.
+  * @param fileOptions Optional file upload options including cacheControl, contentType, upsert, and metadata.
+  * @returns Promise with response containing file path, id, and fullPath or error
+  *
+  * @example Upload file
+  * ```js
+  * const avatarFile = event.target.files[0]
+  * const { data, error } = await supabase
+  *   .storage
+  *   .from('avatars')
+  *   .upload('public/avatar1.png', avatarFile, {
+  *     cacheControl: '3600',
+  *     upsert: false
+  *   })
+  * ```
+  *
+  * Response:
+  * ```json
+  * {
+  *   "data": {
+  *     "path": "public/avatar1.png",
+  *     "fullPath": "avatars/public/avatar1.png"
+  *   },
+  *   "error": null
+  * }
+  * ```
+  *
+  * @example Upload file using `ArrayBuffer` from base64 file data
+  * ```js
+  * import { decode } from 'base64-arraybuffer'
+  *
+  * const { data, error } = await supabase
+  *   .storage
+  *   .from('avatars')
+  *   .upload('public/avatar1.png', decode('base64FileData'), {
+  *     contentType: 'image/png'
+  *   })
+  * ```
+  *
+  * @example Handling errors
+  * ```js
+  * const { data, error } = await supabase
+  *   .storage
+  *   .from('avatars')
+  *   .upload('public/avatar1.png', avatarFile)
+  *
+  * if (error) {
+  *   // Log the full error so fields like `statusCode` and `error` (the
+  *   // Storage error name, e.g. "Duplicate") aren't hidden behind `error.message`.
+  *   console.error(error)
+  *   return
+  * }
+  * ```
+  *
+  * @remarks
+  * - RLS policy permissions required:
+  *   - `buckets` table permissions: none
+  *   - `objects` table permissions: only `insert` when you are uploading new files and `select`, `insert` and `update` when you are upserting files
+  * - Refer to the [Storage guide](/docs/guides/storage/security/access-control) on how access control works
+  * - For React Native, using either `Blob`, `File` or `FormData` does not work as intended. Upload file using `ArrayBuffer` from base64 file data instead, see example below.
+  */
+  async upload(t, e, r) {
+    return this.uploadOrUpdate("POST", t, e, r);
+  }
+  /**
+  * Upload a file with a token generated from `createSignedUploadUrl`.
+  *
+  * @category Storage
+  * @subcategory File Buckets
+  * @param path The file path, including the file name. Should be of the format `folder/subfolder/filename.png`. The bucket must already exist before attempting to upload.
+  * @param token The token generated from `createSignedUploadUrl`
+  * @param fileBody The body of the file to be stored in the bucket.
+  * @param fileOptions HTTP headers (cacheControl, contentType, etc.).
+  * **Note:** The `upsert` option has no effect here. To enable upsert behavior,
+  * pass `{ upsert: true }` when calling `createSignedUploadUrl()` instead.
+  * @returns Promise with response containing file path and fullPath or error
+  *
+  * @example Upload to a signed URL
+  * ```js
+  * const { data, error } = await supabase
+  *   .storage
+  *   .from('avatars')
+  *   .uploadToSignedUrl('folder/cat.jpg', 'token-from-createSignedUploadUrl', file)
+  * ```
+  *
+  * Response:
+  * ```json
+  * {
+  *   "data": {
+  *     "path": "folder/cat.jpg",
+  *     "fullPath": "avatars/folder/cat.jpg"
+  *   },
+  *   "error": null
+  * }
+  * ```
+  *
+  * @remarks
+  * - RLS policy permissions required:
+  *   - `buckets` table permissions: none
+  *   - `objects` table permissions: none
+  * - Refer to the [Storage guide](/docs/guides/storage/security/access-control) on how access control works
+  */
+  async uploadToSignedUrl(t, e, r, s) {
+    var n = this;
+    const i = n._removeEmptyFolders(t), a = n._getFinalPath(i), o = new URL(n.url + `/object/upload/sign/${a}`);
+    return o.searchParams.set("token", e), n.handleOperation(async () => {
+      let l;
+      const c = k(k({}, sr), s);
+      let u = k(k({}, n.headers), { "x-upsert": String(c.upsert) });
+      const h = c.metadata;
+      if (typeof Blob < "u" && r instanceof Blob ? (l = new FormData(), l.append("cacheControl", c.cacheControl), h && l.append("metadata", n.encodeMetadata(h)), l.append("", r)) : typeof FormData < "u" && r instanceof FormData ? (l = r, l.has("cacheControl") || l.append("cacheControl", c.cacheControl), h && !l.has("metadata") && l.append("metadata", n.encodeMetadata(h))) : (l = r, u["cache-control"] = `max-age=${c.cacheControl}`, u["content-type"] = c.contentType, h && (u["x-metadata"] = n.toBase64(n.encodeMetadata(h))), (typeof ReadableStream < "u" && l instanceof ReadableStream || l && typeof l == "object" && "pipe" in l && typeof l.pipe == "function") && !c.duplex && (c.duplex = "half")), s?.headers) for (const [d, f] of Object.entries(s.headers)) u = Qe(u, d, f);
+      return {
+        path: i,
+        fullPath: (await Ct(n.fetch, o.toString(), l, k({ headers: u }, c?.duplex ? { duplex: c.duplex } : {}))).Key
+      };
+    });
+  }
+  /**
+  * Creates a signed upload URL.
+  * Signed upload URLs can be used to upload files to the bucket without further authentication.
+  * They are valid for 2 hours.
+  *
+  * @category Storage
+  * @subcategory File Buckets
+  * @param path The file path, including the current file name. For example `folder/image.png`.
+  * @param options.upsert If set to true, allows the file to be overwritten if it already exists.
+  * @returns Promise with response containing signed upload URL, token, and path or error
+  *
+  * @example Create Signed Upload URL
+  * ```js
+  * const { data, error } = await supabase
+  *   .storage
+  *   .from('avatars')
+  *   .createSignedUploadUrl('folder/cat.jpg')
+  * ```
+  *
+  * Response:
+  * ```json
+  * {
+  *   "data": {
+  *     "signedUrl": "https://example.supabase.co/storage/v1/object/upload/sign/avatars/folder/cat.jpg?token=<TOKEN>",
+  *     "path": "folder/cat.jpg",
+  *     "token": "<TOKEN>"
+  *   },
+  *   "error": null
+  * }
+  * ```
+  *
+  * @remarks
+  * - RLS policy permissions required:
+  *   - `buckets` table permissions: none
+  *   - `objects` table permissions: `insert`
+  * - Refer to the [Storage guide](/docs/guides/storage/security/access-control) on how access control works
+  */
+  async createSignedUploadUrl(t, e) {
+    var r = this;
+    return r.handleOperation(async () => {
+      let s = r._getFinalPath(t);
+      const n = k({}, r.headers);
+      e?.upsert && (n["x-upsert"] = "true");
+      const i = await K(r.fetch, `${r.url}/object/upload/sign/${s}`, {}, { headers: n }), a = new URL(r.url + i.url), o = a.searchParams.get("token");
+      if (!o) throw new ct("No token returned by API");
+      return {
+        signedUrl: a.toString(),
+        path: t,
+        token: o
+      };
+    });
+  }
+  /**
+  * Replaces an existing file at the specified path with a new one.
+  *
+  * @category Storage
+  * @subcategory File Buckets
+  * @param path The relative file path. Should be of the format `folder/subfolder/filename.png`. The bucket must already exist before attempting to update.
+  * @param fileBody The body of the file to be stored in the bucket.
+  * @param fileOptions Optional file upload options including cacheControl, contentType, and metadata.
+  * **Note:** The `upsert` option has no effect here. `update()` always replaces the
+  * file at the given path, so the `x-upsert` header is not sent. To control upsert
+  * behavior, use `upload()` instead.
+  * @returns Promise with response containing file path, id, and fullPath or error
+  *
+  * @example Update file
+  * ```js
+  * const avatarFile = event.target.files[0]
+  * const { data, error } = await supabase
+  *   .storage
+  *   .from('avatars')
+  *   .update('public/avatar1.png', avatarFile, {
+  *     cacheControl: '3600'
+  *   })
+  * ```
+  *
+  * Response:
+  * ```json
+  * {
+  *   "data": {
+  *     "path": "public/avatar1.png",
+  *     "fullPath": "avatars/public/avatar1.png"
+  *   },
+  *   "error": null
+  * }
+  * ```
+  *
+  * @example Update file using `ArrayBuffer` from base64 file data
+  * ```js
+  * import {decode} from 'base64-arraybuffer'
+  *
+  * const { data, error } = await supabase
+  *   .storage
+  *   .from('avatars')
+  *   .update('public/avatar1.png', decode('base64FileData'), {
+  *     contentType: 'image/png'
+  *   })
+  * ```
+  *
+  * @remarks
+  * - RLS policy permissions required:
+  *   - `buckets` table permissions: none
+  *   - `objects` table permissions: `update` and `select`
+  * - `update()` always replaces the file at the given path regardless of the `upsert` option.
+  * - Refer to the [Storage guide](/docs/guides/storage/security/access-control) on how access control works
+  * - For React Native, using either `Blob`, `File` or `FormData` does not work as intended. Update file using `ArrayBuffer` from base64 file data instead, see example below.
+  */
+  async update(t, e, r) {
+    return this.uploadOrUpdate("PUT", t, e, r);
+  }
+  /**
+  * Moves an existing file to a new path in the same bucket.
+  *
+  * @category Storage
+  * @subcategory File Buckets
+  * @param fromPath The original file path, including the current file name. For example `folder/image.png`.
+  * @param toPath The new file path, including the new file name. For example `folder/image-new.png`.
+  * @param options The destination options.
+  * @returns Promise with response containing success message or error
+  *
+  * @example Move file
+  * ```js
+  * const { data, error } = await supabase
+  *   .storage
+  *   .from('avatars')
+  *   .move('public/avatar1.png', 'private/avatar2.png')
+  * ```
+  *
+  * Response:
+  * ```json
+  * {
+  *   "data": {
+  *     "message": "Successfully moved"
+  *   },
+  *   "error": null
+  * }
+  * ```
+  *
+  * @remarks
+  * - RLS policy permissions required:
+  *   - `buckets` table permissions: none
+  *   - `objects` table permissions: `update` and `select`
+  * - Refer to the [Storage guide](/docs/guides/storage/security/access-control) on how access control works
+  */
+  async move(t, e, r) {
+    var s = this;
+    return s.handleOperation(async () => await K(s.fetch, `${s.url}/object/move`, {
+      bucketId: s.bucketId,
+      sourceKey: t,
+      destinationKey: e,
+      destinationBucket: r?.destinationBucket
+    }, { headers: s.headers }));
+  }
+  /**
+  * Copies an existing file to a new path in the same bucket.
+  *
+  * @category Storage
+  * @subcategory File Buckets
+  * @param fromPath The original file path, including the current file name. For example `folder/image.png`.
+  * @param toPath The new file path, including the new file name. For example `folder/image-copy.png`.
+  * @param options The destination options.
+  * @returns Promise with response containing copied file path or error
+  *
+  * @example Copy file
+  * ```js
+  * const { data, error } = await supabase
+  *   .storage
+  *   .from('avatars')
+  *   .copy('public/avatar1.png', 'private/avatar2.png')
+  * ```
+  *
+  * Response:
+  * ```json
+  * {
+  *   "data": {
+  *     "path": "avatars/private/avatar2.png"
+  *   },
+  *   "error": null
+  * }
+  * ```
+  *
+  * @remarks
+  * - RLS policy permissions required:
+  *   - `buckets` table permissions: none
+  *   - `objects` table permissions: `insert` and `select`
+  * - Refer to the [Storage guide](/docs/guides/storage/security/access-control) on how access control works
+  */
+  async copy(t, e, r) {
+    var s = this;
+    return s.handleOperation(async () => ({ path: (await K(s.fetch, `${s.url}/object/copy`, {
+      bucketId: s.bucketId,
+      sourceKey: t,
+      destinationKey: e,
+      destinationBucket: r?.destinationBucket
+    }, { headers: s.headers })).Key }));
+  }
+  /**
+  * Creates a signed URL. Use a signed URL to share a file for a fixed amount of time.
+  *
+  * @category Storage
+  * @subcategory File Buckets
+  * @param path The file path, including the current file name. For example `folder/image.png`.
+  * @param expiresIn The number of seconds until the signed URL expires. For example, `60` for a URL which is valid for one minute.
+  * @param options.download triggers the file as a download if set to true. Set this parameter as the name of the file if you want to trigger the download with a different filename.
+  * @param options.transform Transform the asset before serving it to the client.
+  * @param options.cacheNonce Append a cache nonce parameter to the URL to invalidate the cache.
+  * @returns Promise with response containing signed URL or error
+  *
+  * @example Create Signed URL
+  * ```js
+  * const { data, error } = await supabase
+  *   .storage
+  *   .from('avatars')
+  *   .createSignedUrl('folder/avatar1.png', 60)
+  * ```
+  *
+  * Response:
+  * ```json
+  * {
+  *   "data": {
+  *     "signedUrl": "https://example.supabase.co/storage/v1/object/sign/avatars/folder/avatar1.png?token=<TOKEN>"
+  *   },
+  *   "error": null
+  * }
+  * ```
+  *
+  * @example Create a signed URL for an asset with transformations
+  * ```js
+  * const { data } = await supabase
+  *   .storage
+  *   .from('avatars')
+  *   .createSignedUrl('folder/avatar1.png', 60, {
+  *     transform: {
+  *       width: 100,
+  *       height: 100,
+  *     }
+  *   })
+  * ```
+  *
+  * @example Create a signed URL which triggers the download of the asset
+  * ```js
+  * const { data } = await supabase
+  *   .storage
+  *   .from('avatars')
+  *   .createSignedUrl('folder/avatar1.png', 60, {
+  *     download: true,
+  *   })
+  * ```
+  *
+  * @remarks
+  * - RLS policy permissions required:
+  *   - `buckets` table permissions: none
+  *   - `objects` table permissions: `select`
+  * - Refer to the [Storage guide](/docs/guides/storage/security/access-control) on how access control works
+  */
+  async createSignedUrl(t, e, r) {
+    var s = this;
+    return s.handleOperation(async () => {
+      let n = s._getFinalPath(t);
+      const i = typeof r?.transform == "object" && r.transform !== null && Object.keys(r.transform).length > 0;
+      let a = await K(s.fetch, `${s.url}/object/sign/${n}`, k({ expiresIn: e }, i ? { transform: r.transform } : {}), { headers: s.headers });
+      const o = new URLSearchParams();
+      r?.download && o.set("download", r.download === !0 ? "" : r.download), r?.cacheNonce != null && o.set("cacheNonce", String(r.cacheNonce));
+      const l = o.toString();
+      return { signedUrl: encodeURI(`${s.url}${a.signedURL}${l ? `&${l}` : ""}`) };
+    });
+  }
+  /**
+  * Creates multiple signed URLs. Use a signed URL to share a file for a fixed amount of time.
+  *
+  * @category Storage
+  * @subcategory File Buckets
+  * @param paths The file paths to be downloaded, including the current file names. For example `['folder/image.png', 'folder2/image2.png']`.
+  * @param expiresIn The number of seconds until the signed URLs expire. For example, `60` for URLs which are valid for one minute.
+  * @param options.download triggers the file as a download if set to true. Set this parameter as the name of the file if you want to trigger the download with a different filename.
+  * @param options.cacheNonce Append a cache nonce parameter to the URL to invalidate the cache.
+  * @returns Promise with response containing array of objects with signedUrl, path, and error or error
+  *
+  * @example Create Signed URLs
+  * ```js
+  * const { data, error } = await supabase
+  *   .storage
+  *   .from('avatars')
+  *   .createSignedUrls(['folder/avatar1.png', 'folder/avatar2.png'], 60)
+  * ```
+  *
+  * Response:
+  * ```json
+  * {
+  *   "data": [
+  *     {
+  *       "error": null,
+  *       "path": "folder/avatar1.png",
+  *       "signedURL": "/object/sign/avatars/folder/avatar1.png?token=<TOKEN>",
+  *       "signedUrl": "https://example.supabase.co/storage/v1/object/sign/avatars/folder/avatar1.png?token=<TOKEN>"
+  *     },
+  *     {
+  *       "error": null,
+  *       "path": "folder/avatar2.png",
+  *       "signedURL": "/object/sign/avatars/folder/avatar2.png?token=<TOKEN>",
+  *       "signedUrl": "https://example.supabase.co/storage/v1/object/sign/avatars/folder/avatar2.png?token=<TOKEN>"
+  *     }
+  *   ],
+  *   "error": null
+  * }
+  * ```
+  *
+  * @remarks
+  * - RLS policy permissions required:
+  *   - `buckets` table permissions: none
+  *   - `objects` table permissions: `select`
+  * - Refer to the [Storage guide](/docs/guides/storage/security/access-control) on how access control works
+  */
+  async createSignedUrls(t, e, r) {
+    var s = this;
+    return s.handleOperation(async () => {
+      const n = await K(s.fetch, `${s.url}/object/sign/${s.bucketId}`, {
+        expiresIn: e,
+        paths: t
+      }, { headers: s.headers }), i = new URLSearchParams();
+      r?.download && i.set("download", r.download === !0 ? "" : r.download), r?.cacheNonce != null && i.set("cacheNonce", String(r.cacheNonce));
+      const a = i.toString();
+      return n.map((o) => k(k({}, o), {}, { signedUrl: o.signedURL ? encodeURI(`${s.url}${o.signedURL}${a ? `&${a}` : ""}`) : null }));
+    });
+  }
+  /**
+  * Downloads a file from a private bucket. For public buckets, make a request to the URL returned from `getPublicUrl` instead.
+  *
+  * @category Storage
+  * @subcategory File Buckets
+  * @param path The full path and file name of the file to be downloaded. For example `folder/image.png`.
+  * @param options Optional settings: `transform` to transform the asset before serving it to the client, and `cacheNonce` to append a cache nonce parameter to the URL to invalidate the cache.
+  * @param parameters Additional fetch parameters like signal for cancellation. Supports standard fetch options including cache control.
+  * @returns BlobDownloadBuilder instance for downloading the file
+  *
+  * @example Download file
+  * ```js
+  * const { data, error } = await supabase
+  *   .storage
+  *   .from('avatars')
+  *   .download('folder/avatar1.png')
+  * ```
+  *
+  * Response:
+  * ```json
+  * {
+  *   "data": <BLOB>,
+  *   "error": null
+  * }
+  * ```
+  *
+  * @example Download file with transformations
+  * ```js
+  * const { data, error } = await supabase
+  *   .storage
+  *   .from('avatars')
+  *   .download('folder/avatar1.png', {
+  *     transform: {
+  *       width: 100,
+  *       height: 100,
+  *       quality: 80
+  *     }
+  *   })
+  * ```
+  *
+  * @example Download with cache control (useful in Edge Functions)
+  * ```js
+  * const { data, error } = await supabase
+  *   .storage
+  *   .from('avatars')
+  *   .download('folder/avatar1.png', {}, { cache: 'no-store' })
+  * ```
+  *
+  * @example Download with abort signal
+  * ```js
+  * const controller = new AbortController()
+  * setTimeout(() => controller.abort(), 5000)
+  *
+  * const { data, error } = await supabase
+  *   .storage
+  *   .from('avatars')
+  *   .download('folder/avatar1.png', {}, { signal: controller.signal })
+  * ```
+  *
+  * @remarks
+  * - RLS policy permissions required:
+  *   - `buckets` table permissions: none
+  *   - `objects` table permissions: `select`
+  * - Refer to the [Storage guide](/docs/guides/storage/security/access-control) on how access control works
+  */
+  download(t, e, r) {
+    const s = typeof e?.transform == "object" && e.transform !== null && Object.keys(e.transform).length > 0 ? "render/image/authenticated" : "object", n = new URLSearchParams();
+    e?.transform && this.applyTransformOptsToQuery(n, e.transform), e?.cacheNonce != null && n.set("cacheNonce", String(e.cacheNonce));
+    const i = n.toString(), a = this._getFinalPath(t), o = () => Ne(this.fetch, `${this.url}/${s}/${a}${i ? `?${i}` : ""}`, {
+      headers: this.headers,
+      noResolveJson: !0
+    }, r);
+    return new Rn(o, this.shouldThrowOnError);
+  }
+  /**
+  * Retrieves the details of an existing file.
+  *
+  * Returns detailed file metadata including size, content type, and timestamps.
+  * Note: The API returns `last_modified` field, not `updated_at`.
+  *
+  * @category Storage
+  * @subcategory File Buckets
+  * @param path The file path, including the file name. For example `folder/image.png`.
+  * @returns Promise with response containing file metadata or error
+  *
+  * @example Get file info
+  * ```js
+  * const { data, error } = await supabase
+  *   .storage
+  *   .from('avatars')
+  *   .info('folder/avatar1.png')
+  *
+  * if (data) {
+  *   console.log('Last modified:', data.lastModified)
+  *   console.log('Size:', data.size)
+  * }
+  * ```
+  */
+  async info(t) {
+    var e = this;
+    const r = e._getFinalPath(t);
+    return e.handleOperation(async () => Ot(await Ne(e.fetch, `${e.url}/object/info/${r}`, { headers: e.headers })));
+  }
+  /**
+  * Checks the existence of a file.
+  *
+  * @category Storage
+  * @subcategory File Buckets
+  * @param path The file path, including the file name. For example `folder/image.png`.
+  * @returns Promise with response containing boolean indicating file existence or error
+  *
+  * @example Check file existence
+  * ```js
+  * const { data, error } = await supabase
+  *   .storage
+  *   .from('avatars')
+  *   .exists('folder/avatar1.png')
+  * ```
+  */
+  async exists(t) {
+    var e = this;
+    const r = e._getFinalPath(t);
+    try {
+      return await Tn(e.fetch, `${e.url}/object/${r}`, { headers: e.headers }), {
+        data: !0,
+        error: null
+      };
+    } catch (n) {
+      if (e.shouldThrowOnError) throw n;
+      if (ut(n)) {
+        var s;
+        const i = n instanceof Rt ? n.status : n instanceof Lr ? (s = n.originalError) === null || s === void 0 ? void 0 : s.status : void 0;
+        if (i !== void 0 && [400, 404].includes(i)) return {
+          data: !1,
+          error: n
+        };
+      }
+      throw n;
+    }
+  }
+  /**
+  * A simple convenience function to get the URL for an asset in a public bucket. If you do not want to use this function, you can construct the public URL by concatenating the bucket URL with the path to the asset.
+  * This function does not verify if the bucket is public. If a public URL is created for a bucket which is not public, you will not be able to download the asset.
+  *
+  * @category Storage
+  * @subcategory File Buckets
+  * @param path The path and name of the file to generate the public URL for. For example `folder/image.png`.
+  * @param options.download Triggers the file as a download if set to true. Set this parameter as the name of the file if you want to trigger the download with a different filename.
+  * @param options.transform Transform the asset before serving it to the client.
+  * @param options.cacheNonce Append a cache nonce parameter to the URL to invalidate the cache.
+  * @returns Object with public URL
+  *
+  * @example Returns the URL for an asset in a public bucket
+  * ```js
+  * const { data } = supabase
+  *   .storage
+  *   .from('public-bucket')
+  *   .getPublicUrl('folder/avatar1.png')
+  * ```
+  *
+  * Response:
+  * ```json
+  * {
+  *   "data": {
+  *     "publicUrl": "https://example.supabase.co/storage/v1/object/public/public-bucket/folder/avatar1.png"
+  *   }
+  * }
+  * ```
+  *
+  * @example Returns the URL for an asset in a public bucket with transformations
+  * ```js
+  * const { data } = supabase
+  *   .storage
+  *   .from('public-bucket')
+  *   .getPublicUrl('folder/avatar1.png', {
+  *     transform: {
+  *       width: 100,
+  *       height: 100,
+  *     }
+  *   })
+  * ```
+  *
+  * @example Returns the URL which triggers the download of an asset in a public bucket
+  * ```js
+  * const { data } = supabase
+  *   .storage
+  *   .from('public-bucket')
+  *   .getPublicUrl('folder/avatar1.png', {
+  *     download: true,
+  *   })
+  * ```
+  *
+  * @remarks
+  * - The bucket needs to be set to public, either via [updateBucket()](/docs/reference/javascript/storage-updatebucket) or by going to Storage on [supabase.com/dashboard](https://supabase.com/dashboard), clicking the overflow menu on a bucket and choosing "Make public"
+  * - RLS policy permissions required:
+  *   - `buckets` table permissions: none
+  *   - `objects` table permissions: none
+  * - Refer to the [Storage guide](/docs/guides/storage/security/access-control) on how access control works
+  */
+  getPublicUrl(t, e) {
+    const r = this._getFinalPath(t), s = new URLSearchParams();
+    e?.download && s.set("download", e.download === !0 ? "" : e.download), e?.transform && this.applyTransformOptsToQuery(s, e.transform), e?.cacheNonce != null && s.set("cacheNonce", String(e.cacheNonce));
+    const n = s.toString(), i = typeof e?.transform == "object" && e.transform !== null && Object.keys(e.transform).length > 0 ? "render/image" : "object";
+    return { data: { publicUrl: encodeURI(`${this.url}/${i}/public/${r}`) + (n ? `?${n}` : "") } };
+  }
+  /**
+  * Deletes files within the same bucket
+  *
+  * Returns an array of FileObject entries for the deleted files. Note that deprecated
+  * fields like `bucket_id` may or may not be present in the response - do not rely on them.
+  *
+  * @category Storage
+  * @subcategory File Buckets
+  * @param paths An array of files to delete, including the path and file name. For example [`'folder/image.png'`].
+  * @returns Promise with response containing array of deleted file objects or error
+  *
+  * @example Delete file
+  * ```js
+  * const { data, error } = await supabase
+  *   .storage
+  *   .from('avatars')
+  *   .remove(['folder/avatar1.png'])
+  * ```
+  *
+  * Response:
+  * ```json
+  * {
+  *   "data": [],
+  *   "error": null
+  * }
+  * ```
+  *
+  * @remarks
+  * - RLS policy permissions required:
+  *   - `buckets` table permissions: none
+  *   - `objects` table permissions: `delete` and `select`
+  * - Refer to the [Storage guide](/docs/guides/storage/security/access-control) on how access control works
+  */
+  async remove(t) {
+    var e = this;
+    return e.handleOperation(async () => await Ue(e.fetch, `${e.url}/object/${e.bucketId}`, { prefixes: t }, { headers: e.headers }));
+  }
+  /**
+  * Purges the CDN cache for a single object in this bucket.
+  *
+  * Maps to `DELETE /cdn/{bucket}/{path}` on the Storage API. The server
+  * issues a CDN invalidation for the object and returns `{ message: 'success' }`.
+  *
+  * **Requires the `service_role` key.** The underlying endpoint enforces
+  * `service_role` JWT â€” calls made with the anon key or a user JWT will be
+  * rejected by the server.
+  *
+  * **Hosted CDN feature.** On self-hosted Supabase, the Storage service must
+  * have `CDN_PURGE_ENDPOINT_URL` configured and the `purgeCache` tenant
+  * feature enabled, otherwise the server returns an error.
+  *
+  * Operates on a single object path. There is no wildcard or recursion: pass
+  * the exact path of the object you want invalidated.
+  *
+  * @category Storage
+  * @subcategory File Buckets
+  * @param path The path (relative to the bucket) of the object to purge, e.g. `folder/avatar.png`.
+  * @param options Optional purge cache options.
+  * @param options.transformations If true, purges only transformations (resized/formatted variants), leaving the original cached file intact.
+  * @param parameters Optional fetch parameters such as an `AbortController` signal.
+  * @returns Promise with `{ data: { message }, error: null }` on success or `{ data: null, error }` on failure.
+  *
+  * @example Purge a single cached object
+  * ```js
+  * const { data, error } = await supabase
+  *   .storage
+  *   .from('avatars')
+  *   .purgeCache('folder/avatar1.png')
+  * ```
+  *
+  * @example Purge only transformations for a single object
+  * ```js
+  * const { data, error } = await supabase
+  *   .storage
+  *   .from('avatars')
+  *   .purgeCache('folder/avatar1.png', { transformations: true })
+  * ```
+  */
+  async purgeCache(t, e, r) {
+    var s = this;
+    return s.handleOperation(async () => {
+      const n = Dr(s._getFinalPath(t)), i = new URLSearchParams();
+      e?.transformations && i.set("transformations", "true");
+      const a = i.toString();
+      return await Ue(s.fetch, `${s.url}/cdn/${n}${a ? `?${a}` : ""}`, {}, { headers: s.headers }, r);
+    });
+  }
+  /**
+  * Get file metadata
+  * @param id the file id to retrieve metadata
+  */
+  /**
+  * Update file metadata
+  * @param id the file id to update metadata
+  * @param meta the new file metadata
+  */
+  /**
+  * Lists all the files and folders within a path of the bucket.
+  *
+  * **Important:** For folder entries, fields like `id`, `updated_at`, `created_at`,
+  * `last_accessed_at`, and `metadata` will be `null`. Only files have these fields populated.
+  * Additionally, deprecated fields like `bucket_id`, `owner`, and `buckets` are NOT returned
+  * by this method.
+  *
+  * @category Storage
+  * @subcategory File Buckets
+  * @param path The folder path.
+  * @param options Search options including limit (defaults to 100), offset, sortBy, and search
+  * @param parameters Optional fetch parameters including signal for cancellation
+  * @returns Promise with response containing array of files/folders or error
+  *
+  * @example List files in a bucket
+  * ```js
+  * const { data, error } = await supabase
+  *   .storage
+  *   .from('avatars')
+  *   .list('folder', {
+  *     limit: 100,
+  *     offset: 0,
+  *     sortBy: { column: 'name', order: 'asc' },
+  *   })
+  *
+  * // Handle files vs folders
+  * data?.forEach(item => {
+  *   if (item.id !== null) {
+  *     // It's a file
+  *     console.log('File:', item.name, 'Size:', item.metadata?.size)
+  *   } else {
+  *     // It's a folder
+  *     console.log('Folder:', item.name)
+  *   }
+  * })
+  * ```
+  *
+  * Response:
+  * ```json
+  * {
+  *   "data": [
+  *     {
+  *       "name": "avatar1.png",
+  *       "id": "e668cf7f-821b-4a2f-9dce-7dfa5dd1cfd2",
+  *       "updated_at": "2024-05-22T23:06:05.580Z",
+  *       "created_at": "2024-05-22T23:04:34.443Z",
+  *       "last_accessed_at": "2024-05-22T23:04:34.443Z",
+  *       "metadata": {
+  *         "eTag": "\"c5e8c553235d9af30ef4f6e280790b92\"",
+  *         "size": 32175,
+  *         "mimetype": "image/png",
+  *         "cacheControl": "max-age=3600",
+  *         "lastModified": "2024-05-22T23:06:05.574Z",
+  *         "contentLength": 32175,
+  *         "httpStatusCode": 200
+  *       }
+  *     }
+  *   ],
+  *   "error": null
+  * }
+  * ```
+  *
+  * @example Search files in a bucket
+  * ```js
+  * const { data, error } = await supabase
+  *   .storage
+  *   .from('avatars')
+  *   .list('folder', {
+  *     limit: 100,
+  *     offset: 0,
+  *     sortBy: { column: 'name', order: 'asc' },
+  *     search: 'jon'
+  *   })
+  * ```
+  *
+  * @remarks
+  * - RLS policy permissions required:
+  *   - `buckets` table permissions: none
+  *   - `objects` table permissions: `select`
+  * - Refer to the [Storage guide](/docs/guides/storage/security/access-control) on how access control works
+  */
+  async list(t, e, r) {
+    var s = this;
+    return s.handleOperation(async () => {
+      const n = e?.sortBy ? k(k({}, pt.sortBy), e.sortBy) : pt.sortBy, i = k(k(k({}, pt), e), {}, {
+        sortBy: n,
+        prefix: t || ""
+      });
+      return await K(s.fetch, `${s.url}/object/list/${s.bucketId}`, i, { headers: s.headers }, r);
+    });
+  }
+  /**
+  * Lists all the files and folders within a bucket using the V2 API with pagination support.
+  *
+  * **Important:** Folder entries in the `folders` array only contain `name` and optionally `key` â€”
+  * they have no `id`, timestamps, or `metadata` fields. Full file metadata is only available
+  * on entries in the `objects` array.
+  *
+  * @experimental this method signature might change in the future
+  *
+  * @category Storage
+  * @subcategory File Buckets
+  * @param options Search options including prefix, cursor for pagination, limit, with_delimiter
+  * @param parameters Optional fetch parameters including signal for cancellation
+  * @returns Promise with response containing folders/objects arrays with pagination info or error
+  *
+  * @example List files with pagination
+  * ```js
+  * const { data, error } = await supabase
+  *   .storage
+  *   .from('avatars')
+  *   .listV2({
+  *     prefix: 'folder/',
+  *     limit: 100,
+  *   })
+  *
+  * // Handle pagination
+  * if (data?.hasNext) {
+  *   const nextPage = await supabase
+  *     .storage
+  *     .from('avatars')
+  *     .listV2({
+  *       prefix: 'folder/',
+  *       cursor: data.nextCursor,
+  *     })
+  * }
+  *
+  * // Handle files vs folders
+  * data?.objects.forEach(file => {
+  *   if (file.id !== null) {
+  *     console.log('File:', file.name, 'Size:', file.metadata?.size)
+  *   }
+  * })
+  * data?.folders.forEach(folder => {
+  *   console.log('Folder:', folder.name)
+  * })
+  * ```
+  */
+  async listV2(t, e) {
+    var r = this;
+    return r.handleOperation(async () => {
+      const s = k({}, t);
+      return await K(r.fetch, `${r.url}/object/list-v2/${r.bucketId}`, s, { headers: r.headers }, e);
+    });
+  }
+  encodeMetadata(t) {
+    return JSON.stringify(t);
+  }
+  toBase64(t) {
+    return typeof Buffer < "u" ? Buffer.from(t).toString("base64") : btoa(t);
+  }
+  _getFinalPath(t) {
+    return `${this.bucketId}/${t.replace(/^\/+/, "")}`;
+  }
+  _removeEmptyFolders(t) {
+    return t.replace(/^\/|\/$/g, "").replace(/\/+/g, "/");
+  }
+  /** Modifies the `query`, appending values the from `transform` */
+  applyTransformOptsToQuery(t, e) {
+    return e.width && t.set("width", e.width.toString()), e.height && t.set("height", e.height.toString()), e.resize && t.set("resize", e.resize), e.format && t.set("format", e.format), e.quality && t.set("quality", e.quality.toString()), t;
+  }
+};
+const Cn = "2.110.8", He = { "X-Client-Info": `storage-js/${Cn}` };
+var Pn = class extends be {
+  constructor(t, e = {}, r, s) {
+    const n = new URL(t);
+    s?.useNewHostname && /supabase\.(co|in|red)$/.test(n.hostname) && !n.hostname.includes("storage.supabase.") && (n.hostname = n.hostname.replace("supabase.", "storage.supabase."));
+    const i = n.href.replace(/\/$/, ""), a = k(k({}, He), e);
+    super(i, a, r, "storage");
+  }
+  /**
+  * Retrieves the details of all Storage buckets within an existing project.
+  *
+  * @category Storage
+  * @subcategory File Buckets
+  * @param options Query parameters for listing buckets
+  * @param options.limit Maximum number of buckets to return
+  * @param options.offset Number of buckets to skip
+  * @param options.sortColumn Column to sort by ('id', 'name', 'created_at', 'updated_at')
+  * @param options.sortOrder Sort order ('asc' or 'desc')
+  * @param options.search Search term to filter bucket names
+  * @returns Promise with response containing array of buckets or error
+  *
+  * @example List buckets
+  * ```js
+  * const { data, error } = await supabase
+  *   .storage
+  *   .listBuckets()
+  * ```
+  *
+  * @example List buckets with options
+  * ```js
+  * const { data, error } = await supabase
+  *   .storage
+  *   .listBuckets({
+  *     limit: 10,
+  *     offset: 0,
+  *     sortColumn: 'created_at',
+  *     sortOrder: 'desc',
+  *     search: 'prod'
+  *   })
+  * ```
+  *
+  * @remarks
+  * - RLS policy permissions required:
+  *   - `buckets` table permissions: `select`
+  *   - `objects` table permissions: none
+  * - Refer to the [Storage guide](/docs/guides/storage/security/access-control) on how access control works
+  */
+  async listBuckets(t) {
+    var e = this;
+    return e.handleOperation(async () => {
+      const r = e.listBucketOptionsToQueryString(t);
+      return await Ne(e.fetch, `${e.url}/bucket${r}`, { headers: e.headers });
+    });
+  }
+  /**
+  * Retrieves the details of an existing Storage bucket.
+  *
+  * @category Storage
+  * @subcategory File Buckets
+  * @param id The unique identifier of the bucket you would like to retrieve.
+  * @returns Promise with response containing bucket details or error
+  *
+  * @example Get bucket
+  * ```js
+  * const { data, error } = await supabase
+  *   .storage
+  *   .getBucket('avatars')
+  * ```
+  *
+  * Response:
+  * ```json
+  * {
+  *   "data": {
+  *     "id": "avatars",
+  *     "name": "avatars",
+  *     "owner": "",
+  *     "public": false,
+  *     "file_size_limit": 1024,
+  *     "allowed_mime_types": [
+  *       "image/png"
+  *     ],
+  *     "created_at": "2024-05-22T22:26:05.100Z",
+  *     "updated_at": "2024-05-22T22:26:05.100Z"
+  *   },
+  *   "error": null
+  * }
+  * ```
+  *
+  * @remarks
+  * - RLS policy permissions required:
+  *   - `buckets` table permissions: `select`
+  *   - `objects` table permissions: none
+  * - Refer to the [Storage guide](/docs/guides/storage/security/access-control) on how access control works
+  */
+  async getBucket(t) {
+    var e = this;
+    return e.handleOperation(async () => await Ne(e.fetch, `${e.url}/bucket/${t}`, { headers: e.headers }));
+  }
+  /**
+  * Creates a new Storage bucket
+  *
+  * @category Storage
+  * @subcategory File Buckets
+  * @param id A unique identifier for the bucket you are creating.
+  * @param options.public The visibility of the bucket. Public buckets don't require an authorization token to download objects, but still require a valid token for all other operations. By default, buckets are private.
+  * @param options.fileSizeLimit specifies the max file size in bytes that can be uploaded to this bucket.
+  * The global file size limit takes precedence over this value.
+  * The default value is null, which doesn't set a per bucket file size limit.
+  * @param options.allowedMimeTypes specifies the allowed mime types that this bucket can accept during upload.
+  * The default value is null, which allows files with all mime types to be uploaded.
+  * Each mime type specified can be a wildcard, e.g. image/*, or a specific mime type, e.g. image/png.
+  * @param options.type (private-beta) specifies the bucket type. see `BucketType` for more details.
+  *   - default bucket type is `STANDARD`
+  * @returns Promise with response containing newly created bucket name or error
+  *
+  * @example Create bucket
+  * ```js
+  * const { data, error } = await supabase
+  *   .storage
+  *   .createBucket('avatars', {
+  *     public: false,
+  *     allowedMimeTypes: ['image/png'],
+  *     fileSizeLimit: 1024
+  *   })
+  * ```
+  *
+  * Response:
+  * ```json
+  * {
+  *   "data": {
+  *     "name": "avatars"
+  *   },
+  *   "error": null
+  * }
+  * ```
+  *
+  * @remarks
+  * - RLS policy permissions required:
+  *   - `buckets` table permissions: `insert`
+  *   - `objects` table permissions: none
+  * - Refer to the [Storage guide](/docs/guides/storage/security/access-control) on how access control works
+  */
+  async createBucket(t, e = { public: !1 }) {
+    var r = this;
+    return r.handleOperation(async () => await K(r.fetch, `${r.url}/bucket`, {
+      id: t,
+      name: t,
+      type: e.type,
+      public: e.public,
+      file_size_limit: e.fileSizeLimit,
+      allowed_mime_types: e.allowedMimeTypes
+    }, { headers: r.headers }));
+  }
+  /**
+  * Updates a Storage bucket
+  *
+  * @category Storage
+  * @subcategory File Buckets
+  * @param id A unique identifier for the bucket you are updating.
+  * @param options.public The visibility of the bucket. Public buckets don't require an authorization token to download objects, but still require a valid token for all other operations.
+  * @param options.fileSizeLimit specifies the max file size in bytes that can be uploaded to this bucket.
+  * The global file size limit takes precedence over this value.
+  * The default value is null, which doesn't set a per bucket file size limit.
+  * @param options.allowedMimeTypes specifies the allowed mime types that this bucket can accept during upload.
+  * The default value is null, which allows files with all mime types to be uploaded.
+  * Each mime type specified can be a wildcard, e.g. image/*, or a specific mime type, e.g. image/png.
+  * @returns Promise with response containing success message or error
+  *
+  * @example Update bucket
+  * ```js
+  * const { data, error } = await supabase
+  *   .storage
+  *   .updateBucket('avatars', {
+  *     public: false,
+  *     allowedMimeTypes: ['image/png'],
+  *     fileSizeLimit: 1024
+  *   })
+  * ```
+  *
+  * Response:
+  * ```json
+  * {
+  *   "data": {
+  *     "message": "Successfully updated"
+  *   },
+  *   "error": null
+  * }
+  * ```
+  *
+  * @remarks
+  * - RLS policy permissions required:
+  *   - `buckets` table permissions: `select` and `update`
+  *   - `objects` table permissions: none
+  * - Refer to the [Storage guide](/docs/guides/storage/security/access-control) on how access control works
+  */
+  async updateBucket(t, e) {
+    var r = this;
+    return r.handleOperation(async () => await Ct(r.fetch, `${r.url}/bucket/${t}`, {
+      id: t,
+      name: t,
+      public: e.public,
+      file_size_limit: e.fileSizeLimit,
+      allowed_mime_types: e.allowedMimeTypes
+    }, { headers: r.headers }));
+  }
+  /**
+  * Removes all objects inside a single bucket.
+  *
+  * @category Storage
+  * @subcategory File Buckets
+  * @param id The unique identifier of the bucket you would like to empty.
+  * @returns Promise with success message or error
+  *
+  * @example Empty bucket
+  * ```js
+  * const { data, error } = await supabase
+  *   .storage
+  *   .emptyBucket('avatars')
+  * ```
+  *
+  * Response:
+  * ```json
+  * {
+  *   "data": {
+  *     "message": "Successfully emptied"
+  *   },
+  *   "error": null
+  * }
+  * ```
+  *
+  * @remarks
+  * - RLS policy permissions required:
+  *   - `buckets` table permissions: `select`
+  *   - `objects` table permissions: `select` and `delete`
+  * - Refer to the [Storage guide](/docs/guides/storage/security/access-control) on how access control works
+  */
+  async emptyBucket(t) {
+    var e = this;
+    return e.handleOperation(async () => await K(e.fetch, `${e.url}/bucket/${t}/empty`, {}, { headers: e.headers }));
+  }
+  /**
+  * Deletes an existing bucket. A bucket can't be deleted with existing objects inside it.
+  * You must first `empty()` the bucket.
+  *
+  * @category Storage
+  * @subcategory File Buckets
+  * @param id The unique identifier of the bucket you would like to delete.
+  * @returns Promise with success message or error
+  *
+  * @example Delete bucket
+  * ```js
+  * const { data, error } = await supabase
+  *   .storage
+  *   .deleteBucket('avatars')
+  * ```
+  *
+  * Response:
+  * ```json
+  * {
+  *   "data": {
+  *     "message": "Successfully deleted"
+  *   },
+  *   "error": null
+  * }
+  * ```
+  *
+  * @remarks
+  * - RLS policy permissions required:
+  *   - `buckets` table permissions: `select` and `delete`
+  *   - `objects` table permissions: none
+  * - Refer to the [Storage guide](/docs/guides/storage/security/access-control) on how access control works
+  */
+  async deleteBucket(t) {
+    var e = this;
+    return e.handleOperation(async () => await Ue(e.fetch, `${e.url}/bucket/${t}`, {}, { headers: e.headers }));
+  }
+  /**
+  * Purges the CDN cache for an entire bucket.
+  *
+  * Maps to `DELETE /cdn/{bucket}` on the Storage API. The server
+  * issues a CDN invalidation for the bucket and returns `{ message: 'success' }`.
+  *
+  * **Requires the `service_role` key.** The underlying endpoint enforces
+  * `service_role` JWT â€” calls made with the anon key or a user JWT will be
+  * rejected by the server.
+  *
+  * **Hosted CDN feature.** On self-hosted Supabase, the Storage service must
+  * have `CDN_PURGE_ENDPOINT_URL` configured and the `purgeCache` tenant
+  * feature enabled, otherwise the server returns an error.
+  *
+  * @category Storage
+  * @subcategory File Buckets
+  * @param id The unique identifier of the bucket you would like to purge from cache.
+  * @param options Optional purge cache options.
+  * @param options.transformations If true, purges only transformations (resized/formatted variants), leaving original cached files intact.
+  * @param parameters Optional fetch parameters such as an `AbortController` signal.
+  * @returns Promise with `{ data: { message }, error: null }` on success or `{ data: null, error }` on failure.
+  *
+  * @example Purge cache for an entire bucket
+  * ```js
+  * const { data, error } = await supabase
+  *   .storage
+  *   .purgeBucketCache('avatars')
+  * ```
+  *
+  * @example Purge only transformations for an entire bucket
+  * ```js
+  * const { data, error } = await supabase
+  *   .storage
+  *   .purgeBucketCache('avatars', { transformations: true })
+  * ```
+  */
+  async purgeBucketCache(t, e, r) {
+    var s = this;
+    return s.handleOperation(async () => {
+      const n = new URLSearchParams();
+      e?.transformations && n.set("transformations", "true");
+      const i = n.toString();
+      return await Ue(s.fetch, `${s.url}/cdn/${Dr(t)}${i ? `?${i}` : ""}`, {}, { headers: s.headers }, r);
+    });
+  }
+  listBucketOptionsToQueryString(t) {
+    const e = {};
+    return t && ("limit" in t && (e.limit = String(t.limit)), "offset" in t && (e.offset = String(t.offset)), t.search && (e.search = t.search), t.sortColumn && (e.sortColumn = t.sortColumn), t.sortOrder && (e.sortOrder = t.sortOrder)), Object.keys(e).length > 0 ? "?" + new URLSearchParams(e).toString() : "";
+  }
+}, In = class extends be {
+  /**
+  * @alpha
+  *
+  * Creates a new StorageAnalyticsClient instance
+  *
+  * **Public alpha:** This API is part of a public alpha release and may not be available to your account type.
+  *
+  * @category Storage
+  * @subcategory Analytics Buckets
+  * @param url - The base URL for the storage API
+  * @param headers - HTTP headers to include in requests
+  * @param fetch - Optional custom fetch implementation
+  *
+  * @example Using supabase-js (recommended)
+  * ```typescript
+  * import { createClient } from '@supabase/supabase-js'
+  *
+  * const supabase = createClient('https://xyzcompany.supabase.co', 'your-publishable-key')
+  * const { data, error } = await supabase.storage.analytics.listBuckets()
+  * ```
+  *
+  * @example Standalone import for bundle-sensitive environments
+  * ```typescript
+  * import { StorageAnalyticsClient } from '@supabase/storage-js'
+  *
+  * const client = new StorageAnalyticsClient(url, headers)
+  * ```
+  */
+  constructor(t, e = {}, r) {
+    const s = t.replace(/\/$/, ""), n = k(k({}, He), e);
+    super(s, n, r, "storage");
+  }
+  /**
+  * @alpha
+  *
+  * Creates a new analytics bucket using Iceberg tables
+  * Analytics buckets are optimized for analytical queries and data processing
+  *
+  * **Public alpha:** This API is part of a public alpha release and may not be available to your account type.
+  *
+  * @category Storage
+  * @subcategory Analytics Buckets
+  * @param name A unique name for the bucket you are creating
+  * @returns Promise with response containing newly created analytics bucket or error
+  *
+  * @example Create analytics bucket
+  * ```js
+  * const { data, error } = await supabase
+  *   .storage
+  *   .analytics
+  *   .createBucket('analytics-data')
+  * ```
+  *
+  * Response:
+  * ```json
+  * {
+  *   "data": {
+  *     "name": "analytics-data",
+  *     "type": "ANALYTICS",
+  *     "format": "iceberg",
+  *     "created_at": "2024-05-22T22:26:05.100Z",
+  *     "updated_at": "2024-05-22T22:26:05.100Z"
+  *   },
+  *   "error": null
+  * }
+  * ```
+  *
+  * @remarks
+  * - Creates a new analytics bucket using Iceberg tables
+  * - Analytics buckets are optimized for analytical queries and data processing
+  */
+  async createBucket(t) {
+    var e = this;
+    return e.handleOperation(async () => await K(e.fetch, `${e.url}/bucket`, { name: t }, { headers: e.headers }));
+  }
+  /**
+  * @alpha
+  *
+  * Retrieves the details of all Analytics Storage buckets within an existing project
+  * Only returns buckets of type 'ANALYTICS'
+  *
+  * **Public alpha:** This API is part of a public alpha release and may not be available to your account type.
+  *
+  * @category Storage
+  * @subcategory Analytics Buckets
+  * @param options Query parameters for listing buckets
+  * @param options.limit Maximum number of buckets to return
+  * @param options.offset Number of buckets to skip
+  * @param options.sortColumn Column to sort by ('name', 'created_at', 'updated_at')
+  * @param options.sortOrder Sort order ('asc' or 'desc')
+  * @param options.search Search term to filter bucket names
+  * @returns Promise with response containing array of analytics buckets or error
+  *
+  * @example List analytics buckets
+  * ```js
+  * const { data, error } = await supabase
+  *   .storage
+  *   .analytics
+  *   .listBuckets({
+  *     limit: 10,
+  *     offset: 0,
+  *     sortColumn: 'created_at',
+  *     sortOrder: 'desc'
+  *   })
+  * ```
+  *
+  * Response:
+  * ```json
+  * {
+  *   "data": [
+  *     {
+  *       "name": "analytics-data",
+  *       "type": "ANALYTICS",
+  *       "format": "iceberg",
+  *       "created_at": "2024-05-22T22:26:05.100Z",
+  *       "updated_at": "2024-05-22T22:26:05.100Z"
+  *     }
+  *   ],
+  *   "error": null
+  * }
+  * ```
+  *
+  * @remarks
+  * - Retrieves the details of all Analytics Storage buckets within an existing project
+  * - Only returns buckets of type 'ANALYTICS'
+  */
+  async listBuckets(t) {
+    var e = this;
+    return e.handleOperation(async () => {
+      const r = new URLSearchParams();
+      t?.limit !== void 0 && r.set("limit", t.limit.toString()), t?.offset !== void 0 && r.set("offset", t.offset.toString()), t?.sortColumn && r.set("sortColumn", t.sortColumn), t?.sortOrder && r.set("sortOrder", t.sortOrder), t?.search && r.set("search", t.search);
+      const s = r.toString(), n = s ? `${e.url}/bucket?${s}` : `${e.url}/bucket`;
+      return await Ne(e.fetch, n, { headers: e.headers });
+    });
+  }
+  /**
+  * @alpha
+  *
+  * Deletes an existing analytics bucket
+  * A bucket can't be deleted with existing objects inside it
+  * You must first empty the bucket before deletion
+  *
+  * **Public alpha:** This API is part of a public alpha release and may not be available to your account type.
+  *
+  * @category Storage
+  * @subcategory Analytics Buckets
+  * @param bucketName The unique identifier of the bucket you would like to delete
+  * @returns Promise with response containing success message or error
+  *
+  * @example Delete analytics bucket
+  * ```js
+  * const { data, error } = await supabase
+  *   .storage
+  *   .analytics
+  *   .deleteBucket('analytics-data')
+  * ```
+  *
+  * Response:
+  * ```json
+  * {
+  *   "data": {
+  *     "message": "Successfully deleted"
+  *   },
+  *   "error": null
+  * }
+  * ```
+  *
+  * @remarks
+  * - Deletes an analytics bucket
+  */
+  async deleteBucket(t) {
+    var e = this;
+    return e.handleOperation(async () => await Ue(e.fetch, `${e.url}/bucket/${t}`, {}, { headers: e.headers }));
+  }
+  /**
+  * @alpha
+  *
+  * Get an Iceberg REST Catalog client configured for a specific analytics bucket
+  * Use this to perform advanced table and namespace operations within the bucket
+  * The returned client provides full access to the Apache Iceberg REST Catalog API
+  * with the Supabase `{ data, error }` pattern for consistent error handling on all operations.
+  *
+  * **Public alpha:** This API is part of a public alpha release and may not be available to your account type.
+  *
+  * @category Storage
+  * @subcategory Analytics Buckets
+  * @param bucketName - The name of the analytics bucket (warehouse) to connect to
+  * @returns The wrapped Iceberg catalog client
+  * @throws {StorageError} If the bucket name is invalid
+  *
+  * @example Get catalog and create table
+  * ```js
+  * // First, create an analytics bucket
+  * const { data: bucket, error: bucketError } = await supabase
+  *   .storage
+  *   .analytics
+  *   .createBucket('analytics-data')
+  *
+  * // Get the Iceberg catalog for that bucket
+  * const catalog = supabase.storage.analytics.from('analytics-data')
+  *
+  * // Create a namespace
+  * const { error: nsError } = await catalog.createNamespace({ namespace: ['default'] })
+  *
+  * // Create a table with schema
+  * const { data: tableMetadata, error: tableError } = await catalog.createTable(
+  *   { namespace: ['default'] },
+  *   {
+  *     name: 'events',
+  *     schema: {
+  *       type: 'struct',
+  *       fields: [
+  *         { id: 1, name: 'id', type: 'long', required: true },
+  *         { id: 2, name: 'timestamp', type: 'timestamp', required: true },
+  *         { id: 3, name: 'user_id', type: 'string', required: false }
+  *       ],
+  *       'schema-id': 0,
+  *       'identifier-field-ids': [1]
+  *     },
+  *     'partition-spec': {
+  *       'spec-id': 0,
+  *       fields: []
+  *     },
+  *     'write-order': {
+  *       'order-id': 0,
+  *       fields: []
+  *     },
+  *     properties: {
+  *       'write.format.default': 'parquet'
+  *     }
+  *   }
+  * )
+  * ```
+  *
+  * @example List tables in namespace
+  * ```js
+  * const catalog = supabase.storage.analytics.from('analytics-data')
+  *
+  * // List all tables in the default namespace
+  * const { data: tables, error: listError } = await catalog.listTables({ namespace: ['default'] })
+  * if (listError) {
+  *   if (listError.isNotFound()) {
+  *     console.log('Namespace not found')
+  *   }
+  *   return
+  * }
+  * console.log(tables) // [{ namespace: ['default'], name: 'events' }]
+  * ```
+  *
+  * @example Working with namespaces
+  * ```js
+  * const catalog = supabase.storage.analytics.from('analytics-data')
+  *
+  * // List all namespaces
+  * const { data: namespaces } = await catalog.listNamespaces()
+  *
+  * // Create namespace with properties
+  * await catalog.createNamespace(
+  *   { namespace: ['production'] },
+  *   { properties: { owner: 'data-team', env: 'prod' } }
+  * )
+  * ```
+  *
+  * @example Cleanup operations
+  * ```js
+  * const catalog = supabase.storage.analytics.from('analytics-data')
+  *
+  * // Drop table with purge option (removes all data)
+  * const { error: dropError } = await catalog.dropTable(
+  *   { namespace: ['default'], name: 'events' },
+  *   { purge: true }
+  * )
+  *
+  * if (dropError?.isNotFound()) {
+  *   console.log('Table does not exist')
+  * }
+  *
+  * // Drop namespace (must be empty)
+  * await catalog.dropNamespace({ namespace: ['default'] })
+  * ```
+  *
+  * @remarks
+  * This method provides a bridge between Supabase's bucket management and the standard
+  * Apache Iceberg REST Catalog API. The bucket name maps to the Iceberg warehouse parameter.
+  * All authentication and configuration is handled automatically using your Supabase credentials.
+  *
+  * **Error Handling**: Invalid bucket names throw immediately. All catalog
+  * operations return `{ data, error }` where errors are `IcebergError` instances from iceberg-js.
+  * Use helper methods like `error.isNotFound()` or check `error.status` for specific error handling.
+  * Use `.throwOnError()` on the analytics client if you prefer exceptions for catalog operations.
+  *
+  * **Cleanup Operations**: When using `dropTable`, the `purge: true` option permanently
+  * deletes all table data. Without it, the table is marked as deleted but data remains.
+  *
+  * **Library Dependency**: The returned catalog wraps `IcebergRestCatalog` from iceberg-js.
+  * For complete API documentation and advanced usage, refer to the
+  * [iceberg-js documentation](https://supabase.github.io/iceberg-js/).
+  */
+  from(t) {
+    var e = this;
+    if (!bn(t)) throw new ct("Invalid bucket name: File, folder, and bucket names must follow AWS object key naming guidelines and should avoid the use of any other characters.");
+    const r = new pn({
+      baseUrl: this.url,
+      catalogName: t,
+      auth: {
+        type: "custom",
+        getHeaders: async () => e.headers
+      },
+      fetch: this.fetch
+    }), s = this.shouldThrowOnError;
+    return new Proxy(r, { get(n, i) {
+      const a = n[i];
+      return typeof a != "function" ? a : async (...o) => {
+        try {
+          return {
+            data: await a.apply(n, o),
+            error: null
+          };
+        } catch (l) {
+          if (s) throw l;
+          return {
+            data: null,
+            error: l
+          };
+        }
+      };
+    } });
+  }
+}, $n = class extends be {
+  /** Creates a new VectorIndexApi instance */
+  constructor(t, e = {}, r) {
+    const s = t.replace(/\/$/, ""), n = k(k({}, He), {}, { "Content-Type": "application/json" }, e);
+    super(s, n, r, "vectors");
+  }
+  /** Creates a new vector index within a bucket */
+  async createIndex(t) {
+    var e = this;
+    return e.handleOperation(async () => await B.post(e.fetch, `${e.url}/CreateIndex`, t, { headers: e.headers }) || {});
+  }
+  /** Retrieves metadata for a specific vector index */
+  async getIndex(t, e) {
+    var r = this;
+    return r.handleOperation(async () => await B.post(r.fetch, `${r.url}/GetIndex`, {
+      vectorBucketName: t,
+      indexName: e
+    }, { headers: r.headers }));
+  }
+  /** Lists vector indexes within a bucket with optional filtering and pagination */
+  async listIndexes(t) {
+    var e = this;
+    return e.handleOperation(async () => await B.post(e.fetch, `${e.url}/ListIndexes`, t, { headers: e.headers }));
+  }
+  /** Deletes a vector index and all its data */
+  async deleteIndex(t, e) {
+    var r = this;
+    return r.handleOperation(async () => await B.post(r.fetch, `${r.url}/DeleteIndex`, {
+      vectorBucketName: t,
+      indexName: e
+    }, { headers: r.headers }) || {});
+  }
+}, jn = class extends be {
+  /** Creates a new VectorDataApi instance */
+  constructor(t, e = {}, r) {
+    const s = t.replace(/\/$/, ""), n = k(k({}, He), {}, { "Content-Type": "application/json" }, e);
+    super(s, n, r, "vectors");
+  }
+  /** Inserts or updates vectors in batch (1-500 per request) */
+  async putVectors(t) {
+    var e = this;
+    if (t.vectors.length < 1 || t.vectors.length > 500) throw new Error("Vector batch size must be between 1 and 500 items");
+    return e.handleOperation(async () => await B.post(e.fetch, `${e.url}/PutVectors`, t, { headers: e.headers }) || {});
+  }
+  /** Retrieves vectors by their keys in batch */
+  async getVectors(t) {
+    var e = this;
+    return e.handleOperation(async () => await B.post(e.fetch, `${e.url}/GetVectors`, t, { headers: e.headers }));
+  }
+  /** Lists vectors in an index with pagination */
+  async listVectors(t) {
+    var e = this;
+    if (t.segmentCount !== void 0) {
+      if (t.segmentCount < 1 || t.segmentCount > 16) throw new Error("segmentCount must be between 1 and 16");
+      if (t.segmentIndex !== void 0 && (t.segmentIndex < 0 || t.segmentIndex >= t.segmentCount))
+        throw new Error(`segmentIndex must be between 0 and ${t.segmentCount - 1}`);
+    }
+    return e.handleOperation(async () => await B.post(e.fetch, `${e.url}/ListVectors`, t, { headers: e.headers }));
+  }
+  /** Queries for similar vectors using approximate nearest neighbor search */
+  async queryVectors(t) {
+    var e = this;
+    return e.handleOperation(async () => await B.post(e.fetch, `${e.url}/QueryVectors`, t, { headers: e.headers }));
+  }
+  /** Deletes vectors by their keys in batch (1-500 per request) */
+  async deleteVectors(t) {
+    var e = this;
+    if (t.keys.length < 1 || t.keys.length > 500) throw new Error("Keys batch size must be between 1 and 500 items");
+    return e.handleOperation(async () => await B.post(e.fetch, `${e.url}/DeleteVectors`, t, { headers: e.headers }) || {});
+  }
+}, xn = class extends be {
+  /** Creates a new VectorBucketApi instance */
+  constructor(t, e = {}, r) {
+    const s = t.replace(/\/$/, ""), n = k(k({}, He), {}, { "Content-Type": "application/json" }, e);
+    super(s, n, r, "vectors");
+  }
+  /** Creates a new vector bucket */
+  async createBucket(t) {
+    var e = this;
+    return e.handleOperation(async () => await B.post(e.fetch, `${e.url}/CreateVectorBucket`, { vectorBucketName: t }, { headers: e.headers }) || {});
+  }
+  /** Retrieves metadata for a specific vector bucket */
+  async getBucket(t) {
+    var e = this;
+    return e.handleOperation(async () => await B.post(e.fetch, `${e.url}/GetVectorBucket`, { vectorBucketName: t }, { headers: e.headers }));
+  }
+  /** Lists vector buckets with optional filtering and pagination */
+  async listBuckets(t = {}) {
+    var e = this;
+    return e.handleOperation(async () => await B.post(e.fetch, `${e.url}/ListVectorBuckets`, t, { headers: e.headers }));
+  }
+  /** Deletes a vector bucket (must be empty first) */
+  async deleteBucket(t) {
+    var e = this;
+    return e.handleOperation(async () => await B.post(e.fetch, `${e.url}/DeleteVectorBucket`, { vectorBucketName: t }, { headers: e.headers }) || {});
+  }
+}, Nn = class extends xn {
+  /**
+  * @alpha
+  *
+  * Creates a StorageVectorsClient that can manage buckets, indexes, and vectors.
+  *
+  * **Public alpha:** This API is part of a public alpha release and may not be available to your account type.
+  *
+  * @category Storage
+  * @subcategory Vector Buckets
+  * @param url - Base URL of the Storage Vectors REST API.
+  * @param options.headers - Optional headers (for example `Authorization`) applied to every request.
+  * @param options.fetch - Optional custom `fetch` implementation for non-browser runtimes.
+  *
+  * @example Using supabase-js (recommended)
+  * ```typescript
+  * import { createClient } from '@supabase/supabase-js'
+  *
+  * const supabase = createClient('https://xyzcompany.supabase.co', 'your-publishable-key')
+  * const bucket = supabase.storage.vectors.from('embeddings-prod')
+  * ```
+  *
+  * @example Standalone import for bundle-sensitive environments
+  * ```typescript
+  * import { StorageVectorsClient } from '@supabase/storage-js'
+  *
+  * const client = new StorageVectorsClient(url, options)
+  * ```
+  */
+  constructor(t, e = {}) {
+    super(t, e.headers || {}, e.fetch);
+  }
+  /**
+  *
+  * @alpha
+  *
+  * Access operations for a specific vector bucket
+  * Returns a scoped client for index and vector operations within the bucket
+  *
+  * **Public alpha:** This API is part of a public alpha release and may not be available to your account type.
+  *
+  * @category Storage
+  * @subcategory Vector Buckets
+  * @param vectorBucketName - Name of the vector bucket
+  * @returns Bucket-scoped client with index and vector operations
+  *
+  * @example Accessing a vector bucket
+  * ```typescript
+  * const bucket = supabase.storage.vectors.from('embeddings-prod')
+  * ```
+  */
+  from(t) {
+    return new Un(this.url, this.headers, t, this.fetch);
+  }
+  /**
+  *
+  * @alpha
+  *
+  * Creates a new vector bucket
+  * Vector buckets are containers for vector indexes and their data
+  *
+  * **Public alpha:** This API is part of a public alpha release and may not be available to your account type.
+  *
+  * @category Storage
+  * @subcategory Vector Buckets
+  * @param vectorBucketName - Unique name for the vector bucket
+  * @returns Promise with empty response on success or error
+  *
+  * @example Creating a vector bucket
+  * ```typescript
+  * const { data, error } = await supabase
+  *   .storage
+  *   .vectors
+  *   .createBucket('embeddings-prod')
+  * ```
+  */
+  async createBucket(t) {
+    var e = () => super.createBucket, r = this;
+    return e().call(r, t);
+  }
+  /**
+  *
+  * @alpha
+  *
+  * Retrieves metadata for a specific vector bucket
+  *
+  * **Public alpha:** This API is part of a public alpha release and may not be available to your account type.
+  *
+  * @category Storage
+  * @subcategory Vector Buckets
+  * @param vectorBucketName - Name of the vector bucket
+  * @returns Promise with bucket metadata or error
+  *
+  * @example Get bucket metadata
+  * ```typescript
+  * const { data, error } = await supabase
+  *   .storage
+  *   .vectors
+  *   .getBucket('embeddings-prod')
+  *
+  * console.log('Bucket created:', data?.vectorBucket.creationTime)
+  * ```
+  */
+  async getBucket(t) {
+    var e = () => super.getBucket, r = this;
+    return e().call(r, t);
+  }
+  /**
+  *
+  * @alpha
+  *
+  * Lists all vector buckets with optional filtering and pagination
+  *
+  * **Public alpha:** This API is part of a public alpha release and may not be available to your account type.
+  *
+  * @category Storage
+  * @subcategory Vector Buckets
+  * @param options - Optional filters (prefix, maxResults, nextToken)
+  * @returns Promise with list of buckets or error
+  *
+  * @example List vector buckets
+  * ```typescript
+  * const { data, error } = await supabase
+  *   .storage
+  *   .vectors
+  *   .listBuckets({ prefix: 'embeddings-' })
+  *
+  * data?.vectorBuckets.forEach(bucket => {
+  *   console.log(bucket.vectorBucketName)
+  * })
+  * ```
+  */
+  async listBuckets(t = {}) {
+    var e = () => super.listBuckets, r = this;
+    return e().call(r, t);
+  }
+  /**
+  *
+  * @alpha
+  *
+  * Deletes a vector bucket (bucket must be empty)
+  * All indexes must be deleted before deleting the bucket
+  *
+  * **Public alpha:** This API is part of a public alpha release and may not be available to your account type.
+  *
+  * @category Storage
+  * @subcategory Vector Buckets
+  * @param vectorBucketName - Name of the vector bucket to delete
+  * @returns Promise with empty response on success or error
+  *
+  * @example Delete a vector bucket
+  * ```typescript
+  * const { data, error } = await supabase
+  *   .storage
+  *   .vectors
+  *   .deleteBucket('embeddings-old')
+  * ```
+  */
+  async deleteBucket(t) {
+    var e = () => super.deleteBucket, r = this;
+    return e().call(r, t);
+  }
+}, Un = class extends $n {
+  /**
+  * @alpha
+  *
+  * Creates a helper that automatically scopes all index operations to the provided bucket.
+  *
+  * **Public alpha:** This API is part of a public alpha release and may not be available to your account type.
+  *
+  * @category Storage
+  * @subcategory Vector Buckets
+  * @example Creating a vector bucket scope
+  * ```typescript
+  * const bucket = supabase.storage.vectors.from('embeddings-prod')
+  * ```
+  */
+  constructor(t, e, r, s) {
+    super(t, e, s), this.vectorBucketName = r;
+  }
+  /**
+  *
+  * @alpha
+  *
+  * Creates a new vector index in this bucket
+  * Convenience method that automatically includes the bucket name
+  *
+  * **Public alpha:** This API is part of a public alpha release and may not be available to your account type.
+  *
+  * @category Storage
+  * @subcategory Vector Buckets
+  * @param options - Index configuration (vectorBucketName is automatically set)
+  * @returns Promise with empty response on success or error
+  *
+  * @example Creating a vector index
+  * ```typescript
+  * const bucket = supabase.storage.vectors.from('embeddings-prod')
+  * await bucket.createIndex({
+  *   indexName: 'documents-openai',
+  *   dataType: 'float32',
+  *   dimension: 1536,
+  *   distanceMetric: 'cosine',
+  *   metadataConfiguration: {
+  *     nonFilterableMetadataKeys: ['raw_text']
+  *   }
+  * })
+  * ```
+  */
+  async createIndex(t) {
+    var e = () => super.createIndex, r = this;
+    return e().call(r, k(k({}, t), {}, { vectorBucketName: r.vectorBucketName }));
+  }
+  /**
+  *
+  * @alpha
+  *
+  * Lists indexes in this bucket
+  * Convenience method that automatically includes the bucket name
+  *
+  * **Public alpha:** This API is part of a public alpha release and may not be available to your account type.
+  *
+  * @category Storage
+  * @subcategory Vector Buckets
+  * @param options - Listing options (vectorBucketName is automatically set)
+  * @returns Promise with response containing indexes array and pagination token or error
+  *
+  * @example List indexes
+  * ```typescript
+  * const bucket = supabase.storage.vectors.from('embeddings-prod')
+  * const { data } = await bucket.listIndexes({ prefix: 'documents-' })
+  * ```
+  */
+  async listIndexes(t = {}) {
+    var e = () => super.listIndexes, r = this;
+    return e().call(r, k(k({}, t), {}, { vectorBucketName: r.vectorBucketName }));
+  }
+  /**
+  *
+  * @alpha
+  *
+  * Retrieves metadata for a specific index in this bucket
+  * Convenience method that automatically includes the bucket name
+  *
+  * **Public alpha:** This API is part of a public alpha release and may not be available to your account type.
+  *
+  * @category Storage
+  * @subcategory Vector Buckets
+  * @param indexName - Name of the index to retrieve
+  * @returns Promise with index metadata or error
+  *
+  * @example Get index metadata
+  * ```typescript
+  * const bucket = supabase.storage.vectors.from('embeddings-prod')
+  * const { data } = await bucket.getIndex('documents-openai')
+  * console.log('Dimension:', data?.index.dimension)
+  * ```
+  */
+  async getIndex(t) {
+    var e = () => super.getIndex, r = this;
+    return e().call(r, r.vectorBucketName, t);
+  }
+  /**
+  *
+  * @alpha
+  *
+  * Deletes an index from this bucket
+  * Convenience method that automatically includes the bucket name
+  *
+  * **Public alpha:** This API is part of a public alpha release and may not be available to your account type.
+  *
+  * @category Storage
+  * @subcategory Vector Buckets
+  * @param indexName - Name of the index to delete
+  * @returns Promise with empty response on success or error
+  *
+  * @example Delete an index
+  * ```typescript
+  * const bucket = supabase.storage.vectors.from('embeddings-prod')
+  * await bucket.deleteIndex('old-index')
+  * ```
+  */
+  async deleteIndex(t) {
+    var e = () => super.deleteIndex, r = this;
+    return e().call(r, r.vectorBucketName, t);
+  }
+  /**
+  *
+  * @alpha
+  *
+  * Access operations for a specific index within this bucket
+  * Returns a scoped client for vector data operations
+  *
+  * **Public alpha:** This API is part of a public alpha release and may not be available to your account type.
+  *
+  * @category Storage
+  * @subcategory Vector Buckets
+  * @param indexName - Name of the index
+  * @returns Index-scoped client with vector data operations
+  *
+  * @example Accessing an index
+  * ```typescript
+  * const index = supabase.storage.vectors.from('embeddings-prod').index('documents-openai')
+  *
+  * // Insert vectors
+  * await index.putVectors({
+  *   vectors: [
+  *     { key: 'doc-1', data: { float32: [...] }, metadata: { title: 'Intro' } }
+  *   ]
+  * })
+  *
+  * // Query similar vectors
+  * const { data } = await index.queryVectors({
+  *   queryVector: { float32: [...] },
+  *   topK: 5
+  * })
+  * ```
+  */
+  index(t) {
+    return new Ln(this.url, this.headers, this.vectorBucketName, t, this.fetch);
+  }
+}, Ln = class extends jn {
+  /**
+  *
+  * @alpha
+  *
+  * Creates a helper that automatically scopes all vector operations to the provided bucket/index names.
+  *
+  * **Public alpha:** This API is part of a public alpha release and may not be available to your account type.
+  *
+  * @category Storage
+  * @subcategory Vector Buckets
+  * @example Creating a vector index scope
+  * ```typescript
+  * const index = supabase.storage.vectors.from('embeddings-prod').index('documents-openai')
+  * ```
+  */
+  constructor(t, e, r, s, n) {
+    super(t, e, n), this.vectorBucketName = r, this.indexName = s;
+  }
+  /**
+  *
+  * @alpha
+  *
+  * Inserts or updates vectors in this index
+  * Convenience method that automatically includes bucket and index names
+  *
+  * **Public alpha:** This API is part of a public alpha release and may not be available to your account type.
+  *
+  * @category Storage
+  * @subcategory Vector Buckets
+  * @param options - Vector insertion options (bucket and index names automatically set)
+  * @returns Promise with empty response on success or error
+  *
+  * @example Insert vectors into an index
+  * ```typescript
+  * const index = supabase.storage.vectors.from('embeddings-prod').index('documents-openai')
+  * await index.putVectors({
+  *   vectors: [
+  *     {
+  *       key: 'doc-1',
+  *       data: { float32: [0.1, 0.2, ...] },
+  *       metadata: { title: 'Introduction', page: 1 }
+  *     }
+  *   ]
+  * })
+  * ```
+  */
+  async putVectors(t) {
+    var e = () => super.putVectors, r = this;
+    return e().call(r, k(k({}, t), {}, {
+      vectorBucketName: r.vectorBucketName,
+      indexName: r.indexName
+    }));
+  }
+  /**
+  *
+  * @alpha
+  *
+  * Retrieves vectors by keys from this index
+  * Convenience method that automatically includes bucket and index names
+  *
+  * **Public alpha:** This API is part of a public alpha release and may not be available to your account type.
+  *
+  * @category Storage
+  * @subcategory Vector Buckets
+  * @param options - Vector retrieval options (bucket and index names automatically set)
+  * @returns Promise with response containing vectors array or error
+  *
+  * @example Get vectors by keys
+  * ```typescript
+  * const index = supabase.storage.vectors.from('embeddings-prod').index('documents-openai')
+  * const { data } = await index.getVectors({
+  *   keys: ['doc-1', 'doc-2'],
+  *   returnMetadata: true
+  * })
+  * ```
+  */
+  async getVectors(t) {
+    var e = () => super.getVectors, r = this;
+    return e().call(r, k(k({}, t), {}, {
+      vectorBucketName: r.vectorBucketName,
+      indexName: r.indexName
+    }));
+  }
+  /**
+  *
+  * @alpha
+  *
+  * Lists vectors in this index with pagination
+  * Convenience method that automatically includes bucket and index names
+  *
+  * **Public alpha:** This API is part of a public alpha release and may not be available to your account type.
+  *
+  * @category Storage
+  * @subcategory Vector Buckets
+  * @param options - Listing options (bucket and index names automatically set)
+  * @returns Promise with response containing vectors array and pagination token or error
+  *
+  * @example List vectors with pagination
+  * ```typescript
+  * const index = supabase.storage.vectors.from('embeddings-prod').index('documents-openai')
+  * const { data } = await index.listVectors({
+  *   maxResults: 500,
+  *   returnMetadata: true
+  * })
+  * ```
+  */
+  async listVectors(t = {}) {
+    var e = () => super.listVectors, r = this;
+    return e().call(r, k(k({}, t), {}, {
+      vectorBucketName: r.vectorBucketName,
+      indexName: r.indexName
+    }));
+  }
+  /**
+  *
+  * @alpha
+  *
+  * Queries for similar vectors in this index
+  * Convenience method that automatically includes bucket and index names
+  *
+  * **Public alpha:** This API is part of a public alpha release and may not be available to your account type.
+  *
+  * @category Storage
+  * @subcategory Vector Buckets
+  * @param options - Query options (bucket and index names automatically set)
+  * @returns Promise with response containing matches array of similar vectors ordered by distance or error
+  *
+  * @example Query similar vectors
+  * ```typescript
+  * const index = supabase.storage.vectors.from('embeddings-prod').index('documents-openai')
+  * const { data } = await index.queryVectors({
+  *   queryVector: { float32: [0.1, 0.2, ...] },
+  *   topK: 5,
+  *   filter: { category: 'technical' },
+  *   returnDistance: true,
+  *   returnMetadata: true
+  * })
+  * ```
+  */
+  async queryVectors(t) {
+    var e = () => super.queryVectors, r = this;
+    return e().call(r, k(k({}, t), {}, {
+      vectorBucketName: r.vectorBucketName,
+      indexName: r.indexName
+    }));
+  }
+  /**
+  *
+  * @alpha
+  *
+  * Deletes vectors by keys from this index
+  * Convenience method that automatically includes bucket and index names
+  *
+  * **Public alpha:** This API is part of a public alpha release and may not be available to your account type.
+  *
+  * @category Storage
+  * @subcategory Vector Buckets
+  * @param options - Deletion options (bucket and index names automatically set)
+  * @returns Promise with empty response on success or error
+  *
+  * @example Delete vectors by keys
+  * ```typescript
+  * const index = supabase.storage.vectors.from('embeddings-prod').index('documents-openai')
+  * await index.deleteVectors({
+  *   keys: ['doc-1', 'doc-2', 'doc-3']
+  * })
+  * ```
+  */
+  async deleteVectors(t) {
+    var e = () => super.deleteVectors, r = this;
+    return e().call(r, k(k({}, t), {}, {
+      vectorBucketName: r.vectorBucketName,
+      indexName: r.indexName
+    }));
+  }
+}, Dn = class extends Pn {
+  /**
+  * Creates a client for Storage buckets, files, analytics, and vectors.
+  *
+  * @category Storage
+  * @subcategory File Buckets
+  *
+  * @example Using supabase-js (recommended)
+  * ```ts
+  * import { createClient } from '@supabase/supabase-js'
+  *
+  * const supabase = createClient('https://xyzcompany.supabase.co', 'your-publishable-key')
+  * const avatars = supabase.storage.from('avatars')
+  * ```
+  *
+  * @example Standalone import for bundle-sensitive environments
+  * ```ts
+  * import { StorageClient } from '@supabase/storage-js'
+  *
+  * const storage = new StorageClient('https://xyzcompany.supabase.co/storage/v1', {
+  *   apikey: 'your-publishable-key',
+  * })
+  * const avatars = storage.from('avatars')
+  * ```
+  */
+  constructor(t, e = {}, r, s) {
+    super(t, e, r, s);
+  }
+  /**
+  * Perform file operation in a bucket.
+  *
+  * @category Storage
+  * @subcategory File Buckets
+  *
+  * @param id The bucket id to operate on.
+  *
+  * @example Accessing a bucket
+  * ```typescript
+  * const avatars = supabase.storage.from('avatars')
+  * ```
+  */
+  from(t) {
+    return new On(this.url, this.headers, t, this.fetch);
+  }
+  /**
+  *
+  * @alpha
+  *
+  * Access vector storage operations.
+  *
+  * **Public alpha:** This API is part of a public alpha release and may not be available to your account type.
+  *
+  * @category Storage
+  * @subcategory Vector Buckets
+  *
+  * @returns A StorageVectorsClient instance configured with the current storage settings.
+  */
+  get vectors() {
+    return new Nn(this.url + "/vector", {
+      headers: this.headers,
+      fetch: this.fetch
+    });
+  }
+  /**
+  *
+  * @alpha
+  *
+  * Access analytics storage operations using Iceberg tables.
+  *
+  * **Public alpha:** This API is part of a public alpha release and may not be available to your account type.
+  *
+  * @category Storage
+  * @subcategory Analytics Buckets
+  *
+  * @returns A StorageAnalyticsClient instance configured with the current storage settings.
+  */
+  get analytics() {
+    return new In(this.url + "/iceberg", this.headers, this.fetch);
+  }
+};
+const Mr = "2.110.8", Z = 30 * 1e3, Ae = 3, gt = Ae * Z, Bn = 2 * Z, Hn = "http://localhost:9999", qn = "supabase.auth.token", Mn = { "X-Client-Info": `gotrue-js/${Mr}` }, Pt = "X-Supabase-Api-Version", Kr = {
+  "2024-01-01": {
+    timestamp: Date.parse("2024-01-01T00:00:00.0Z"),
+    name: "2024-01-01"
+  }
+}, Kn = /^([a-z0-9_-]{4})*($|[a-z0-9_-]{3}$|[a-z0-9_-]{2}$)$/i, Fn = 600 * 1e3;
+class Le extends Error {
+  constructor(e, r, s) {
+    super(e), this.__isAuthError = !0, this.name = "AuthError", this.status = r, this.code = s;
+  }
+  toJSON() {
+    return {
+      name: this.name,
+      message: this.message,
+      status: this.status,
+      code: this.code
+    };
+  }
+}
+function v(t) {
+  return typeof t == "object" && t !== null && "__isAuthError" in t;
+}
+class Wn extends Le {
+  constructor(e, r, s) {
+    super(e, r, s), this.name = "AuthApiError", this.status = r, this.code = s;
+  }
+}
+function Vn(t) {
+  return v(t) && t.name === "AuthApiError";
+}
+class F extends Le {
+  constructor(e, r) {
+    super(e), this.name = "AuthUnknownError", this.originalError = r;
+  }
+}
+class J extends Le {
+  constructor(e, r, s, n) {
+    super(e, s, n), this.name = r, this.status = s;
+  }
+}
+class $ extends J {
+  constructor() {
+    super("Auth session missing!", "AuthSessionMissingError", 400, void 0);
+  }
+}
+function We(t) {
+  return v(t) && t.name === "AuthSessionMissingError";
+}
+class de extends J {
+  constructor() {
+    super("Auth session or user missing", "AuthInvalidTokenResponseError", 500, void 0);
+  }
+}
+class Ve extends J {
+  constructor(e) {
+    super(e, "AuthInvalidCredentialsError", 400, void 0);
+  }
+}
+class ze extends J {
+  constructor(e, r = null) {
+    super(e, "AuthImplicitGrantRedirectError", 500, void 0), this.details = null, this.details = r;
+  }
+  toJSON() {
+    return Object.assign(Object.assign({}, super.toJSON()), { details: this.details });
+  }
+}
+function zn(t) {
+  return v(t) && t.name === "AuthImplicitGrantRedirectError";
+}
+class nr extends J {
+  constructor(e, r = null) {
+    super(e, "AuthPKCEGrantCodeExchangeError", 500, void 0), this.details = null, this.details = r;
+  }
+  toJSON() {
+    return Object.assign(Object.assign({}, super.toJSON()), { details: this.details });
+  }
+}
+class Jn extends J {
+  constructor() {
+    super("PKCE code verifier not found in storage. This can happen if the auth flow was initiated in a different browser or device, or if the storage was cleared. For SSR frameworks (Next.js, SvelteKit, etc.), use @supabase/ssr on both the server and client to store the code verifier in cookies.", "AuthPKCECodeVerifierMissingError", 400, "pkce_code_verifier_not_found");
+  }
+}
+class It extends J {
+  constructor(e, r) {
+    super(e, "AuthRetryableFetchError", r, void 0);
+  }
+}
+function Je(t) {
+  return v(t) && t.name === "AuthRetryableFetchError";
+}
+class ir extends J {
+  constructor(e = "Refresh result discarded: session state changed mid-flight (e.g., concurrent signOut)") {
+    super(e, "AuthRefreshDiscardedError", 409, void 0);
+  }
+}
+function Gn(t) {
+  return v(t) && t.name === "AuthRefreshDiscardedError";
+}
+class ar extends J {
+  constructor(e, r, s) {
+    super(e, "AuthWeakPasswordError", r, "weak_password"), this.reasons = s;
+  }
+  toJSON() {
+    return Object.assign(Object.assign({}, super.toJSON()), { reasons: this.reasons });
+  }
+}
+class Ze extends J {
+  constructor(e) {
+    super(e, "AuthInvalidJwtError", 400, "invalid_jwt");
+  }
+}
+const et = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_".split(""), or = ` 	
+\r=`.split(""), Yn = (() => {
+  const t = new Array(128);
+  for (let e = 0; e < t.length; e += 1)
+    t[e] = -1;
+  for (let e = 0; e < or.length; e += 1)
+    t[or[e].charCodeAt(0)] = -2;
+  for (let e = 0; e < et.length; e += 1)
+    t[et[e].charCodeAt(0)] = e;
+  return t;
+})();
+function lr(t, e, r) {
+  if (t !== null)
+    for (e.queue = e.queue << 8 | t, e.queuedBits += 8; e.queuedBits >= 6; ) {
+      const s = e.queue >> e.queuedBits - 6 & 63;
+      r(et[s]), e.queuedBits -= 6;
+    }
+  else if (e.queuedBits > 0)
+    for (e.queue = e.queue << 6 - e.queuedBits, e.queuedBits = 6; e.queuedBits >= 6; ) {
+      const s = e.queue >> e.queuedBits - 6 & 63;
+      r(et[s]), e.queuedBits -= 6;
+    }
+}
+function Fr(t, e, r) {
+  const s = Yn[t];
+  if (s > -1)
+    for (e.queue = e.queue << 6 | s, e.queuedBits += 6; e.queuedBits >= 8; )
+      r(e.queue >> e.queuedBits - 8 & 255), e.queuedBits -= 8;
+  else {
+    if (s === -2)
+      return;
+    throw new Error(`Invalid Base64-URL character "${String.fromCharCode(t)}"`);
+  }
+}
+function cr(t) {
+  const e = [], r = (a) => {
+    e.push(String.fromCodePoint(a));
+  }, s = {
+    utf8seq: 0,
+    codepoint: 0
+  }, n = { queue: 0, queuedBits: 0 }, i = (a) => {
+    Zn(a, s, r);
+  };
+  for (let a = 0; a < t.length; a += 1)
+    Fr(t.charCodeAt(a), n, i);
+  return e.join("");
+}
+function Xn(t, e) {
+  if (t <= 127) {
+    e(t);
+    return;
+  } else if (t <= 2047) {
+    e(192 | t >> 6), e(128 | t & 63);
+    return;
+  } else if (t <= 65535) {
+    e(224 | t >> 12), e(128 | t >> 6 & 63), e(128 | t & 63);
+    return;
+  } else if (t <= 1114111) {
+    e(240 | t >> 18), e(128 | t >> 12 & 63), e(128 | t >> 6 & 63), e(128 | t & 63);
+    return;
+  }
+  throw new Error(`Unrecognized Unicode codepoint: ${t.toString(16)}`);
+}
+function Qn(t, e) {
+  for (let r = 0; r < t.length; r += 1) {
+    let s = t.charCodeAt(r);
+    if (s > 55295 && s <= 56319) {
+      const n = (s - 55296) * 1024 & 65535;
+      s = (t.charCodeAt(r + 1) - 56320 & 65535 | n) + 65536, r += 1;
+    }
+    Xn(s, e);
+  }
+}
+function Zn(t, e, r) {
+  if (e.utf8seq === 0) {
+    if (t <= 127) {
+      r(t);
+      return;
+    }
+    for (let s = 1; s < 6; s += 1)
+      if ((t >> 7 - s & 1) === 0) {
+        e.utf8seq = s;
+        break;
+      }
+    if (e.utf8seq === 2)
+      e.codepoint = t & 31;
+    else if (e.utf8seq === 3)
+      e.codepoint = t & 15;
+    else if (e.utf8seq === 4)
+      e.codepoint = t & 7;
+    else
+      throw new Error("Invalid UTF-8 sequence");
+    e.utf8seq -= 1;
+  } else if (e.utf8seq > 0) {
+    if (t <= 127)
+      throw new Error("Invalid UTF-8 sequence");
+    e.codepoint = e.codepoint << 6 | t & 63, e.utf8seq -= 1, e.utf8seq === 0 && r(e.codepoint);
+  }
+}
+function _e(t) {
+  const e = [], r = { queue: 0, queuedBits: 0 }, s = (n) => {
+    e.push(n);
+  };
+  for (let n = 0; n < t.length; n += 1)
+    Fr(t.charCodeAt(n), r, s);
+  return new Uint8Array(e);
+}
+function ei(t) {
+  const e = [];
+  return Qn(t, (r) => e.push(r)), new Uint8Array(e);
+}
+function le(t) {
+  const e = [], r = { queue: 0, queuedBits: 0 }, s = (n) => {
+    e.push(n);
+  };
+  return t.forEach((n) => lr(n, r, s)), lr(null, r, s), e.join("");
+}
+function ti(t) {
+  return Math.round(Date.now() / 1e3) + t;
+}
+function ri() {
+  return /* @__PURE__ */ Symbol("auth-callback");
+}
+const j = () => typeof window < "u" && typeof document < "u", ie = {
+  tested: !1,
+  writable: !1
+}, Wr = () => {
+  if (!j())
+    return !1;
+  try {
+    if (typeof globalThis.localStorage != "object")
+      return !1;
+  } catch {
+    return !1;
+  }
+  if (ie.tested)
+    return ie.writable;
+  const t = `lswt-${Math.random()}${Math.random()}`;
+  try {
+    globalThis.localStorage.setItem(t, t), globalThis.localStorage.removeItem(t), ie.tested = !0, ie.writable = !0;
+  } catch {
+    ie.tested = !0, ie.writable = !1;
+  }
+  return ie.writable;
+};
+function si(t) {
+  const e = {}, r = new URL(t);
+  if (r.hash && r.hash[0] === "#")
+    try {
+      new URLSearchParams(r.hash.substring(1)).forEach((n, i) => {
+        e[i] = n;
+      });
+    } catch {
+    }
+  return r.searchParams.forEach((s, n) => {
+    e[n] = s;
+  }), e;
+}
+const Vr = (t) => t ? (...e) => t(...e) : (...e) => fetch(...e), ni = (t) => typeof t == "object" && t !== null && "status" in t && "ok" in t && "json" in t && typeof t.json == "function", ye = async (t, e, r) => {
+  await t.setItem(e, JSON.stringify(r));
+}, q = async (t, e) => {
+  const r = await t.getItem(e);
+  if (!r)
+    return null;
+  try {
+    return JSON.parse(r);
+  } catch {
+    return null;
+  }
+}, C = async (t, e) => {
+  await t.removeItem(e);
+};
+class ht {
+  constructor() {
+    this.promise = new ht.promiseConstructor((e, r) => {
+      this.resolve = e, this.reject = r;
+    });
+  }
+}
+ht.promiseConstructor = Promise;
+function Ge(t) {
+  const e = t.split(".");
+  if (e.length !== 3)
+    throw new Ze("Invalid JWT structure");
+  for (let s = 0; s < e.length; s++)
+    if (!Kn.test(e[s]))
+      throw new Ze("JWT not in base64url format");
+  return {
+    // using base64url lib
+    header: JSON.parse(cr(e[0])),
+    payload: JSON.parse(cr(e[1])),
+    signature: _e(e[2]),
+    raw: {
+      header: e[0],
+      payload: e[1]
+    }
+  };
+}
+async function ii(t) {
+  return await new Promise((e) => {
+    setTimeout(() => e(null), t);
+  });
+}
+function ai(t, e) {
+  return new Promise((s, n) => {
+    (async () => {
+      for (let i = 0; i < 1 / 0; i++)
+        try {
+          const a = await t(i);
+          if (!e(i, null, a)) {
+            s(a);
+            return;
+          }
+        } catch (a) {
+          if (!e(i, a)) {
+            n(a);
+            return;
+          }
+        }
+    })();
+  });
+}
+function oi(t) {
+  return ("0" + t.toString(16)).substr(-2);
+}
+function li() {
+  const e = new Uint32Array(56);
+  if (typeof crypto > "u") {
+    const r = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~", s = r.length;
+    let n = "";
+    for (let i = 0; i < 56; i++)
+      n += r.charAt(Math.floor(Math.random() * s));
+    return n;
+  }
+  return crypto.getRandomValues(e), Array.from(e, oi).join("");
+}
+async function ci(t) {
+  const r = new TextEncoder().encode(t), s = await crypto.subtle.digest("SHA-256", r), n = new Uint8Array(s);
+  return Array.from(n).map((i) => String.fromCharCode(i)).join("");
+}
+async function ui(t) {
+  if (!(typeof crypto < "u" && typeof crypto.subtle < "u" && typeof TextEncoder < "u"))
+    return console.warn("WebCrypto API is not supported. Code challenge method will default to use plain instead of sha256."), t;
+  const r = await ci(t);
+  return btoa(r).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+}
+async function ae(t, e, r = !1) {
+  const s = li();
+  let n = s;
+  r && (n += "/recovery"), await ye(t, `${e}-code-verifier`, n);
+  const i = await ui(s);
+  return [i, s === i ? "plain" : "s256"];
+}
+const hi = /^2[0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|1[0-9]|2[0-9]|3[0-1])$/i;
+function di(t) {
+  const e = t.headers.get(Pt);
+  if (!e || !e.match(hi))
+    return null;
+  try {
+    return /* @__PURE__ */ new Date(`${e}T00:00:00.0Z`);
+  } catch {
+    return null;
+  }
+}
+function fi(t) {
+  if (!t)
+    throw new Error("Missing exp claim");
+  const e = Math.floor(Date.now() / 1e3);
+  if (t <= e)
+    throw new Error("JWT has expired");
+}
+function pi(t) {
+  switch (t) {
+    case "RS256":
+      return {
+        name: "RSASSA-PKCS1-v1_5",
+        hash: { name: "SHA-256" }
+      };
+    case "ES256":
+      return {
+        name: "ECDSA",
+        namedCurve: "P-256",
+        hash: { name: "SHA-256" }
+      };
+    default:
+      throw new Error("Invalid alg claim");
+  }
+}
+const gi = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
+function Y(t) {
+  if (!gi.test(t))
+    throw new Error("@supabase/auth-js: Expected parameter to be UUID but is not");
+}
+function M(t) {
+  if (!t.passkey)
+    throw new Error("@supabase/auth-js: the passkey API is experimental and disabled by default. Enable it by passing `auth: { experimental: { passkey: true } }` to createClient (or to the GoTrueClient constructor).");
+}
+function yt() {
+  const t = {};
+  return new Proxy(t, {
+    get: (e, r) => {
+      if (r === "__isUserNotAvailableProxy")
+        return !0;
+      if (typeof r == "symbol") {
+        const s = r.toString();
+        if (s === "Symbol(Symbol.toPrimitive)" || s === "Symbol(Symbol.toStringTag)" || s === "Symbol(util.inspect.custom)")
+          return;
+      }
+      throw new Error(`@supabase/auth-js: client was created with userStorage option and there was no user stored in the user storage. Accessing the "${r}" property of the session object is not supported. Please use getUser() instead.`);
+    },
+    set: (e, r) => {
+      throw new Error(`@supabase/auth-js: client was created with userStorage option and there was no user stored in the user storage. Setting the "${r}" property of the session object is not supported. Please use getUser() to fetch a user object you can manipulate.`);
+    },
+    deleteProperty: (e, r) => {
+      throw new Error(`@supabase/auth-js: client was created with userStorage option and there was no user stored in the user storage. Deleting the "${r}" property of the session object is not supported. Please use getUser() to fetch a user object you can manipulate.`);
+    }
+  });
+}
+function yi(t, e) {
+  return new Proxy(t, {
+    get: (r, s, n) => {
+      if (s === "__isInsecureUserWarningProxy")
+        return !0;
+      if (typeof s == "symbol") {
+        const i = s.toString();
+        if (i === "Symbol(Symbol.toPrimitive)" || i === "Symbol(Symbol.toStringTag)" || i === "Symbol(util.inspect.custom)" || i === "Symbol(nodejs.util.inspect.custom)")
+          return Reflect.get(r, s, n);
+      }
+      return !e.value && typeof s == "string" && (console.warn("Using the user object as returned from supabase.auth.getSession() or from some supabase.auth.onAuthStateChange() events could be insecure! This value comes directly from the storage medium (usually cookies on the server) and may not be authentic. Use supabase.auth.getUser() instead which authenticates the data by contacting the Supabase Auth server."), e.value = !0), Reflect.get(r, s, n);
+    }
+  });
+}
+function ur(t) {
+  return JSON.parse(JSON.stringify(t));
+}
+const oe = (t) => {
+  if (typeof t == "object" && t !== null) {
+    const e = t;
+    if (typeof e.msg == "string")
+      return e.msg;
+    if (typeof e.message == "string")
+      return e.message;
+    if (typeof e.error_description == "string")
+      return e.error_description;
+    if (typeof e.error == "string")
+      return e.error;
+  }
+  return JSON.stringify(t);
+}, mi = [
+  500,
+  501,
+  502,
+  503,
+  504,
+  520,
+  521,
+  522,
+  523,
+  524,
+  525,
+  526,
+  527,
+  528,
+  529,
+  530
+];
+async function hr(t) {
+  var e;
+  if (!ni(t))
+    throw new It(oe(t), 0);
+  if (mi.includes(t.status))
+    throw new It(oe(t), t.status);
+  let r;
+  try {
+    r = await t.json();
+  } catch (i) {
+    throw new F(oe(i), i);
+  }
+  let s;
+  const n = di(t);
+  if (n && n.getTime() >= Kr["2024-01-01"].timestamp && typeof r == "object" && r && typeof r.code == "string" ? s = r.code : typeof r == "object" && r && typeof r.error_code == "string" && (s = r.error_code), s) {
+    if (s === "weak_password")
+      throw new ar(oe(r), t.status, ((e = r.weak_password) === null || e === void 0 ? void 0 : e.reasons) || []);
+    if (s === "session_not_found")
+      throw new $();
+  } else if (typeof r == "object" && r && typeof r.weak_password == "object" && r.weak_password && Array.isArray(r.weak_password.reasons) && r.weak_password.reasons.length && r.weak_password.reasons.reduce((i, a) => i && typeof a == "string", !0))
+    throw new ar(oe(r), t.status, r.weak_password.reasons);
+  throw new Wn(oe(r), t.status || 500, s);
+}
+const vi = (t, e, r, s) => {
+  const n = { method: t, headers: e?.headers || {} };
+  return t === "GET" ? n : (n.headers = Object.assign({ "Content-Type": "application/json;charset=UTF-8" }, e?.headers), n.body = JSON.stringify(s), Object.assign(Object.assign({}, n), r));
+};
+async function b(t, e, r, s) {
+  var n;
+  const i = Object.assign({}, s?.headers);
+  i[Pt] || (i[Pt] = Kr["2024-01-01"].name), s?.jwt && (i.Authorization = `Bearer ${s.jwt}`);
+  const a = (n = s?.query) !== null && n !== void 0 ? n : {};
+  s?.redirectTo && (a.redirect_to = s.redirectTo);
+  const o = Object.keys(a).length ? "?" + new URLSearchParams(a).toString() : "", l = await wi(t, e, r + o, {
+    headers: i,
+    noResolveJson: s?.noResolveJson
+  }, {}, s?.body);
+  return s?.xform ? s?.xform(l) : { data: Object.assign({}, l), error: null };
+}
+async function wi(t, e, r, s, n, i) {
+  const a = vi(e, s, n, i);
+  let o;
+  try {
+    o = await t(r, Object.assign({}, a));
+  } catch (l) {
+    throw new It(oe(l), 0);
+  }
+  if (o.ok || await hr(o), s?.noResolveJson)
+    return o;
+  try {
+    return await o.json();
+  } catch (l) {
+    await hr(l);
+  }
+}
+function H(t) {
+  var e;
+  let r = null;
+  Si(t) && (r = Object.assign({}, t), t.expires_at || (r.expires_at = ti(t.expires_in)));
+  const s = (e = t.user) !== null && e !== void 0 ? e : typeof t?.id == "string" ? t : null;
+  return { data: { session: r, user: s }, error: null };
+}
+function dr(t) {
+  const e = H(t);
+  return !e.error && t.weak_password && typeof t.weak_password == "object" && Array.isArray(t.weak_password.reasons) && t.weak_password.reasons.length && t.weak_password.message && typeof t.weak_password.message == "string" && t.weak_password.reasons.reduce((r, s) => r && typeof s == "string", !0) && (e.data.weak_password = t.weak_password), e;
+}
+function re(t) {
+  var e;
+  return { data: { user: (e = t.user) !== null && e !== void 0 ? e : t }, error: null };
+}
+function _i(t) {
+  return { data: t, error: null };
+}
+function bi(t) {
+  const { action_link: e, email_otp: r, hashed_token: s, redirect_to: n, verification_type: i } = t, a = lt(t, ["action_link", "email_otp", "hashed_token", "redirect_to", "verification_type"]), o = {
+    action_link: e,
+    email_otp: r,
+    hashed_token: s,
+    redirect_to: n,
+    verification_type: i
+  }, l = Object.assign({}, a);
+  return {
+    data: {
+      properties: o,
+      user: l
+    },
+    error: null
+  };
+}
+function fr(t) {
+  return t;
+}
+function Si(t) {
+  return !!t.access_token && !!t.refresh_token && !!t.expires_in;
+}
+const mt = ["global", "local", "others"];
+class ki {
+  /**
+   * Creates an admin API client that can be used to manage users and OAuth clients.
+   *
+   * @example Using supabase-js (recommended)
+   * ```ts
+   * import { createClient } from '@supabase/supabase-js'
+   *
+   * const supabase = createClient('https://xyzcompany.supabase.co', 'your-secret-key')
+   * const { data, error } = await supabase.auth.admin.listUsers()
+   * ```
+   *
+   * @example Standalone import for bundle-sensitive environments
+   * ```ts
+   * import { GoTrueAdminApi } from '@supabase/auth-js'
+   *
+   * const admin = new GoTrueAdminApi({
+   *   url: 'https://xyzcompany.supabase.co/auth/v1',
+   *   headers: { Authorization: `Bearer ${process.env.SUPABASE_SECRET_KEY}` },
+   * })
+   * ```
+   */
+  constructor({ url: e = "", headers: r = {}, fetch: s, experimental: n }) {
+    this.url = e, this.headers = r, this.fetch = Vr(s), this.experimental = n ?? {}, this.mfa = {
+      listFactors: this._listFactors.bind(this),
+      deleteFactor: this._deleteFactor.bind(this)
+    }, this.oauth = {
+      listClients: this._listOAuthClients.bind(this),
+      createClient: this._createOAuthClient.bind(this),
+      getClient: this._getOAuthClient.bind(this),
+      updateClient: this._updateOAuthClient.bind(this),
+      deleteClient: this._deleteOAuthClient.bind(this),
+      regenerateClientSecret: this._regenerateOAuthClientSecret.bind(this)
+    }, this.customProviders = {
+      listProviders: this._listCustomProviders.bind(this),
+      createProvider: this._createCustomProvider.bind(this),
+      getProvider: this._getCustomProvider.bind(this),
+      updateProvider: this._updateCustomProvider.bind(this),
+      deleteProvider: this._deleteCustomProvider.bind(this)
+    }, this.passkey = {
+      listPasskeys: this._adminListPasskeys.bind(this),
+      deletePasskey: this._adminDeletePasskey.bind(this)
+    };
+  }
+  /**
+   * Removes a logged-in session.
+   * @param jwt A valid, logged-in JWT.
+   * @param scope The logout sope.
+   *
+   * @category Auth
+   * @subcategory Auth Admin
+   */
+  async signOut(e, r = mt[0]) {
+    if (mt.indexOf(r) < 0)
+      throw new Error(`@supabase/auth-js: Parameter scope must be one of ${mt.join(", ")}`);
+    try {
+      return await b(this.fetch, "POST", `${this.url}/logout?scope=${r}`, {
+        headers: this.headers,
+        jwt: e,
+        noResolveJson: !0
+      }), { data: null, error: null };
+    } catch (s) {
+      if (v(s))
+        return { data: null, error: s };
+      throw s;
+    }
+  }
+  /**
+   * Sends an invite link to an email address.
+   * @param email The email address of the user.
+   * @param options Additional options to be included when inviting.
+   *
+   * @category Auth
+   * @subcategory Auth Admin
+   *
+   * @remarks
+   * - Sends an invite link to the user's email address.
+   * - The `inviteUserByEmail()` method is typically used by administrators to invite users to join the application.
+   * - Note that PKCE is not supported when using `inviteUserByEmail`. This is because the browser initiating the invite is often different from the browser accepting the invite which makes it difficult to provide the security guarantees required of the PKCE flow.
+   *
+   * @example Invite a user
+   * ```js
+   * const { data, error } = await supabase.auth.admin.inviteUserByEmail('email@example.com')
+   * ```
+   *
+   * @exampleResponse Invite a user
+   * ```json
+   * {
+   *   "data": {
+   *     "user": {
+   *       "id": "11111111-1111-1111-1111-111111111111",
+   *       "aud": "authenticated",
+   *       "role": "authenticated",
+   *       "email": "example@email.com",
+   *       "invited_at": "2024-01-01T00:00:00Z",
+   *       "phone": "",
+   *       "confirmation_sent_at": "2024-01-01T00:00:00Z",
+   *       "app_metadata": {
+   *         "provider": "email",
+   *         "providers": [
+   *           "email"
+   *         ]
+   *       },
+   *       "user_metadata": {},
+   *       "identities": [
+   *         {
+   *           "identity_id": "22222222-2222-2222-2222-222222222222",
+   *           "id": "11111111-1111-1111-1111-111111111111",
+   *           "user_id": "11111111-1111-1111-1111-111111111111",
+   *           "identity_data": {
+   *             "email": "example@email.com",
+   *             "email_verified": false,
+   *             "phone_verified": false,
+   *             "sub": "11111111-1111-1111-1111-111111111111"
+   *           },
+   *           "provider": "email",
+   *           "last_sign_in_at": "2024-01-01T00:00:00Z",
+   *           "created_at": "2024-01-01T00:00:00Z",
+   *           "updated_at": "2024-01-01T00:00:00Z",
+   *           "email": "example@email.com"
+   *         }
+   *       ],
+   *       "created_at": "2024-01-01T00:00:00Z",
+   *       "updated_at": "2024-01-01T00:00:00Z",
+   *       "is_anonymous": false
+   *     }
+   *   },
+   *   "error": null
+   * }
+   * ```
+   */
+  async inviteUserByEmail(e, r = {}) {
+    try {
+      return await b(this.fetch, "POST", `${this.url}/invite`, {
+        body: { email: e, data: r.data },
+        headers: this.headers,
+        redirectTo: r.redirectTo,
+        xform: re
+      });
+    } catch (s) {
+      if (v(s))
+        return { data: { user: null }, error: s };
+      throw s;
+    }
+  }
+  /**
+   * Generates email links and OTPs to be sent via a custom email provider.
+   * @param params The parameters for generating the link, including the link `type`, the user's `email`, and type-specific options such as `password`, `data`, and `redirectTo`.
+   *
+   * @category Auth
+   * @subcategory Auth Admin
+   *
+   * @remarks
+   * - The following types can be passed into `generateLink()`: `signup`, `magiclink`, `invite`, `recovery`, `email_change_current`, `email_change_new`, `phone_change`.
+   * - `generateLink()` only generates the email link for `email_change_email` if the **Secure email change** is enabled in your project's [email auth provider settings](/dashboard/project/_/auth/providers).
+   * - `generateLink()` handles the creation of the user for `signup`, `invite` and `magiclink`.
+   *
+   * @example Generate a signup link
+   * ```js
+   * const { data, error } = await supabase.auth.admin.generateLink({
+   *   type: 'signup',
+   *   email: 'email@example.com',
+   *   password: 'secret'
+   * })
+   * ```
+   *
+   * @exampleResponse Generate a signup link
+   * ```json
+   * {
+   *   "data": {
+   *     "properties": {
+   *       "action_link": "<LINK_TO_SEND_TO_USER>",
+   *       "email_otp": "999999",
+   *       "hashed_token": "<HASHED_TOKEN",
+   *       "redirect_to": "<REDIRECT_URL>",
+   *       "verification_type": "signup"
+   *     },
+   *     "user": {
+   *       "id": "11111111-1111-1111-1111-111111111111",
+   *       "aud": "authenticated",
+   *       "role": "authenticated",
+   *       "email": "email@example.com",
+   *       "phone": "",
+   *       "confirmation_sent_at": "2024-01-01T00:00:00Z",
+   *       "app_metadata": {
+   *         "provider": "email",
+   *         "providers": [
+   *           "email"
+   *         ]
+   *       },
+   *       "user_metadata": {},
+   *       "identities": [
+   *         {
+   *           "identity_id": "22222222-2222-2222-2222-222222222222",
+   *           "id": "11111111-1111-1111-1111-111111111111",
+   *           "user_id": "11111111-1111-1111-1111-111111111111",
+   *           "identity_data": {
+   *             "email": "email@example.com",
+   *             "email_verified": false,
+   *             "phone_verified": false,
+   *             "sub": "11111111-1111-1111-1111-111111111111"
+   *           },
+   *           "provider": "email",
+   *           "last_sign_in_at": "2024-01-01T00:00:00Z",
+   *           "created_at": "2024-01-01T00:00:00Z",
+   *           "updated_at": "2024-01-01T00:00:00Z",
+   *           "email": "email@example.com"
+   *         }
+   *       ],
+   *       "created_at": "2024-01-01T00:00:00Z",
+   *       "updated_at": "2024-01-01T00:00:00Z",
+   *       "is_anonymous": false
+   *     }
+   *   },
+   *   "error": null
+   * }
+   * ```
+   *
+   * @example Generate an invite link
+   * ```js
+   * const { data, error } = await supabase.auth.admin.generateLink({
+   *   type: 'invite',
+   *   email: 'email@example.com'
+   * })
+   * ```
+   *
+   * @example Generate a magic link
+   * ```js
+   * const { data, error } = await supabase.auth.admin.generateLink({
+   *   type: 'magiclink',
+   *   email: 'email@example.com'
+   * })
+   * ```
+   *
+   * @example Generate a recovery link
+   * ```js
+   * const { data, error } = await supabase.auth.admin.generateLink({
+   *   type: 'recovery',
+   *   email: 'email@example.com'
+   * })
+   * ```
+   *
+   * @example Generate links to change current email address
+   * ```js
+   * // generate an email change link to be sent to the current email address
+   * const { data, error } = await supabase.auth.admin.generateLink({
+   *   type: 'email_change_current',
+   *   email: 'current.email@example.com',
+   *   newEmail: 'new.email@example.com'
+   * })
+   *
+   * // generate an email change link to be sent to the new email address
+   * const { data, error } = await supabase.auth.admin.generateLink({
+   *   type: 'email_change_new',
+   *   email: 'current.email@example.com',
+   *   newEmail: 'new.email@example.com'
+   * })
+   * ```
+   */
+  async generateLink(e) {
+    try {
+      const { options: r } = e, s = lt(e, ["options"]), n = Object.assign(Object.assign({}, s), r);
+      return "newEmail" in s && (n.new_email = s?.newEmail, delete n.newEmail), await b(this.fetch, "POST", `${this.url}/admin/generate_link`, {
+        body: n,
+        headers: this.headers,
+        xform: bi,
+        redirectTo: r?.redirectTo
+      });
+    } catch (r) {
+      if (v(r))
+        return {
+          data: {
+            properties: null,
+            user: null
+          },
+          error: r
+        };
+      throw r;
+    }
+  }
+  // User Admin API
+  /**
+   * Creates a new user.
+   * This function should only be called on a server. Never expose your `service_role` key in the browser.
+   *
+   * @category Auth
+   * @subcategory Auth Admin
+   *
+   * @remarks
+   * - To confirm the user's email address or phone number, set `email_confirm` or `phone_confirm` to true. Both arguments default to false.
+   * - `createUser()` will not send a confirmation email to the user. You can use [`inviteUserByEmail()`](/docs/reference/javascript/auth-admin-inviteuserbyemail) if you want to send them an email invite instead.
+   * - If you are sure that the created user's email or phone number is legitimate and verified, you can set the `email_confirm` or `phone_confirm` param to `true`.
+   *
+   * @example With custom user metadata
+   * ```js
+   * const { data, error } = await supabase.auth.admin.createUser({
+   *   email: 'user@email.com',
+   *   password: 'password',
+   *   user_metadata: { name: 'Yoda' }
+   * })
+   * ```
+   *
+   * @exampleResponse With custom user metadata
+   * ```json
+   * {
+   *   data: {
+   *     user: {
+   *       id: '1',
+   *       aud: 'authenticated',
+   *       role: 'authenticated',
+   *       email: 'example@email.com',
+   *       email_confirmed_at: '2024-01-01T00:00:00Z',
+   *       phone: '',
+   *       confirmation_sent_at: '2024-01-01T00:00:00Z',
+   *       confirmed_at: '2024-01-01T00:00:00Z',
+   *       last_sign_in_at: '2024-01-01T00:00:00Z',
+   *       app_metadata: {},
+   *       user_metadata: {},
+   *       identities: [
+   *         {
+   *           "identity_id": "22222222-2222-2222-2222-222222222222",
+   *           "id": "1",
+   *           "user_id": "1",
+   *           "identity_data": {
+   *             "email": "example@email.com",
+   *             "email_verified": true,
+   *             "phone_verified": false,
+   *             "sub": "1"
+   *           },
+   *           "provider": "email",
+   *           "last_sign_in_at": "2024-01-01T00:00:00Z",
+   *           "created_at": "2024-01-01T00:00:00Z",
+   *           "updated_at": "2024-01-01T00:00:00Z",
+   *           "email": "email@example.com"
+   *         },
+   *       ],
+   *       created_at: '2024-01-01T00:00:00Z',
+   *       updated_at: '2024-01-01T00:00:00Z',
+   *       is_anonymous: false,
+   *     }
+   *   }
+   *   error: null
+   * }
+   * ```
+   *
+   * @example Auto-confirm the user's email
+   * ```js
+   * const { data, error } = await supabase.auth.admin.createUser({
+   *   email: 'user@email.com',
+   *   email_confirm: true
+   * })
+   * ```
+   *
+   * @example Auto-confirm the user's phone number
+   * ```js
+   * const { data, error } = await supabase.auth.admin.createUser({
+   *   phone: '1234567890',
+   *   phone_confirm: true
+   * })
+   * ```
+   */
+  async createUser(e) {
+    try {
+      return await b(this.fetch, "POST", `${this.url}/admin/users`, {
+        body: e,
+        headers: this.headers,
+        xform: re
+      });
+    } catch (r) {
+      if (v(r))
+        return { data: { user: null }, error: r };
+      throw r;
+    }
+  }
+  /**
+   * Get a list of users.
+   *
+   * This function should only be called on a server. Never expose your `service_role` key in the browser.
+   * @param params An object which supports `page` and `perPage` as numbers, to alter the paginated results.
+   *
+   * @category Auth
+   * @subcategory Auth Admin
+   *
+   * @remarks
+   * - Defaults to return 50 users per page.
+   *
+   * @example Get a page of users
+   * ```js
+   * const { data: { users }, error } = await supabase.auth.admin.listUsers()
+   * ```
+   *
+   * @example Paginated list of users
+   * ```js
+   * const { data: { users }, error } = await supabase.auth.admin.listUsers({
+   *   page: 1,
+   *   perPage: 1000
+   * })
+   * ```
+   */
+  async listUsers(e) {
+    var r, s, n, i, a, o, l;
+    try {
+      const c = { nextPage: null, lastPage: 0, total: 0 }, u = await b(this.fetch, "GET", `${this.url}/admin/users`, {
+        headers: this.headers,
+        noResolveJson: !0,
+        query: {
+          page: (s = (r = e?.page) === null || r === void 0 ? void 0 : r.toString()) !== null && s !== void 0 ? s : "",
+          per_page: (i = (n = e?.perPage) === null || n === void 0 ? void 0 : n.toString()) !== null && i !== void 0 ? i : ""
+        },
+        xform: fr
+      });
+      if (u.error)
+        throw u.error;
+      const h = await u.json(), d = (a = u.headers.get("x-total-count")) !== null && a !== void 0 ? a : 0, f = (l = (o = u.headers.get("link")) === null || o === void 0 ? void 0 : o.split(",")) !== null && l !== void 0 ? l : [];
+      return f.length > 0 && (f.forEach((p) => {
+        const y = parseInt(p.split(";")[0].split("=")[1].substring(0, 1)), m = JSON.parse(p.split(";")[1].split("=")[1]);
+        c[`${m}Page`] = y;
+      }), c.total = parseInt(d)), { data: Object.assign(Object.assign({}, h), c), error: null };
+    } catch (c) {
+      if (v(c))
+        return { data: { users: [] }, error: c };
+      throw c;
+    }
+  }
+  /**
+   * Get user by id.
+   *
+   * @param uid The user's unique identifier
+   *
+   * This function should only be called on a server. Never expose your `service_role` key in the browser.
+   *
+   * @category Auth
+   * @subcategory Auth Admin
+   *
+   * @remarks
+   * - Fetches the user object from the database based on the user's id.
+   * - The `getUserById()` method requires the user's id which maps to the `auth.users.id` column.
+   *
+   * @example Fetch the user object using the access_token jwt
+   * ```js
+   * const { data, error } = await supabase.auth.admin.getUserById(1)
+   * ```
+   *
+   * @exampleResponse Fetch the user object using the access_token jwt
+   * ```json
+   * {
+   *   data: {
+   *     user: {
+   *       id: '1',
+   *       aud: 'authenticated',
+   *       role: 'authenticated',
+   *       email: 'example@email.com',
+   *       email_confirmed_at: '2024-01-01T00:00:00Z',
+   *       phone: '',
+   *       confirmation_sent_at: '2024-01-01T00:00:00Z',
+   *       confirmed_at: '2024-01-01T00:00:00Z',
+   *       last_sign_in_at: '2024-01-01T00:00:00Z',
+   *       app_metadata: {},
+   *       user_metadata: {},
+   *       identities: [
+   *         {
+   *           "identity_id": "22222222-2222-2222-2222-222222222222",
+   *           "id": "1",
+   *           "user_id": "1",
+   *           "identity_data": {
+   *             "email": "example@email.com",
+   *             "email_verified": true,
+   *             "phone_verified": false,
+   *             "sub": "1"
+   *           },
+   *           "provider": "email",
+   *           "last_sign_in_at": "2024-01-01T00:00:00Z",
+   *           "created_at": "2024-01-01T00:00:00Z",
+   *           "updated_at": "2024-01-01T00:00:00Z",
+   *           "email": "email@example.com"
+   *         },
+   *       ],
+   *       created_at: '2024-01-01T00:00:00Z',
+   *       updated_at: '2024-01-01T00:00:00Z',
+   *       is_anonymous: false,
+   *     }
+   *   }
+   *   error: null
+   * }
+   * ```
+   */
+  async getUserById(e) {
+    Y(e);
+    try {
+      return await b(this.fetch, "GET", `${this.url}/admin/users/${e}`, {
+        headers: this.headers,
+        xform: re
+      });
+    } catch (r) {
+      if (v(r))
+        return { data: { user: null }, error: r };
+      throw r;
+    }
+  }
+  /**
+   * Updates the user data. Changes are applied directly without confirmation flows.
+   *
+   * @param uid The user's unique identifier
+   * @param attributes The data you want to update.
+   *
+   * This function should only be called on a server. Never expose your `service_role` key in the browser.
+   *
+   * @remarks
+   * **Important:** This is a server-side operation and does **not** trigger client-side
+   * `onAuthStateChange` listeners. The admin API has no connection to client state.
+   *
+   * To sync changes to the client after calling this method:
+   * 1. On the client, call `supabase.auth.refreshSession()` to fetch the updated user data
+   * 2. This will trigger the `TOKEN_REFRESHED` event and notify all listeners
+   *
+   * @example
+   * ```typescript
+   * // Server-side (Edge Function)
+   * const { data, error } = await supabase.auth.admin.updateUserById(
+   *   userId,
+   *   { user_metadata: { preferences: { theme: 'dark' } } }
+   * )
+   *
+   * // Client-side (to sync the changes)
+   * const { data, error } = await supabase.auth.refreshSession()
+   * // onAuthStateChange listeners will now be notified with updated user
+   * ```
+   *
+   * @see {@link GoTrueClient.refreshSession} for syncing admin changes to the client
+   * @see {@link GoTrueClient.updateUser} for client-side user updates (triggers listeners automatically)
+   *
+   * @category Auth
+   * @subcategory Auth Admin
+   *
+   * @example Updates a user's email
+   * ```js
+   * const { data: user, error } = await supabase.auth.admin.updateUserById(
+   *   '11111111-1111-1111-1111-111111111111',
+   *   { email: 'new@email.com' }
+   * )
+   * ```
+   *
+   * @exampleResponse Updates a user's email
+   * ```json
+   * {
+   *   "data": {
+   *     "user": {
+   *       "id": "11111111-1111-1111-1111-111111111111",
+   *       "aud": "authenticated",
+   *       "role": "authenticated",
+   *       "email": "new@email.com",
+   *       "email_confirmed_at": "2024-01-01T00:00:00Z",
+   *       "phone": "",
+   *       "confirmed_at": "2024-01-01T00:00:00Z",
+   *       "recovery_sent_at": "2024-01-01T00:00:00Z",
+   *       "last_sign_in_at": "2024-01-01T00:00:00Z",
+   *       "app_metadata": {
+   *         "provider": "email",
+   *         "providers": [
+   *           "email"
+   *         ]
+   *       },
+   *       "user_metadata": {
+   *         "email": "example@email.com",
+   *         "email_verified": false,
+   *         "phone_verified": false,
+   *         "sub": "11111111-1111-1111-1111-111111111111"
+   *       },
+   *       "identities": [
+   *         {
+   *           "identity_id": "22222222-2222-2222-2222-222222222222",
+   *           "id": "11111111-1111-1111-1111-111111111111",
+   *           "user_id": "11111111-1111-1111-1111-111111111111",
+   *           "identity_data": {
+   *             "email": "example@email.com",
+   *             "email_verified": false,
+   *             "phone_verified": false,
+   *             "sub": "11111111-1111-1111-1111-111111111111"
+   *           },
+   *           "provider": "email",
+   *           "last_sign_in_at": "2024-01-01T00:00:00Z",
+   *           "created_at": "2024-01-01T00:00:00Z",
+   *           "updated_at": "2024-01-01T00:00:00Z",
+   *           "email": "example@email.com"
+   *         }
+   *       ],
+   *       "created_at": "2024-01-01T00:00:00Z",
+   *       "updated_at": "2024-01-01T00:00:00Z",
+   *       "is_anonymous": false
+   *     }
+   *   },
+   *   "error": null
+   * }
+   * ```
+   *
+   * @example Updates a user's password
+   * ```js
+   * const { data: user, error } = await supabase.auth.admin.updateUserById(
+   *   '6aa5d0d4-2a9f-4483-b6c8-0cf4c6c98ac4',
+   *   { password: 'new_password' }
+   * )
+   * ```
+   *
+   * @example Updates a user's metadata
+   * ```js
+   * const { data: user, error } = await supabase.auth.admin.updateUserById(
+   *   '6aa5d0d4-2a9f-4483-b6c8-0cf4c6c98ac4',
+   *   { user_metadata: { hello: 'world' } }
+   * )
+   * ```
+   *
+   * @example Updates a user's app_metadata
+   * ```js
+   * const { data: user, error } = await supabase.auth.admin.updateUserById(
+   *   '6aa5d0d4-2a9f-4483-b6c8-0cf4c6c98ac4',
+   *   { app_metadata: { plan: 'trial' } }
+   * )
+   * ```
+   *
+   * @example Confirms a user's email address
+   * ```js
+   * const { data: user, error } = await supabase.auth.admin.updateUserById(
+   *   '6aa5d0d4-2a9f-4483-b6c8-0cf4c6c98ac4',
+   *   { email_confirm: true }
+   * )
+   * ```
+   *
+   * @example Confirms a user's phone number
+   * ```js
+   * const { data: user, error } = await supabase.auth.admin.updateUserById(
+   *   '6aa5d0d4-2a9f-4483-b6c8-0cf4c6c98ac4',
+   *   { phone_confirm: true }
+   * )
+   * ```
+   *
+   * @example Ban a user for 100 years
+   * ```js
+   * const { data: user, error } = await supabase.auth.admin.updateUserById(
+   *   '6aa5d0d4-2a9f-4483-b6c8-0cf4c6c98ac4',
+   *   { ban_duration: '876000h' }
+   * )
+   * ```
+   */
+  async updateUserById(e, r) {
+    Y(e);
+    try {
+      return await b(this.fetch, "PUT", `${this.url}/admin/users/${e}`, {
+        body: r,
+        headers: this.headers,
+        xform: re
+      });
+    } catch (s) {
+      if (v(s))
+        return { data: { user: null }, error: s };
+      throw s;
+    }
+  }
+  /**
+   * Delete a user. Requires a `service_role` key.
+   *
+   * @param id The user id you want to remove.
+   * @param shouldSoftDelete If true, then the user will be soft-deleted from the auth schema. Soft deletion allows user identification from the hashed user ID but is not reversible.
+   * Defaults to false for backward compatibility.
+   *
+   * This function should only be called on a server. Never expose your `service_role` key in the browser.
+   *
+   * @category Auth
+   * @subcategory Auth Admin
+   *
+   * @remarks
+   * - The `deleteUser()` method requires the user's ID, which maps to the `auth.users.id` column.
+   *
+   * @example Removes a user
+   * ```js
+   * const { data, error } = await supabase.auth.admin.deleteUser(
+   *   '715ed5db-f090-4b8c-a067-640ecee36aa0'
+   * )
+   * ```
+   *
+   * @exampleResponse Removes a user
+   * ```json
+   * {
+   *   "data": {
+   *     "user": {}
+   *   },
+   *   "error": null
+   * }
+   * ```
+   */
+  async deleteUser(e, r = !1) {
+    Y(e);
+    try {
+      return await b(this.fetch, "DELETE", `${this.url}/admin/users/${e}`, {
+        headers: this.headers,
+        body: {
+          should_soft_delete: r
+        },
+        xform: re
+      });
+    } catch (s) {
+      if (v(s))
+        return { data: { user: null }, error: s };
+      throw s;
+    }
+  }
+  async _listFactors(e) {
+    Y(e.userId);
+    try {
+      const { data: r, error: s } = await b(this.fetch, "GET", `${this.url}/admin/users/${e.userId}/factors`, {
+        headers: this.headers,
+        xform: (n) => ({ data: { factors: n }, error: null })
+      });
+      return { data: r, error: s };
+    } catch (r) {
+      if (v(r))
+        return { data: null, error: r };
+      throw r;
+    }
+  }
+  async _deleteFactor(e) {
+    Y(e.userId), Y(e.id);
+    try {
+      return { data: await b(this.fetch, "DELETE", `${this.url}/admin/users/${e.userId}/factors/${e.id}`, {
+        headers: this.headers
+      }), error: null };
+    } catch (r) {
+      if (v(r))
+        return { data: null, error: r };
+      throw r;
+    }
+  }
+  /**
+   * Lists all OAuth clients with optional pagination.
+   * Only relevant when the OAuth 2.1 server is enabled in Supabase Auth.
+   *
+   * This function should only be called on a server. Never expose your `service_role` key in the browser.
+   */
+  async _listOAuthClients(e) {
+    var r, s, n, i, a, o, l;
+    try {
+      const c = { nextPage: null, lastPage: 0, total: 0 }, u = await b(this.fetch, "GET", `${this.url}/admin/oauth/clients`, {
+        headers: this.headers,
+        noResolveJson: !0,
+        query: {
+          page: (s = (r = e?.page) === null || r === void 0 ? void 0 : r.toString()) !== null && s !== void 0 ? s : "",
+          per_page: (i = (n = e?.perPage) === null || n === void 0 ? void 0 : n.toString()) !== null && i !== void 0 ? i : ""
+        },
+        xform: fr
+      });
+      if (u.error)
+        throw u.error;
+      const h = await u.json(), d = (a = u.headers.get("x-total-count")) !== null && a !== void 0 ? a : 0, f = (l = (o = u.headers.get("link")) === null || o === void 0 ? void 0 : o.split(",")) !== null && l !== void 0 ? l : [];
+      return f.length > 0 && (f.forEach((p) => {
+        const y = parseInt(p.split(";")[0].split("=")[1].substring(0, 1)), m = JSON.parse(p.split(";")[1].split("=")[1]);
+        c[`${m}Page`] = y;
+      }), c.total = parseInt(d)), { data: Object.assign(Object.assign({}, h), c), error: null };
+    } catch (c) {
+      if (v(c))
+        return { data: { clients: [] }, error: c };
+      throw c;
+    }
+  }
+  /**
+   * Creates a new OAuth client.
+   * Only relevant when the OAuth 2.1 server is enabled in Supabase Auth.
+   *
+   * This function should only be called on a server. Never expose your `service_role` key in the browser.
+   */
+  async _createOAuthClient(e) {
+    try {
+      return await b(this.fetch, "POST", `${this.url}/admin/oauth/clients`, {
+        body: e,
+        headers: this.headers,
+        xform: (r) => ({ data: r, error: null })
+      });
+    } catch (r) {
+      if (v(r))
+        return { data: null, error: r };
+      throw r;
+    }
+  }
+  /**
+   * Gets details of a specific OAuth client.
+   * Only relevant when the OAuth 2.1 server is enabled in Supabase Auth.
+   *
+   * This function should only be called on a server. Never expose your `service_role` key in the browser.
+   */
+  async _getOAuthClient(e) {
+    try {
+      return await b(this.fetch, "GET", `${this.url}/admin/oauth/clients/${e}`, {
+        headers: this.headers,
+        xform: (r) => ({ data: r, error: null })
+      });
+    } catch (r) {
+      if (v(r))
+        return { data: null, error: r };
+      throw r;
+    }
+  }
+  /**
+   * Updates an existing OAuth client.
+   * Only relevant when the OAuth 2.1 server is enabled in Supabase Auth.
+   *
+   * This function should only be called on a server. Never expose your `service_role` key in the browser.
+   */
+  async _updateOAuthClient(e, r) {
+    try {
+      return await b(this.fetch, "PUT", `${this.url}/admin/oauth/clients/${e}`, {
+        body: r,
+        headers: this.headers,
+        xform: (s) => ({ data: s, error: null })
+      });
+    } catch (s) {
+      if (v(s))
+        return { data: null, error: s };
+      throw s;
+    }
+  }
+  /**
+   * Deletes an OAuth client.
+   * Only relevant when the OAuth 2.1 server is enabled in Supabase Auth.
+   *
+   * This function should only be called on a server. Never expose your `service_role` key in the browser.
+   */
+  async _deleteOAuthClient(e) {
+    try {
+      return await b(this.fetch, "DELETE", `${this.url}/admin/oauth/clients/${e}`, {
+        headers: this.headers,
+        noResolveJson: !0
+      }), { data: null, error: null };
+    } catch (r) {
+      if (v(r))
+        return { data: null, error: r };
+      throw r;
+    }
+  }
+  /**
+   * Regenerates the secret for an OAuth client.
+   * Only relevant when the OAuth 2.1 server is enabled in Supabase Auth.
+   *
+   * This function should only be called on a server. Never expose your `service_role` key in the browser.
+   */
+  async _regenerateOAuthClientSecret(e) {
+    try {
+      return await b(this.fetch, "POST", `${this.url}/admin/oauth/clients/${e}/regenerate_secret`, {
+        headers: this.headers,
+        xform: (r) => ({ data: r, error: null })
+      });
+    } catch (r) {
+      if (v(r))
+        return { data: null, error: r };
+      throw r;
+    }
+  }
+  /**
+   * Lists all custom providers with optional type filter.
+   *
+   * This function should only be called on a server. Never expose your `service_role` key in the browser.
+   */
+  async _listCustomProviders(e) {
+    try {
+      const r = {};
+      return e?.type && (r.type = e.type), await b(this.fetch, "GET", `${this.url}/admin/custom-providers`, {
+        headers: this.headers,
+        query: r,
+        xform: (s) => {
+          var n;
+          return { data: { providers: (n = s?.providers) !== null && n !== void 0 ? n : [] }, error: null };
+        }
+      });
+    } catch (r) {
+      if (v(r))
+        return { data: { providers: [] }, error: r };
+      throw r;
+    }
+  }
+  /**
+   * Creates a new custom OIDC/OAuth provider.
+   *
+   * For OIDC providers, the server fetches and validates the OpenID Connect discovery document
+   * from the issuer's well-known endpoint (or the provided `discovery_url`) at creation time.
+   * This may return a validation error (`error_code: "validation_failed"`) if the discovery
+   * document is unreachable, not valid JSON, missing required fields, or if the issuer
+   * in the document does not match the expected issuer.
+   *
+   * This function should only be called on a server. Never expose your `service_role` key in the browser.
+   */
+  async _createCustomProvider(e) {
+    try {
+      return await b(this.fetch, "POST", `${this.url}/admin/custom-providers`, {
+        body: e,
+        headers: this.headers,
+        xform: (r) => ({ data: r, error: null })
+      });
+    } catch (r) {
+      if (v(r))
+        return { data: null, error: r };
+      throw r;
+    }
+  }
+  /**
+   * Gets details of a specific custom provider by identifier.
+   *
+   * This function should only be called on a server. Never expose your `service_role` key in the browser.
+   */
+  async _getCustomProvider(e) {
+    try {
+      return await b(this.fetch, "GET", `${this.url}/admin/custom-providers/${e}`, {
+        headers: this.headers,
+        xform: (r) => ({ data: r, error: null })
+      });
+    } catch (r) {
+      if (v(r))
+        return { data: null, error: r };
+      throw r;
+    }
+  }
+  /**
+   * Updates an existing custom provider.
+   *
+   * When `issuer` or `discovery_url` is changed on an OIDC provider, the server re-fetches and
+   * validates the discovery document before persisting. This may return a validation error
+   * (`error_code: "validation_failed"`) if the discovery document is unreachable, invalid, or
+   * the issuer does not match.
+   *
+   * This function should only be called on a server. Never expose your `service_role` key in the browser.
+   */
+  async _updateCustomProvider(e, r) {
+    try {
+      return await b(this.fetch, "PUT", `${this.url}/admin/custom-providers/${e}`, {
+        body: r,
+        headers: this.headers,
+        xform: (s) => ({ data: s, error: null })
+      });
+    } catch (s) {
+      if (v(s))
+        return { data: null, error: s };
+      throw s;
+    }
+  }
+  /**
+   * Deletes a custom provider.
+   *
+   * This function should only be called on a server. Never expose your `service_role` key in the browser.
+   */
+  async _deleteCustomProvider(e) {
+    try {
+      return await b(this.fetch, "DELETE", `${this.url}/admin/custom-providers/${e}`, {
+        headers: this.headers,
+        noResolveJson: !0
+      }), { data: null, error: null };
+    } catch (r) {
+      if (v(r))
+        return { data: null, error: r };
+      throw r;
+    }
+  }
+  /**
+   * Lists all passkeys for a user.
+   *
+   * This function should only be called on a server. Never expose your secret key in the browser.
+   *
+   * Requires `auth.experimental.passkey: true`.
+   */
+  async _adminListPasskeys(e) {
+    M(this.experimental), Y(e.userId);
+    try {
+      return await b(this.fetch, "GET", `${this.url}/admin/users/${e.userId}/passkeys`, { headers: this.headers, xform: (r) => ({ data: r, error: null }) });
+    } catch (r) {
+      if (v(r))
+        return { data: null, error: r };
+      throw r;
+    }
+  }
+  /**
+   * Deletes a user's passkey.
+   *
+   * This function should only be called on a server. Never expose your secret key in the browser.
+   *
+   * Requires `auth.experimental.passkey: true`.
+   */
+  async _adminDeletePasskey(e) {
+    M(this.experimental), Y(e.userId), Y(e.passkeyId);
+    try {
+      return await b(this.fetch, "DELETE", `${this.url}/admin/users/${e.userId}/passkeys/${e.passkeyId}`, { headers: this.headers, noResolveJson: !0 }), { data: null, error: null };
+    } catch (r) {
+      if (v(r))
+        return { data: null, error: r };
+      throw r;
+    }
+  }
+}
+function pr(t = {}) {
+  return {
+    getItem: (e) => t[e] || null,
+    setItem: (e, r) => {
+      t[e] = r;
+    },
+    removeItem: (e) => {
+      delete t[e];
+    }
+  };
+}
+globalThis && Wr() && globalThis.localStorage && globalThis.localStorage.getItem("supabase.gotrue-js.locks.debug");
+class Ei extends Error {
+  constructor(e) {
+    super(e), this.isAcquireTimeout = !0;
+  }
+}
+function Ti() {
+  if (typeof globalThis != "object")
+    try {
+      Object.defineProperty(Object.prototype, "__magic__", {
+        get: function() {
+          return this;
+        },
+        configurable: !0
+      }), __magic__.globalThis = __magic__, delete Object.prototype.__magic__;
+    } catch {
+      typeof self < "u" && (self.globalThis = self);
+    }
+}
+function zr(t) {
+  if (!/^0x[a-fA-F0-9]{40}$/.test(t))
+    throw new Error(`@supabase/auth-js: Address "${t}" is invalid.`);
+  return t.toLowerCase();
+}
+function Ai(t) {
+  return parseInt(t, 16);
+}
+function Ri(t) {
+  const e = new TextEncoder().encode(t);
+  return "0x" + Array.from(e, (s) => s.toString(16).padStart(2, "0")).join("");
+}
+function Oi(t) {
+  var e;
+  const { chainId: r, domain: s, expirationTime: n, issuedAt: i = /* @__PURE__ */ new Date(), nonce: a, notBefore: o, requestId: l, resources: c, scheme: u, uri: h, version: d } = t;
+  {
+    if (!Number.isInteger(r))
+      throw new Error(`@supabase/auth-js: Invalid SIWE message field "chainId". Chain ID must be a EIP-155 chain ID. Provided value: ${r}`);
+    if (!s)
+      throw new Error('@supabase/auth-js: Invalid SIWE message field "domain". Domain must be provided.');
+    if (a && a.length < 8)
+      throw new Error(`@supabase/auth-js: Invalid SIWE message field "nonce". Nonce must be at least 8 characters. Provided value: ${a}`);
+    if (!h)
+      throw new Error('@supabase/auth-js: Invalid SIWE message field "uri". URI must be provided.');
+    if (d !== "1")
+      throw new Error(`@supabase/auth-js: Invalid SIWE message field "version". Version must be '1'. Provided value: ${d}`);
+    if (!((e = t.statement) === null || e === void 0) && e.includes(`
+`))
+      throw new Error(`@supabase/auth-js: Invalid SIWE message field "statement". Statement must not include '\\n'. Provided value: ${t.statement}`);
+  }
+  const f = zr(t.address), p = u ? `${u}://${s}` : s, y = t.statement ? `${t.statement}
+` : "", m = `${p} wants you to sign in with your Ethereum account:
+${f}
 
-ˆË˜Ý\œ™[\ÜÙ]ÒÙ^HOOHË]™\›Ú\˜XÝ\’Ù^HYË˜Ý\œ™[\ÜÙ]ÊH	‰ˆ
-Ë˜Ý\œ™[\ÜÙ]ÈH]ØZ]XJÊKË˜Ý\œ™[\ÜÙ]ÒÙ^HHË]™\›Ú\˜XÝ\’Ù^JK™J
-JBˆžHÂˆ]ØZ]ØJËË˜Ý\œ™[\ÜÙ]ÊNÂˆHØ]Ú
-
-HÂˆË˜\ÜÙ]Ý]K™\œ›ÜˆH›Y\ÜØYÙHº)äº"lº-a9¥¦yd#9«iyi,z-)H‹ÛÛœÛÛK™\œ›ÜŠÉÒ_WH\ÜÙ]Þ[˜È˜Z[Y
-NÂˆBˆÛÛœÝHH]ØZ]YJ”ÓÓ‹œÝš[™ÚYžJŠJKÈHX]›Z[ŠŒX]›X^
-‹[X™\Š
+${y}`;
+  let w = `URI: ${h}
+Version: ${d}
+Chain ID: ${r}${a ? `
+Nonce: ${a}` : ""}
+Issued At: ${i.toISOString()}`;
+  if (n && (w += `
+Expiration Time: ${n.toISOString()}`), o && (w += `
+Not Before: ${o.toISOString()}`), l && (w += `
+Request ID: ${l}`), c) {
+    let S = `
+Resources:`;
+    for (const _ of c) {
+      if (!_ || typeof _ != "string")
+        throw new Error(`@supabase/auth-js: Invalid SIWE message field "resources". Every resource must be a valid string. Provided value: ${_}`);
+      S += `
+- ${_}`;
+    }
+    w += S;
+  }
+  return `${m}
+${w}`;
+}
+class P extends Error {
+  constructor({ message: e, code: r, cause: s, name: n }) {
+    var i;
+    super(e, { cause: s }), this.__isWebAuthnError = !0, this.name = (i = n ?? (s instanceof Error ? s.name : void 0)) !== null && i !== void 0 ? i : "Unknown Error", this.code = r;
+  }
+  toJSON() {
+    return {
+      name: this.name,
+      message: this.message,
+      code: this.code
+    };
+  }
+}
+class tt extends P {
+  constructor(e, r) {
+    super({
+      code: "ERROR_PASSTHROUGH_SEE_CAUSE_PROPERTY",
+      cause: r,
+      message: e
+    }), this.name = "WebAuthnUnknownError", this.originalError = r;
+  }
+}
+function Ci({ error: t, options: e }) {
+  var r, s, n;
+  const { publicKey: i } = e;
+  if (!i)
+    throw Error("options was missing required publicKey property");
+  if (t.name === "AbortError") {
+    if (e.signal instanceof AbortSignal)
+      return new P({
+        message: "Registration ceremony was sent an abort signal",
+        code: "ERROR_CEREMONY_ABORTED",
+        cause: t
+      });
+  } else if (t.name === "ConstraintError") {
+    if (((r = i.authenticatorSelection) === null || r === void 0 ? void 0 : r.requireResidentKey) === !0)
+      return new P({
+        message: "Discoverable credentials were required but no available authenticator supported it",
+        code: "ERROR_AUTHENTICATOR_MISSING_DISCOVERABLE_CREDENTIAL_SUPPORT",
+        cause: t
+      });
+    if (
+      // @ts-ignore: `mediation` doesn't yet exist on CredentialCreationOptions but it's possible as of Sept 2024
+      e.mediation === "conditional" && ((s = i.authenticatorSelection) === null || s === void 0 ? void 0 : s.userVerification) === "required"
+    )
+      return new P({
+        message: "User verification was required during automatic registration but it could not be performed",
+        code: "ERROR_AUTO_REGISTER_USER_VERIFICATION_FAILURE",
+        cause: t
+      });
+    if (((n = i.authenticatorSelection) === null || n === void 0 ? void 0 : n.userVerification) === "required")
+      return new P({
+        message: "User verification was required but no available authenticator supported it",
+        code: "ERROR_AUTHENTICATOR_MISSING_USER_VERIFICATION_SUPPORT",
+        cause: t
+      });
+  } else {
+    if (t.name === "InvalidStateError")
+      return new P({
+        message: "The authenticator was previously registered",
+        code: "ERROR_AUTHENTICATOR_PREVIOUSLY_REGISTERED",
+        cause: t
+      });
+    if (t.name === "NotAllowedError")
+      return new P({
+        message: t.message,
+        code: "ERROR_PASSTHROUGH_SEE_CAUSE_PROPERTY",
+        cause: t
+      });
+    if (t.name === "NotSupportedError")
+      return i.pubKeyCredParams.filter((o) => o.type === "public-key").length === 0 ? new P({
+        message: 'No entry in pubKeyCredParams was of type "public-key"',
+        code: "ERROR_MALFORMED_PUBKEYCREDPARAMS",
+        cause: t
+      }) : new P({
+        message: "No available authenticator supported any of the specified pubKeyCredParams algorithms",
+        code: "ERROR_AUTHENTICATOR_NO_SUPPORTED_PUBKEYCREDPARAMS_ALG",
+        cause: t
+      });
+    if (t.name === "SecurityError") {
+      const a = window.location.hostname;
+      if (Jr(a)) {
+        if (i.rp.id !== a)
+          return new P({
+            message: `The RP ID "${i.rp.id}" is invalid for this domain`,
+            code: "ERROR_INVALID_RP_ID",
+            cause: t
+          });
+      } else return new P({
+        message: `${window.location.hostname} is an invalid domain`,
+        code: "ERROR_INVALID_DOMAIN",
+        cause: t
+      });
+    } else if (t.name === "TypeError") {
+      if (i.user.id.byteLength < 1 || i.user.id.byteLength > 64)
+        return new P({
+          message: "User ID was not between 1 and 64 characters",
+          code: "ERROR_INVALID_USER_ID_LENGTH",
+          cause: t
+        });
+    } else if (t.name === "UnknownError")
+      return new P({
+        message: "The authenticator was unable to process the specified options, or could not create a new credential",
+        code: "ERROR_AUTHENTICATOR_GENERAL_ERROR",
+        cause: t
+      });
+  }
+  return new P({
+    message: "a Non-Webauthn related error has occurred",
+    code: "ERROR_PASSTHROUGH_SEE_CAUSE_PROPERTY",
+    cause: t
+  });
+}
+function Pi({ error: t, options: e }) {
+  const { publicKey: r } = e;
+  if (!r)
+    throw Error("options was missing required publicKey property");
+  if (t.name === "AbortError") {
+    if (e.signal instanceof AbortSignal)
+      return new P({
+        message: "Authentication ceremony was sent an abort signal",
+        code: "ERROR_CEREMONY_ABORTED",
+        cause: t
+      });
+  } else {
+    if (t.name === "NotAllowedError")
+      return new P({
+        message: t.message,
+        code: "ERROR_PASSTHROUGH_SEE_CAUSE_PROPERTY",
+        cause: t
+      });
+    if (t.name === "SecurityError") {
+      const s = window.location.hostname;
+      if (Jr(s)) {
+        if (r.rpId !== s)
+          return new P({
+            message: `The RP ID "${r.rpId}" is invalid for this domain`,
+            code: "ERROR_INVALID_RP_ID",
+            cause: t
+          });
+      } else return new P({
+        message: `${window.location.hostname} is an invalid domain`,
+        code: "ERROR_INVALID_DOMAIN",
+        cause: t
+      });
+    } else if (t.name === "UnknownError")
+      return new P({
+        message: "The authenticator was unable to process the specified options, or could not create a new assertion signature",
+        code: "ERROR_AUTHENTICATOR_GENERAL_ERROR",
+        cause: t
+      });
+  }
+  return new P({
+    message: "a Non-Webauthn related error has occurred",
+    code: "ERROR_PASSTHROUGH_SEE_CAUSE_PROPERTY",
+    cause: t
+  });
+}
+class Ii {
+  /**
+   * Create an abort signal for a new WebAuthn operation.
+   * Automatically cancels any existing operation.
+   *
+   * @returns {AbortSignal} Signal to pass to navigator.credentials.create() or .get()
+   * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal MDN - AbortSignal}
+   */
+  createNewAbortSignal() {
+    if (this.controller) {
+      const r = new Error("Cancelling existing WebAuthn API call for new one");
+      r.name = "AbortError", this.controller.abort(r);
+    }
+    const e = new AbortController();
+    return this.controller = e, e.signal;
+  }
+  /**
+   * Manually cancel the current WebAuthn operation.
+   * Useful for cleaning up when user cancels or navigates away.
+   *
+   * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/AbortController/abort MDN - AbortController.abort}
+   */
+  cancelCeremony() {
+    if (this.controller) {
+      const e = new Error("Manually cancelling existing WebAuthn API call");
+      e.name = "AbortError", this.controller.abort(e), this.controller = void 0;
+    }
+  }
+}
+const $t = new Ii();
+function gr(t) {
+  if (!t)
+    throw new Error("Credential creation options are required");
+  if (typeof PublicKeyCredential < "u" && "parseCreationOptionsFromJSON" in PublicKeyCredential && typeof PublicKeyCredential.parseCreationOptionsFromJSON == "function")
+    return PublicKeyCredential.parseCreationOptionsFromJSON(
+      /** we assert the options here as typescript still doesn't know about future webauthn types */
+      t
+    );
+  const { challenge: e, user: r, excludeCredentials: s } = t, n = lt(
+    t,
+    ["challenge", "user", "excludeCredentials"]
+  ), i = _e(e).buffer, a = Object.assign(Object.assign({}, r), { id: _e(r.id).buffer }), o = Object.assign(Object.assign({}, n), {
+    challenge: i,
+    user: a
+  });
+  if (s && s.length > 0) {
+    o.excludeCredentials = new Array(s.length);
+    for (let l = 0; l < s.length; l++) {
+      const c = s[l];
+      o.excludeCredentials[l] = Object.assign(Object.assign({}, c), {
+        id: _e(c.id).buffer,
+        type: c.type || "public-key",
+        // Cast transports to handle future transport types like "cable"
+        transports: c.transports
+      });
+    }
+  }
+  return o;
+}
+function yr(t) {
+  if (!t)
+    throw new Error("Credential request options are required");
+  if (typeof PublicKeyCredential < "u" && "parseRequestOptionsFromJSON" in PublicKeyCredential && typeof PublicKeyCredential.parseRequestOptionsFromJSON == "function")
+    return PublicKeyCredential.parseRequestOptionsFromJSON(t);
+  const { challenge: e, allowCredentials: r } = t, s = lt(
+    t,
+    ["challenge", "allowCredentials"]
+  ), n = _e(e).buffer, i = Object.assign(Object.assign({}, s), { challenge: n });
+  if (r && r.length > 0) {
+    i.allowCredentials = new Array(r.length);
+    for (let a = 0; a < r.length; a++) {
+      const o = r[a];
+      i.allowCredentials[a] = Object.assign(Object.assign({}, o), {
+        id: _e(o.id).buffer,
+        type: o.type || "public-key",
+        // Cast transports to handle future transport types like "cable"
+        transports: o.transports
+      });
+    }
+  }
+  return i;
+}
+function mr(t) {
+  var e;
+  if ("toJSON" in t && typeof t.toJSON == "function")
+    return t.toJSON();
+  const r = t;
+  return {
+    id: t.id,
+    rawId: t.id,
+    response: {
+      attestationObject: le(new Uint8Array(t.response.attestationObject)),
+      clientDataJSON: le(new Uint8Array(t.response.clientDataJSON))
+    },
+    type: "public-key",
+    clientExtensionResults: t.getClientExtensionResults(),
+    // Convert null to undefined and cast to AuthenticatorAttachment type
+    authenticatorAttachment: (e = r.authenticatorAttachment) !== null && e !== void 0 ? e : void 0
+  };
+}
+function vr(t) {
+  var e;
+  if ("toJSON" in t && typeof t.toJSON == "function")
+    return t.toJSON();
+  const r = t, s = t.getClientExtensionResults(), n = t.response;
+  return {
+    id: t.id,
+    rawId: t.id,
+    // W3C spec expects rawId to match id for JSON format
+    response: {
+      authenticatorData: le(new Uint8Array(n.authenticatorData)),
+      clientDataJSON: le(new Uint8Array(n.clientDataJSON)),
+      signature: le(new Uint8Array(n.signature)),
+      userHandle: n.userHandle ? le(new Uint8Array(n.userHandle)) : void 0
+    },
+    type: "public-key",
+    clientExtensionResults: s,
+    // Convert null to undefined and cast to AuthenticatorAttachment type
+    authenticatorAttachment: (e = r.authenticatorAttachment) !== null && e !== void 0 ? e : void 0
+  };
+}
+function Jr(t) {
+  return (
+    // Consider localhost valid as well since it's okay wrt Secure Contexts
+    t === "localhost" || /^([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$/i.test(t)
+  );
+}
+function rt() {
+  var t, e;
+  return !!(j() && "PublicKeyCredential" in window && window.PublicKeyCredential && "credentials" in navigator && typeof ((t = navigator?.credentials) === null || t === void 0 ? void 0 : t.create) == "function" && typeof ((e = navigator?.credentials) === null || e === void 0 ? void 0 : e.get) == "function");
+}
+async function Gr(t) {
+  try {
+    const e = await navigator.credentials.create(
+      /** we assert the type here until typescript types are updated */
+      t
+    );
+    return e ? e instanceof PublicKeyCredential ? { data: e, error: null } : {
+      data: null,
+      error: new tt("Browser returned unexpected credential type", e)
+    } : {
+      data: null,
+      error: new tt("Empty credential response", e)
+    };
+  } catch (e) {
+    return {
+      data: null,
+      error: Ci({
+        error: e,
+        options: t
+      })
+    };
+  }
+}
+async function Yr(t) {
+  try {
+    const e = await navigator.credentials.get(
+      /** we assert the type here until typescript types are updated */
+      t
+    );
+    return e ? e instanceof PublicKeyCredential ? { data: e, error: null } : {
+      data: null,
+      error: new tt("Browser returned unexpected credential type", e)
+    } : {
+      data: null,
+      error: new tt("Empty credential response", e)
+    };
+  } catch (e) {
+    return {
+      data: null,
+      error: Pi({
+        error: e,
+        options: t
+      })
+    };
+  }
+}
+const $i = {
+  hints: ["security-key"],
+  authenticatorSelection: {
+    authenticatorAttachment: "cross-platform",
+    requireResidentKey: !1,
+    /** set to preferred because older yubikeys don't have PIN/Biometric */
+    userVerification: "preferred",
+    residentKey: "discouraged"
+  },
+  attestation: "direct"
+}, ji = {
+  /** set to preferred because older yubikeys don't have PIN/Biometric */
+  userVerification: "preferred",
+  hints: ["security-key"],
+  attestation: "direct"
+};
+function st(...t) {
+  const e = (n) => n !== null && typeof n == "object" && !Array.isArray(n), r = (n) => n instanceof ArrayBuffer || ArrayBuffer.isView(n), s = {};
+  for (const n of t)
+    if (n)
+      for (const i in n) {
+        const a = n[i];
+        if (a !== void 0)
+          if (Array.isArray(a))
+            s[i] = a;
+          else if (r(a))
+            s[i] = a;
+          else if (e(a)) {
+            const o = s[i];
+            e(o) ? s[i] = st(o, a) : s[i] = st(a);
+          } else
+            s[i] = a;
+      }
+  return s;
+}
+function xi(t, e) {
+  return st($i, t, e || {});
+}
+function Ni(t, e) {
+  return st(ji, t, e || {});
+}
+class Ui {
+  constructor(e) {
+    this.client = e, this.enroll = this._enroll.bind(this), this.challenge = this._challenge.bind(this), this.verify = this._verify.bind(this), this.authenticate = this._authenticate.bind(this), this.register = this._register.bind(this);
+  }
+  /**
+   * Enroll a new WebAuthn factor.
+   * Creates an unverified WebAuthn factor that must be verified with a credential.
+   *
+   * @experimental This method is experimental and may change in future releases
+   * @param {Omit<MFAEnrollWebauthnParams, 'factorType'>} params - Enrollment parameters (friendlyName required)
+   * @returns {Promise<AuthMFAEnrollWebauthnResponse>} Enrolled factor details or error
+   * @see {@link https://w3c.github.io/webauthn/#sctn-registering-a-new-credential W3C WebAuthn Spec - Registering a New Credential}
+   */
+  async _enroll(e) {
+    return this.client.mfa.enroll(Object.assign(Object.assign({}, e), { factorType: "webauthn" }));
+  }
+  /**
+   * Challenge for WebAuthn credential creation or authentication.
+   * Combines server challenge with browser credential operations.
+   * Handles both registration (create) and authentication (request) flows.
+   *
+   * @experimental This method is experimental and may change in future releases
+   * @param {MFAChallengeWebauthnParams & { friendlyName?: string; signal?: AbortSignal }} params - Challenge parameters including factorId
+   * @param {Object} overrides - Allows you to override the parameters passed to navigator.credentials
+   * @param {PublicKeyCredentialCreationOptionsFuture} overrides.create - Override options for credential creation
+   * @param {PublicKeyCredentialRequestOptionsFuture} overrides.request - Override options for credential request
+   * @returns {Promise<RequestResult>} Challenge response with credential or error
+   * @see {@link https://w3c.github.io/webauthn/#sctn-credential-creation W3C WebAuthn Spec - Credential Creation}
+   * @see {@link https://w3c.github.io/webauthn/#sctn-verifying-assertion W3C WebAuthn Spec - Verifying Assertion}
+   */
+  async _challenge({ factorId: e, webauthn: r, friendlyName: s, signal: n }, i) {
+    var a;
+    try {
+      const { data: o, error: l } = await this.client.mfa.challenge({
+        factorId: e,
+        webauthn: r
+      });
+      if (!o)
+        return { data: null, error: l };
+      const c = n ?? $t.createNewAbortSignal();
+      if (o.webauthn.type === "create") {
+        const { user: u } = o.webauthn.credential_options.publicKey;
+        if (!u.name) {
+          const h = s;
+          if (h)
+            u.name = `${u.id}:${h}`;
+          else {
+            const f = (await this.client.getUser()).data.user, p = ((a = f?.user_metadata) === null || a === void 0 ? void 0 : a.name) || f?.email || f?.id || "User";
+            u.name = `${u.id}:${p}`;
+          }
+        }
+        u.displayName || (u.displayName = u.name);
+      }
+      switch (o.webauthn.type) {
+        case "create": {
+          const u = xi(o.webauthn.credential_options.publicKey, i?.create), { data: h, error: d } = await Gr({
+            publicKey: u,
+            signal: c
+          });
+          return h ? {
+            data: {
+              factorId: e,
+              challengeId: o.id,
+              webauthn: {
+                type: o.webauthn.type,
+                credential_response: h
+              }
+            },
+            error: null
+          } : { data: null, error: d };
+        }
+        case "request": {
+          const u = Ni(o.webauthn.credential_options.publicKey, i?.request), { data: h, error: d } = await Yr(Object.assign(Object.assign({}, o.webauthn.credential_options), { publicKey: u, signal: c }));
+          return h ? {
+            data: {
+              factorId: e,
+              challengeId: o.id,
+              webauthn: {
+                type: o.webauthn.type,
+                credential_response: h
+              }
+            },
+            error: null
+          } : { data: null, error: d };
+        }
+      }
+    } catch (o) {
+      return v(o) ? { data: null, error: o } : {
+        data: null,
+        error: new F("Unexpected error in challenge", o)
+      };
+    }
+  }
+  /**
+   * Verify a WebAuthn credential with the server.
+   * Completes the WebAuthn ceremony by sending the credential to the server for verification.
+   *
+   * @experimental This method is experimental and may change in future releases
+   * @param {Object} params - Verification parameters
+   * @param {string} params.challengeId - ID of the challenge being verified
+   * @param {string} params.factorId - ID of the WebAuthn factor
+   * @param {MFAVerifyWebauthnParams<T>['webauthn']} params.webauthn - WebAuthn credential response
+   * @returns {Promise<AuthMFAVerifyResponse>} Verification result with session or error
+   * @see {@link https://w3c.github.io/webauthn/#sctn-verifying-assertion W3C WebAuthn Spec - Verifying an Authentication Assertion}
+   * */
+  async _verify({ challengeId: e, factorId: r, webauthn: s }) {
+    return this.client.mfa.verify({
+      factorId: r,
+      challengeId: e,
+      webauthn: s
+    });
+  }
+  /**
+   * Complete WebAuthn authentication flow.
+   * Performs challenge and verification in a single operation for existing credentials.
+   *
+   * @experimental This method is experimental and may change in future releases
+   * @param {Object} params - Authentication parameters
+   * @param {string} params.factorId - ID of the WebAuthn factor to authenticate with
+   * @param {Object} params.webauthn - WebAuthn configuration
+   * @param {string} params.webauthn.rpId - Relying Party ID (defaults to current hostname)
+   * @param {string[]} params.webauthn.rpOrigins - Allowed origins (defaults to current origin)
+   * @param {AbortSignal} params.webauthn.signal - Optional abort signal
+   * @param {PublicKeyCredentialRequestOptionsFuture} overrides - Override options for navigator.credentials.get
+   * @returns {Promise<RequestResult<AuthMFAVerifyResponseData, WebAuthnError | AuthError>>} Authentication result
+   * @see {@link https://w3c.github.io/webauthn/#sctn-authentication W3C WebAuthn Spec - Authentication Ceremony}
+   * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/PublicKeyCredentialRequestOptions MDN - PublicKeyCredentialRequestOptions}
+   */
+  async _authenticate({ factorId: e, webauthn: { rpId: r = typeof window < "u" ? window.location.hostname : void 0, rpOrigins: s = typeof window < "u" ? [window.location.origin] : void 0, signal: n } = {} }, i) {
+    if (!r)
+      return {
+        data: null,
+        error: new Le("rpId is required for WebAuthn authentication")
+      };
+    try {
+      if (!rt())
+        return {
+          data: null,
+          error: new F("Browser does not support WebAuthn", null)
+        };
+      const { data: a, error: o } = await this.challenge({
+        factorId: e,
+        webauthn: { rpId: r, rpOrigins: s },
+        signal: n
+      }, { request: i });
+      if (!a)
+        return { data: null, error: o };
+      const { webauthn: l } = a;
+      return this._verify({
+        factorId: e,
+        challengeId: a.challengeId,
+        webauthn: {
+          type: l.type,
+          rpId: r,
+          rpOrigins: s,
+          credential_response: l.credential_response
+        }
+      });
+    } catch (a) {
+      return v(a) ? { data: null, error: a } : {
+        data: null,
+        error: new F("Unexpected error in authenticate", a)
+      };
+    }
+  }
+  /**
+   * Complete WebAuthn registration flow.
+   * Performs enrollment, challenge, and verification in a single operation for new credentials.
+   *
+   * @experimental This method is experimental and may change in future releases
+   * @param {Object} params - Registration parameters
+   * @param {string} params.friendlyName - User-friendly name for the credential
+   * @param {string} params.rpId - Relying Party ID (defaults to current hostname)
+   * @param {string[]} params.rpOrigins - Allowed origins (defaults to current origin)
+   * @param {AbortSignal} params.signal - Optional abort signal
+   * @param {PublicKeyCredentialCreationOptionsFuture} overrides - Override options for navigator.credentials.create
+   * @returns {Promise<RequestResult<AuthMFAVerifyResponseData, WebAuthnError | AuthError>>} Registration result
+   * @see {@link https://w3c.github.io/webauthn/#sctn-registering-a-new-credential W3C WebAuthn Spec - Registration Ceremony}
+   * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/PublicKeyCredentialCreationOptions MDN - PublicKeyCredentialCreationOptions}
+   */
+  async _register({ friendlyName: e, webauthn: { rpId: r = typeof window < "u" ? window.location.hostname : void 0, rpOrigins: s = typeof window < "u" ? [window.location.origin] : void 0, signal: n } = {} }, i) {
+    if (!r)
+      return {
+        data: null,
+        error: new Le("rpId is required for WebAuthn registration")
+      };
+    try {
+      if (!rt())
+        return {
+          data: null,
+          error: new F("Browser does not support WebAuthn", null)
+        };
+      const { data: a, error: o } = await this._enroll({
+        friendlyName: e
+      });
+      if (!a)
+        return await this.client.mfa.listFactors().then((u) => {
+          var h;
+          return (h = u.data) === null || h === void 0 ? void 0 : h.all.find((d) => d.factor_type === "webauthn" && d.friendly_name === e && d.status !== "unverified");
+        }).then((u) => u ? this.client.mfa.unenroll({ factorId: u?.id }) : void 0), { data: null, error: o };
+      const { data: l, error: c } = await this._challenge({
+        factorId: a.id,
+        friendlyName: a.friendly_name,
+        webauthn: { rpId: r, rpOrigins: s },
+        signal: n
+      }, {
+        create: i
+      });
+      return l ? this._verify({
+        factorId: a.id,
+        challengeId: l.challengeId,
+        webauthn: {
+          rpId: r,
+          rpOrigins: s,
+          type: l.webauthn.type,
+          credential_response: l.webauthn.credential_response
+        }
+      }) : { data: null, error: c };
+    } catch (a) {
+      return v(a) ? { data: null, error: a } : {
+        data: null,
+        error: new F("Unexpected error in register", a)
+      };
+    }
+  }
+}
+Ti();
+const Li = {
+  url: Hn,
+  storageKey: qn,
+  autoRefreshToken: !0,
+  persistSession: !0,
+  detectSessionInUrl: !0,
+  headers: Mn,
+  flowType: "implicit",
+  debug: !1,
+  hasCustomAuthorizationHeader: !1,
+  throwOnError: !1,
+  lockAcquireTimeout: 5e3,
+  // 5 seconds. Only used when a custom `lock` is supplied. TODO(v3): remove.
+  skipAutoInitialize: !1,
+  experimental: {}
+}, fe = {};
+class De {
+  /**
+   * The JWKS used for verifying asymmetric JWTs
+   */
+  get jwks() {
+    var e, r;
+    return (r = (e = fe[this.storageKey]) === null || e === void 0 ? void 0 : e.jwks) !== null && r !== void 0 ? r : { keys: [] };
+  }
+  set jwks(e) {
+    fe[this.storageKey] = Object.assign(Object.assign({}, fe[this.storageKey]), { jwks: e });
+  }
+  get jwks_cached_at() {
+    var e, r;
+    return (r = (e = fe[this.storageKey]) === null || e === void 0 ? void 0 : e.cachedAt) !== null && r !== void 0 ? r : Number.MIN_SAFE_INTEGER;
+  }
+  set jwks_cached_at(e) {
+    fe[this.storageKey] = Object.assign(Object.assign({}, fe[this.storageKey]), { cachedAt: e });
+  }
+  /**
+   * Create a new client for use in the browser.
+   *
+   * @example Using supabase-js (recommended)
+   * ```ts
+   * import { createClient } from '@supabase/supabase-js'
+   *
+   * const supabase = createClient('https://xyzcompany.supabase.co', 'your-publishable-key')
+   * const { data, error } = await supabase.auth.getUser()
+   * ```
+   *
+   * @example Standalone import for bundle-sensitive environments
+   * ```ts
+   * import { GoTrueClient } from '@supabase/auth-js'
+   *
+   * const auth = new GoTrueClient({
+   *   url: 'https://xyzcompany.supabase.co/auth/v1',
+   *   headers: { apikey: 'your-publishable-key' },
+   *   storageKey: 'supabase-auth',
+   * })
+   * ```
+   */
+  constructor(e) {
+    var r, s, n;
+    this.userStorage = null, this.memoryStorage = null, this.stateChangeEmitters = /* @__PURE__ */ new Map(), this.autoRefreshTicker = null, this.autoRefreshTickTimeout = null, this.visibilityChangedCallback = null, this.refreshingDeferred = null, this.lastRefreshFailure = null, this._sessionRemovalEpoch = 0, this.initializePromise = null, this._pendingInitNotifications = null, this.detectSessionInUrl = !0, this.hasCustomAuthorizationHeader = !1, this.suppressGetSessionWarning = !1, this.lock = null, this.lockAcquired = !1, this.pendingInLock = [], this.broadcastChannel = null, this.logger = console.log;
+    const i = Object.assign(Object.assign({}, Li), e);
+    if (this.storageKey = i.storageKey, this.instanceID = (r = De.nextInstanceID[this.storageKey]) !== null && r !== void 0 ? r : 0, De.nextInstanceID[this.storageKey] = this.instanceID + 1, this.logDebugMessages = !!i.debug, typeof i.debug == "function" && (this.logger = i.debug), this.instanceID > 0 && j()) {
+      const a = `${this._logPrefix()} Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.`;
+      console.warn(a), this.logDebugMessages && console.trace(a);
+    }
+    if (this.persistSession = i.persistSession, this.autoRefreshToken = i.autoRefreshToken, this.experimental = (s = i.experimental) !== null && s !== void 0 ? s : {}, this.admin = new ki({
+      url: i.url,
+      headers: i.headers,
+      fetch: i.fetch,
+      experimental: this.experimental
+    }), this.url = i.url, this.headers = i.headers, this.fetch = Vr(i.fetch), this.detectSessionInUrl = i.detectSessionInUrl, this.flowType = i.flowType, this.hasCustomAuthorizationHeader = i.hasCustomAuthorizationHeader, this.throwOnError = i.throwOnError, this.lockAcquireTimeout = i.lockAcquireTimeout, i.lock != null && (this.lock = i.lock), this.jwks || (this.jwks = { keys: [] }, this.jwks_cached_at = Number.MIN_SAFE_INTEGER), this.mfa = {
+      verify: this._verify.bind(this),
+      enroll: this._enroll.bind(this),
+      unenroll: this._unenroll.bind(this),
+      challenge: this._challenge.bind(this),
+      listFactors: this._listFactors.bind(this),
+      challengeAndVerify: this._challengeAndVerify.bind(this),
+      getAuthenticatorAssuranceLevel: this._getAuthenticatorAssuranceLevel.bind(this),
+      webauthn: new Ui(this)
+    }, this.oauth = {
+      getAuthorizationDetails: this._getAuthorizationDetails.bind(this),
+      approveAuthorization: this._approveAuthorization.bind(this),
+      denyAuthorization: this._denyAuthorization.bind(this),
+      listGrants: this._listOAuthGrants.bind(this),
+      revokeGrant: this._revokeOAuthGrant.bind(this)
+    }, this.passkey = {
+      startRegistration: this._startPasskeyRegistration.bind(this),
+      verifyRegistration: this._verifyPasskeyRegistration.bind(this),
+      startAuthentication: this._startPasskeyAuthentication.bind(this),
+      verifyAuthentication: this._verifyPasskeyAuthentication.bind(this),
+      list: this._listPasskeys.bind(this),
+      update: this._updatePasskey.bind(this),
+      delete: this._deletePasskey.bind(this)
+    }, this.persistSession ? (i.storage ? this.storage = i.storage : Wr() ? this.storage = globalThis.localStorage : (this.memoryStorage = {}, this.storage = pr(this.memoryStorage)), i.userStorage && (this.userStorage = i.userStorage)) : (this.memoryStorage = {}, this.storage = pr(this.memoryStorage)), j() && globalThis.BroadcastChannel && this.persistSession && this.storageKey) {
+      try {
+        this.broadcastChannel = new globalThis.BroadcastChannel(this.storageKey);
+      } catch (a) {
+        console.error("Failed to create a new BroadcastChannel, multi-tab state changes will not be available", a);
+      }
+      (n = this.broadcastChannel) === null || n === void 0 || n.addEventListener("message", async (a) => {
+        this._debug("received broadcast notification from other tab or client", a), (a.data.event === "TOKEN_REFRESHED" || a.data.event === "SIGNED_IN") && (this.lastRefreshFailure = null);
+        try {
+          await this._notifyAllSubscribers(a.data.event, a.data.session, !1);
+        } catch (o) {
+          this._debug("#broadcastChannel", "error", o);
+        }
+      });
+    }
+    i.skipAutoInitialize || this.initialize().catch((a) => {
+      this._debug("#initialize()", "error", a);
+    });
+  }
+  /**
+   * Returns whether error throwing mode is enabled for this client.
+   */
+  isThrowOnErrorEnabled() {
+    return this.throwOnError;
+  }
+  /**
+   * Centralizes return handling with optional error throwing. When `throwOnError` is enabled
+   * and the provided result contains a non-nullish error, the error is thrown instead of
+   * being returned. This ensures consistent behavior across all public API methods.
+   */
+  _returnResult(e) {
+    if (this.throwOnError && e && e.error)
+      throw e.error;
+    return e;
+  }
+  _logPrefix() {
+    return `GoTrueClient@${this.storageKey}:${this.instanceID} (${Mr}) ${(/* @__PURE__ */ new Date()).toISOString()}`;
+  }
+  _debug(...e) {
+    return this.logDebugMessages && this.logger(this._logPrefix(), ...e), this;
+  }
+  /**
+   * Initialize the auth client by loading the session from storage or
+   * detecting it from the URL after an OAuth, magic-link, or password-recovery
+   * redirect.
+   *
+   * **Most callers do not need to invoke this directly.** The client calls it
+   * automatically during construction, and to react to sign-in events (including
+   * post-redirect events) you should subscribe to `onAuthStateChange` rather
+   * than awaiting `initialize()`.
+   *
+   * You only need to call it manually when you have opted out of the automatic
+   * call by passing `skipAutoInitialize: true` â€” for example, in an SSR context
+   * where you need to control initialization timing. In that case, awaiting
+   * `initialize()` returns the resolved session result (or any error encountered
+   * while detecting it from the URL).
+   *
+   * @category Auth
+   */
+  async initialize() {
+    var e;
+    if (this.initializePromise)
+      return await this.initializePromise;
+    this._pendingInitNotifications = [], this.initializePromise = (async () => this.lock != null ? await this._acquireLock(this.lockAcquireTimeout, async () => await this._initialize()) : await this._initialize())();
+    const r = await this.initializePromise, s = (e = this._pendingInitNotifications) !== null && e !== void 0 ? e : [];
+    this._pendingInitNotifications = null;
+    for (const n of s)
+      await this._notifyAllSubscribers(n.event, n.session, n.broadcast);
+    return r;
+  }
+  /**
+   * IMPORTANT:
+   * 1. Never throw in this method, as it is called from the constructor
+   * 2. Never return a session from this method as it would be cached over
+   *    the whole lifetime of the client
+   */
+  async _initialize() {
+    var e;
+    try {
+      let r = {}, s = "none";
+      if (j() && (r = si(window.location.href), this._isImplicitGrantCallback(r) ? s = "implicit" : await this._isPKCECallback(r) && (s = "pkce")), j() && this.detectSessionInUrl && s !== "none") {
+        const { data: n, error: i } = await this._getSessionFromURL(r, s);
+        if (i) {
+          if (this._debug("#_initialize()", "error detecting session from URL", i), zn(i)) {
+            const l = (e = i.details) === null || e === void 0 ? void 0 : e.code;
+            if (l === "identity_already_exists" || l === "identity_not_found" || l === "single_identity_not_deletable")
+              return { error: i };
+          }
+          return { error: i };
+        }
+        const { session: a, redirectType: o } = n;
+        return this._debug("#_initialize()", "detected session in URL", a, "redirect type", o), await this._saveSession(a), setTimeout(async () => {
+          o === "recovery" ? await this._notifyAllSubscribers("PASSWORD_RECOVERY", a) : await this._notifyAllSubscribers("SIGNED_IN", a);
+        }, 0), { error: null };
+      }
+      return await this._recoverAndRefresh(), { error: null };
+    } catch (r) {
+      return v(r) ? this._returnResult({ error: r }) : this._returnResult({
+        error: new F("Unexpected error during initialization", r)
+      });
+    } finally {
+      await this._handleVisibilityChange(), this._debug("#_initialize()", "end");
+    }
+  }
+  /**
+   * Creates a new anonymous user.
+   *
+   * @returns A session where the is_anonymous claim in the access token JWT set to true
+   *
+   * @category Auth
+   *
+   * @remarks
+   * - Returns an anonymous user
+   * - It is recommended to set up captcha for anonymous sign-ins to prevent abuse. You can pass in the captcha token in the `options` param.
+   *
+   * @example Create an anonymous user
+   * ```js
+   * const { data, error } = await supabase.auth.signInAnonymously({
+   *   options: {
+   *     captchaToken
+   *   }
+   * });
+   * ```
+   *
+   * @exampleResponse Create an anonymous user
+   * ```json
+   * {
+   *   "data": {
+   *     "user": {
+   *       "id": "11111111-1111-1111-1111-111111111111",
+   *       "aud": "authenticated",
+   *       "role": "authenticated",
+   *       "email": "",
+   *       "phone": "",
+   *       "last_sign_in_at": "2024-01-01T00:00:00Z",
+   *       "app_metadata": {},
+   *       "user_metadata": {},
+   *       "identities": [],
+   *       "created_at": "2024-01-01T00:00:00Z",
+   *       "updated_at": "2024-01-01T00:00:00Z",
+   *       "is_anonymous": true
+   *     },
+   *     "session": {
+   *       "access_token": "<ACCESS_TOKEN>",
+   *       "token_type": "bearer",
+   *       "expires_in": 3600,
+   *       "expires_at": 1700000000,
+   *       "refresh_token": "<REFRESH_TOKEN>",
+   *       "user": {
+   *         "id": "11111111-1111-1111-1111-111111111111",
+   *         "aud": "authenticated",
+   *         "role": "authenticated",
+   *         "email": "",
+   *         "phone": "",
+   *         "last_sign_in_at": "2024-01-01T00:00:00Z",
+   *         "app_metadata": {},
+   *         "user_metadata": {},
+   *         "identities": [],
+   *         "created_at": "2024-01-01T00:00:00Z",
+   *         "updated_at": "2024-01-01T00:00:00Z",
+   *         "is_anonymous": true
+   *       }
+   *     }
+   *   },
+   *   "error": null
+   * }
+   * ```
+   *
+   * @example Create an anonymous user with custom user metadata
+   * ```js
+   * const { data, error } = await supabase.auth.signInAnonymously({
+   *   options: {
+   *     data
+   *   }
+   * })
+   * ```
+   */
+  async signInAnonymously(e) {
+    var r, s, n;
+    try {
+      const i = await b(this.fetch, "POST", `${this.url}/signup`, {
+        headers: this.headers,
+        body: {
+          data: (s = (r = e?.options) === null || r === void 0 ? void 0 : r.data) !== null && s !== void 0 ? s : {},
+          gotrue_meta_security: { captcha_token: (n = e?.options) === null || n === void 0 ? void 0 : n.captchaToken }
+        },
+        xform: H
+      }), { data: a, error: o } = i;
+      if (o || !a)
+        return this._returnResult({ data: { user: null, session: null }, error: o });
+      const l = a.session, c = a.user;
+      return a.session && (await this._saveSession(a.session), await this._notifyAllSubscribers("SIGNED_IN", l)), this._returnResult({ data: { user: c, session: l }, error: null });
+    } catch (i) {
+      if (v(i))
+        return this._returnResult({ data: { user: null, session: null }, error: i });
+      throw i;
+    }
+  }
+  /**
+   * Creates a new user.
+   *
+   * Be aware that if a user account exists in the system you may get back an
+   * error message that attempts to hide this information from the user.
+   * This method has support for PKCE via email signups. The PKCE flow cannot be used when autoconfirm is enabled.
+   *
+   * @returns A logged-in session if the server has "autoconfirm" ON
+   * @returns A user if the server has "autoconfirm" OFF
+   *
+   * @category Auth
+   *
+   * @remarks
+   * - By default, the user needs to verify their email address before logging in. To turn this off, disable **Confirm email** in [your project](/dashboard/project/_/auth/providers).
+   * - **Confirm email** determines if users need to confirm their email address after signing up.
+   *   - If **Confirm email** is enabled, a `user` is returned but `session` is null.
+   *   - If **Confirm email** is disabled, both a `user` and a `session` are returned.
+   * - When the user confirms their email address, they are redirected to the [`SITE_URL`](/docs/guides/auth/redirect-urls#use-wildcards-in-redirect-urls) by default. You can modify your `SITE_URL` or add additional redirect URLs in [your project](/dashboard/project/_/auth/url-configuration).
+   * - If signUp() is called for an existing confirmed user:
+   *   - When both **Confirm email** and **Confirm phone** (even when phone provider is disabled) are enabled in [your project](/dashboard/project/_/auth/providers), an obfuscated/fake user object is returned.
+   *   - When either **Confirm email** or **Confirm phone** (even when phone provider is disabled) is disabled, the error message, `User already registered` is returned.
+   * - To fetch the currently logged-in user, refer to [`getUser()`](/docs/reference/javascript/auth-getuser).
+   *
+   * @example Sign up with an email and password
+   * ```js
+   * const { data, error } = await supabase.auth.signUp({
+   *   email: 'example@email.com',
+   *   password: 'example-password',
+   * })
+   * ```
+   *
+   * @exampleResponse Sign up with an email and password
+   * ```json
+   * // Some fields may be null if "confirm email" is enabled.
+   * {
+   *   "data": {
+   *     "user": {
+   *       "id": "11111111-1111-1111-1111-111111111111",
+   *       "aud": "authenticated",
+   *       "role": "authenticated",
+   *       "email": "example@email.com",
+   *       "email_confirmed_at": "2024-01-01T00:00:00Z",
+   *       "phone": "",
+   *       "last_sign_in_at": "2024-01-01T00:00:00Z",
+   *       "app_metadata": {
+   *         "provider": "email",
+   *         "providers": [
+   *           "email"
+   *         ]
+   *       },
+   *       "user_metadata": {},
+   *       "identities": [
+   *         {
+   *           "identity_id": "22222222-2222-2222-2222-222222222222",
+   *           "id": "11111111-1111-1111-1111-111111111111",
+   *           "user_id": "11111111-1111-1111-1111-111111111111",
+   *           "identity_data": {
+   *             "email": "example@email.com",
+   *             "email_verified": false,
+   *             "phone_verified": false,
+   *             "sub": "11111111-1111-1111-1111-111111111111"
+   *           },
+   *           "provider": "email",
+   *           "last_sign_in_at": "2024-01-01T00:00:00Z",
+   *           "created_at": "2024-01-01T00:00:00Z",
+   *           "updated_at": "2024-01-01T00:00:00Z",
+   *           "email": "example@email.com"
+   *         }
+   *       ],
+   *       "created_at": "2024-01-01T00:00:00Z",
+   *       "updated_at": "2024-01-01T00:00:00Z"
+   *     },
+   *     "session": {
+   *       "access_token": "<ACCESS_TOKEN>",
+   *       "token_type": "bearer",
+   *       "expires_in": 3600,
+   *       "expires_at": 1700000000,
+   *       "refresh_token": "<REFRESH_TOKEN>",
+   *       "user": {
+   *         "id": "11111111-1111-1111-1111-111111111111",
+   *         "aud": "authenticated",
+   *         "role": "authenticated",
+   *         "email": "example@email.com",
+   *         "email_confirmed_at": "2024-01-01T00:00:00Z",
+   *         "phone": "",
+   *         "last_sign_in_at": "2024-01-01T00:00:00Z",
+   *         "app_metadata": {
+   *           "provider": "email",
+   *           "providers": [
+   *             "email"
+   *           ]
+   *         },
+   *         "user_metadata": {},
+   *         "identities": [
+   *           {
+   *             "identity_id": "22222222-2222-2222-2222-222222222222",
+   *             "id": "11111111-1111-1111-1111-111111111111",
+   *             "user_id": "11111111-1111-1111-1111-111111111111",
+   *             "identity_data": {
+   *               "email": "example@email.com",
+   *               "email_verified": false,
+   *               "phone_verified": false,
+   *               "sub": "11111111-1111-1111-1111-111111111111"
+   *             },
+   *             "provider": "email",
+   *             "last_sign_in_at": "2024-01-01T00:00:00Z",
+   *             "created_at": "2024-01-01T00:00:00Z",
+   *             "updated_at": "2024-01-01T00:00:00Z",
+   *             "email": "example@email.com"
+   *           }
+   *         ],
+   *         "created_at": "2024-01-01T00:00:00Z",
+   *         "updated_at": "2024-01-01T00:00:00Z"
+   *       }
+   *     }
+   *   },
+   *   "error": null
+   * }
+   * ```
+   *
+   * @example Sign up with a phone number and password (SMS)
+   * ```js
+   * const { data, error } = await supabase.auth.signUp({
+   *   phone: '123456789',
+   *   password: 'example-password',
+   *   options: {
+   *     channel: 'sms'
+   *   }
+   * })
+   * ```
+   *
+   * @exampleDescription Sign up with a phone number and password (whatsapp)
+   * The user will be sent a WhatsApp message which contains a OTP. By default, a given user can only request a OTP once every 60 seconds. Note that a user will need to have a valid WhatsApp account that is linked to Twilio in order to use this feature.
+   *
+   * @example Sign up with a phone number and password (whatsapp)
+   * ```js
+   * const { data, error } = await supabase.auth.signUp({
+   *   phone: '123456789',
+   *   password: 'example-password',
+   *   options: {
+   *     channel: 'whatsapp'
+   *   }
+   * })
+   * ```
+   *
+   * @example Sign up with additional user metadata
+   * ```js
+   * const { data, error } = await supabase.auth.signUp(
+   *   {
+   *     email: 'example@email.com',
+   *     password: 'example-password',
+   *     options: {
+   *       data: {
+   *         first_name: 'John',
+   *         age: 27,
+   *       }
+   *     }
+   *   }
+   * )
+   * ```
+   *
+   * @exampleDescription Sign up with a redirect URL
+   * - See [redirect URLs and wildcards](/docs/guides/auth/redirect-urls#use-wildcards-in-redirect-urls) to add additional redirect URLs to your project.
+   *
+   * @example Sign up with a redirect URL
+   * ```js
+   * const { data, error } = await supabase.auth.signUp(
+   *   {
+   *     email: 'example@email.com',
+   *     password: 'example-password',
+   *     options: {
+   *       emailRedirectTo: 'https://example.com/welcome'
+   *     }
+   *   }
+   * )
+   * ```
+   */
+  async signUp(e) {
+    var r, s, n;
+    try {
+      let i;
+      if ("email" in e) {
+        const { email: u, password: h, options: d } = e;
+        let f = null, p = null;
+        this.flowType === "pkce" && ([f, p] = await ae(this.storage, this.storageKey)), i = await b(this.fetch, "POST", `${this.url}/signup`, {
+          headers: this.headers,
+          redirectTo: d?.emailRedirectTo,
+          body: {
+            email: u,
+            password: h,
+            data: (r = d?.data) !== null && r !== void 0 ? r : {},
+            gotrue_meta_security: { captcha_token: d?.captchaToken },
+            code_challenge: f,
+            code_challenge_method: p
+          },
+          xform: H
+        });
+      } else if ("phone" in e) {
+        const { phone: u, password: h, options: d } = e;
+        i = await b(this.fetch, "POST", `${this.url}/signup`, {
+          headers: this.headers,
+          body: {
+            phone: u,
+            password: h,
+            data: (s = d?.data) !== null && s !== void 0 ? s : {},
+            channel: (n = d?.channel) !== null && n !== void 0 ? n : "sms",
+            gotrue_meta_security: { captcha_token: d?.captchaToken }
+          },
+          xform: H
+        });
+      } else
+        throw new Ve("You must provide either an email or phone number and a password");
+      const { data: a, error: o } = i;
+      if (o || !a)
+        return await C(this.storage, `${this.storageKey}-code-verifier`), this._returnResult({ data: { user: null, session: null }, error: o });
+      const l = a.session, c = a.user;
+      return a.session && (await this._saveSession(a.session), await this._notifyAllSubscribers("SIGNED_IN", l)), this._returnResult({ data: { user: c, session: l }, error: null });
+    } catch (i) {
+      if (await C(this.storage, `${this.storageKey}-code-verifier`), v(i))
+        return this._returnResult({ data: { user: null, session: null }, error: i });
+      throw i;
+    }
+  }
+  /**
+   * Log in an existing user with an email and password or phone and password.
+   *
+   * Be aware that you may get back an error message that will not distinguish
+   * between the cases where the account does not exist or that the
+   * email/phone and password combination is wrong or that the account can only
+   * be accessed via social login.
+   *
+   * @category Auth
+   *
+   * @remarks
+   * - Requires either an email and password or a phone number and password.
+   *
+   * @example Sign in with email and password
+   * ```js
+   * const { data, error } = await supabase.auth.signInWithPassword({
+   *   email: 'example@email.com',
+   *   password: 'example-password',
+   * })
+   * ```
+   *
+   * @exampleResponse Sign in with email and password
+   * ```json
+   * {
+   *   "data": {
+   *     "user": {
+   *       "id": "11111111-1111-1111-1111-111111111111",
+   *       "aud": "authenticated",
+   *       "role": "authenticated",
+   *       "email": "example@email.com",
+   *       "email_confirmed_at": "2024-01-01T00:00:00Z",
+   *       "phone": "",
+   *       "last_sign_in_at": "2024-01-01T00:00:00Z",
+   *       "app_metadata": {
+   *         "provider": "email",
+   *         "providers": [
+   *           "email"
+   *         ]
+   *       },
+   *       "user_metadata": {},
+   *       "identities": [
+   *         {
+   *           "identity_id": "22222222-2222-2222-2222-222222222222",
+   *           "id": "11111111-1111-1111-1111-111111111111",
+   *           "user_id": "11111111-1111-1111-1111-111111111111",
+   *           "identity_data": {
+   *             "email": "example@email.com",
+   *             "email_verified": false,
+   *             "phone_verified": false,
+   *             "sub": "11111111-1111-1111-1111-111111111111"
+   *           },
+   *           "provider": "email",
+   *           "last_sign_in_at": "2024-01-01T00:00:00Z",
+   *           "created_at": "2024-01-01T00:00:00Z",
+   *           "updated_at": "2024-01-01T00:00:00Z",
+   *           "email": "example@email.com"
+   *         }
+   *       ],
+   *       "created_at": "2024-01-01T00:00:00Z",
+   *       "updated_at": "2024-01-01T00:00:00Z"
+   *     },
+   *     "session": {
+   *       "access_token": "<ACCESS_TOKEN>",
+   *       "token_type": "bearer",
+   *       "expires_in": 3600,
+   *       "expires_at": 1700000000,
+   *       "refresh_token": "<REFRESH_TOKEN>",
+   *       "user": {
+   *         "id": "11111111-1111-1111-1111-111111111111",
+   *         "aud": "authenticated",
+   *         "role": "authenticated",
+   *         "email": "example@email.com",
+   *         "email_confirmed_at": "2024-01-01T00:00:00Z",
+   *         "phone": "",
+   *         "last_sign_in_at": "2024-01-01T00:00:00Z",
+   *         "app_metadata": {
+   *           "provider": "email",
+   *           "providers": [
+   *             "email"
+   *           ]
+   *         },
+   *         "user_metadata": {},
+   *         "identities": [
+   *           {
+   *             "identity_id": "22222222-2222-2222-2222-222222222222",
+   *             "id": "11111111-1111-1111-1111-111111111111",
+   *             "user_id": "11111111-1111-1111-1111-111111111111",
+   *             "identity_data": {
+   *               "email": "example@email.com",
+   *               "email_verified": false,
+   *               "phone_verified": false,
+   *               "sub": "11111111-1111-1111-1111-111111111111"
+   *             },
+   *             "provider": "email",
+   *             "last_sign_in_at": "2024-01-01T00:00:00Z",
+   *             "created_at": "2024-01-01T00:00:00Z",
+   *             "updated_at": "2024-01-01T00:00:00Z",
+   *             "email": "example@email.com"
+   *           }
+   *         ],
+   *         "created_at": "2024-01-01T00:00:00Z",
+   *         "updated_at": "2024-01-01T00:00:00Z"
+   *       }
+   *     }
+   *   },
+   *   "error": null
+   * }
+   * ```
+   *
+   * @example Sign in with phone and password
+   * ```js
+   * const { data, error } = await supabase.auth.signInWithPassword({
+   *   phone: '+13334445555',
+   *   password: 'some-password',
+   * })
+   * ```
+   *
+   * @exampleDescription Handling errors
+   * Log the full `error` object so fields like `code`, `status`, and `name` aren't hidden. The `error.code` (e.g. `'invalid_credentials'`, `'email_not_confirmed'`) is often more useful for branching than `error.message`, and the full object surfaces both.
+   *
+   * @example Handling errors
+   * ```js
+   * const { data, error } = await supabase.auth.signInWithPassword({
+   *   email: 'example@email.com',
+   *   password: 'example-password',
+   * })
+   * if (error) {
+   *   console.error(error)
+   *   return
+   * }
+   * ```
+   */
+  async signInWithPassword(e) {
+    try {
+      let r;
+      if ("email" in e) {
+        const { email: i, password: a, options: o } = e;
+        r = await b(this.fetch, "POST", `${this.url}/token?grant_type=password`, {
+          headers: this.headers,
+          body: {
+            email: i,
+            password: a,
+            gotrue_meta_security: { captcha_token: o?.captchaToken }
+          },
+          xform: dr
+        });
+      } else if ("phone" in e) {
+        const { phone: i, password: a, options: o } = e;
+        r = await b(this.fetch, "POST", `${this.url}/token?grant_type=password`, {
+          headers: this.headers,
+          body: {
+            phone: i,
+            password: a,
+            gotrue_meta_security: { captcha_token: o?.captchaToken }
+          },
+          xform: dr
+        });
+      } else
+        throw new Ve("You must provide either an email or phone number and a password");
+      const { data: s, error: n } = r;
+      if (n)
+        return this._returnResult({ data: { user: null, session: null }, error: n });
+      if (!s || !s.session || !s.user) {
+        const i = new de();
+        return this._returnResult({ data: { user: null, session: null }, error: i });
+      }
+      return s.session && (await this._saveSession(s.session), await this._notifyAllSubscribers("SIGNED_IN", s.session)), this._returnResult({
+        data: Object.assign({ user: s.user, session: s.session }, s.weak_password ? { weakPassword: s.weak_password } : null),
+        error: n
+      });
+    } catch (r) {
+      if (v(r))
+        return this._returnResult({ data: { user: null, session: null }, error: r });
+      throw r;
+    }
+  }
+  /**
+   * Log in an existing user via a third-party provider.
+   * This method supports the PKCE flow.
+   *
+   * @category Auth
+   *
+   * @remarks
+   * - This method is used for signing in using [Social Login (OAuth) providers](/docs/guides/auth#configure-third-party-providers).
+   * - It works by redirecting your application to the provider's authorization screen, before bringing back the user to your app.
+   *
+   * @example Sign in using a third-party provider
+   * ```js
+   * const { data, error } = await supabase.auth.signInWithOAuth({
+   *   provider: 'github'
+   * })
+   * ```
+   *
+   * @exampleResponse Sign in using a third-party provider
+   * ```json
+   * {
+   *   data: {
+   *     provider: 'github',
+   *     url: <PROVIDER_URL_TO_REDIRECT_TO>
+   *   },
+   *   error: null
+   * }
+   * ```
+   *
+   * @exampleDescription Sign in using a third-party provider with redirect
+   * - When the OAuth provider successfully authenticates the user, they are redirected to the URL specified in the `redirectTo` parameter. This parameter defaults to the [`SITE_URL`](/docs/guides/auth/redirect-urls#use-wildcards-in-redirect-urls). It does not redirect the user immediately after invoking this method.
+   * - See [redirect URLs and wildcards](/docs/guides/auth/redirect-urls#use-wildcards-in-redirect-urls) to add additional redirect URLs to your project.
+   *
+   * @example Sign in using a third-party provider with redirect
+   * ```js
+   * const { data, error } = await supabase.auth.signInWithOAuth({
+   *   provider: 'github',
+   *   options: {
+   *     redirectTo: 'https://example.com/welcome'
+   *   }
+   * })
+   * ```
+   *
+   * @exampleDescription Sign in with scopes and access provider tokens
+   * If you need additional access from an OAuth provider, in order to access provider specific APIs in the name of the user, you can do this by passing in the scopes the user should authorize for your application. Note that the `scopes` option takes in **a space-separated list** of scopes.
+   *
+   * Because OAuth sign-in often includes redirects, you should register an `onAuthStateChange` callback immediately after you create the Supabase client. This callback will listen for the presence of `provider_token` and `provider_refresh_token` properties on the `session` object and store them in local storage. The client library will emit these values **only once** immediately after the user signs in. You can then access them by looking them up in local storage, or send them to your backend servers for further processing.
+   *
+   * Finally, make sure you remove them from local storage on the `SIGNED_OUT` event. If the OAuth provider supports token revocation, make sure you call those APIs either from the frontend or schedule them to be called on the backend.
+   *
+   * @example Sign in with scopes and access provider tokens
+   * ```js
+   * // Register this immediately after calling createClient!
+   * // Because signInWithOAuth causes a redirect, you need to fetch the
+   * // provider tokens from the callback.
+   * supabase.auth.onAuthStateChange((event, session) => {
+   *   if (session && session.provider_token) {
+   *     window.localStorage.setItem('oauth_provider_token', session.provider_token)
+   *   }
+   *
+   *   if (session && session.provider_refresh_token) {
+   *     window.localStorage.setItem('oauth_provider_refresh_token', session.provider_refresh_token)
+   *   }
+   *
+   *   if (event === 'SIGNED_OUT') {
+   *     window.localStorage.removeItem('oauth_provider_token')
+   *     window.localStorage.removeItem('oauth_provider_refresh_token')
+   *   }
+   * })
+   *
+   * // Call this on your Sign in with GitHub button to initiate OAuth
+   * // with GitHub with the requested elevated scopes.
+   * await supabase.auth.signInWithOAuth({
+   *   provider: 'github',
+   *   options: {
+   *     scopes: 'repo gist notifications'
+   *   }
+   * })
+   * ```
+   */
+  async signInWithOAuth(e) {
+    var r, s, n, i;
+    return await this._handleProviderSignIn(e.provider, {
+      redirectTo: (r = e.options) === null || r === void 0 ? void 0 : r.redirectTo,
+      scopes: (s = e.options) === null || s === void 0 ? void 0 : s.scopes,
+      queryParams: (n = e.options) === null || n === void 0 ? void 0 : n.queryParams,
+      skipBrowserRedirect: (i = e.options) === null || i === void 0 ? void 0 : i.skipBrowserRedirect
+    });
+  }
+  /**
+   * Log in an existing user by exchanging an Auth Code issued during the PKCE flow.
+   *
+   * @category Auth
+   *
+   * @remarks
+   * - Used when `flowType` is set to `pkce` in client options.
+   *
+   * @example Exchange Auth Code
+   * ```js
+   * supabase.auth.exchangeCodeForSession('34e770dd-9ff9-416c-87fa-43b31d7ef225')
+   * ```
+   *
+   * @exampleResponse Exchange Auth Code
+   * ```json
+   * {
+   *   "data": {
+   *     session: {
+   *       access_token: '<ACCESS_TOKEN>',
+   *       token_type: 'bearer',
+   *       expires_in: 3600,
+   *       expires_at: 1700000000,
+   *       refresh_token: '<REFRESH_TOKEN>',
+   *       user: {
+   *         id: '11111111-1111-1111-1111-111111111111',
+   *         aud: 'authenticated',
+   *         role: 'authenticated',
+   *         email: 'example@email.com'
+   *         email_confirmed_at: '2024-01-01T00:00:00Z',
+   *         phone: '',
+   *         confirmation_sent_at: '2024-01-01T00:00:00Z',
+   *         confirmed_at: '2024-01-01T00:00:00Z',
+   *         last_sign_in_at: '2024-01-01T00:00:00Z',
+   *         app_metadata: {
+   *           "provider": "email",
+   *           "providers": [
+   *             "email",
+   *             "<OTHER_PROVIDER>"
+   *           ]
+   *         },
+   *         user_metadata: {
+   *           email: 'email@email.com',
+   *           email_verified: true,
+   *           full_name: 'User Name',
+   *           iss: '<ISS>',
+   *           name: 'User Name',
+   *           phone_verified: false,
+   *           provider_id: '<PROVIDER_ID>',
+   *           sub: '<SUB>'
+   *         },
+   *         identities: [
+   *           {
+   *             "identity_id": "22222222-2222-2222-2222-222222222222",
+   *             "id": "11111111-1111-1111-1111-111111111111",
+   *             "user_id": "11111111-1111-1111-1111-111111111111",
+   *             "identity_data": {
+   *               "email": "example@email.com",
+   *               "email_verified": false,
+   *               "phone_verified": false,
+   *               "sub": "11111111-1111-1111-1111-111111111111"
+   *             },
+   *             "provider": "email",
+   *             "last_sign_in_at": "2024-01-01T00:00:00Z",
+   *             "created_at": "2024-01-01T00:00:00Z",
+   *             "updated_at": "2024-01-01T00:00:00Z",
+   *             "email": "email@example.com"
+   *           },
+   *           {
+   *             "identity_id": "33333333-3333-3333-3333-333333333333",
+   *             "id": "<ID>",
+   *             "user_id": "<USER_ID>",
+   *             "identity_data": {
+   *               "email": "example@email.com",
+   *               "email_verified": true,
+   *               "full_name": "User Name",
+   *               "iss": "<ISS>",
+   *               "name": "User Name",
+   *               "phone_verified": false,
+   *               "provider_id": "<PROVIDER_ID>",
+   *               "sub": "<SUB>"
+   *             },
+   *             "provider": "<PROVIDER>",
+   *             "last_sign_in_at": "2024-01-01T00:00:00Z",
+   *             "created_at": "2024-01-01T00:00:00Z",
+   *             "updated_at": "2024-01-01T00:00:00Z",
+   *             "email": "example@email.com"
+   *           }
+   *         ],
+   *         created_at: '2024-01-01T00:00:00Z',
+   *         updated_at: '2024-01-01T00:00:00Z',
+   *         is_anonymous: false
+   *       },
+   *       provider_token: '<PROVIDER_TOKEN>',
+   *       provider_refresh_token: '<PROVIDER_REFRESH_TOKEN>'
+   *     },
+   *     user: {
+   *       id: '11111111-1111-1111-1111-111111111111',
+   *       aud: 'authenticated',
+   *       role: 'authenticated',
+   *       email: 'example@email.com',
+   *       email_confirmed_at: '2024-01-01T00:00:00Z',
+   *       phone: '',
+   *       confirmation_sent_at: '2024-01-01T00:00:00Z',
+   *       confirmed_at: '2024-01-01T00:00:00Z',
+   *       last_sign_in_at: '2024-01-01T00:00:00Z',
+   *       app_metadata: {
+   *         provider: 'email',
+   *         providers: [
+   *           "email",
+   *           "<OTHER_PROVIDER>"
+   *         ]
+   *       },
+   *       user_metadata: {
+   *         email: 'email@email.com',
+   *         email_verified: true,
+   *         full_name: 'User Name',
+   *         iss: '<ISS>',
+   *         name: 'User Name',
+   *         phone_verified: false,
+   *         provider_id: '<PROVIDER_ID>',
+   *         sub: '<SUB>'
+   *       },
+   *       identities: [
+   *         {
+   *           "identity_id": "22222222-2222-2222-2222-222222222222",
+   *           "id": "11111111-1111-1111-1111-111111111111",
+   *           "user_id": "11111111-1111-1111-1111-111111111111",
+   *           "identity_data": {
+   *             "email": "example@email.com",
+   *             "email_verified": false,
+   *             "phone_verified": false,
+   *             "sub": "11111111-1111-1111-1111-111111111111"
+   *           },
+   *           "provider": "email",
+   *           "last_sign_in_at": "2024-01-01T00:00:00Z",
+   *           "created_at": "2024-01-01T00:00:00Z",
+   *           "updated_at": "2024-01-01T00:00:00Z",
+   *           "email": "email@example.com"
+   *         },
+   *         {
+   *           "identity_id": "33333333-3333-3333-3333-333333333333",
+   *           "id": "<ID>",
+   *           "user_id": "<USER_ID>",
+   *           "identity_data": {
+   *             "email": "example@email.com",
+   *             "email_verified": true,
+   *             "full_name": "User Name",
+   *             "iss": "<ISS>",
+   *             "name": "User Name",
+   *             "phone_verified": false,
+   *             "provider_id": "<PROVIDER_ID>",
+   *             "sub": "<SUB>"
+   *           },
+   *           "provider": "<PROVIDER>",
+   *           "last_sign_in_at": "2024-01-01T00:00:00Z",
+   *           "created_at": "2024-01-01T00:00:00Z",
+   *           "updated_at": "2024-01-01T00:00:00Z",
+   *           "email": "example@email.com"
+   *         }
+   *       ],
+   *       created_at: '2024-01-01T00:00:00Z',
+   *       updated_at: '2024-01-01T00:00:00Z',
+   *       is_anonymous: false
+   *     },
+   *     redirectType: null
+   *   },
+   *   "error": null
+   * }
+   * ```
+   */
+  async exchangeCodeForSession(e) {
+    return await this.initializePromise, this.lock != null ? this._acquireLock(this.lockAcquireTimeout, async () => this._exchangeCodeForSession(e)) : this._exchangeCodeForSession(e);
+  }
+  /**
+   * Signs in a user by verifying a message signed by the user's private key.
+   * Supports Ethereum (via Sign-In-With-Ethereum) & Solana (Sign-In-With-Solana) standards,
+   * both of which derive from the EIP-4361 standard
+   * With slight variation on Solana's side.
+   * @reference https://eips.ethereum.org/EIPS/eip-4361
+   *
+   * @category Auth
+   *
+   * @remarks
+   * - Uses a Web3 (Ethereum, Solana) wallet to sign a user in.
+   * - Read up on the [potential for abuse](/docs/guides/auth/auth-web3#potential-for-abuse) before using it.
+   *
+   * @example Sign in with Solana or Ethereum (Window API)
+   * ```js
+   *   // uses window.ethereum for the wallet
+   *   const { data, error } = await supabase.auth.signInWithWeb3({
+   *     chain: 'ethereum',
+   *     statement: 'I accept the Terms of Service at https://example.com/tos'
+   *   })
+   *
+   *   // uses window.solana for the wallet
+   *   const { data, error } = await supabase.auth.signInWithWeb3({
+   *     chain: 'solana',
+   *     statement: 'I accept the Terms of Service at https://example.com/tos'
+   *   })
+   * ```
+   *
+   * @example Sign in with Ethereum (Message and Signature)
+   * ```js
+   *   const { data, error } = await supabase.auth.signInWithWeb3({
+   *     chain: 'ethereum',
+   *     message: '<sign in with ethereum message>',
+   *     signature: '<hex of the ethereum signature over the message>',
+   *   })
+   * ```
+   *
+   * @example Sign in with Solana (Brave)
+   * ```js
+   *   const { data, error } = await supabase.auth.signInWithWeb3({
+   *     chain: 'solana',
+   *     statement: 'I accept the Terms of Service at https://example.com/tos',
+   *     wallet: window.braveSolana
+   *   })
+   * ```
+   *
+   * @example Sign in with Solana (Wallet Adapter)
+   * ```jsx
+   *   function SignInButton() {
+   *   const wallet = useWallet()
+   *
+   *   return (
+   *     <>
+   *       {wallet.connected ? (
+   *         <button
+   *           onClick={() => {
+   *             supabase.auth.signInWithWeb3({
+   *               chain: 'solana',
+   *               statement: 'I accept the Terms of Service at https://example.com/tos',
+   *               wallet,
+   *             })
+   *           }}
+   *         >
+   *           Sign in with Solana
+   *         </button>
+   *       ) : (
+   *         <WalletMultiButton />
+   *       )}
+   *     </>
+   *   )
+   * }
+   *
+   * function App() {
+   *   const endpoint = clusterApiUrl('devnet')
+   *   const wallets = useMemo(() => [], [])
+   *
+   *   return (
+   *     <ConnectionProvider endpoint={endpoint}>
+   *       <WalletProvider wallets={wallets}>
+   *         <WalletModalProvider>
+   *           <SignInButton />
+   *         </WalletModalProvider>
+   *       </WalletProvider>
+   *     </ConnectionProvider>
+   *   )
+   * }
+   * ```
+   */
+  async signInWithWeb3(e) {
+    const { chain: r } = e;
+    switch (r) {
+      case "ethereum":
+        return await this.signInWithEthereum(e);
+      case "solana":
+        return await this.signInWithSolana(e);
+      default:
+        throw new Error(`@supabase/auth-js: Unsupported chain "${r}"`);
+    }
+  }
+  async signInWithEthereum(e) {
+    var r, s, n, i, a, o, l, c, u, h, d;
+    let f, p;
+    if ("message" in e)
+      f = e.message, p = e.signature;
+    else {
+      const { chain: y, wallet: m, statement: w, options: S } = e;
+      let _;
+      if (j())
+        if (typeof m == "object")
+          _ = m;
+        else {
+          const G = window;
+          if ("ethereum" in G && typeof G.ethereum == "object" && "request" in G.ethereum && typeof G.ethereum.request == "function")
+            _ = G.ethereum;
+          else
+            throw new Error("@supabase/auth-js: No compatible Ethereum wallet interface on the window object (window.ethereum) detected. Make sure the user already has a wallet installed and connected for this app. Prefer passing the wallet interface object directly to signInWithWeb3({ chain: 'ethereum', wallet: resolvedUserWallet }) instead.");
+        }
+      else {
+        if (typeof m != "object" || !S?.url)
+          throw new Error("@supabase/auth-js: Both wallet and url must be specified in non-browser environments.");
+        _ = m;
+      }
+      const E = new URL((r = S?.url) !== null && r !== void 0 ? r : window.location.href), U = await _.request({
+        method: "eth_requestAccounts"
+      }).then((G) => G).catch(() => {
+        throw new Error("@supabase/auth-js: Wallet method eth_requestAccounts is missing or invalid");
+      });
+      if (!U || U.length === 0)
+        throw new Error("@supabase/auth-js: No accounts available. Please ensure the wallet is connected.");
+      const T = zr(U[0]);
+      let R = (s = S?.signInWithEthereum) === null || s === void 0 ? void 0 : s.chainId;
+      if (!R) {
+        const G = await _.request({
+          method: "eth_chainId"
+        });
+        R = Ai(G);
+      }
+      const Se = {
+        domain: E.host,
+        address: T,
+        statement: w,
+        uri: E.href,
+        version: "1",
+        chainId: R,
+        nonce: (n = S?.signInWithEthereum) === null || n === void 0 ? void 0 : n.nonce,
+        issuedAt: (a = (i = S?.signInWithEthereum) === null || i === void 0 ? void 0 : i.issuedAt) !== null && a !== void 0 ? a : /* @__PURE__ */ new Date(),
+        expirationTime: (o = S?.signInWithEthereum) === null || o === void 0 ? void 0 : o.expirationTime,
+        notBefore: (l = S?.signInWithEthereum) === null || l === void 0 ? void 0 : l.notBefore,
+        requestId: (c = S?.signInWithEthereum) === null || c === void 0 ? void 0 : c.requestId,
+        resources: (u = S?.signInWithEthereum) === null || u === void 0 ? void 0 : u.resources
+      };
+      f = Oi(Se), p = await _.request({
+        method: "personal_sign",
+        params: [Ri(f), T]
+      });
+    }
+    try {
+      const { data: y, error: m } = await b(this.fetch, "POST", `${this.url}/token?grant_type=web3`, {
+        headers: this.headers,
+        body: Object.assign({
+          chain: "ethereum",
+          message: f,
+          signature: p
+        }, !((h = e.options) === null || h === void 0) && h.captchaToken ? { gotrue_meta_security: { captcha_token: (d = e.options) === null || d === void 0 ? void 0 : d.captchaToken } } : null),
+        xform: H
+      });
+      if (m)
+        throw m;
+      if (!y || !y.session || !y.user) {
+        const w = new de();
+        return this._returnResult({ data: { user: null, session: null }, error: w });
+      }
+      return y.session && (await this._saveSession(y.session), await this._notifyAllSubscribers("SIGNED_IN", y.session)), this._returnResult({ data: Object.assign({}, y), error: m });
+    } catch (y) {
+      if (v(y))
+        return this._returnResult({ data: { user: null, session: null }, error: y });
+      throw y;
+    }
+  }
+  async signInWithSolana(e) {
+    var r, s, n, i, a, o, l, c, u, h, d, f;
+    let p, y;
+    if ("message" in e)
+      p = e.message, y = e.signature;
+    else {
+      const { chain: m, wallet: w, statement: S, options: _ } = e;
+      let E;
+      if (j())
+        if (typeof w == "object")
+          E = w;
+        else {
+          const T = window;
+          if ("solana" in T && typeof T.solana == "object" && ("signIn" in T.solana && typeof T.solana.signIn == "function" || "signMessage" in T.solana && typeof T.solana.signMessage == "function"))
+            E = T.solana;
+          else
+            throw new Error("@supabase/auth-js: No compatible Solana wallet interface on the window object (window.solana) detected. Make sure the user already has a wallet installed and connected for this app. Prefer passing the wallet interface object directly to signInWithWeb3({ chain: 'solana', wallet: resolvedUserWallet }) instead.");
+        }
+      else {
+        if (typeof w != "object" || !_?.url)
+          throw new Error("@supabase/auth-js: Both wallet and url must be specified in non-browser environments.");
+        E = w;
+      }
+      const U = new URL((r = _?.url) !== null && r !== void 0 ? r : window.location.href);
+      if ("signIn" in E && E.signIn) {
+        const T = await E.signIn(Object.assign(Object.assign(Object.assign({ issuedAt: (/* @__PURE__ */ new Date()).toISOString() }, _?.signInWithSolana), {
+          // non-overridable properties
+          version: "1",
+          domain: U.host,
+          uri: U.href
+        }), S ? { statement: S } : null));
+        let R;
+        if (Array.isArray(T) && T[0] && typeof T[0] == "object")
+          R = T[0];
+        else if (T && typeof T == "object" && "signedMessage" in T && "signature" in T)
+          R = T;
+        else
+          throw new Error("@supabase/auth-js: Wallet method signIn() returned unrecognized value");
+        if ("signedMessage" in R && "signature" in R && (typeof R.signedMessage == "string" || R.signedMessage instanceof Uint8Array) && R.signature instanceof Uint8Array)
+          p = typeof R.signedMessage == "string" ? R.signedMessage : new TextDecoder().decode(R.signedMessage), y = R.signature;
+        else
+          throw new Error("@supabase/auth-js: Wallet method signIn() API returned object without signedMessage and signature fields");
+      } else {
+        if (!("signMessage" in E) || typeof E.signMessage != "function" || !("publicKey" in E) || typeof E != "object" || !E.publicKey || !("toBase58" in E.publicKey) || typeof E.publicKey.toBase58 != "function")
+          throw new Error("@supabase/auth-js: Wallet does not have a compatible signMessage() and publicKey.toBase58() API");
+        p = [
+          `${U.host} wants you to sign in with your Solana account:`,
+          E.publicKey.toBase58(),
+          ...S ? ["", S, ""] : [""],
+          "Version: 1",
+          `URI: ${U.href}`,
+          `Issued At: ${(n = (s = _?.signInWithSolana) === null || s === void 0 ? void 0 : s.issuedAt) !== null && n !== void 0 ? n : (/* @__PURE__ */ new Date()).toISOString()}`,
+          ...!((i = _?.signInWithSolana) === null || i === void 0) && i.notBefore ? [`Not Before: ${_.signInWithSolana.notBefore}`] : [],
+          ...!((a = _?.signInWithSolana) === null || a === void 0) && a.expirationTime ? [`Expiration Time: ${_.signInWithSolana.expirationTime}`] : [],
+          ...!((o = _?.signInWithSolana) === null || o === void 0) && o.chainId ? [`Chain ID: ${_.signInWithSolana.chainId}`] : [],
+          ...!((l = _?.signInWithSolana) === null || l === void 0) && l.nonce ? [`Nonce: ${_.signInWithSolana.nonce}`] : [],
+          ...!((c = _?.signInWithSolana) === null || c === void 0) && c.requestId ? [`Request ID: ${_.signInWithSolana.requestId}`] : [],
+          ...!((h = (u = _?.signInWithSolana) === null || u === void 0 ? void 0 : u.resources) === null || h === void 0) && h.length ? [
+            "Resources",
+            ..._.signInWithSolana.resources.map((R) => `- ${R}`)
+          ] : []
+        ].join(`
+`);
+        const T = await E.signMessage(new TextEncoder().encode(p), "utf8");
+        if (!T || !(T instanceof Uint8Array))
+          throw new Error("@supabase/auth-js: Wallet signMessage() API returned an recognized value");
+        y = T;
+      }
+    }
+    try {
+      const { data: m, error: w } = await b(this.fetch, "POST", `${this.url}/token?grant_type=web3`, {
+        headers: this.headers,
+        body: Object.assign({ chain: "solana", message: p, signature: le(y) }, !((d = e.options) === null || d === void 0) && d.captchaToken ? { gotrue_meta_security: { captcha_token: (f = e.options) === null || f === void 0 ? void 0 : f.captchaToken } } : null),
+        xform: H
+      });
+      if (w)
+        throw w;
+      if (!m || !m.session || !m.user) {
+        const S = new de();
+        return this._returnResult({ data: { user: null, session: null }, error: S });
+      }
+      return m.session && (await this._saveSession(m.session), await this._notifyAllSubscribers("SIGNED_IN", m.session)), this._returnResult({ data: Object.assign({}, m), error: w });
+    } catch (m) {
+      if (v(m))
+        return this._returnResult({ data: { user: null, session: null }, error: m });
+      throw m;
+    }
+  }
+  async _exchangeCodeForSession(e) {
+    const r = await q(this.storage, `${this.storageKey}-code-verifier`), [s, n] = (r ?? "").split("/");
+    try {
+      if (!s && this.flowType === "pkce")
+        throw new Jn();
+      const { data: i, error: a } = await b(this.fetch, "POST", `${this.url}/token?grant_type=pkce`, {
+        headers: this.headers,
+        body: {
+          auth_code: e,
+          code_verifier: s
+        },
+        xform: H
+      });
+      if (await C(this.storage, `${this.storageKey}-code-verifier`), a)
+        throw a;
+      if (!i || !i.session || !i.user) {
+        const o = new de();
+        return this._returnResult({
+          data: { user: null, session: null, redirectType: null },
+          error: o
+        });
+      }
+      return i.session && (await this._saveSession(i.session), await this._notifyAllSubscribers(n === "recovery" ? "PASSWORD_RECOVERY" : "SIGNED_IN", i.session)), this._returnResult({ data: Object.assign(Object.assign({}, i), { redirectType: n ?? null }), error: a });
+    } catch (i) {
+      if (await C(this.storage, `${this.storageKey}-code-verifier`), v(i))
+        return this._returnResult({
+          data: { user: null, session: null, redirectType: null },
+          error: i
+        });
+      throw i;
+    }
+  }
+  /**
+   * Allows signing in with an OIDC ID token. The authentication provider used
+   * should be enabled and configured.
+   *
+   * @category Auth
+   *
+   * @remarks
+   * - Use an ID token to sign in.
+   * - Especially useful when implementing sign in using native platform dialogs in mobile or desktop apps using Sign in with Apple or Sign in with Google on iOS and Android.
+   * - You can also use Google's [One Tap](https://developers.google.com/identity/gsi/web/guides/display-google-one-tap) and [Automatic sign-in](https://developers.google.com/identity/gsi/web/guides/automatic-sign-in-sign-out) via this API.
+   *
+   * @example Sign In using ID Token
+   * ```js
+   * const { data, error } = await supabase.auth.signInWithIdToken({
+   *   provider: 'google',
+   *   token: 'your-id-token'
+   * })
+   * ```
+   *
+   * @exampleResponse Sign In using ID Token
+   * ```json
+   * {
+   *   "data": {
+   *     "user": {
+   *       "id": "11111111-1111-1111-1111-111111111111",
+   *       "aud": "authenticated",
+   *       "role": "authenticated",
+   *       "last_sign_in_at": "2024-01-01T00:00:00Z",
+   *       "app_metadata": {
+   *         ...
+   *       },
+   *       "user_metadata": {
+   *         ...
+   *       },
+   *       "identities": [
+   *         {
+   *           "identity_id": "22222222-2222-2222-2222-222222222222",
+   *           "provider": "google",
+   *         }
+   *       ],
+   *       "created_at": "2024-01-01T00:00:00Z",
+   *       "updated_at": "2024-01-01T00:00:00Z",
+   *     },
+   *     "session": {
+   *       "access_token": "<ACCESS_TOKEN>",
+   *       "token_type": "bearer",
+   *       "expires_in": 3600,
+   *       "expires_at": 1700000000,
+   *       "refresh_token": "<REFRESH_TOKEN>",
+   *       "user": {
+   *         "id": "11111111-1111-1111-1111-111111111111",
+   *         "aud": "authenticated",
+   *         "role": "authenticated",
+   *         "last_sign_in_at": "2024-01-01T00:00:00Z",
+   *         "app_metadata": {
+   *           ...
+   *         },
+   *         "user_metadata": {
+   *           ...
+   *         },
+   *         "identities": [
+   *           {
+   *             "identity_id": "22222222-2222-2222-2222-222222222222",
+   *             "provider": "google",
+   *           }
+   *         ],
+   *         "created_at": "2024-01-01T00:00:00Z",
+   *         "updated_at": "2024-01-01T00:00:00Z",
+   *       }
+   *     }
+   *   },
+   *   "error": null
+   * }
+   * ```
+   */
+  async signInWithIdToken(e) {
+    try {
+      const { options: r, provider: s, token: n, access_token: i, nonce: a } = e, o = await b(this.fetch, "POST", `${this.url}/token?grant_type=id_token`, {
+        headers: this.headers,
+        body: {
+          provider: s,
+          id_token: n,
+          access_token: i,
+          nonce: a,
+          gotrue_meta_security: { captcha_token: r?.captchaToken }
+        },
+        xform: H
+      }), { data: l, error: c } = o;
+      if (c)
+        return this._returnResult({ data: { user: null, session: null }, error: c });
+      if (!l || !l.session || !l.user) {
+        const u = new de();
+        return this._returnResult({ data: { user: null, session: null }, error: u });
+      }
+      return l.session && (await this._saveSession(l.session), await this._notifyAllSubscribers("SIGNED_IN", l.session)), this._returnResult({ data: l, error: c });
+    } catch (r) {
+      if (v(r))
+        return this._returnResult({ data: { user: null, session: null }, error: r });
+      throw r;
+    }
+  }
+  /**
+   * Log in a user using magiclink or a one-time password (OTP).
+   *
+   * If the `{{ .ConfirmationURL }}` variable is specified in the email template, a magiclink will be sent.
+   * If the `{{ .Token }}` variable is specified in the email template, an OTP will be sent.
+   * If you're using phone sign-ins, only an OTP will be sent. You won't be able to send a magiclink for phone sign-ins.
+   *
+   * Be aware that you may get back an error message that will not distinguish
+   * between the cases where the account does not exist or, that the account
+   * can only be accessed via social login.
+   *
+   * Do note that you will need to configure a Whatsapp sender on Twilio
+   * if you are using phone sign in with the 'whatsapp' channel. The whatsapp
+   * channel is not supported on other providers
+   * at this time.
+   * This method supports PKCE when an email is passed.
+   *
+   * @category Auth
+   *
+   * @remarks
+   * - Requires either an email or phone number.
+   * - This method is used for passwordless sign-ins where a OTP is sent to the user's email or phone number.
+   * - If the user doesn't exist, `signInWithOtp()` will signup the user instead. To restrict this behavior, you can set `shouldCreateUser` in `SignInWithPasswordlessCredentials.options` to `false`.
+   * - If you're using an email, you can configure whether you want the user to receive a magiclink or a OTP.
+   * - If you're using phone, you can configure whether you want the user to receive a OTP.
+   * - The magic link's destination URL is determined by the [`SITE_URL`](/docs/guides/auth/redirect-urls#use-wildcards-in-redirect-urls).
+   * - See [redirect URLs and wildcards](/docs/guides/auth/redirect-urls#use-wildcards-in-redirect-urls) to add additional redirect URLs to your project.
+   * - Magic links and OTPs share the same implementation. To send users a one-time code instead of a magic link, [modify the magic link email template](/dashboard/project/_/auth/templates) to include `{{ .Token }}` instead of `{{ .ConfirmationURL }}`.
+   * - See our [Twilio Phone Auth Guide](/docs/guides/auth/phone-login?showSMSProvider=Twilio) for details about configuring WhatsApp sign in.
+   *
+   * @exampleDescription Sign in with email
+   * The user will be sent an email which contains either a magiclink or a OTP or both. By default, a given user can only request a OTP once every 60 seconds.
+   *
+   * @example Sign in with email
+   * ```js
+   * const { data, error } = await supabase.auth.signInWithOtp({
+   *   email: 'example@email.com',
+   *   options: {
+   *     emailRedirectTo: 'https://example.com/welcome'
+   *   }
+   * })
+   * ```
+   *
+   * @exampleResponse Sign in with email
+   * ```json
+   * {
+   *   "data": {
+   *     "user": null,
+   *     "session": null
+   *   },
+   *   "error": null
+   * }
+   * ```
+   *
+   * @exampleDescription Sign in with SMS OTP
+   * The user will be sent a SMS which contains a OTP. By default, a given user can only request a OTP once every 60 seconds.
+   *
+   * @example Sign in with SMS OTP
+   * ```js
+   * const { data, error } = await supabase.auth.signInWithOtp({
+   *   phone: '+13334445555',
+   * })
+   * ```
+   *
+   * @exampleDescription Sign in with WhatsApp OTP
+   * The user will be sent a WhatsApp message which contains a OTP. By default, a given user can only request a OTP once every 60 seconds. Note that a user will need to have a valid WhatsApp account that is linked to Twilio in order to use this feature.
+   *
+   * @example Sign in with WhatsApp OTP
+   * ```js
+   * const { data, error } = await supabase.auth.signInWithOtp({
+   *   phone: '+13334445555',
+   *   options: {
+   *     channel:'whatsapp',
+   *   }
+   * })
+   * ```
+   */
+  async signInWithOtp(e) {
+    var r, s, n, i, a;
+    try {
+      if ("email" in e) {
+        const { email: o, options: l } = e;
+        let c = null, u = null;
+        this.flowType === "pkce" && ([c, u] = await ae(this.storage, this.storageKey));
+        const { error: h } = await b(this.fetch, "POST", `${this.url}/otp`, {
+          headers: this.headers,
+          body: {
+            email: o,
+            data: (r = l?.data) !== null && r !== void 0 ? r : {},
+            create_user: (s = l?.shouldCreateUser) !== null && s !== void 0 ? s : !0,
+            gotrue_meta_security: { captcha_token: l?.captchaToken },
+            code_challenge: c,
+            code_challenge_method: u
+          },
+          redirectTo: l?.emailRedirectTo
+        });
+        return this._returnResult({ data: { user: null, session: null }, error: h });
+      }
+      if ("phone" in e) {
+        const { phone: o, options: l } = e, { data: c, error: u } = await b(this.fetch, "POST", `${this.url}/otp`, {
+          headers: this.headers,
+          body: {
+            phone: o,
+            data: (n = l?.data) !== null && n !== void 0 ? n : {},
+            create_user: (i = l?.shouldCreateUser) !== null && i !== void 0 ? i : !0,
+            gotrue_meta_security: { captcha_token: l?.captchaToken },
+            channel: (a = l?.channel) !== null && a !== void 0 ? a : "sms"
+          }
+        });
+        return this._returnResult({
+          data: { user: null, session: null, messageId: c?.message_id },
+          error: u
+        });
+      }
+      throw new Ve("You must provide either an email or phone number.");
+    } catch (o) {
+      if (await C(this.storage, `${this.storageKey}-code-verifier`), v(o))
+        return this._returnResult({ data: { user: null, session: null }, error: o });
+      throw o;
+    }
+  }
+  /**
+   * Log in a user given a User supplied OTP or TokenHash received through mobile or email.
+   *
+   * @category Auth
+   *
+   * @remarks
+   * - The `verifyOtp` method takes in different verification types.
+   * - If a phone number is used, the type can either be:
+   *   1. `sms` â€“ Used when verifying a one-time password (OTP) sent via SMS during sign-up or sign-in.
+   *   2. `phone_change` â€“ Used when verifying an OTP sent to a new phone number during a phone number update process.
+   * - If an email address is used, the type can be one of the following (note: `signup` and `magiclink` types are deprecated):
+   *   1. `email` â€“ Used when verifying an OTP sent to the user's email during sign-up or sign-in.
+   *   2. `recovery` â€“ Used when verifying an OTP sent for account recovery, typically after a password reset request.
+   *   3. `invite` â€“ Used when verifying an OTP sent as part of an invitation to join a project or organization.
+   *   4. `email_change` â€“ Used when verifying an OTP sent to a new email address during an email update process.
+   * - The verification type used should be determined based on the corresponding auth method called before `verifyOtp` to sign up / sign-in a user.
+   * - The `TokenHash` is contained in the [email templates](/docs/guides/auth/auth-email-templates) and can be used to sign in.  You may wish to use the hash for the PKCE flow for Server Side Auth. Read [the Password-based Auth guide](/docs/guides/auth/passwords) for more details.
+   *
+   * @example Verify Signup One-Time Password (OTP)
+   * ```js
+   * const { data, error } = await supabase.auth.verifyOtp({ email, token, type: 'email'})
+   * ```
+   *
+   * @exampleResponse Verify Signup One-Time Password (OTP)
+   * ```json
+   * {
+   *   "data": {
+   *     "user": {
+   *       "id": "11111111-1111-1111-1111-111111111111",
+   *       "aud": "authenticated",
+   *       "role": "authenticated",
+   *       "email": "example@email.com",
+   *       "email_confirmed_at": "2024-01-01T00:00:00Z",
+   *       "phone": "",
+   *       "confirmed_at": "2024-01-01T00:00:00Z",
+   *       "recovery_sent_at": "2024-01-01T00:00:00Z",
+   *       "last_sign_in_at": "2024-01-01T00:00:00Z",
+   *       "app_metadata": {
+   *         "provider": "email",
+   *         "providers": [
+   *           "email"
+   *         ]
+   *       },
+   *       "user_metadata": {
+   *         "email": "example@email.com",
+   *         "email_verified": false,
+   *         "phone_verified": false,
+   *         "sub": "11111111-1111-1111-1111-111111111111"
+   *       },
+   *       "identities": [
+   *         {
+   *           "identity_id": "22222222-2222-2222-2222-222222222222",
+   *           "id": "11111111-1111-1111-1111-111111111111",
+   *           "user_id": "11111111-1111-1111-1111-111111111111",
+   *           "identity_data": {
+   *             "email": "example@email.com",
+   *             "email_verified": false,
+   *             "phone_verified": false,
+   *             "sub": "11111111-1111-1111-1111-111111111111"
+   *           },
+   *           "provider": "email",
+   *           "last_sign_in_at": "2024-01-01T00:00:00Z",
+   *           "created_at": "2024-01-01T00:00:00Z",
+   *           "updated_at": "2024-01-01T00:00:00Z",
+   *           "email": "example@email.com"
+   *         }
+   *       ],
+   *       "created_at": "2024-01-01T00:00:00Z",
+   *       "updated_at": "2024-01-01T00:00:00Z",
+   *       "is_anonymous": false
+   *     },
+   *     "session": {
+   *       "access_token": "<ACCESS_TOKEN>",
+   *       "token_type": "bearer",
+   *       "expires_in": 3600,
+   *       "expires_at": 1700000000,
+   *       "refresh_token": "<REFRESH_TOKEN>",
+   *       "user": {
+   *         "id": "11111111-1111-1111-1111-111111111111",
+   *         "aud": "authenticated",
+   *         "role": "authenticated",
+   *         "email": "example@email.com",
+   *         "email_confirmed_at": "2024-01-01T00:00:00Z",
+   *         "phone": "",
+   *         "confirmed_at": "2024-01-01T00:00:00Z",
+   *         "recovery_sent_at": "2024-01-01T00:00:00Z",
+   *         "last_sign_in_at": "2024-01-01T00:00:00Z",
+   *         "app_metadata": {
+   *           "provider": "email",
+   *           "providers": [
+   *             "email"
+   *           ]
+   *         },
+   *         "user_metadata": {
+   *           "email": "example@email.com",
+   *           "email_verified": false,
+   *           "phone_verified": false,
+   *           "sub": "11111111-1111-1111-1111-111111111111"
+   *         },
+   *         "identities": [
+   *           {
+   *             "identity_id": "22222222-2222-2222-2222-222222222222",
+   *             "id": "11111111-1111-1111-1111-111111111111",
+   *             "user_id": "11111111-1111-1111-1111-111111111111",
+   *             "identity_data": {
+   *               "email": "example@email.com",
+   *               "email_verified": false,
+   *               "phone_verified": false,
+   *               "sub": "11111111-1111-1111-1111-111111111111"
+   *             },
+   *             "provider": "email",
+   *             "last_sign_in_at": "2024-01-01T00:00:00Z",
+   *             "created_at": "2024-01-01T00:00:00Z",
+   *             "updated_at": "2024-01-01T00:00:00Z",
+   *             "email": "example@email.com"
+   *           }
+   *         ],
+   *         "created_at": "2024-01-01T00:00:00Z",
+   *         "updated_at": "2024-01-01T00:00:00Z",
+   *         "is_anonymous": false
+   *       }
+   *     }
+   *   },
+   *   "error": null
+   * }
+   * ```
+   *
+   * @example Verify SMS One-Time Password (OTP)
+   * ```js
+   * const { data, error } = await supabase.auth.verifyOtp({ phone, token, type: 'sms'})
+   * ```
+   *
+   * @example Verify Email Auth (Token Hash)
+   * ```js
+   * const { data, error } = await supabase.auth.verifyOtp({ token_hash: tokenHash, type: 'email'})
+   * ```
+   */
+  async verifyOtp(e) {
+    var r, s;
+    try {
+      let n, i;
+      "options" in e && (n = (r = e.options) === null || r === void 0 ? void 0 : r.redirectTo, i = (s = e.options) === null || s === void 0 ? void 0 : s.captchaToken);
+      const { data: a, error: o } = await b(this.fetch, "POST", `${this.url}/verify`, {
+        headers: this.headers,
+        body: Object.assign(Object.assign({}, e), { gotrue_meta_security: { captcha_token: i } }),
+        redirectTo: n,
+        xform: H
+      });
+      if (o)
+        throw o;
+      if (!a)
+        throw new Error("An error occurred on token verification.");
+      const l = a.session, c = a.user;
+      return l?.access_token && (await this._saveSession(l), await this._notifyAllSubscribers(e.type == "recovery" ? "PASSWORD_RECOVERY" : "SIGNED_IN", l)), this._returnResult({ data: { user: c, session: l }, error: null });
+    } catch (n) {
+      if (v(n))
+        return this._returnResult({ data: { user: null, session: null }, error: n });
+      throw n;
+    }
+  }
+  /**
+   * Attempts a single-sign on using an enterprise Identity Provider. A
+   * successful SSO attempt will redirect the current page to the identity
+   * provider authorization page. The redirect URL is implementation and SSO
+   * protocol specific.
+   *
+   * You can use it by providing a SSO domain. Typically you can extract this
+   * domain by asking users for their email address. If this domain is
+   * registered on the Auth instance the redirect will use that organization's
+   * currently active SSO Identity Provider for the login.
+   *
+   * If you have built an organization-specific login page, you can use the
+   * organization's SSO Identity Provider UUID directly instead.
+   *
+   * @category Auth
+   *
+   * @remarks
+   * - Before you can call this method you need to [establish a connection](/docs/guides/auth/sso/auth-sso-saml#managing-saml-20-connections) to an identity provider. Use the [CLI commands](/docs/reference/cli/supabase-sso) to do this.
+   * - If you've associated an email domain to the identity provider, you can use the `domain` property to start a sign-in flow.
+   * - In case you need to use a different way to start the authentication flow with an identity provider, you can use the `providerId` property. For example:
+   *     - Mapping specific user email addresses with an identity provider.
+   *     - Using different hints to identity the identity provider to be used by the user, like a company-specific page, IP address or other tracking information.
+   *
+   * @example Sign in with email domain
+   * ```js
+   *   // You can extract the user's email domain and use it to trigger the
+   *   // authentication flow with the correct identity provider.
+   *
+   *   const { data, error } = await supabase.auth.signInWithSSO({
+   *     domain: 'company.com'
+   *   })
+   *
+   *   if (data?.url) {
+   *     // redirect the user to the identity provider's authentication flow
+   *     window.location.href = data.url
+   *   }
+   * ```
+   *
+   * @example Sign in with provider UUID
+   * ```js
+   *   // Useful when you need to map a user's sign in request according
+   *   // to different rules that can't use email domains.
+   *
+   *   const { data, error } = await supabase.auth.signInWithSSO({
+   *     providerId: '21648a9d-8d5a-4555-a9d1-d6375dc14e92'
+   *   })
+   *
+   *   if (data?.url) {
+   *     // redirect the user to the identity provider's authentication flow
+   *     window.location.href = data.url
+   *   }
+   * ```
+   */
+  async signInWithSSO(e) {
+    var r, s, n, i, a;
+    try {
+      let o = null, l = null;
+      this.flowType === "pkce" && ([o, l] = await ae(this.storage, this.storageKey));
+      const c = await b(this.fetch, "POST", `${this.url}/sso`, {
+        body: Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, "providerId" in e ? { provider_id: e.providerId } : null), "domain" in e ? { domain: e.domain } : null), { redirect_to: (s = (r = e.options) === null || r === void 0 ? void 0 : r.redirectTo) !== null && s !== void 0 ? s : void 0 }), !((n = e?.options) === null || n === void 0) && n.captchaToken ? { gotrue_meta_security: { captcha_token: e.options.captchaToken } } : null), { skip_http_redirect: !0, code_challenge: o, code_challenge_method: l }),
+        headers: this.headers,
+        xform: _i
+      });
+      return !((i = c.data) === null || i === void 0) && i.url && j() && !(!((a = e.options) === null || a === void 0) && a.skipBrowserRedirect) && window.location.assign(c.data.url), this._returnResult(c);
+    } catch (o) {
+      if (await C(this.storage, `${this.storageKey}-code-verifier`), v(o))
+        return this._returnResult({ data: null, error: o });
+      throw o;
+    }
+  }
+  /**
+   * Sends a reauthentication OTP to the user's email or phone number.
+   * Requires the user to be signed-in.
+   *
+   * @category Auth
+   *
+   * @remarks
+   * - This method is used together with `updateUser()` when a user's password needs to be updated.
+   * - If you require your user to reauthenticate before updating their password, you need to enable the **Secure password change** option in your [project's email provider settings](/dashboard/project/_/auth/providers).
+   * - A user is only require to reauthenticate before updating their password if **Secure password change** is enabled and the user **hasn't recently signed in**. A user is deemed recently signed in if the session was created in the last 24 hours.
+   * - This method will send a nonce to the user's email. If the user doesn't have a confirmed email address, the method will send the nonce to the user's confirmed phone number instead.
+   * - After receiving the OTP, include it as the `nonce` in your `updateUser()` call to finalize the password change.
+   *
+   * @exampleDescription Send reauthentication nonce
+   * Sends a reauthentication nonce to the user's email or phone number.
+   *
+   * @example Send reauthentication nonce
+   * ```js
+   * const { error } = await supabase.auth.reauthenticate()
+   * ```
+   */
+  async reauthenticate() {
+    return await this.initializePromise, this.lock != null ? await this._acquireLock(this.lockAcquireTimeout, async () => await this._reauthenticate()) : await this._reauthenticate();
+  }
+  async _reauthenticate() {
+    try {
+      return await this._useSession(async (e) => {
+        const { data: { session: r }, error: s } = e;
+        if (s)
+          throw s;
+        if (!r)
+          throw new $();
+        const { error: n } = await b(this.fetch, "GET", `${this.url}/reauthenticate`, {
+          headers: this.headers,
+          jwt: r.access_token
+        });
+        return this._returnResult({ data: { user: null, session: null }, error: n });
+      });
+    } catch (e) {
+      if (v(e))
+        return this._returnResult({ data: { user: null, session: null }, error: e });
+      throw e;
+    }
+  }
+  /**
+   * Resends an existing signup confirmation email, email change email, SMS OTP or phone change OTP.
+   *
+   * @category Auth
+   *
+   * @remarks
+   * - Resends a signup confirmation, email change or phone change email to the user.
+   * - Passwordless sign-ins can be resent by calling the `signInWithOtp()` method again.
+   * - Password recovery emails can be resent by calling the `resetPasswordForEmail()` method again.
+   * - This method will only resend an email or phone OTP to the user if there was an initial signup, email change or phone change request being made(note: For existing users signing in with OTP, you should use `signInWithOtp()` again to resend the OTP).
+   * - You can specify a redirect url when you resend an email link using the `emailRedirectTo` option.
+   *
+   * @exampleDescription Resend an email signup confirmation
+   * Resends the email signup confirmation to the user
+   *
+   * @example Resend an email signup confirmation
+   * ```js
+   * const { error } = await supabase.auth.resend({
+   *   type: 'signup',
+   *   email: 'email@example.com',
+   *   options: {
+   *     emailRedirectTo: 'https://example.com/welcome'
+   *   }
+   * })
+   * ```
+   *
+   * @exampleDescription Resend a phone signup confirmation
+   * Resends the phone signup confirmation email to the user
+   *
+   * @example Resend a phone signup confirmation
+   * ```js
+   * const { error } = await supabase.auth.resend({
+   *   type: 'sms',
+   *   phone: '1234567890'
+   * })
+   * ```
+   *
+   * @exampleDescription Resend email change email
+   * Resends the email change email to the user
+   *
+   * @example Resend email change email
+   * ```js
+   * const { error } = await supabase.auth.resend({
+   *   type: 'email_change',
+   *   email: 'email@example.com'
+   * })
+   * ```
+   *
+   * @exampleDescription Resend phone change OTP
+   * Resends the phone change OTP to the user
+   *
+   * @example Resend phone change OTP
+   * ```js
+   * const { error } = await supabase.auth.resend({
+   *   type: 'phone_change',
+   *   phone: '1234567890'
+   * })
+   * ```
+   */
+  async resend(e) {
+    try {
+      const r = `${this.url}/resend`;
+      if ("email" in e) {
+        const { email: s, type: n, options: i } = e;
+        let a = null, o = null;
+        this.flowType === "pkce" && ([a, o] = await ae(this.storage, this.storageKey));
+        const { error: l } = await b(this.fetch, "POST", r, {
+          headers: this.headers,
+          body: {
+            email: s,
+            type: n,
+            gotrue_meta_security: { captcha_token: i?.captchaToken },
+            code_challenge: a,
+            code_challenge_method: o
+          },
+          redirectTo: i?.emailRedirectTo
+        });
+        return l && await C(this.storage, `${this.storageKey}-code-verifier`), this._returnResult({ data: { user: null, session: null }, error: l });
+      } else if ("phone" in e) {
+        const { phone: s, type: n, options: i } = e, { data: a, error: o } = await b(this.fetch, "POST", r, {
+          headers: this.headers,
+          body: {
+            phone: s,
+            type: n,
+            gotrue_meta_security: { captcha_token: i?.captchaToken }
+          }
+        });
+        return this._returnResult({
+          data: { user: null, session: null, messageId: a?.message_id },
+          error: o
+        });
+      }
+      throw new Ve("You must provide either an email or phone number and a type");
+    } catch (r) {
+      if (await C(this.storage, `${this.storageKey}-code-verifier`), v(r))
+        return this._returnResult({ data: { user: null, session: null }, error: r });
+      throw r;
+    }
+  }
+  /**
+   * Returns the session, refreshing it if necessary.
+   *
+   * The session returned can be null if the session is not detected which can happen in the event a user is not signed-in or has logged out.
+   *
+   * **IMPORTANT:** This method loads values directly from the storage attached
+   * to the client. If that storage is based on request cookies for example,
+   * the values in it may not be authentic and therefore it's strongly advised
+   * against using this method and its results in such circumstances. A warning
+   * will be emitted if this is detected. Use {@link GoTrueClient.getUser} instead.
+   *
+   * @category Auth
+   *
+   * @remarks
+   * - Since the introduction of [asymmetric JWT signing keys](/docs/guides/auth/signing-keys), this method is considered low-level and we encourage you to use `getClaims()` or `getUser()` instead.
+   * - Retrieves the current [user session](/docs/guides/auth/sessions) from the storage medium (local storage, cookies).
+   * - The session contains an access token (signed JWT), a refresh token and the user object.
+   * - If the session's access token is expired or is about to expire, this method will use the refresh token to refresh the session.
+   * - When using in a browser, or you've called `startAutoRefresh()` in your environment (React Native, etc.) this function always returns a valid access token without refreshing the session itself, as this is done in the background. This function returns very fast.
+   * - **IMPORTANT SECURITY NOTICE:** If using an insecure storage medium, such as cookies or request headers, the user object returned by this function **must not be trusted**. Always verify the JWT using `getClaims()` or your own JWT verification library to securely establish the user's identity and access. You can also use `getUser()` to fetch the user object directly from the Auth server for this purpose.
+   * - Cross-tab refresh races are handled by the GoTrue server (the rotated token from the first tab is returned to subsequent tabs via the parent-of-active mechanism), so no client-side serialization is needed.
+   *
+   * @example Get the session data
+   * ```js
+   * const { data, error } = await supabase.auth.getSession()
+   * ```
+   *
+   * @exampleResponse Get the session data
+   * ```json
+   * {
+   *   "data": {
+   *     "session": {
+   *       "access_token": "<ACCESS_TOKEN>",
+   *       "token_type": "bearer",
+   *       "expires_in": 3600,
+   *       "expires_at": 1700000000,
+   *       "refresh_token": "<REFRESH_TOKEN>",
+   *       "user": {
+   *         "id": "11111111-1111-1111-1111-111111111111",
+   *         "aud": "authenticated",
+   *         "role": "authenticated",
+   *         "email": "example@email.com",
+   *         "email_confirmed_at": "2024-01-01T00:00:00Z",
+   *         "phone": "",
+   *         "last_sign_in_at": "2024-01-01T00:00:00Z",
+   *         "app_metadata": {
+   *           "provider": "email",
+   *           "providers": [
+   *             "email"
+   *           ]
+   *         },
+   *         "user_metadata": {
+   *           "email": "example@email.com",
+   *           "email_verified": false,
+   *           "phone_verified": false,
+   *           "sub": "11111111-1111-1111-1111-111111111111"
+   *         },
+   *         "identities": [
+   *           {
+   *             "identity_id": "22222222-2222-2222-2222-222222222222",
+   *             "id": "11111111-1111-1111-1111-111111111111",
+   *             "user_id": "11111111-1111-1111-1111-111111111111",
+   *             "identity_data": {
+   *               "email": "example@email.com",
+   *               "email_verified": false,
+   *               "phone_verified": false,
+   *               "sub": "11111111-1111-1111-1111-111111111111"
+   *             },
+   *             "provider": "email",
+   *             "last_sign_in_at": "2024-01-01T00:00:00Z",
+   *             "created_at": "2024-01-01T00:00:00Z",
+   *             "updated_at": "2024-01-01T00:00:00Z",
+   *             "email": "example@email.com"
+   *           }
+   *         ],
+   *         "created_at": "2024-01-01T00:00:00Z",
+   *         "updated_at": "2024-01-01T00:00:00Z",
+   *         "is_anonymous": false
+   *       }
+   *     }
+   *   },
+   *   "error": null
+   * }
+   * ```
+   */
+  async getSession() {
+    return await this.initializePromise, this.lock != null ? await this._acquireLock(this.lockAcquireTimeout, async () => this._useSession(async (e) => e)) : await this._useSession(async (e) => e);
+  }
+  /**
+   * Acquires a global lock based on the storage key.
+   *
+   * TODO(v3): remove along with the legacy lock path. Only called when
+   * `this.lock` is non-null (custom lock supplied via constructor). The
+   * default lockless path bypasses this entirely.
+   */
+  async _acquireLock(e, r) {
+    this._debug("#_acquireLock", "begin", e);
+    try {
+      if (this.lockAcquired) {
+        const s = this.pendingInLock.length ? this.pendingInLock[this.pendingInLock.length - 1] : Promise.resolve(), n = (async () => (await s, await r()))();
+        return this.pendingInLock.push((async () => {
+          try {
+            await n;
+          } catch {
+          }
+        })()), n;
+      }
+      return await this.lock(`lock:${this.storageKey}`, e, async () => {
+        this._debug("#_acquireLock", "lock acquired for storage key", this.storageKey);
+        try {
+          this.lockAcquired = !0;
+          const s = r();
+          for (this.pendingInLock.push((async () => {
+            try {
+              await s;
+            } catch {
+            }
+          })()), await s; this.pendingInLock.length; ) {
+            const n = [...this.pendingInLock];
+            await Promise.all(n), this.pendingInLock.splice(0, n.length);
+          }
+          return await s;
+        } finally {
+          this._debug("#_acquireLock", "lock released for storage key", this.storageKey), this.lockAcquired = !1;
+        }
+      });
+    } finally {
+      this._debug("#_acquireLock", "end");
+    }
+  }
+  /**
+   * Use instead of {@link GoTrueClient.getSession} inside the library. Loads the session
+   * via `__loadSession` (which may trigger a refresh if the access token is
+   * within the expiry margin) and runs `fn` with the result.
+   */
+  async _useSession(e) {
+    this._debug("#_useSession", "begin");
+    try {
+      const r = await this.__loadSession();
+      return await e(r);
+    } finally {
+      this._debug("#_useSession", "end");
+    }
+  }
+  /**
+   * NEVER USE DIRECTLY!
+   *
+   * Always use `_useSession`.
+   */
+  async __loadSession() {
+    this._debug("#__loadSession()", "begin"), this.lock != null && !this.lockAcquired && this._debug("#__loadSession()", "used outside of an acquired lock!", new Error().stack);
+    try {
+      let e = null;
+      const r = await q(this.storage, this.storageKey);
+      if (this._debug("#getSession()", "session from storage", r), r !== null && (this._isValidSession(r) ? e = r : (this._debug("#getSession()", "session from storage is not valid"), await this._removeSession())), !e)
+        return { data: { session: null }, error: null };
+      const s = e.expires_at ? e.expires_at * 1e3 - Date.now() < gt : !1;
+      if (this._debug("#__loadSession()", `session has${s ? "" : " not"} expired`, "expires_at", e.expires_at), !s) {
+        if (this.userStorage) {
+          const a = await q(this.userStorage, this.storageKey + "-user");
+          a?.user ? e.user = a.user : e.user = yt();
+        }
+        if (this.storage.isServer && e.user && !e.user.__isUserNotAvailableProxy) {
+          const a = { value: this.suppressGetSessionWarning };
+          e.user = yi(e.user, a), a.value && (this.suppressGetSessionWarning = !0);
+        }
+        return { data: { session: e }, error: null };
+      }
+      const { data: n, error: i } = await this._callRefreshToken(e.refresh_token);
+      if (i) {
+        if (!!(e.expires_at && e.expires_at * 1e3 > Date.now())) {
+          const o = await q(this.storage, this.storageKey);
+          if (o && o.refresh_token === e.refresh_token)
+            return this._returnResult({ data: { session: e }, error: null });
+        }
+        return this._returnResult({ data: { session: null }, error: i });
+      }
+      return this._returnResult({ data: { session: n }, error: null });
+    } finally {
+      this._debug("#__loadSession()", "end");
+    }
+  }
+  /**
+   * Gets the current user details if there is an existing session. This method
+   * performs a network request to the Supabase Auth server, so the returned
+   * value is authentic and can be used to base authorization rules on.
+   *
+   * @param jwt Takes in an optional access token JWT. If no JWT is provided, the JWT from the current session is used.
+   *
+   * @category Auth
+   *
+   * @remarks
+   * - This method fetches the user object from the database instead of local session.
+   * - This method is useful for checking if the user is authorized because it validates the user's access token JWT on the server.
+   * - Should always be used when checking for user authorization on the server. On the client, you can instead use `getSession().session.user` for faster results. `getSession` is insecure on the server.
+   *
+   * @example Get the logged in user with the current existing session
+   * ```js
+   * const { data: { user } } = await supabase.auth.getUser()
+   * ```
+   *
+   * @exampleResponse Get the logged in user with the current existing session
+   * ```json
+   * {
+   *   "data": {
+   *     "user": {
+   *       "id": "11111111-1111-1111-1111-111111111111",
+   *       "aud": "authenticated",
+   *       "role": "authenticated",
+   *       "email": "example@email.com",
+   *       "email_confirmed_at": "2024-01-01T00:00:00Z",
+   *       "phone": "",
+   *       "confirmed_at": "2024-01-01T00:00:00Z",
+   *       "last_sign_in_at": "2024-01-01T00:00:00Z",
+   *       "app_metadata": {
+   *         "provider": "email",
+   *         "providers": [
+   *           "email"
+   *         ]
+   *       },
+   *       "user_metadata": {
+   *         "email": "example@email.com",
+   *         "email_verified": false,
+   *         "phone_verified": false,
+   *         "sub": "11111111-1111-1111-1111-111111111111"
+   *       },
+   *       "identities": [
+   *         {
+   *           "identity_id": "22222222-2222-2222-2222-222222222222",
+   *           "id": "11111111-1111-1111-1111-111111111111",
+   *           "user_id": "11111111-1111-1111-1111-111111111111",
+   *           "identity_data": {
+   *             "email": "example@email.com",
+   *             "email_verified": false,
+   *             "phone_verified": false,
+   *             "sub": "11111111-1111-1111-1111-111111111111"
+   *           },
+   *           "provider": "email",
+   *           "last_sign_in_at": "2024-01-01T00:00:00Z",
+   *           "created_at": "2024-01-01T00:00:00Z",
+   *           "updated_at": "2024-01-01T00:00:00Z",
+   *           "email": "example@email.com"
+   *         }
+   *       ],
+   *       "created_at": "2024-01-01T00:00:00Z",
+   *       "updated_at": "2024-01-01T00:00:00Z",
+   *       "is_anonymous": false
+   *     }
+   *   },
+   *   "error": null
+   * }
+   * ```
+   *
+   * @example Get the logged in user with a custom access token jwt
+   * ```js
+   * const { data: { user } } = await supabase.auth.getUser(jwt)
+   * ```
+   */
+  async getUser(e) {
+    if (e)
+      return await this._getUser(e);
+    await this.initializePromise;
+    let r;
+    return this.lock != null ? r = await this._acquireLock(this.lockAcquireTimeout, async () => await this._getUser()) : r = await this._getUser(), r.data.user && (this.suppressGetSessionWarning = !0), r;
+  }
+  async _getUser(e) {
+    try {
+      return e ? await b(this.fetch, "GET", `${this.url}/user`, {
+        headers: this.headers,
+        jwt: e,
+        xform: re
+      }) : await this._useSession(async (r) => {
+        var s, n, i;
+        const { data: a, error: o } = r;
+        if (o)
+          throw o;
+        return !(!((s = a.session) === null || s === void 0) && s.access_token) && !this.hasCustomAuthorizationHeader ? { data: { user: null }, error: new $() } : await b(this.fetch, "GET", `${this.url}/user`, {
+          headers: this.headers,
+          jwt: (i = (n = a.session) === null || n === void 0 ? void 0 : n.access_token) !== null && i !== void 0 ? i : void 0,
+          xform: re
+        });
+      });
+    } catch (r) {
+      if (v(r))
+        return We(r) && (await this._removeSession(), await C(this.storage, `${this.storageKey}-code-verifier`)), this._returnResult({ data: { user: null }, error: r });
+      throw r;
+    }
+  }
+  /**
+   * Updates user data for a logged in user.
+   *
+   * @category Auth
+   *
+   * @remarks
+   * - In order to use the `updateUser()` method, the user needs to be signed in first.
+   * - By default, email updates sends a confirmation link to both the user's current and new email.
+   * To only send a confirmation link to the user's new email, disable **Secure email change** in your project's [email auth provider settings](/dashboard/project/_/auth/providers).
+   *
+   * @exampleDescription Update the email for an authenticated user
+   * Sends a "Confirm Email Change" email to the new address. If **Secure Email Change** is enabled (default), confirmation is also required from the **old email** before the change is applied. To skip dual confirmation and apply the change after only the new email is verified, disable **Secure Email Change** in the [Email Auth Provider settings](/dashboard/project/_/auth/providers?provider=Email).
+   *
+   * @example Update the email for an authenticated user
+   * ```js
+   * const { data, error } = await supabase.auth.updateUser({
+   *   email: 'new@email.com'
+   * })
+   * ```
+   *
+   * @exampleResponse Update the email for an authenticated user
+   * ```json
+   * {
+   *   "data": {
+   *     "user": {
+   *       "id": "11111111-1111-1111-1111-111111111111",
+   *       "aud": "authenticated",
+   *       "role": "authenticated",
+   *       "email": "example@email.com",
+   *       "email_confirmed_at": "2024-01-01T00:00:00Z",
+   *       "phone": "",
+   *       "confirmed_at": "2024-01-01T00:00:00Z",
+   *       "new_email": "new@email.com",
+   *       "email_change_sent_at": "2024-01-01T00:00:00Z",
+   *       "last_sign_in_at": "2024-01-01T00:00:00Z",
+   *       "app_metadata": {
+   *         "provider": "email",
+   *         "providers": [
+   *           "email"
+   *         ]
+   *       },
+   *       "user_metadata": {
+   *         "email": "example@email.com",
+   *         "email_verified": false,
+   *         "phone_verified": false,
+   *         "sub": "11111111-1111-1111-1111-111111111111"
+   *       },
+   *       "identities": [
+   *         {
+   *           "identity_id": "22222222-2222-2222-2222-222222222222",
+   *           "id": "11111111-1111-1111-1111-111111111111",
+   *           "user_id": "11111111-1111-1111-1111-111111111111",
+   *           "identity_data": {
+   *             "email": "example@email.com",
+   *             "email_verified": false,
+   *             "phone_verified": false,
+   *             "sub": "11111111-1111-1111-1111-111111111111"
+   *           },
+   *           "provider": "email",
+   *           "last_sign_in_at": "2024-01-01T00:00:00Z",
+   *           "created_at": "2024-01-01T00:00:00Z",
+   *           "updated_at": "2024-01-01T00:00:00Z",
+   *           "email": "example@email.com"
+   *         }
+   *       ],
+   *       "created_at": "2024-01-01T00:00:00Z",
+   *       "updated_at": "2024-01-01T00:00:00Z",
+   *       "is_anonymous": false
+   *     }
+   *   },
+   *   "error": null
+   * }
+   * ```
+   *
+   * @exampleDescription Update the phone number for an authenticated user
+   * Sends a one-time password (OTP) to the new phone number.
+   *
+   * @example Update the phone number for an authenticated user
+   * ```js
+   * const { data, error } = await supabase.auth.updateUser({
+   *   phone: '123456789'
+   * })
+   * ```
+   *
+   * @example Update the password for an authenticated user
+   * ```js
+   * const { data, error } = await supabase.auth.updateUser({
+   *   password: 'new password'
+   * })
+   * ```
+   *
+   * @exampleDescription Update the user's metadata
+   * Updates the user's custom metadata.
+   *
+   * **Note**: The `data` field maps to the `auth.users.raw_user_meta_data` column in your Supabase database. When calling `getUser()`, the data will be available as `user.user_metadata`.
+   *
+   * @example Update the user's metadata
+   * ```js
+   * const { data, error } = await supabase.auth.updateUser({
+   *   data: { hello: 'world' }
+   * })
+   * ```
+   *
+   * @exampleDescription Update the user's password with a nonce
+   * If **Secure password change** is enabled in your [project's email provider settings](/dashboard/project/_/auth/providers), updating the user's password would require a nonce if the user **hasn't recently signed in**. The nonce is sent to the user's email or phone number. A user is deemed recently signed in if the session was created in the last 24 hours.
+   *
+   * @example Update the user's password with a nonce
+   * ```js
+   * const { data, error } = await supabase.auth.updateUser({
+   *   password: 'new password',
+   *   nonce: '123456'
+   * })
+   * ```
+   */
+  async updateUser(e, r = {}) {
+    return await this.initializePromise, this.lock != null ? await this._acquireLock(this.lockAcquireTimeout, async () => await this._updateUser(e, r)) : await this._updateUser(e, r);
+  }
+  async _updateUser(e, r = {}) {
+    try {
+      return await this._useSession(async (s) => {
+        const { data: n, error: i } = s;
+        if (i)
+          throw i;
+        if (!n.session)
+          throw new $();
+        const a = n.session;
+        let o = null, l = null;
+        this.flowType === "pkce" && e.email != null && ([o, l] = await ae(this.storage, this.storageKey));
+        const { data: c, error: u } = await b(this.fetch, "PUT", `${this.url}/user`, {
+          headers: this.headers,
+          redirectTo: r?.emailRedirectTo,
+          body: Object.assign(Object.assign({}, e), { code_challenge: o, code_challenge_method: l }),
+          jwt: a.access_token,
+          xform: re
+        });
+        if (u)
+          throw u;
+        return a.user = c.user, await this._saveSession(a), await this._notifyAllSubscribers("USER_UPDATED", a), this._returnResult({ data: { user: a.user }, error: null });
+      });
+    } catch (s) {
+      if (await C(this.storage, `${this.storageKey}-code-verifier`), v(s))
+        return this._returnResult({ data: { user: null }, error: s });
+      throw s;
+    }
+  }
+  /**
+   * Sets the session data from the current session. If the current session is expired, setSession will take care of refreshing it to obtain a new session.
+   * If the refresh token or access token in the current session is invalid, an error will be thrown.
+   * @param currentSession The current session that minimally contains an access token and refresh token.
+   *
+   * @category Auth
+   *
+   * @remarks
+   * - This method sets the session using an `access_token` and `refresh_token`.
+   * - If successful, a `SIGNED_IN` event is emitted.
+   *
+   * @exampleDescription Set the session
+   * Sets the session data from an access_token and refresh_token, then returns an auth response or error.
+   *
+   * @example Set the session
+   * ```js
+   *   const { data, error } = await supabase.auth.setSession({
+   *     access_token,
+   *     refresh_token
+   *   })
+   * ```
+   *
+   * @exampleResponse Set the session
+   * ```json
+   * {
+   *   "data": {
+   *     "user": {
+   *       "id": "11111111-1111-1111-1111-111111111111",
+   *       "aud": "authenticated",
+   *       "role": "authenticated",
+   *       "email": "example@email.com",
+   *       "email_confirmed_at": "2024-01-01T00:00:00Z",
+   *       "phone": "",
+   *       "confirmed_at": "2024-01-01T00:00:00Z",
+   *       "last_sign_in_at": "2024-01-01T00:00:00Z",
+   *       "app_metadata": {
+   *         "provider": "email",
+   *         "providers": [
+   *           "email"
+   *         ]
+   *       },
+   *       "user_metadata": {
+   *         "email": "example@email.com",
+   *         "email_verified": false,
+   *         "phone_verified": false,
+   *         "sub": "11111111-1111-1111-1111-111111111111"
+   *       },
+   *       "identities": [
+   *         {
+   *           "identity_id": "22222222-2222-2222-2222-222222222222",
+   *           "id": "11111111-1111-1111-1111-111111111111",
+   *           "user_id": "11111111-1111-1111-1111-111111111111",
+   *           "identity_data": {
+   *             "email": "example@email.com",
+   *             "email_verified": false,
+   *             "phone_verified": false,
+   *             "sub": "11111111-1111-1111-1111-111111111111"
+   *           },
+   *           "provider": "email",
+   *           "last_sign_in_at": "2024-01-01T00:00:00Z",
+   *           "created_at": "2024-01-01T00:00:00Z",
+   *           "updated_at": "2024-01-01T00:00:00Z",
+   *           "email": "example@email.com"
+   *         }
+   *       ],
+   *       "created_at": "2024-01-01T00:00:00Z",
+   *       "updated_at": "2024-01-01T00:00:00Z",
+   *       "is_anonymous": false
+   *     },
+   *     "session": {
+   *       "access_token": "<ACCESS_TOKEN>",
+   *       "refresh_token": "<REFRESH_TOKEN>",
+   *       "user": {
+   *         "id": "11111111-1111-1111-1111-111111111111",
+   *         "aud": "authenticated",
+   *         "role": "authenticated",
+   *         "email": "example@email.com",
+   *         "email_confirmed_at": "2024-01-01T00:00:00Z",
+   *         "phone": "",
+   *         "confirmed_at": "2024-01-01T00:00:00Z",
+   *         "last_sign_in_at": "11111111-1111-1111-1111-111111111111",
+   *         "app_metadata": {
+   *           "provider": "email",
+   *           "providers": [
+   *             "email"
+   *           ]
+   *         },
+   *         "user_metadata": {
+   *           "email": "example@email.com",
+   *           "email_verified": false,
+   *           "phone_verified": false,
+   *           "sub": "11111111-1111-1111-1111-111111111111"
+   *         },
+   *         "identities": [
+   *           {
+   *             "identity_id": "2024-01-01T00:00:00Z",
+   *             "id": "11111111-1111-1111-1111-111111111111",
+   *             "user_id": "11111111-1111-1111-1111-111111111111",
+   *             "identity_data": {
+   *               "email": "example@email.com",
+   *               "email_verified": false,
+   *               "phone_verified": false,
+   *               "sub": "11111111-1111-1111-1111-111111111111"
+   *             },
+   *             "provider": "email",
+   *             "last_sign_in_at": "2024-01-01T00:00:00Z",
+   *             "created_at": "2024-01-01T00:00:00Z",
+   *             "updated_at": "2024-01-01T00:00:00Z",
+   *             "email": "example@email.com"
+   *           }
+   *         ],
+   *         "created_at": "2024-01-01T00:00:00Z",
+   *         "updated_at": "2024-01-01T00:00:00Z",
+   *         "is_anonymous": false
+   *       },
+   *       "token_type": "bearer",
+   *       "expires_in": 3500,
+   *       "expires_at": 1700000000
+   *     }
+   *   },
+   *   "error": null
+   * }
+   * ```
+   */
+  async setSession(e) {
+    return await this.initializePromise, this.lock != null ? await this._acquireLock(this.lockAcquireTimeout, async () => await this._setSession(e)) : await this._setSession(e);
+  }
+  async _setSession(e) {
+    try {
+      if (!e.access_token || !e.refresh_token)
+        throw new $();
+      const r = Date.now() / 1e3;
+      let s = r, n = !0, i = null;
+      const { payload: a } = Ge(e.access_token);
+      if (a.exp && (s = a.exp, n = s <= r), n) {
+        const { data: o, error: l } = await this._callRefreshToken(e.refresh_token);
+        if (l)
+          return this._returnResult({ data: { user: null, session: null }, error: l });
+        if (!o)
+          return { data: { user: null, session: null }, error: null };
+        i = o;
+      } else {
+        const { data: o, error: l } = await this._getUser(e.access_token);
+        if (l)
+          return this._returnResult({ data: { user: null, session: null }, error: l });
+        i = {
+          access_token: e.access_token,
+          refresh_token: e.refresh_token,
+          user: o.user,
+          token_type: "bearer",
+          expires_in: s - r,
+          expires_at: s
+        }, await this._saveSession(i), await this._notifyAllSubscribers("SIGNED_IN", i);
+      }
+      return this._returnResult({ data: { user: i.user, session: i }, error: null });
+    } catch (r) {
+      if (v(r))
+        return this._returnResult({ data: { session: null, user: null }, error: r });
+      throw r;
+    }
+  }
+  /**
+   * Returns a new session, regardless of expiry status.
+   * Takes in an optional current session. If not passed in, then refreshSession() will attempt to retrieve it from getSession().
+   * If the current session's refresh token is invalid, an error will be thrown.
+   * @param currentSession The current session. If passed in, it must contain a refresh token.
+   *
+   * @category Auth
+   *
+   * @remarks
+   * - This method will refresh and return a new session whether the current one is expired or not.
+   *
+   * @example Refresh session using the current session
+   * ```js
+   * const { data, error } = await supabase.auth.refreshSession()
+   * const { session, user } = data
+   * ```
+   *
+   * @exampleResponse Refresh session using the current session
+   * ```json
+   * {
+   *   "data": {
+   *     "user": {
+   *       "id": "11111111-1111-1111-1111-111111111111",
+   *       "aud": "authenticated",
+   *       "role": "authenticated",
+   *       "email": "example@email.com",
+   *       "email_confirmed_at": "2024-01-01T00:00:00Z",
+   *       "phone": "",
+   *       "confirmed_at": "2024-01-01T00:00:00Z",
+   *       "last_sign_in_at": "2024-01-01T00:00:00Z",
+   *       "app_metadata": {
+   *         "provider": "email",
+   *         "providers": [
+   *           "email"
+   *         ]
+   *       },
+   *       "user_metadata": {
+   *         "email": "example@email.com",
+   *         "email_verified": false,
+   *         "phone_verified": false,
+   *         "sub": "11111111-1111-1111-1111-111111111111"
+   *       },
+   *       "identities": [
+   *         {
+   *           "identity_id": "22222222-2222-2222-2222-222222222222",
+   *           "id": "11111111-1111-1111-1111-111111111111",
+   *           "user_id": "11111111-1111-1111-1111-111111111111",
+   *           "identity_data": {
+   *             "email": "example@email.com",
+   *             "email_verified": false,
+   *             "phone_verified": false,
+   *             "sub": "11111111-1111-1111-1111-111111111111"
+   *           },
+   *           "provider": "email",
+   *           "last_sign_in_at": "2024-01-01T00:00:00Z",
+   *           "created_at": "2024-01-01T00:00:00Z",
+   *           "updated_at": "2024-01-01T00:00:00Z",
+   *           "email": "example@email.com"
+   *         }
+   *       ],
+   *       "created_at": "2024-01-01T00:00:00Z",
+   *       "updated_at": "2024-01-01T00:00:00Z",
+   *       "is_anonymous": false
+   *     },
+   *     "session": {
+   *       "access_token": "<ACCESS_TOKEN>",
+   *       "token_type": "bearer",
+   *       "expires_in": 3600,
+   *       "expires_at": 1700000000,
+   *       "refresh_token": "<REFRESH_TOKEN>",
+   *       "user": {
+   *         "id": "11111111-1111-1111-1111-111111111111",
+   *         "aud": "authenticated",
+   *         "role": "authenticated",
+   *         "email": "example@email.com",
+   *         "email_confirmed_at": "2024-01-01T00:00:00Z",
+   *         "phone": "",
+   *         "confirmed_at": "2024-01-01T00:00:00Z",
+   *         "last_sign_in_at": "2024-01-01T00:00:00Z",
+   *         "app_metadata": {
+   *           "provider": "email",
+   *           "providers": [
+   *             "email"
+   *           ]
+   *         },
+   *         "user_metadata": {
+   *           "email": "example@email.com",
+   *           "email_verified": false,
+   *           "phone_verified": false,
+   *           "sub": "11111111-1111-1111-1111-111111111111"
+   *         },
+   *         "identities": [
+   *           {
+   *             "identity_id": "22222222-2222-2222-2222-222222222222",
+   *             "id": "11111111-1111-1111-1111-111111111111",
+   *             "user_id": "11111111-1111-1111-1111-111111111111",
+   *             "identity_data": {
+   *               "email": "example@email.com",
+   *               "email_verified": false,
+   *               "phone_verified": false,
+   *               "sub": "11111111-1111-1111-1111-111111111111"
+   *             },
+   *             "provider": "email",
+   *             "last_sign_in_at": "2024-01-01T00:00:00Z",
+   *             "created_at": "2024-01-01T00:00:00Z",
+   *             "updated_at": "2024-01-01T00:00:00Z",
+   *             "email": "example@email.com"
+   *           }
+   *         ],
+   *         "created_at": "2024-01-01T00:00:00Z",
+   *         "updated_at": "2024-01-01T00:00:00Z",
+   *         "is_anonymous": false
+   *       }
+   *     }
+   *   },
+   *   "error": null
+   * }
+   * ```
+   *
+   * @example Refresh session using a refresh token
+   * ```js
+   * const { data, error } = await supabase.auth.refreshSession({ refresh_token })
+   * const { session, user } = data
+   * ```
+   */
+  async refreshSession(e) {
+    return await this.initializePromise, this.lock != null ? await this._acquireLock(this.lockAcquireTimeout, async () => await this._refreshSession(e)) : await this._refreshSession(e);
+  }
+  async _refreshSession(e) {
+    try {
+      return await this._useSession(async (r) => {
+        var s;
+        if (!e) {
+          const { data: a, error: o } = r;
+          if (o)
+            throw o;
+          e = (s = a.session) !== null && s !== void 0 ? s : void 0;
+        }
+        if (!e?.refresh_token)
+          throw new $();
+        const { data: n, error: i } = await this._callRefreshToken(e.refresh_token);
+        return i ? this._returnResult({ data: { user: null, session: null }, error: i }) : n ? this._returnResult({ data: { user: n.user, session: n }, error: null }) : this._returnResult({ data: { user: null, session: null }, error: null });
+      });
+    } catch (r) {
+      if (v(r))
+        return this._returnResult({ data: { user: null, session: null }, error: r });
+      throw r;
+    }
+  }
+  /**
+   * Gets the session data from a URL string
+   */
+  async _getSessionFromURL(e, r) {
+    var s;
+    try {
+      if (!j())
+        throw new ze("No browser detected.");
+      if (e.error || e.error_description || e.error_code)
+        throw new ze(e.error_description || "Error in URL with unspecified error_description", {
+          error: e.error || "unspecified_error",
+          code: e.error_code || "unspecified_code"
+        });
+      switch (r) {
+        case "implicit":
+          if (this.flowType === "pkce")
+            throw new nr("Not a valid PKCE flow url.");
+          break;
+        case "pkce":
+          if (this.flowType === "implicit")
+            throw new ze("Not a valid implicit grant flow url.");
+          break;
+        default:
+      }
+      if (r === "pkce") {
+        if (this._debug("#_initialize()", "begin", "is PKCE flow", !0), !e.code)
+          throw new nr("No code detected.");
+        const { data: _, error: E } = await this._exchangeCodeForSession(e.code);
+        if (E)
+          throw E;
+        const U = new URL(window.location.href);
+        return U.searchParams.delete("code"), window.history.replaceState(window.history.state, "", U.toString()), {
+          data: { session: _.session, redirectType: (s = _.redirectType) !== null && s !== void 0 ? s : null },
+          error: null
+        };
+      }
+      const { provider_token: n, provider_refresh_token: i, access_token: a, refresh_token: o, expires_in: l, expires_at: c, token_type: u } = e;
+      if (!a || !l || !o || !u)
+        throw new ze("No session defined in URL");
+      const h = Math.round(Date.now() / 1e3), d = parseInt(l);
+      let f = h + d;
+      c && (f = parseInt(c));
+      const p = f - h;
+      p * 1e3 <= Z && console.warn(`@supabase/gotrue-js: Session as retrieved from URL expires in ${p}s, should have been closer to ${d}s`);
+      const y = f - d;
+      h - y >= 120 ? console.warn("@supabase/gotrue-js: Session as retrieved from URL was issued over 120s ago, URL could be stale", y, f, h) : h - y < 0 && console.warn("@supabase/gotrue-js: Session as retrieved from URL was issued in the future? Check the device clock for skew", y, f, h);
+      const { data: m, error: w } = await this._getUser(a);
+      if (w)
+        throw w;
+      const S = {
+        provider_token: n,
+        provider_refresh_token: i,
+        access_token: a,
+        expires_in: d,
+        expires_at: f,
+        refresh_token: o,
+        token_type: u,
+        user: m.user
+      };
+      return window.location.hash = "", this._debug("#_getSessionFromURL()", "clearing window.location.hash"), this._returnResult({ data: { session: S, redirectType: e.type }, error: null });
+    } catch (n) {
+      if (v(n))
+        return this._returnResult({ data: { session: null, redirectType: null }, error: n });
+      throw n;
+    }
+  }
+  /**
+   * Checks if the current URL contains parameters given by an implicit oauth grant flow (https://www.rfc-editor.org/rfc/rfc6749.html#section-4.2)
+   *
+   * If `detectSessionInUrl` is a function, it will be called with the URL and params to determine
+   * if the URL should be processed as a Supabase auth callback. This allows users to exclude
+   * URLs from other OAuth providers (e.g., Facebook Login) that also return access_token in the fragment.
+   */
+  _isImplicitGrantCallback(e) {
+    return typeof this.detectSessionInUrl == "function" ? this.detectSessionInUrl(new URL(window.location.href), e) : !!(e.access_token || e.error || e.error_description || e.error_code);
+  }
+  /**
+   * Checks if the current URL and backing storage contain parameters given by a PKCE flow
+   */
+  async _isPKCECallback(e) {
+    const r = await q(this.storage, `${this.storageKey}-code-verifier`);
+    return !!(e.code && r);
+  }
+  /**
+   * Inside a browser context, `signOut()` will remove the logged in user from the browser session and log them out - removing all items from localstorage and then trigger a `"SIGNED_OUT"` event.
+   *
+   * For server-side management, you can revoke all refresh tokens for a user by passing a user's JWT through to `auth.api.signOut(JWT: string)`.
+   * There is no way to revoke a user's access token jwt until it expires. It is recommended to set a shorter expiry on the jwt for this reason.
+   *
+   * If using `others` scope, no `SIGNED_OUT` event is fired!
+   *
+   * **Warning:** the default `scope` is `'global'`. This signs the user out of
+   * **every device they are currently signed in on**, not just the current
+   * tab/session. If you only want to sign the user out of the current session
+   * (the behavior most other auth libraries default to), pass
+   * `{ scope: 'local' }` explicitly.
+   *
+   * @category Auth
+   *
+   * @remarks
+   * - In order to use the `signOut()` method, the user needs to be signed in first.
+   * - By default, `signOut()` uses the **global** scope, which signs out the user
+   *   on every device they are signed in on (not just the current one). Pass
+   *   `{ scope: 'local' }` to only sign out the current session. This is
+   *   usually what apps want on a "Sign out" button, especially when users
+   *   sign in from multiple devices and do not expect signing out of one to
+   *   terminate the others.
+   * - Since Supabase Auth uses JWTs for authentication, the access token JWT will be valid until it's expired. When the user signs out, Supabase revokes the refresh token and deletes the JWT from the client-side. This does not revoke the JWT and it will still be valid until it expires.
+   *
+   * @example Sign out of every device (global â€“ default)
+   * ```js
+   * const { error } = await supabase.auth.signOut()
+   * ```
+   *
+   * @example Sign out only the current session (recommended for most apps)
+   * ```js
+   * const { error } = await supabase.auth.signOut({ scope: 'local' })
+   * ```
+   *
+   * @example Sign out of all other sessions, keep the current one
+   * ```js
+   * const { error } = await supabase.auth.signOut({ scope: 'others' })
+   * ```
+   */
+  async signOut(e = { scope: "global" }) {
+    return await this.initializePromise, this.lock != null ? await this._acquireLock(this.lockAcquireTimeout, async () => await this._signOut(e)) : await this._signOut(e);
+  }
+  async _signOut({ scope: e } = { scope: "global" }) {
+    return await this._useSession(async (r) => {
+      var s;
+      const n = async () => {
+        await this._removeSession(), await C(this.storage, `${this.storageKey}-code-verifier`);
+      }, { data: i, error: a } = r;
+      if (a && !We(a))
+        return this._returnResult({ error: a });
+      const o = (s = i.session) === null || s === void 0 ? void 0 : s.access_token;
+      if (o) {
+        const { error: l } = await this.admin.signOut(o, e);
+        if (l && !(Vn(l) && (l.status === 404 || l.status === 401 || l.status === 403) || We(l)))
+          return e !== "others" && await n(), this._returnResult({ error: l });
+      }
+      return e !== "others" && await n(), this._returnResult({ error: null });
+    });
+  }
+  /**  *
+   * @category Auth
+   *
+   * @remarks
+   * - Subscribes to important events occurring on the user's session.
+   * - Use on the frontend/client. It is less useful on the server.
+   * - Events are emitted across tabs to keep your application's UI up-to-date. Some events can fire very frequently, based on the number of tabs open. Use a quick and efficient callback function, and defer or debounce as many operations as you can to be performed outside of the callback.
+   * - Callbacks can be `async` and can safely call other Supabase auth methods (`getUser`, `setSession`, etc.) from inside the callback.
+   * - Keep callbacks quick. Events are awaited in order, so a slow callback delays subsequent events to subscribers in this tab.
+   * - Emitted events:
+   *   - `INITIAL_SESSION`
+   *     - Emitted right after the Supabase client is constructed and the initial session from storage is loaded.
+   *   - `SIGNED_IN`
+   *     - Emitted each time a user session is confirmed or re-established, including on user sign in and when refocusing a tab.
+   *     - Avoid making assumptions as to when this event is fired, this may occur even when the user is already signed in. Instead, check the user object attached to the event to see if a new user has signed in and update your application's UI.
+   *     - This event can fire very frequently depending on the number of tabs open in your application.
+   *   - `SIGNED_OUT`
+   *     - Emitted when the user signs out. This can be after:
+   *       - A call to `supabase.auth.signOut()`.
+   *       - After the user's session has expired for any reason:
+   *         - User has signed out on another device.
+   *         - The session has reached its timebox limit or inactivity timeout.
+   *         - User has signed in on another device with single session per user enabled.
+   *         - Check the [User Sessions](/docs/guides/auth/sessions) docs for more information.
+   *     - Use this to clean up any local storage your application has associated with the user.
+   *   - `TOKEN_REFRESHED`
+   *     - Emitted each time a new access and refresh token are fetched for the signed in user.
+   *     - It's best practice and highly recommended to extract the access token (JWT) and store it in memory for further use in your application.
+   *       - Avoid frequent calls to `supabase.auth.getSession()` for the same purpose.
+   *     - There is a background process that keeps track of when the session should be refreshed so you will always receive valid tokens by listening to this event.
+   *     - The frequency of this event is related to the JWT expiry limit configured on your project.
+   *   - `USER_UPDATED`
+   *     - Emitted each time the `supabase.auth.updateUser()` method finishes successfully. Listen to it to update your application's UI based on new profile information.
+   *   - `PASSWORD_RECOVERY`
+   *     - Emitted instead of the `SIGNED_IN` event when the user lands on a page that includes a password recovery link in the URL.
+   *     - Use it to show a UI to the user where they can [reset their password](/docs/guides/auth/passwords#resetting-a-users-password-forgot-password).
+   *
+   * @example Listen to auth changes
+   * ```js
+   * const { data } = supabase.auth.onAuthStateChange((event, session) => {
+   *   console.log(event, session)
+   *
+   *   if (event === 'INITIAL_SESSION') {
+   *     // handle initial session
+   *   } else if (event === 'SIGNED_IN') {
+   *     // handle sign in event
+   *   } else if (event === 'SIGNED_OUT') {
+   *     // handle sign out event
+   *   } else if (event === 'PASSWORD_RECOVERY') {
+   *     // handle password recovery event
+   *   } else if (event === 'TOKEN_REFRESHED') {
+   *     // handle token refreshed event
+   *   } else if (event === 'USER_UPDATED') {
+   *     // handle user updated event
+   *   }
+   * })
+   *
+   * // call unsubscribe to remove the callback
+   * data.subscription.unsubscribe()
+   * ```
+   *
+   * @exampleDescription Listen to sign out
+   * Make sure you clear out any local data, such as local and session storage, after the client library has detected the user's sign out.
+   *
+   * @example Listen to sign out
+   * ```js
+   * supabase.auth.onAuthStateChange((event, session) => {
+   *   if (event === 'SIGNED_OUT') {
+   *     console.log('SIGNED_OUT', session)
+   *
+   *     // clear local and session storage
+   *     [
+   *       window.localStorage,
+   *       window.sessionStorage,
+   *     ].forEach((storage) => {
+   *       Object.entries(storage)
+   *         .forEach(([key]) => {
+   *           storage.removeItem(key)
+   *         })
+   *     })
+   *   }
+   * })
+   * ```
+   *
+   * @exampleDescription Store OAuth provider tokens on sign in
+   * When using [OAuth (Social Login)](/docs/guides/auth/social-login) you sometimes wish to get access to the provider's access token and refresh token, in order to call provider APIs in the name of the user.
+   *
+   * For example, if you are using [Sign in with Google](/docs/guides/auth/social-login/auth-google) you may want to use the provider token to call Google APIs on behalf of the user. Supabase Auth does not keep track of the provider access and refresh token, but does return them for you once, immediately after sign in. You can use the `onAuthStateChange` method to listen for the presence of the provider tokens and store them in local storage. You can further send them to your server's APIs for use on the backend.
+   *
+   * Finally, make sure you remove them from local storage on the `SIGNED_OUT` event. If the OAuth provider supports token revocation, make sure you call those APIs either from the frontend or schedule them to be called on the backend.
+   *
+   * @example Store OAuth provider tokens on sign in
+   * ```js
+   * // Register this immediately after calling createClient!
+   * // Because signInWithOAuth causes a redirect, you need to fetch the
+   * // provider tokens from the callback.
+   * supabase.auth.onAuthStateChange((event, session) => {
+   *   if (session && session.provider_token) {
+   *     window.localStorage.setItem('oauth_provider_token', session.provider_token)
+   *   }
+   *
+   *   if (session && session.provider_refresh_token) {
+   *     window.localStorage.setItem('oauth_provider_refresh_token', session.provider_refresh_token)
+   *   }
+   *
+   *   if (event === 'SIGNED_OUT') {
+   *     window.localStorage.removeItem('oauth_provider_token')
+   *     window.localStorage.removeItem('oauth_provider_refresh_token')
+   *   }
+   * })
+   * ```
+   *
+   * @exampleDescription Use React Context for the User's session
+   * Instead of relying on `supabase.auth.getSession()` within your React components, you can use a [React Context](https://react.dev/reference/react/createContext) to store the latest session information from the `onAuthStateChange` callback and access it that way.
+   *
+   * @example Use React Context for the User's session
+   * ```js
+   * const SessionContext = React.createContext(null)
+   *
+   * function main() {
+   *   const [session, setSession] = React.useState(null)
+   *
+   *   React.useEffect(() => {
+   *     const {data: { subscription }} = supabase.auth.onAuthStateChange(
+   *       (event, session) => {
+   *         if (event === 'SIGNED_OUT') {
+   *           setSession(null)
+   *         } else if (session) {
+   *           setSession(session)
+   *         }
+   *       })
+   *
+   *     return () => {
+   *       subscription.unsubscribe()
+   *     }
+   *   }, [])
+   *
+   *   return (
+   *     <SessionContext.Provider value={session}>
+   *       <App />
+   *     </SessionContext.Provider>
+   *   )
+   * }
+   * ```
+   *
+   * @example Listen to password recovery events
+   * ```js
+   * supabase.auth.onAuthStateChange((event, session) => {
+   *   if (event === 'PASSWORD_RECOVERY') {
+   *     console.log('PASSWORD_RECOVERY', session)
+   *     // show screen to update user's password
+   *     showPasswordResetScreen(true)
+   *   }
+   * })
+   * ```
+   *
+   * @example Listen to sign in
+   * ```js
+   * supabase.auth.onAuthStateChange((event, session) => {
+   *   if (event === 'SIGNED_IN') console.log('SIGNED_IN', session)
+   * })
+   * ```
+   *
+   * @example Listen to token refresh
+   * ```js
+   * supabase.auth.onAuthStateChange((event, session) => {
+   *   if (event === 'TOKEN_REFRESHED') console.log('TOKEN_REFRESHED', session)
+   * })
+   * ```
+   *
+   * @example Listen to user updates
+   * ```js
+   * supabase.auth.onAuthStateChange((event, session) => {
+   *   if (event === 'USER_UPDATED') console.log('USER_UPDATED', session)
+   * })
+   * ```
+   */
+  onAuthStateChange(e) {
+    const r = ri(), s = {
+      id: r,
+      callback: e,
+      unsubscribe: () => {
+        this._debug("#unsubscribe()", "state change callback with id removed", r), this.stateChangeEmitters.delete(r);
+      }
+    };
+    return this._debug("#onAuthStateChange()", "registered callback with id", r), this.stateChangeEmitters.set(r, s), (async () => (await this.initializePromise, this.lock != null ? await this._acquireLock(this.lockAcquireTimeout, async () => {
+      this._emitInitialSession(r);
+    }) : await this._emitInitialSession(r)))(), { data: { subscription: s } };
+  }
+  async _emitInitialSession(e) {
+    return await this._useSession(async (r) => {
+      var s, n;
+      try {
+        const { data: { session: i }, error: a } = r;
+        if (a)
+          throw a;
+        await ((s = this.stateChangeEmitters.get(e)) === null || s === void 0 ? void 0 : s.callback("INITIAL_SESSION", i)), this._debug("INITIAL_SESSION", "callback id", e, "session", i);
+      } catch (i) {
+        await ((n = this.stateChangeEmitters.get(e)) === null || n === void 0 ? void 0 : n.callback("INITIAL_SESSION", null)), this._debug("INITIAL_SESSION", "callback id", e, "error", i), We(i) || Je(i) ? console.warn(i) : console.error(i);
+      }
+    });
+  }
+  /**
+   * Sends a password reset request to an email address. This method supports the PKCE flow.
+   *
+   * @param email The email address of the user.
+   * @param options.redirectTo The URL to send the user to after they click the password reset link.
+   * @param options.captchaToken Verification token received when the user completes the captcha on the site.
+   *
+   * @category Auth
+   *
+   * @remarks
+   * - The password reset flow consist of 2 broad steps: (i) Allow the user to login via the password reset link; (ii) Update the user's password.
+   * - The `resetPasswordForEmail()` only sends a password reset link to the user's email.
+   * To update the user's password, see [`updateUser()`](/docs/reference/javascript/auth-updateuser).
+   * - A `PASSWORD_RECOVERY` event will be emitted when the password recovery link is clicked.
+   * You can use [`onAuthStateChange()`](/docs/reference/javascript/auth-onauthstatechange) to listen and invoke a callback function on these events.
+   * - When the user clicks the reset link in the email they are redirected back to your application.
+   * You can configure the URL that the user is redirected to with the `redirectTo` parameter.
+   * See [redirect URLs and wildcards](/docs/guides/auth/redirect-urls#use-wildcards-in-redirect-urls) to add additional redirect URLs to your project.
+   * - After the user has been redirected successfully, prompt them for a new password and call `updateUser()`:
+   * ```js
+   * const { data, error } = await supabase.auth.updateUser({
+   *   password: new_password
+   * })
+   * ```
+   *
+   * @example Reset password
+   * ```js
+   * const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+   *   redirectTo: 'https://example.com/update-password',
+   * })
+   * ```
+   *
+   * @exampleResponse Reset password
+   * ```json
+   * {
+   *   data: {}
+   *   error: null
+   * }
+   * ```
+   *
+   * @example Reset password (React)
+   * ```js
+   * /**
+   *  * Step 1: Send the user an email to get a password reset token.
+   *  * This email contains a link which sends the user back to your application.
+   *  *\/
+   * const { data, error } = await supabase.auth
+   *   .resetPasswordForEmail('user@email.com')
+   *
+   * /**
+   *  * Step 2: Once the user is redirected back to your application,
+   *  * ask the user to reset their password.
+   *  *\/
+   *  useEffect(() => {
+   *    supabase.auth.onAuthStateChange(async (event, session) => {
+   *      if (event == "PASSWORD_RECOVERY") {
+   *        const newPassword = prompt("What would you like your new password to be?");
+   *        const { data, error } = await supabase.auth
+   *          .updateUser({ password: newPassword })
+   *
+   *        if (data) alert("Password updated successfully!")
+   *        if (error) alert("There was an error updating your password.")
+   *      }
+   *    })
+   *  }, [])
+   * ```
+   */
+  async resetPasswordForEmail(e, r = {}) {
+    let s = null, n = null;
+    this.flowType === "pkce" && ([s, n] = await ae(
+      this.storage,
+      this.storageKey,
+      !0
+      // isPasswordRecovery
+    ));
+    try {
+      return await b(this.fetch, "POST", `${this.url}/recover`, {
+        body: {
+          email: e,
+          code_challenge: s,
+          code_challenge_method: n,
+          gotrue_meta_security: { captcha_token: r.captchaToken }
+        },
+        headers: this.headers,
+        redirectTo: r.redirectTo
+      });
+    } catch (i) {
+      if (await C(this.storage, `${this.storageKey}-code-verifier`), v(i))
+        return this._returnResult({ data: null, error: i });
+      throw i;
+    }
+  }
+  /**
+   * Gets all the identities linked to a user.
+   *
+   * @category Auth
+   *
+   * @remarks
+   * - The user needs to be signed in to call `getUserIdentities()`.
+   *
+   * @example Returns a list of identities linked to the user
+   * ```js
+   * const { data, error } = await supabase.auth.getUserIdentities()
+   * ```
+   *
+   * @exampleResponse Returns a list of identities linked to the user
+   * ```json
+   * {
+   *   "data": {
+   *     "identities": [
+   *       {
+   *         "identity_id": "22222222-2222-2222-2222-222222222222",
+   *         "id": "2024-01-01T00:00:00Z",
+   *         "user_id": "2024-01-01T00:00:00Z",
+   *         "identity_data": {
+   *           "email": "example@email.com",
+   *           "email_verified": false,
+   *           "phone_verified": false,
+   *           "sub": "11111111-1111-1111-1111-111111111111"
+   *         },
+   *         "provider": "email",
+   *         "last_sign_in_at": "2024-01-01T00:00:00Z",
+   *         "created_at": "2024-01-01T00:00:00Z",
+   *         "updated_at": "2024-01-01T00:00:00Z",
+   *         "email": "example@email.com"
+   *       }
+   *     ]
+   *   },
+   *   "error": null
+   * }
+   * ```
+   */
+  async getUserIdentities() {
+    var e;
+    try {
+      const { data: r, error: s } = await this.getUser();
+      if (s)
+        throw s;
+      return this._returnResult({ data: { identities: (e = r.user.identities) !== null && e !== void 0 ? e : [] }, error: null });
+    } catch (r) {
+      if (v(r))
+        return this._returnResult({ data: null, error: r });
+      throw r;
+    }
+  }
+  /**  *
+   * @category Auth
+   *
+   * @remarks
+   * - The **Enable Manual Linking** option must be enabled from your [project's authentication settings](/dashboard/project/_/auth/providers).
+   * - The user needs to be signed in to call `linkIdentity()`.
+   * - If the candidate identity is already linked to the existing user or another user, `linkIdentity()` will fail.
+   * - If `linkIdentity` is run in the browser, the user is automatically redirected to the returned URL. On the server, you should handle the redirect.
+   *
+   * @example Link an identity to a user
+   * ```js
+   * const { data, error } = await supabase.auth.linkIdentity({
+   *   provider: 'github'
+   * })
+   * ```
+   *
+   * @exampleResponse Link an identity to a user
+   * ```json
+   * {
+   *   data: {
+   *     provider: 'github',
+   *     url: <PROVIDER_URL_TO_REDIRECT_TO>
+   *   },
+   *   error: null
+   * }
+   * ```
+   */
+  async linkIdentity(e) {
+    return "token" in e ? this.linkIdentityIdToken(e) : this.linkIdentityOAuth(e);
+  }
+  async linkIdentityOAuth(e) {
+    var r;
+    try {
+      const { data: s, error: n } = await this._useSession(async (i) => {
+        var a, o, l, c, u;
+        const { data: h, error: d } = i;
+        if (d)
+          throw d;
+        const f = await this._getUrlForProvider(`${this.url}/user/identities/authorize`, e.provider, {
+          redirectTo: (a = e.options) === null || a === void 0 ? void 0 : a.redirectTo,
+          scopes: (o = e.options) === null || o === void 0 ? void 0 : o.scopes,
+          queryParams: (l = e.options) === null || l === void 0 ? void 0 : l.queryParams,
+          skipBrowserRedirect: !0
+        });
+        return await b(this.fetch, "GET", f, {
+          headers: this.headers,
+          jwt: (u = (c = h.session) === null || c === void 0 ? void 0 : c.access_token) !== null && u !== void 0 ? u : void 0
+        });
+      });
+      if (n)
+        throw n;
+      return j() && !(!((r = e.options) === null || r === void 0) && r.skipBrowserRedirect) && window.location.assign(s?.url), this._returnResult({
+        data: { provider: e.provider, url: s?.url },
+        error: null
+      });
+    } catch (s) {
+      if (v(s))
+        return this._returnResult({ data: { provider: e.provider, url: null }, error: s });
+      throw s;
+    }
+  }
+  async linkIdentityIdToken(e) {
+    return await this._useSession(async (r) => {
+      var s;
+      try {
+        const { error: n, data: { session: i } } = r;
+        if (n)
+          throw n;
+        const { options: a, provider: o, token: l, access_token: c, nonce: u } = e, h = await b(this.fetch, "POST", `${this.url}/token?grant_type=id_token`, {
+          headers: this.headers,
+          jwt: (s = i?.access_token) !== null && s !== void 0 ? s : void 0,
+          body: {
+            provider: o,
+            id_token: l,
+            access_token: c,
+            nonce: u,
+            link_identity: !0,
+            gotrue_meta_security: { captcha_token: a?.captchaToken }
+          },
+          xform: H
+        }), { data: d, error: f } = h;
+        return f ? this._returnResult({ data: { user: null, session: null }, error: f }) : !d || !d.session || !d.user ? this._returnResult({
+          data: { user: null, session: null },
+          error: new de()
+        }) : (d.session && (await this._saveSession(d.session), await this._notifyAllSubscribers("USER_UPDATED", d.session)), this._returnResult({ data: d, error: f }));
+      } catch (n) {
+        if (await C(this.storage, `${this.storageKey}-code-verifier`), v(n))
+          return this._returnResult({ data: { user: null, session: null }, error: n });
+        throw n;
+      }
+    });
+  }
+  /**
+   * Unlinks an identity from a user by deleting it. The user will no longer be able to sign in with that identity once it's unlinked.
+   *
+   * @category Auth
+   *
+   * @remarks
+   * - The **Enable Manual Linking** option must be enabled from your [project's authentication settings](/dashboard/project/_/auth/providers).
+   * - The user needs to be signed in to call `unlinkIdentity()`.
+   * - The user must have at least 2 identities in order to unlink an identity.
+   * - The identity to be unlinked must belong to the user.
+   *
+   * @example Unlink an identity
+   * ```js
+   * // retrieve all identities linked to a user
+   * const identities = await supabase.auth.getUserIdentities()
+   *
+   * // find the google identity
+   * const googleIdentity = identities.find(
+   *   identity => identity.provider === 'google'
+   * )
+   *
+   * // unlink the google identity
+   * const { error } = await supabase.auth.unlinkIdentity(googleIdentity)
+   * ```
+   */
+  async unlinkIdentity(e) {
+    try {
+      return await this._useSession(async (r) => {
+        var s, n;
+        const { data: i, error: a } = r;
+        if (a)
+          throw a;
+        return await b(this.fetch, "DELETE", `${this.url}/user/identities/${e.identity_id}`, {
+          headers: this.headers,
+          jwt: (n = (s = i.session) === null || s === void 0 ? void 0 : s.access_token) !== null && n !== void 0 ? n : void 0
+        });
+      });
+    } catch (r) {
+      if (v(r))
+        return this._returnResult({ data: null, error: r });
+      throw r;
+    }
+  }
+  /**
+   * Generates a new JWT.
+   * @param refreshToken A valid refresh token that was returned on login.
+   */
+  async _refreshAccessToken(e) {
+    const r = "#_refreshAccessToken()";
+    this._debug(r, "begin");
+    try {
+      const s = Date.now();
+      return await ai(async (n) => (n > 0 && await ii(200 * Math.pow(2, n - 1)), this._debug(r, "refreshing attempt", n), await b(this.fetch, "POST", `${this.url}/token?grant_type=refresh_token`, {
+        body: { refresh_token: e },
+        headers: this.headers,
+        xform: H
+      })), (n, i) => {
+        const a = 200 * Math.pow(2, n);
+        return i && Je(i) && // retryable only if the request can be sent before the backoff overflows the tick duration
+        Date.now() + a - s < Z;
+      });
+    } catch (s) {
+      if (this._debug(r, "error", s), v(s))
+        return this._returnResult({ data: { session: null, user: null }, error: s });
+      throw s;
+    } finally {
+      this._debug(r, "end");
+    }
+  }
+  _isValidSession(e) {
+    return typeof e == "object" && e !== null && "access_token" in e && "refresh_token" in e && "expires_at" in e;
+  }
+  async _handleProviderSignIn(e, r) {
+    const s = await this._getUrlForProvider(`${this.url}/authorize`, e, {
+      redirectTo: r.redirectTo,
+      scopes: r.scopes,
+      queryParams: r.queryParams
+    });
+    return this._debug("#_handleProviderSignIn()", "provider", e, "options", r, "url", s), j() && !r.skipBrowserRedirect && window.location.assign(s), { data: { provider: e, url: s }, error: null };
+  }
+  /**
+   * Recovers the session from LocalStorage and refreshes the token
+   * Note: this method is async to accommodate for AsyncStorage e.g. in React native.
+   */
+  async _recoverAndRefresh() {
+    var e, r;
+    const s = "#_recoverAndRefresh()";
+    this._debug(s, "begin");
+    try {
+      const n = await q(this.storage, this.storageKey);
+      if (n && this.userStorage) {
+        let a = await q(this.userStorage, this.storageKey + "-user");
+        !this.storage.isServer && Object.is(this.storage, this.userStorage) && !a && (a = { user: n.user }, await ye(this.userStorage, this.storageKey + "-user", a)), n.user = (e = a?.user) !== null && e !== void 0 ? e : yt();
+      } else if (n && !n.user && !n.user) {
+        const a = await q(this.storage, this.storageKey + "-user");
+        a && a?.user ? (n.user = a.user, await C(this.storage, this.storageKey + "-user"), await ye(this.storage, this.storageKey, n)) : n.user = yt();
+      }
+      if (this._debug(s, "session from storage", n), !this._isValidSession(n)) {
+        this._debug(s, "session is not valid"), n !== null && await this._removeSession();
+        return;
+      }
+      const i = ((r = n.expires_at) !== null && r !== void 0 ? r : 1 / 0) * 1e3 - Date.now() < gt;
+      if (this._debug(s, `session has${i ? "" : " not"} expired with margin of ${gt}s`), i) {
+        if (this.autoRefreshToken && n.refresh_token) {
+          const { error: a } = await this._callRefreshToken(n.refresh_token);
+          a && (Gn(a) ? this._debug(s, "refresh discarded by commit guard", a) : this._debug(s, "refresh failed", a));
+        }
+      } else if (n.user && n.user.__isUserNotAvailableProxy === !0)
+        try {
+          const { data: a, error: o } = await this._getUser(n.access_token);
+          !o && a?.user ? (n.user = a.user, await this._saveSession(n), await this._notifyAllSubscribers("SIGNED_IN", n)) : this._debug(s, "could not get user data, skipping SIGNED_IN notification");
+        } catch (a) {
+          console.error("Error getting user data:", a), this._debug(s, "error getting user data, skipping SIGNED_IN notification", a);
+        }
+      else
+        await this._notifyAllSubscribers("SIGNED_IN", n);
+    } catch (n) {
+      this._debug(s, "error", n), Je(n) ? console.warn(n) : console.error(n);
+      return;
+    } finally {
+      this._debug(s, "end");
+    }
+  }
+  async _callRefreshToken(e) {
+    var r, s;
+    if (!e)
+      throw new $();
+    if (this.refreshingDeferred)
+      return this.refreshingDeferred.promise;
+    if (this.lastRefreshFailure && this.lastRefreshFailure.refreshToken === e && Date.now() < this.lastRefreshFailure.expiresAt)
+      return this._debug("#_callRefreshToken()", "returning cached failure (cooldown active)"), this.lastRefreshFailure.result;
+    const n = "#_callRefreshToken()";
+    this._debug(n, "begin");
+    try {
+      this.refreshingDeferred = new ht();
+      const i = await q(this.storage, this.storageKey), { data: a, error: o } = await this._refreshAccessToken(e);
+      if (o)
+        throw o;
+      if (!a.session)
+        throw new $();
+      const l = await q(this.storage, this.storageKey);
+      if (i !== null && (l === null || l.refresh_token !== i.refresh_token)) {
+        this._debug(n, "commit guard: storage changed since refresh started, discarding rotated tokens", {
+          // Presence indicators only â€” never log refresh token fragments,
+          // even partial. Logs may be forwarded to third-party services.
+          startedWith: "present",
+          nowHolds: l ? "replaced" : "cleared"
+        });
+        const d = {
+          data: null,
+          error: new ir()
+        };
+        return this.refreshingDeferred.resolve(d), d;
+      }
+      const u = this._sessionRemovalEpoch;
+      if (await this._saveSession(a.session), this._sessionRemovalEpoch !== u) {
+        this._debug(n, "commit guard (post-save): _removeSession ran during _saveSession, undoing write"), await C(this.storage, this.storageKey), this.userStorage && await C(this.userStorage, this.storageKey + "-user");
+        const d = {
+          data: null,
+          error: new ir()
+        };
+        return this.refreshingDeferred.resolve(d), d;
+      }
+      await this._notifyAllSubscribers("TOKEN_REFRESHED", a.session);
+      const h = { data: a.session, error: null };
+      return this.lastRefreshFailure = null, this.refreshingDeferred.resolve(h), h;
+    } catch (i) {
+      if (this._debug(n, "error", i), v(i)) {
+        const a = { data: null, error: i };
+        if (!Je(i)) {
+          const o = await q(this.storage, this.storageKey);
+          !!(o?.expires_at && o.expires_at * 1e3 > Date.now()) ? this._debug(n, "proactive refresh failed, access token still valid â€” preserving session") : await this._removeSession();
+        }
+        return this.lastRefreshFailure = {
+          refreshToken: e,
+          result: a,
+          expiresAt: Date.now() + Bn
+        }, (r = this.refreshingDeferred) === null || r === void 0 || r.resolve(a), a;
+      }
+      throw (s = this.refreshingDeferred) === null || s === void 0 || s.reject(i), i;
+    } finally {
+      this.refreshingDeferred = null, this._debug(n, "end");
+    }
+  }
+  async _notifyAllSubscribers(e, r, s = !0) {
+    if (this._pendingInitNotifications !== null && s) {
+      this._pendingInitNotifications.push({ event: e, session: r, broadcast: s });
+      return;
+    }
+    const n = `#_notifyAllSubscribers(${e})`;
+    this._debug(n, "begin", r, `broadcast = ${s}`);
+    try {
+      this.broadcastChannel && s && this.broadcastChannel.postMessage({ event: e, session: r });
+      const i = [], a = Array.from(this.stateChangeEmitters.values()).map(async (o) => {
+        try {
+          await o.callback(e, r);
+        } catch (l) {
+          i.push(l);
+        }
+      });
+      if (await Promise.all(a), i.length > 0) {
+        for (let o = 0; o < i.length; o += 1)
+          console.error(i[o]);
+        throw i[0];
+      }
+    } finally {
+      this._debug(n, "end");
+    }
+  }
+  /**
+   * set currentSession and currentUser
+   * process to _startAutoRefreshToken if possible
+   */
+  async _saveSession(e) {
+    this._debug("#_saveSession()", e), this.suppressGetSessionWarning = !0;
+    const r = Object.assign({}, e), s = r.user && r.user.__isUserNotAvailableProxy === !0;
+    if (this.userStorage) {
+      !s && r.user && await ye(this.userStorage, this.storageKey + "-user", {
+        user: r.user
+      });
+      const n = Object.assign({}, r);
+      delete n.user;
+      const i = ur(n);
+      await ye(this.storage, this.storageKey, i);
+    } else {
+      const n = ur(r);
+      await ye(this.storage, this.storageKey, n);
+    }
+  }
+  async _removeSession() {
+    this._sessionRemovalEpoch += 1, this._debug("#_removeSession()"), this.lastRefreshFailure = null, this.suppressGetSessionWarning = !1, await C(this.storage, this.storageKey), await C(this.storage, this.storageKey + "-code-verifier"), await C(this.storage, this.storageKey + "-user"), this.userStorage && await C(this.userStorage, this.storageKey + "-user"), await this._notifyAllSubscribers("SIGNED_OUT", null);
+  }
+  /**
+   * Removes any registered visibilitychange callback.
+   *
+   * {@link GoTrueClient.startAutoRefresh}
+   * {@link GoTrueClient.stopAutoRefresh}
+   */
+  _removeVisibilityChangedCallback() {
+    this._debug("#_removeVisibilityChangedCallback()");
+    const e = this.visibilityChangedCallback;
+    this.visibilityChangedCallback = null;
+    try {
+      e && j() && window?.removeEventListener && window.removeEventListener("visibilitychange", e);
+    } catch (r) {
+      console.error("removing visibilitychange callback failed", r);
+    }
+  }
+  /**
+   * This is the private implementation of {@link GoTrueClient.startAutoRefresh}. Use this
+   * within the library.
+   */
+  async _startAutoRefresh() {
+    await this._stopAutoRefresh(), this._debug("#_startAutoRefresh()");
+    const e = setInterval(() => this._autoRefreshTokenTick(), Z);
+    this.autoRefreshTicker = e, e && typeof e == "object" && typeof e.unref == "function" ? e.unref() : typeof Deno < "u" && typeof Deno.unrefTimer == "function" && Deno.unrefTimer(e);
+    const r = setTimeout(async () => {
+      await this.initializePromise, await this._autoRefreshTokenTick();
+    }, 0);
+    this.autoRefreshTickTimeout = r, r && typeof r == "object" && typeof r.unref == "function" ? r.unref() : typeof Deno < "u" && typeof Deno.unrefTimer == "function" && Deno.unrefTimer(r);
+  }
+  /**
+   * This is the private implementation of {@link GoTrueClient.stopAutoRefresh}. Use this
+   * within the library.
+   */
+  async _stopAutoRefresh() {
+    this._debug("#_stopAutoRefresh()");
+    const e = this.autoRefreshTicker;
+    this.autoRefreshTicker = null, e && clearInterval(e);
+    const r = this.autoRefreshTickTimeout;
+    this.autoRefreshTickTimeout = null, r && clearTimeout(r);
+  }
+  /**
+   * Starts an auto-refresh process in the background. The session is checked
+   * every few seconds. Close to the time of expiration a process is started to
+   * refresh the session. If refreshing fails it will be retried for as long as
+   * necessary.
+   *
+   * If you set the {@link GoTrueClientOptions#autoRefreshToken} you don't need
+   * to call this function, it will be called for you.
+   *
+   * On browsers the refresh process works only when the tab/window is in the
+   * foreground to conserve resources as well as prevent race conditions and
+   * flooding auth with requests. If you call this method any managed
+   * visibility change callback will be removed and you must manage visibility
+   * changes on your own.
+   *
+   * On non-browser platforms the refresh process works *continuously* in the
+   * background, which may not be desirable. You should hook into your
+   * platform's foreground indication mechanism and call these methods
+   * appropriately to conserve resources.
+   *
+   * {@link GoTrueClient.stopAutoRefresh}
+   *
+   * @category Auth
+   *
+   * @remarks
+   * - Only useful in non-browser environments such as React Native or Electron.
+   * - The Supabase Auth library automatically starts and stops proactively refreshing the session when a tab is focused or not.
+   * - On non-browser platforms, such as mobile or desktop apps built with web technologies, the library is not able to effectively determine whether the application is _focused_ or not.
+   * - To give this hint to the application, you should be calling this method when the app is in focus and calling `supabase.auth.stopAutoRefresh()` when it's out of focus.
+   *
+   * @example Start and stop auto refresh in React Native
+   * ```js
+   * import { AppState } from 'react-native'
+   *
+   * // make sure you register this only once!
+   * AppState.addEventListener('change', (state) => {
+   *   if (state === 'active') {
+   *     supabase.auth.startAutoRefresh()
+   *   } else {
+   *     supabase.auth.stopAutoRefresh()
+   *   }
+   * })
+   * ```
+   */
+  async startAutoRefresh() {
+    this._removeVisibilityChangedCallback(), await this._startAutoRefresh();
+  }
+  /**
+   * Stops an active auto refresh process running in the background (if any).
+   *
+   * If you call this method any managed visibility change callback will be
+   * removed and you must manage visibility changes on your own.
+   *
+   * See {@link GoTrueClient.startAutoRefresh} for more details.
+   *
+   * @category Auth
+   *
+   * @remarks
+   * - Only useful in non-browser environments such as React Native or Electron.
+   * - The Supabase Auth library automatically starts and stops proactively refreshing the session when a tab is focused or not.
+   * - On non-browser platforms, such as mobile or desktop apps built with web technologies, the library is not able to effectively determine whether the application is _focused_ or not.
+   * - When your application goes in the background or out of focus, call this method to stop the proactive refreshing of the session.
+   *
+   * @example Start and stop auto refresh in React Native
+   * ```js
+   * import { AppState } from 'react-native'
+   *
+   * // make sure you register this only once!
+   * AppState.addEventListener('change', (state) => {
+   *   if (state === 'active') {
+   *     supabase.auth.startAutoRefresh()
+   *   } else {
+   *     supabase.auth.stopAutoRefresh()
+   *   }
+   * })
+   * ```
+   */
+  async stopAutoRefresh() {
+    this._removeVisibilityChangedCallback(), await this._stopAutoRefresh();
+  }
+  /**
+   * Tears down the client's background work: stops the auto-refresh interval,
+   * removes the `visibilitychange` listener, closes the cross-tab
+   * `BroadcastChannel`, and clears registered `onAuthStateChange` subscribers.
+   *
+   * Call this from cleanup hooks when the client is being replaced before
+   * its JS realm is destroyed. React Strict Mode and HMR are the common
+   * cases. Any in-flight `fetch` calls continue to completion and may still
+   * write to storage; dispose doesn't abort them or erase storage.
+   *
+   * Lifecycle caveat: because in-flight refreshes are not aborted, a
+   * disposed instance can still persist a rotated session to storage after
+   * `dispose()` returns. A subsequent `createClient` against the same
+   * `storageKey` will pick up that session on its next read. If you need
+   * strict isolation between client lifecycles, await any pending auth
+   * operation before calling `dispose()` (or change the `storageKey` for
+   * the replacement client).
+   *
+   * Safe to call repeatedly.
+   *
+   * @category Auth
+   *
+   * @example Cleanup on React unmount
+   * ```ts
+   * useEffect(() => {
+   *   const client = createClient(...)
+   *   return () => { client.auth.dispose() }
+   * }, [])
+   * ```
+   */
+  async dispose() {
+    var e;
+    this._removeVisibilityChangedCallback(), await this._stopAutoRefresh(), (e = this.broadcastChannel) === null || e === void 0 || e.close(), this.broadcastChannel = null, this.stateChangeEmitters.clear();
+  }
+  /**
+   * Runs the auto refresh token tick.
+   */
+  async _autoRefreshTokenTick() {
+    if (this._debug("#_autoRefreshTokenTick()", "begin"), this.lock != null) {
+      try {
+        await this._acquireLock(0, async () => {
+          try {
+            const e = Date.now();
+            try {
+              return await this._useSession(async (r) => {
+                const { data: { session: s } } = r;
+                if (!s || !s.refresh_token || !s.expires_at) {
+                  this._debug("#_autoRefreshTokenTick()", "no session");
+                  return;
+                }
+                const n = Math.floor((s.expires_at * 1e3 - e) / Z);
+                this._debug("#_autoRefreshTokenTick()", `access token expires in ${n} ticks, a tick lasts ${Z}ms, refresh threshold is ${Ae} ticks`), n <= Ae && await this._callRefreshToken(s.refresh_token);
+              });
+            } catch (r) {
+              console.error("Auto refresh tick failed with error. This is likely a transient error.", r);
+            }
+          } finally {
+            this._debug("#_autoRefreshTokenTick()", "end");
+          }
+        });
+      } catch (e) {
+        if (e instanceof Ei)
+          this._debug("auto refresh token tick lock not available");
+        else
+          throw e;
+      }
+      return;
+    }
+    if (this.refreshingDeferred !== null) {
+      this._debug("#_autoRefreshTokenTick()", "refresh already in flight, skipping");
+      return;
+    }
+    try {
+      const e = Date.now();
+      try {
+        await this._useSession(async (r) => {
+          const { data: { session: s } } = r;
+          if (!s || !s.refresh_token || !s.expires_at) {
+            this._debug("#_autoRefreshTokenTick()", "no session");
+            return;
+          }
+          const n = Math.floor((s.expires_at * 1e3 - e) / Z);
+          this._debug("#_autoRefreshTokenTick()", `access token expires in ${n} ticks, a tick lasts ${Z}ms, refresh threshold is ${Ae} ticks`), n <= Ae && await this._callRefreshToken(s.refresh_token);
+        });
+      } catch (r) {
+        console.error("Auto refresh tick failed with error. This is likely a transient error.", r);
+      }
+    } finally {
+      this._debug("#_autoRefreshTokenTick()", "end");
+    }
+  }
+  /**
+   * Registers callbacks on the browser / platform, which in-turn run
+   * algorithms when the browser window/tab are in foreground. On non-browser
+   * platforms it assumes always foreground.
+   */
+  async _handleVisibilityChange() {
+    if (this._debug("#_handleVisibilityChange()"), !j() || !window?.addEventListener)
+      return this.autoRefreshToken && this.startAutoRefresh(), !1;
+    try {
+      this.visibilityChangedCallback = async () => {
+        try {
+          await this._onVisibilityChanged(!1);
+        } catch (e) {
+          this._debug("#visibilityChangedCallback", "error", e);
+        }
+      }, window?.addEventListener("visibilitychange", this.visibilityChangedCallback), await this._onVisibilityChanged(!0);
+    } catch (e) {
+      console.error("_handleVisibilityChange", e);
+    }
+  }
+  /**
+   * Callback registered with `window.addEventListener('visibilitychange')`.
+   */
+  async _onVisibilityChanged(e) {
+    const r = `#_onVisibilityChanged(${e})`;
+    if (this._debug(r, "visibilityState", document.visibilityState), document.visibilityState === "visible") {
+      if (this.autoRefreshToken && this._startAutoRefresh(), !e)
+        if (await this.initializePromise, this.lock != null)
+          await this._acquireLock(this.lockAcquireTimeout, async () => {
+            if (document.visibilityState !== "visible") {
+              this._debug(r, "acquired the lock to recover the session, but the browser visibilityState is no longer visible, aborting");
+              return;
+            }
+            await this._recoverAndRefresh();
+          });
+        else {
+          if (document.visibilityState !== "visible") {
+            this._debug(r, "visibilityState is no longer visible, skipping recovery");
+            return;
+          }
+          await this._recoverAndRefresh();
+        }
+    } else document.visibilityState === "hidden" && this.autoRefreshToken && this._stopAutoRefresh();
+  }
+  /**
+   * Generates the relevant login URL for a third-party provider.
+   * @param options.redirectTo A URL or mobile address to send the user to after they are confirmed.
+   * @param options.scopes A space-separated list of scopes granted to the OAuth application.
+   * @param options.queryParams An object of key-value pairs containing query parameters granted to the OAuth application.
+   */
+  async _getUrlForProvider(e, r, s) {
+    const n = [`provider=${encodeURIComponent(r)}`];
+    if (s?.redirectTo && n.push(`redirect_to=${encodeURIComponent(s.redirectTo)}`), s?.scopes && n.push(`scopes=${encodeURIComponent(s.scopes)}`), this.flowType === "pkce") {
+      const [i, a] = await ae(this.storage, this.storageKey), o = new URLSearchParams({
+        code_challenge: `${encodeURIComponent(i)}`,
+        code_challenge_method: `${encodeURIComponent(a)}`
+      });
+      n.push(o.toString());
+    }
+    if (s?.queryParams) {
+      const i = new URLSearchParams(s.queryParams);
+      n.push(i.toString());
+    }
+    return s?.skipBrowserRedirect && n.push(`skip_http_redirect=${s.skipBrowserRedirect}`), `${e}?${n.join("&")}`;
+  }
+  async _unenroll(e) {
+    try {
+      return await this._useSession(async (r) => {
+        var s;
+        const { data: n, error: i } = r;
+        return i ? this._returnResult({ data: null, error: i }) : await b(this.fetch, "DELETE", `${this.url}/factors/${e.factorId}`, {
+          headers: this.headers,
+          jwt: (s = n?.session) === null || s === void 0 ? void 0 : s.access_token
+        });
+      });
+    } catch (r) {
+      if (v(r))
+        return this._returnResult({ data: null, error: r });
+      throw r;
+    }
+  }
+  async _enroll(e) {
+    try {
+      return await this._useSession(async (r) => {
+        var s, n;
+        const { data: i, error: a } = r;
+        if (a)
+          return this._returnResult({ data: null, error: a });
+        const o = Object.assign({ friendly_name: e.friendlyName, factor_type: e.factorType }, e.factorType === "phone" ? { phone: e.phone } : e.factorType === "totp" ? { issuer: e.issuer } : {}), { data: l, error: c } = await b(this.fetch, "POST", `${this.url}/factors`, {
+          body: o,
+          headers: this.headers,
+          jwt: (s = i?.session) === null || s === void 0 ? void 0 : s.access_token
+        });
+        return c ? this._returnResult({ data: null, error: c }) : (e.factorType === "totp" && l.type === "totp" && (!((n = l?.totp) === null || n === void 0) && n.qr_code) && (l.totp.qr_code = `data:image/svg+xml;utf-8,${l.totp.qr_code}`), this._returnResult({ data: l, error: null }));
+      });
+    } catch (r) {
+      if (v(r))
+        return this._returnResult({ data: null, error: r });
+      throw r;
+    }
+  }
+  async _verify(e) {
+    const r = async () => {
+      try {
+        return await this._useSession(async (s) => {
+          var n;
+          const { data: i, error: a } = s;
+          if (a)
+            return this._returnResult({ data: null, error: a });
+          const o = Object.assign({ challenge_id: e.challengeId }, "webauthn" in e ? {
+            webauthn: Object.assign(Object.assign({}, e.webauthn), { credential_response: e.webauthn.type === "create" ? mr(e.webauthn.credential_response) : vr(e.webauthn.credential_response) })
+          } : { code: e.code }), { data: l, error: c } = await b(this.fetch, "POST", `${this.url}/factors/${e.factorId}/verify`, {
+            body: o,
+            headers: this.headers,
+            jwt: (n = i?.session) === null || n === void 0 ? void 0 : n.access_token
+          });
+          return c ? this._returnResult({ data: null, error: c }) : (await this._saveSession(Object.assign({ expires_at: Math.round(Date.now() / 1e3) + l.expires_in }, l)), await this._notifyAllSubscribers("MFA_CHALLENGE_VERIFIED", l), this._returnResult({ data: l, error: c }));
+        });
+      } catch (s) {
+        if (v(s))
+          return this._returnResult({ data: null, error: s });
+        throw s;
+      }
+    };
+    return this.lock != null ? this._acquireLock(this.lockAcquireTimeout, r) : r();
+  }
+  async _challenge(e) {
+    const r = async () => {
+      try {
+        return await this._useSession(async (s) => {
+          var n;
+          const { data: i, error: a } = s;
+          if (a)
+            return this._returnResult({ data: null, error: a });
+          const o = await b(this.fetch, "POST", `${this.url}/factors/${e.factorId}/challenge`, {
+            body: e,
+            headers: this.headers,
+            jwt: (n = i?.session) === null || n === void 0 ? void 0 : n.access_token
+          });
+          if (o.error)
+            return o;
+          const { data: l } = o;
+          if (l.type !== "webauthn")
+            return { data: l, error: null };
+          switch (l.webauthn.type) {
+            case "create":
+              return {
+                data: Object.assign(Object.assign({}, l), { webauthn: Object.assign(Object.assign({}, l.webauthn), { credential_options: Object.assign(Object.assign({}, l.webauthn.credential_options), { publicKey: gr(l.webauthn.credential_options.publicKey) }) }) }),
+                error: null
+              };
+            case "request":
+              return {
+                data: Object.assign(Object.assign({}, l), { webauthn: Object.assign(Object.assign({}, l.webauthn), { credential_options: Object.assign(Object.assign({}, l.webauthn.credential_options), { publicKey: yr(l.webauthn.credential_options.publicKey) }) }) }),
+                error: null
+              };
+          }
+        });
+      } catch (s) {
+        if (v(s))
+          return this._returnResult({ data: null, error: s });
+        throw s;
+      }
+    };
+    return this.lock != null ? this._acquireLock(this.lockAcquireTimeout, r) : r();
+  }
+  /**
+   * {@link GoTrueMFAApi#challengeAndVerify}
+   */
+  async _challengeAndVerify(e) {
+    const { data: r, error: s } = await this._challenge({
+      factorId: e.factorId
+    });
+    return s ? this._returnResult({ data: null, error: s }) : await this._verify({
+      factorId: e.factorId,
+      challengeId: r.id,
+      code: e.code
+    });
+  }
+  /**
+   * {@link GoTrueMFAApi#listFactors}
+   */
+  async _listFactors() {
+    var e;
+    const { data: { user: r }, error: s } = await this.getUser();
+    if (s)
+      return { data: null, error: s };
+    const n = {
+      all: [],
+      phone: [],
+      totp: [],
+      webauthn: []
+    };
+    for (const i of (e = r?.factors) !== null && e !== void 0 ? e : [])
+      n.all.push(i), i.status === "verified" && n[i.factor_type].push(i);
+    return {
+      data: n,
+      error: null
+    };
+  }
+  /**
+   * {@link GoTrueMFAApi#getAuthenticatorAssuranceLevel}
+   */
+  async _getAuthenticatorAssuranceLevel(e) {
+    var r, s, n, i;
+    if (e)
+      try {
+        const { payload: f } = Ge(e);
+        let p = null;
+        f.aal && (p = f.aal);
+        let y = p;
+        const { data: { user: m }, error: w } = await this.getUser(e);
+        if (w)
+          return this._returnResult({ data: null, error: w });
+        ((s = (r = m?.factors) === null || r === void 0 ? void 0 : r.filter((E) => E.status === "verified")) !== null && s !== void 0 ? s : []).length > 0 && (y = "aal2");
+        const _ = f.amr || [];
+        return { data: { currentLevel: p, nextLevel: y, currentAuthenticationMethods: _ }, error: null };
+      } catch (f) {
+        if (v(f))
+          return this._returnResult({ data: null, error: f });
+        throw f;
+      }
+    const { data: { session: a }, error: o } = await this.getSession();
+    if (o)
+      return this._returnResult({ data: null, error: o });
+    if (!a)
+      return {
+        data: { currentLevel: null, nextLevel: null, currentAuthenticationMethods: [] },
+        error: null
+      };
+    const { payload: l } = Ge(a.access_token);
+    let c = null;
+    l.aal && (c = l.aal);
+    let u = c;
+    ((i = (n = a.user.factors) === null || n === void 0 ? void 0 : n.filter((f) => f.status === "verified")) !== null && i !== void 0 ? i : []).length > 0 && (u = "aal2");
+    const d = l.amr || [];
+    return { data: { currentLevel: c, nextLevel: u, currentAuthenticationMethods: d }, error: null };
+  }
+  /**
+   * Retrieves details about an OAuth authorization request.
+   * Only relevant when the OAuth 2.1 server is enabled in Supabase Auth.
+   *
+   * Returns authorization details including client info, scopes, and user information.
+   * If the response includes only a redirect_url field, it means consent was already given - the caller
+   * should handle the redirect manually if needed.
+   */
+  async _getAuthorizationDetails(e) {
+    try {
+      return await this._useSession(async (r) => {
+        const { data: { session: s }, error: n } = r;
+        return n ? this._returnResult({ data: null, error: n }) : s ? await b(this.fetch, "GET", `${this.url}/oauth/authorizations/${e}`, {
+          headers: this.headers,
+          jwt: s.access_token,
+          xform: (i) => ({ data: i, error: null })
+        }) : this._returnResult({ data: null, error: new $() });
+      });
+    } catch (r) {
+      if (v(r))
+        return this._returnResult({ data: null, error: r });
+      throw r;
+    }
+  }
+  /**
+   * Approves an OAuth authorization request.
+   * Only relevant when the OAuth 2.1 server is enabled in Supabase Auth.
+   */
+  async _approveAuthorization(e, r) {
+    try {
+      return await this._useSession(async (s) => {
+        const { data: { session: n }, error: i } = s;
+        if (i)
+          return this._returnResult({ data: null, error: i });
+        if (!n)
+          return this._returnResult({ data: null, error: new $() });
+        const a = await b(this.fetch, "POST", `${this.url}/oauth/authorizations/${e}/consent`, {
+          headers: this.headers,
+          jwt: n.access_token,
+          body: { action: "approve" },
+          xform: (o) => ({ data: o, error: null })
+        });
+        return a.data && a.data.redirect_url && j() && !r?.skipBrowserRedirect && window.location.assign(a.data.redirect_url), a;
+      });
+    } catch (s) {
+      if (v(s))
+        return this._returnResult({ data: null, error: s });
+      throw s;
+    }
+  }
+  /**
+   * Denies an OAuth authorization request.
+   * Only relevant when the OAuth 2.1 server is enabled in Supabase Auth.
+   */
+  async _denyAuthorization(e, r) {
+    try {
+      return await this._useSession(async (s) => {
+        const { data: { session: n }, error: i } = s;
+        if (i)
+          return this._returnResult({ data: null, error: i });
+        if (!n)
+          return this._returnResult({ data: null, error: new $() });
+        const a = await b(this.fetch, "POST", `${this.url}/oauth/authorizations/${e}/consent`, {
+          headers: this.headers,
+          jwt: n.access_token,
+          body: { action: "deny" },
+          xform: (o) => ({ data: o, error: null })
+        });
+        return a.data && a.data.redirect_url && j() && !r?.skipBrowserRedirect && window.location.assign(a.data.redirect_url), a;
+      });
+    } catch (s) {
+      if (v(s))
+        return this._returnResult({ data: null, error: s });
+      throw s;
+    }
+  }
+  /**
+   * Lists all OAuth grants that the authenticated user has authorized.
+   * Only relevant when the OAuth 2.1 server is enabled in Supabase Auth.
+   */
+  async _listOAuthGrants() {
+    try {
+      return await this._useSession(async (e) => {
+        const { data: { session: r }, error: s } = e;
+        return s ? this._returnResult({ data: null, error: s }) : r ? await b(this.fetch, "GET", `${this.url}/user/oauth/grants`, {
+          headers: this.headers,
+          jwt: r.access_token,
+          xform: (n) => ({ data: n, error: null })
+        }) : this._returnResult({ data: null, error: new $() });
+      });
+    } catch (e) {
+      if (v(e))
+        return this._returnResult({ data: null, error: e });
+      throw e;
+    }
+  }
+  /**
+   * Revokes a user's OAuth grant for a specific client.
+   * Only relevant when the OAuth 2.1 server is enabled in Supabase Auth.
+   */
+  async _revokeOAuthGrant(e) {
+    try {
+      return await this._useSession(async (r) => {
+        const { data: { session: s }, error: n } = r;
+        return n ? this._returnResult({ data: null, error: n }) : s ? (await b(this.fetch, "DELETE", `${this.url}/user/oauth/grants`, {
+          headers: this.headers,
+          jwt: s.access_token,
+          query: { client_id: e.clientId },
+          noResolveJson: !0
+        }), { data: {}, error: null }) : this._returnResult({ data: null, error: new $() });
+      });
+    } catch (r) {
+      if (v(r))
+        return this._returnResult({ data: null, error: r });
+      throw r;
+    }
+  }
+  async fetchJwk(e, r = { keys: [] }) {
+    let s = r.keys.find((o) => o.kid === e);
+    if (s)
+      return s;
+    const n = Date.now();
+    if (s = this.jwks.keys.find((o) => o.kid === e), s && this.jwks_cached_at + Fn > n)
+      return s;
+    const { data: i, error: a } = await b(this.fetch, "GET", `${this.url}/.well-known/jwks.json`, {
+      headers: this.headers
+    });
+    if (a)
+      throw a;
+    return !i.keys || i.keys.length === 0 || (this.jwks = i, this.jwks_cached_at = n, s = i.keys.find((o) => o.kid === e), !s) ? null : s;
+  }
+  /**
+   * Extracts the JWT claims present in the access token by first verifying the
+   * JWT against the server's JSON Web Key Set endpoint
+   * `/.well-known/jwks.json` which is often cached, resulting in significantly
+   * faster responses. Prefer this method over {@link GoTrueClient.getUser} which always
+   * sends a request to the Auth server for each JWT.
+   *
+   * If the project is not using an asymmetric JWT signing key (like ECC or
+   * RSA) it always sends a request to the Auth server (similar to
+   * {@link GoTrueClient.getUser}) to verify the JWT.
+   *
+   * @param jwt An optional specific JWT you wish to verify, not the one you
+   *            can obtain from {@link GoTrueClient.getSession}.
+   * @param options Various additional options that allow you to customize the
+   *                behavior of this method.
+   *
+   * @category Auth
+   *
+   * @remarks
+   * - Parses the user's [access token](/docs/guides/auth/sessions#access-token-jwt-claims) as a [JSON Web Token (JWT)](/docs/guides/auth/jwts) and returns its components if valid and not expired.
+   * - If your project is using asymmetric JWT signing keys, then the verification is done locally usually without a network request using the [WebCrypto API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API).
+   * - A network request is sent to your project's JWT signing key discovery endpoint `https://project-id.supabase.co/auth/v1/.well-known/jwks.json`, which is cached locally. If your environment is ephemeral, such as a Lambda function that is destroyed after every request, a network request will be sent for each new invocation. Supabase provides a network-edge cache providing fast responses for these situations.
+   * - If the user's access token is about to expire when calling this function, the user's session will first be refreshed before validating the JWT.
+   * - If your project is using a symmetric secret to sign the JWT, it always sends a request similar to `getUser()` to validate the JWT at the server before returning the decoded token. This is also used if the WebCrypto API is not available in the environment. Make sure you polyfill it in such situations.
+   * - The returned claims can be customized per project using the [Custom Access Token Hook](/docs/guides/auth/auth-hooks/custom-access-token-hook).
+   *
+   * @example Get JWT claims, header and signature
+   * ```js
+   * const { data, error } = await supabase.auth.getClaims()
+   * ```
+   *
+   * @exampleResponse Get JWT claims, header and signature
+   * ```json
+   * {
+   *   "data": {
+   *     "claims": {
+   *       "aal": "aal1",
+   *       "amr": [{
+   *         "method": "email",
+   *         "timestamp": 1715766000
+   *       }],
+   *       "app_metadata": {},
+   *       "aud": "authenticated",
+   *       "email": "example@email.com",
+   *       "exp": 1715769600,
+   *       "iat": 1715766000,
+   *       "is_anonymous": false,
+   *       "iss": "https://project-id.supabase.co/auth/v1",
+   *       "phone": "+13334445555",
+   *       "role": "authenticated",
+   *       "session_id": "11111111-1111-1111-1111-111111111111",
+   *       "sub": "11111111-1111-1111-1111-111111111111",
+   *       "user_metadata": {}
+   *     },
+   *     "header": {
+   *       "alg": "RS256",
+   *       "typ": "JWT",
+   *       "kid": "11111111-1111-1111-1111-111111111111"
+   *     },
+   *     "signature": [/** Uint8Array *\/],
+   *   },
+   *   "error": null
+   * }
+   * ```
+   */
+  async getClaims(e, r = {}) {
+    try {
+      let s = e;
+      if (!s) {
+        const { data: f, error: p } = await this.getSession();
+        if (p || !f.session)
+          return this._returnResult({ data: null, error: p });
+        s = f.session.access_token;
+      }
+      const { header: n, payload: i, signature: a, raw: { header: o, payload: l } } = Ge(s);
+      if (!r?.allowExpired)
+        try {
+          fi(i.exp);
+        } catch (f) {
+          throw new Ze(f instanceof Error ? f.message : "JWT validation failed");
+        }
+      const c = !n.alg || n.alg.startsWith("HS") || !n.kid || !("crypto" in globalThis && "subtle" in globalThis.crypto) ? null : await this.fetchJwk(n.kid, r?.keys ? { keys: r.keys } : r?.jwks);
+      if (!c) {
+        const { error: f } = await this.getUser(s);
+        if (f)
+          throw f;
+        return {
+          data: {
+            claims: i,
+            header: n,
+            signature: a
+          },
+          error: null
+        };
+      }
+      const u = pi(n.alg), h = await crypto.subtle.importKey("jwk", c, u, !0, [
+        "verify"
+      ]);
+      if (!await crypto.subtle.verify(u, h, a, ei(`${o}.${l}`)))
+        throw new Ze("Invalid JWT signature");
+      return {
+        data: {
+          claims: i,
+          header: n,
+          signature: a
+        },
+        error: null
+      };
+    } catch (s) {
+      if (v(s))
+        return this._returnResult({ data: null, error: s });
+      throw s;
+    }
+  }
+  // --- Passkey Methods ---
+  /**
+   * Sign in with a passkey. Handles the full WebAuthn ceremony:
+   * 1. Fetches authentication challenge from server
+   * 2. Prompts user via navigator.credentials.get()
+   * 3. Verifies credential with server and creates session
+   *
+   * Requires `auth.experimental.passkey: true`.
+   *
+   * @category Auth
+   */
+  async signInWithPasskey(e) {
+    var r, s, n;
+    M(this.experimental);
+    try {
+      if (!rt())
+        return this._returnResult({
+          data: null,
+          error: new F("Browser does not support WebAuthn", null)
+        });
+      const { data: i, error: a } = await this._startPasskeyAuthentication({
+        options: { captchaToken: (r = e?.options) === null || r === void 0 ? void 0 : r.captchaToken }
+      });
+      if (a || !i)
+        return this._returnResult({ data: null, error: a });
+      const o = yr(i.options), l = (n = (s = e?.options) === null || s === void 0 ? void 0 : s.signal) !== null && n !== void 0 ? n : $t.createNewAbortSignal(), { data: c, error: u } = await Yr({
+        publicKey: o,
+        signal: l
+      });
+      if (u || !c)
+        return this._returnResult({
+          data: null,
+          error: u ?? new F("WebAuthn ceremony failed", null)
+        });
+      const h = vr(c);
+      return this._verifyPasskeyAuthentication({
+        challengeId: i.challenge_id,
+        credential: h
+      });
+    } catch (i) {
+      if (v(i))
+        return this._returnResult({ data: null, error: i });
+      throw i;
+    }
+  }
+  /**
+   * Register a passkey for the current authenticated user. Handles the full WebAuthn ceremony:
+   * 1. Fetches registration challenge from server
+   * 2. Prompts user via navigator.credentials.create()
+   * 3. Verifies credential with server
+   *
+   * Requires an active session. Requires `auth.experimental.passkey: true`.
+   *
+   * @category Auth
+   */
+  async registerPasskey(e) {
+    var r, s;
+    M(this.experimental);
+    try {
+      if (!rt())
+        return this._returnResult({
+          data: null,
+          error: new F("Browser does not support WebAuthn", null)
+        });
+      const { data: n, error: i } = await this._startPasskeyRegistration();
+      if (i || !n)
+        return this._returnResult({ data: null, error: i });
+      const a = gr(n.options), o = (s = (r = e?.options) === null || r === void 0 ? void 0 : r.signal) !== null && s !== void 0 ? s : $t.createNewAbortSignal(), { data: l, error: c } = await Gr({
+        publicKey: a,
+        signal: o
+      });
+      if (c || !l)
+        return this._returnResult({
+          data: null,
+          error: c ?? new F("WebAuthn ceremony failed", null)
+        });
+      const u = mr(l);
+      return this._verifyPasskeyRegistration({
+        challengeId: n.challenge_id,
+        credential: u
+      });
+    } catch (n) {
+      if (v(n))
+        return this._returnResult({ data: null, error: n });
+      throw n;
+    }
+  }
+  /**
+   * Start passkey registration for the current authenticated user.
+   * Returns WebAuthn credential creation options to pass to navigator.credentials.create().
+   */
+  async _startPasskeyRegistration() {
+    M(this.experimental);
+    try {
+      return await this._useSession(async (e) => {
+        const { data: { session: r }, error: s } = e;
+        if (s)
+          return this._returnResult({ data: null, error: s });
+        if (!r)
+          return this._returnResult({ data: null, error: new $() });
+        const { data: n, error: i } = await b(this.fetch, "POST", `${this.url}/passkeys/registration/options`, {
+          headers: this.headers,
+          jwt: r.access_token,
+          body: {}
+        });
+        return i ? this._returnResult({ data: null, error: i }) : this._returnResult({ data: n, error: null });
+      });
+    } catch (e) {
+      if (v(e))
+        return this._returnResult({ data: null, error: e });
+      throw e;
+    }
+  }
+  /**
+   * Verify passkey registration with the credential response.
+   * The credentialResponse should be the serialized output of navigator.credentials.create().
+   */
+  async _verifyPasskeyRegistration(e) {
+    M(this.experimental);
+    try {
+      return await this._useSession(async (r) => {
+        const { data: { session: s }, error: n } = r;
+        if (n)
+          return this._returnResult({ data: null, error: n });
+        if (!s)
+          return this._returnResult({ data: null, error: new $() });
+        const { data: i, error: a } = await b(this.fetch, "POST", `${this.url}/passkeys/registration/verify`, {
+          headers: this.headers,
+          jwt: s.access_token,
+          body: {
+            challenge_id: e.challengeId,
+            credential: e.credential
+          }
+        });
+        return a ? this._returnResult({ data: null, error: a }) : this._returnResult({ data: i, error: null });
+      });
+    } catch (r) {
+      if (v(r))
+        return this._returnResult({ data: null, error: r });
+      throw r;
+    }
+  }
+  /**
+   * Start passkey authentication.
+   * Returns WebAuthn credential request options to pass to navigator.credentials.get().
+   */
+  async _startPasskeyAuthentication(e) {
+    var r;
+    M(this.experimental);
+    try {
+      const { data: s, error: n } = await b(this.fetch, "POST", `${this.url}/passkeys/authentication/options`, {
+        headers: this.headers,
+        body: {
+          gotrue_meta_security: { captcha_token: (r = e?.options) === null || r === void 0 ? void 0 : r.captchaToken }
+        }
+      });
+      return n ? this._returnResult({ data: null, error: n }) : this._returnResult({ data: s, error: null });
+    } catch (s) {
+      if (v(s))
+        return this._returnResult({ data: null, error: s });
+      throw s;
+    }
+  }
+  /**
+   * Verify passkey authentication and create a session.
+   * The credential should be the serialized output of navigator.credentials.get().
+   */
+  async _verifyPasskeyAuthentication(e) {
+    M(this.experimental);
+    try {
+      const { data: r, error: s } = await b(this.fetch, "POST", `${this.url}/passkeys/authentication/verify`, {
+        headers: this.headers,
+        body: {
+          challenge_id: e.challengeId,
+          credential: e.credential
+        },
+        xform: H
+      });
+      return s ? this._returnResult({ data: null, error: s }) : (r.session && (await this._saveSession(r.session), await this._notifyAllSubscribers("SIGNED_IN", r.session)), this._returnResult({ data: r, error: null }));
+    } catch (r) {
+      if (v(r))
+        return this._returnResult({ data: null, error: r });
+      throw r;
+    }
+  }
+  /**
+   * List all passkeys for the current user.
+   */
+  async _listPasskeys() {
+    M(this.experimental);
+    try {
+      return await this._useSession(async (e) => {
+        const { data: { session: r }, error: s } = e;
+        if (s)
+          return this._returnResult({ data: null, error: s });
+        if (!r)
+          return this._returnResult({ data: null, error: new $() });
+        const { data: n, error: i } = await b(this.fetch, "GET", `${this.url}/passkeys`, {
+          headers: this.headers,
+          jwt: r.access_token,
+          xform: (a) => ({ data: a, error: null })
+        });
+        return i ? this._returnResult({ data: null, error: i }) : this._returnResult({ data: n, error: null });
+      });
+    } catch (e) {
+      if (v(e))
+        return this._returnResult({ data: null, error: e });
+      throw e;
+    }
+  }
+  /**
+   * Update a passkey.
+   */
+  async _updatePasskey(e) {
+    M(this.experimental);
+    try {
+      return await this._useSession(async (r) => {
+        const { data: { session: s }, error: n } = r;
+        if (n)
+          return this._returnResult({ data: null, error: n });
+        if (!s)
+          return this._returnResult({ data: null, error: new $() });
+        const { data: i, error: a } = await b(this.fetch, "PATCH", `${this.url}/passkeys/${e.passkeyId}`, {
+          headers: this.headers,
+          jwt: s.access_token,
+          body: { friendly_name: e.friendlyName }
+        });
+        return a ? this._returnResult({ data: null, error: a }) : this._returnResult({ data: i, error: null });
+      });
+    } catch (r) {
+      if (v(r))
+        return this._returnResult({ data: null, error: r });
+      throw r;
+    }
+  }
+  /**
+   * Delete a passkey.
+   */
+  async _deletePasskey(e) {
+    M(this.experimental);
+    try {
+      return await this._useSession(async (r) => {
+        const { data: { session: s }, error: n } = r;
+        if (n)
+          return this._returnResult({ data: null, error: n });
+        if (!s)
+          return this._returnResult({ data: null, error: new $() });
+        const { error: i } = await b(this.fetch, "DELETE", `${this.url}/passkeys/${e.passkeyId}`, {
+          headers: this.headers,
+          jwt: s.access_token,
+          noResolveJson: !0
+        });
+        return i ? this._returnResult({ data: null, error: i }) : this._returnResult({ data: null, error: null });
+      });
+    } catch (r) {
+      if (v(r))
+        return this._returnResult({ data: null, error: r });
+      throw r;
+    }
+  }
+}
+De.nextInstanceID = {};
+const Di = De, Bi = "2.110.8";
+let Re = "", nt;
+if (typeof Deno < "u") {
+  var vt;
+  Re = "deno", nt = (vt = Deno.version) === null || vt === void 0 ? void 0 : vt.deno;
+} else if (typeof document < "u") Re = "web";
+else if (typeof navigator < "u" && navigator.product === "ReactNative") Re = "react-native";
+else {
+  var wt;
+  Re = "node";
+  const t = globalThis.process;
+  nt = t == null || (wt = t.version) === null || wt === void 0 ? void 0 : wt.replace(/^v/, "");
+}
+const Xr = [`runtime=${Re}`];
+nt && Xr.push(`runtime-version=${nt}`);
+const Hi = { "X-Client-Info": `supabase-js/${Bi}; ${Xr.join("; ")}` }, qi = { headers: Hi }, Mi = { schema: "public" }, Ki = {
+  autoRefreshToken: !0,
+  persistSession: !0,
+  detectSessionInUrl: !0,
+  flowType: "implicit"
+}, Fi = {}, Wi = {
+  enabled: !1,
+  respectSamplingDecision: !0
+};
+function Vi(t, e, r, s) {
+  function n(i) {
+    return i instanceof r ? i : new r(function(a) {
+      a(i);
+    });
+  }
+  return new (r || (r = Promise))(function(i, a) {
+    function o(u) {
+      try {
+        c(s.next(u));
+      } catch (h) {
+        a(h);
+      }
+    }
+    function l(u) {
+      try {
+        c(s.throw(u));
+      } catch (h) {
+        a(h);
+      }
+    }
+    function c(u) {
+      u.done ? i(u.value) : n(u.value).then(o, l);
+    }
+    c((s = s.apply(t, [])).next());
+  });
+}
+let _t = null;
+const zi = "@opentelemetry/api";
+function Ji() {
+  return _t === null && (_t = import(
+    /* webpackIgnore: true */
+    /* turbopackIgnore: true */
+    /* @vite-ignore */
+    zi
+  ).catch(() => null)), _t;
+}
+function Gi() {
+  return Vi(this, void 0, void 0, function* () {
+    try {
+      const t = yield Ji();
+      if (!t || !t.propagation || !t.context) return null;
+      const e = {};
+      t.propagation.inject(t.context.active(), e);
+      const r = e.traceparent;
+      return r ? {
+        traceparent: r,
+        tracestate: e.tracestate,
+        baggage: e.baggage
+      } : null;
+    } catch {
+      return null;
+    }
+  });
+}
+function Yi(t) {
+  if (!t || typeof t != "string") return null;
+  const e = t.split("-");
+  if (e.length !== 4) return null;
+  const [r, s, n, i] = e;
+  if (r.length !== 2 || s.length !== 32 || n.length !== 16 || i.length !== 2) return null;
+  const a = /^[0-9a-f]+$/i;
+  return !a.test(r) || !a.test(s) || !a.test(n) || !a.test(i) || s === "00000000000000000000000000000000" || n === "0000000000000000" ? null : {
+    version: r,
+    traceId: s,
+    parentId: n,
+    traceFlags: i,
+    isSampled: (parseInt(i, 16) & 1) === 1
+  };
+}
+function Xi(t, e) {
+  if (!t || !e || e.length === 0) return !1;
+  let r;
+  if (t instanceof URL) r = t;
+  else try {
+    r = new URL(t);
+  } catch {
+    return !1;
+  }
+  for (const s of e) try {
+    if (typeof s == "string") {
+      if (Qi(r.hostname, s)) return !0;
+    } else if (s instanceof RegExp) {
+      if (s.test(r.hostname)) return !0;
+    } else if (typeof s == "function" && s(r))
+      return !0;
+  } catch {
+    continue;
+  }
+  return !1;
+}
+function Qi(t, e) {
+  if (e === t) return !0;
+  if (e.startsWith("*.")) {
+    const r = e.slice(2);
+    if (t.endsWith(r) && (t === r || t.endsWith("." + r)))
+      return !0;
+  }
+  return !1;
+}
+function Zi(t) {
+  const e = [];
+  try {
+    const r = new URL(t);
+    e.push(r.hostname);
+  } catch {
+  }
+  return e.push("*.supabase.co", "*.supabase.in"), e.push("localhost", "127.0.0.1", "[::1]"), e;
+}
+function Be(t) {
+  "@babel/helpers - typeof";
+  return Be = typeof Symbol == "function" && typeof Symbol.iterator == "symbol" ? function(e) {
+    return typeof e;
+  } : function(e) {
+    return e && typeof Symbol == "function" && e.constructor === Symbol && e !== Symbol.prototype ? "symbol" : typeof e;
+  }, Be(t);
+}
+function ea(t, e) {
+  if (Be(t) != "object" || !t) return t;
+  var r = t[Symbol.toPrimitive];
+  if (r !== void 0) {
+    var s = r.call(t, e);
+    if (Be(s) != "object") return s;
+    throw new TypeError("@@toPrimitive must return a primitive value.");
+  }
+  return (e === "string" ? String : Number)(t);
+}
+function ta(t) {
+  var e = ea(t, "string");
+  return Be(e) == "symbol" ? e : e + "";
+}
+function ra(t, e, r) {
+  return (e = ta(e)) in t ? Object.defineProperty(t, e, {
+    value: r,
+    enumerable: !0,
+    configurable: !0,
+    writable: !0
+  }) : t[e] = r, t;
+}
+function wr(t, e) {
+  var r = Object.keys(t);
+  if (Object.getOwnPropertySymbols) {
+    var s = Object.getOwnPropertySymbols(t);
+    e && (s = s.filter(function(n) {
+      return Object.getOwnPropertyDescriptor(t, n).enumerable;
+    })), r.push.apply(r, s);
+  }
+  return r;
+}
+function O(t) {
+  for (var e = 1; e < arguments.length; e++) {
+    var r = arguments[e] != null ? arguments[e] : {};
+    e % 2 ? wr(Object(r), !0).forEach(function(s) {
+      ra(t, s, r[s]);
+    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(t, Object.getOwnPropertyDescriptors(r)) : wr(Object(r)).forEach(function(s) {
+      Object.defineProperty(t, s, Object.getOwnPropertyDescriptor(r, s));
+    });
+  }
+  return t;
+}
+const sa = (t) => t ? (...e) => t(...e) : (...e) => fetch(...e), na = () => Headers, Qr = (t) => t.startsWith("sb_publishable_") || t.startsWith("sb_secret_"), ia = "sb_temp_", _r = /* @__PURE__ */ new Set(), aa = (t) => {
+  var e, r;
+  if (!t.startsWith("sb_") || Qr(t) || t.startsWith(ia)) return;
+  const s = (e = (r = t.match(/^sb_[a-zA-Z0-9]+_/)) === null || r === void 0 ? void 0 : r[0]) !== null && e !== void 0 ? e : "unknown";
+  _r.has(s) || (_r.add(s), console.warn("@supabase/supabase-js: Unrecognized Supabase API key format. The client will proceed and send this key as-is; if you see authentication errors you may need to upgrade @supabase/supabase-js to a version that recognizes this key type."));
+}, br = (t, e, r, s, n, i) => {
+  const a = sa(s), o = na(), l = n?.enabled === !0, c = n?.respectSamplingDecision !== !1, u = l ? Zi(e) : null, h = !(i?.omitApiKeyAsBearer && Qr(t));
+  return async (d, f) => {
+    const p = await r();
+    let y = new o(f?.headers);
+    if (y.has("apikey") || y.set("apikey", t), !y.has("Authorization")) {
+      const m = p ?? (h ? t : null);
+      m && y.set("Authorization", `Bearer ${m}`);
+    }
+    if (u) {
+      const m = await oa(d, u, c);
+      m && (m.traceparent && !y.has("traceparent") && y.set("traceparent", m.traceparent), m.tracestate && !y.has("tracestate") && y.set("tracestate", m.tracestate), m.baggage && !y.has("baggage") && y.set("baggage", m.baggage));
+    }
+    return a(d, O(O({}, f), {}, { headers: y }));
+  };
+};
+async function oa(t, e, r) {
+  if (!Xi(typeof t == "string" || t instanceof URL ? t : t.url, e)) return null;
+  const s = await Gi();
+  if (!s || !s.traceparent) return null;
+  if (r) {
+    const n = Yi(s.traceparent);
+    if (n && !n.isSampled) return null;
+  }
+  return s;
+}
+function Sr(t) {
+  return typeof t == "boolean" ? { enabled: t } : t;
+}
+function la(t) {
+  return t.endsWith("/") ? t : t + "/";
+}
+function ca(t, e) {
+  var r, s, n, i, a, o;
+  const { db: l, auth: c, realtime: u, global: h } = t, { db: d, auth: f, realtime: p, global: y } = e, m = Sr(t.tracePropagation), w = Sr(e.tracePropagation), S = {
+    db: O(O({}, d), l),
+    auth: O(O({}, f), c),
+    realtime: O(O({}, p), u),
+    storage: {},
+    global: O(O(O({}, y), h), {}, { headers: O(O({}, (r = y?.headers) !== null && r !== void 0 ? r : {}), (s = h?.headers) !== null && s !== void 0 ? s : {}) }),
+    tracePropagation: {
+      enabled: (n = (i = m?.enabled) !== null && i !== void 0 ? i : w?.enabled) !== null && n !== void 0 ? n : !1,
+      respectSamplingDecision: (a = (o = m?.respectSamplingDecision) !== null && o !== void 0 ? o : w?.respectSamplingDecision) !== null && a !== void 0 ? a : !0
+    },
+    accessToken: async () => ""
+  };
+  return t.accessToken ? S.accessToken = t.accessToken : delete S.accessToken, S;
+}
+function ua(t) {
+  const e = t?.trim();
+  if (!e) throw new Error("supabaseUrl is required.");
+  if (!e.match(/^https?:\/\//i)) throw new Error("Invalid supabaseUrl: Must be a valid HTTP or HTTPS URL.");
+  try {
+    return new URL(la(e));
+  } catch {
+    throw Error("Invalid supabaseUrl: Provided URL is malformed.");
+  }
+}
+var ha = class extends Di {
+  constructor(t) {
+    super(t);
+  }
+}, da = class {
+  /**
+  * Create a new client for use in the browser.
+  *
+  * @category Initializing
+  *
+  * @param supabaseUrl The unique Supabase URL which is supplied when you create a new project in your project dashboard.
+  * @param supabaseKey The unique Supabase Key which is supplied when you create a new project in your project dashboard.
+  * @param options Optional configuration for the client:
+  * - `db.schema` â€” You can switch in between schemas. The schema needs to be on the list of exposed schemas inside Supabase.
+  * - `auth.autoRefreshToken` â€” Set to `true` if you want to automatically refresh the token before expiring.
+  * - `auth.persistSession` â€” Set to `true` if you want to automatically save the user session into local storage.
+  * - `auth.detectSessionInUrl` â€” Set to `true` if you want to automatically detect OAuth grants in the URL and sign in the user.
+  * - `realtime` â€” Options passed along to the realtime-js constructor.
+  * - `storage` â€” Options passed along to the storage-js constructor.
+  * - `global.fetch` â€” A custom fetch implementation.
+  * - `global.headers` â€” Any additional headers to send with each network request.
+  *
+  * @example Creating a client
+  * ```js
+  * import { createClient } from '@supabase/supabase-js'
+  *
+  * // Create a single supabase client for interacting with your database
+  * const supabase = createClient('https://xyzcompany.supabase.co', 'your-publishable-key')
+  * ```
+  *
+  * @example With a custom domain
+  * ```js
+  * import { createClient } from '@supabase/supabase-js'
+  *
+  * // Use a custom domain as the supabase URL
+  * const supabase = createClient('https://my-custom-domain.com', 'your-publishable-key')
+  * ```
+  *
+  * @example With additional parameters
+  * ```js
+  * import { createClient } from '@supabase/supabase-js'
+  *
+  * const options = {
+  *   db: {
+  *     schema: 'public',
+  *   },
+  *   auth: {
+  *     autoRefreshToken: true,
+  *     persistSession: true,
+  *     detectSessionInUrl: true
+  *   },
+  *   global: {
+  *     headers: { 'x-my-custom-header': 'my-app-name' },
+  *   },
+  * }
+  * const supabase = createClient("https://xyzcompany.supabase.co", "your-publishable-key", options)
+  * ```
+  *
+  * @exampleDescription With custom schemas
+  * By default the API server points to the `public` schema. You can enable other database schemas within the Dashboard.
+  * Go to [Settings > API > Exposed schemas](/dashboard/project/_/settings/api) and add the schema which you want to expose to the API.
+  *
+  * Note: each client connection can only access a single schema, so the code above can access the `other_schema` schema but cannot access the `public` schema.
+  *
+  * @example With custom schemas
+  * ```js
+  * import { createClient } from '@supabase/supabase-js'
+  *
+  * const supabase = createClient('https://xyzcompany.supabase.co', 'your-publishable-key', {
+  *   // Provide a custom schema. Defaults to "public".
+  *   db: { schema: 'other_schema' }
+  * })
+  * ```
+  *
+  * @exampleDescription Custom fetch implementation
+  * `supabase-js` uses the runtime's global `fetch` to make HTTP requests,
+  * but an alternative `fetch` implementation can be provided as an option.
+  * This is useful in environments where the global `fetch` is unavailable or where you want to customize request behavior.
+  *
+  * @example Custom fetch implementation
+  * ```js
+  * import { createClient } from '@supabase/supabase-js'
+  *
+  * const supabase = createClient('https://xyzcompany.supabase.co', 'your-publishable-key', {
+  *   global: { fetch: fetch.bind(globalThis) }
+  * })
+  * ```
+  *
+  * @exampleDescription React Native options with AsyncStorage
+  * For React Native we recommend using `AsyncStorage` as the storage implementation for Supabase Auth.
+  *
+  * @example React Native options with AsyncStorage
+  * ```js
+  * import 'react-native-url-polyfill/auto'
+  * import { createClient } from '@supabase/supabase-js'
+  * import AsyncStorage from "@react-native-async-storage/async-storage";
+  *
+  * const supabase = createClient("https://xyzcompany.supabase.co", "your-publishable-key", {
+  *   auth: {
+  *     storage: AsyncStorage,
+  *     autoRefreshToken: true,
+  *     persistSession: true,
+  *     detectSessionInUrl: false,
+  *   },
+  * });
+  * ```
+  *
+  * @exampleDescription React Native options with Expo SecureStore
+  * If you wish to encrypt the user's session information, you can use `aes-js` and store the encryption key in Expo SecureStore.
+  * The `aes-js` library, a reputable JavaScript-only implementation of the AES encryption algorithm in CTR mode.
+  * A new 256-bit encryption key is generated using the `react-native-get-random-values` library.
+  * This key is stored inside Expo's SecureStore, while the value is encrypted and placed inside AsyncStorage.
+  *
+  * Please make sure that:
+  * - You keep the `expo-secure-store`, `aes-js` and `react-native-get-random-values` libraries up-to-date.
+  * - Choose the correct [`SecureStoreOptions`](https://docs.expo.dev/versions/latest/sdk/securestore/#securestoreoptions) for your app's needs.
+  *   E.g. [`SecureStore.WHEN_UNLOCKED`](https://docs.expo.dev/versions/latest/sdk/securestore/#securestorewhen_unlocked) regulates when the data can be accessed.
+  * - Carefully consider optimizations or other modifications to the above example, as those can lead to introducing subtle security vulnerabilities.
+  *
+  * @example React Native options with Expo SecureStore
+  * ```ts
+  * import 'react-native-url-polyfill/auto'
+  * import { createClient } from '@supabase/supabase-js'
+  * import AsyncStorage from '@react-native-async-storage/async-storage';
+  * import * as SecureStore from 'expo-secure-store';
+  * import * as aesjs from 'aes-js';
+  * import 'react-native-get-random-values';
+  *
+  * // As Expo's SecureStore does not support values larger than 2048
+  * // bytes, an AES-256 key is generated and stored in SecureStore, while
+  * // it is used to encrypt/decrypt values stored in AsyncStorage.
+  * class LargeSecureStore {
+  *   private async _encrypt(key: string, value: string) {
+  *     const encryptionKey = crypto.getRandomValues(new Uint8Array(256 / 8));
+  *
+  *     const cipher = new aesjs.ModeOfOperation.ctr(encryptionKey, new aesjs.Counter(1));
+  *     const encryptedBytes = cipher.encrypt(aesjs.utils.utf8.toBytes(value));
+  *
+  *     await SecureStore.setItemAsync(key, aesjs.utils.hex.fromBytes(encryptionKey));
+  *
+  *     return aesjs.utils.hex.fromBytes(encryptedBytes);
+  *   }
+  *
+  *   private async _decrypt(key: string, value: string) {
+  *     const encryptionKeyHex = await SecureStore.getItemAsync(key);
+  *     if (!encryptionKeyHex) {
+  *       return encryptionKeyHex;
+  *     }
+  *
+  *     const cipher = new aesjs.ModeOfOperation.ctr(aesjs.utils.hex.toBytes(encryptionKeyHex), new aesjs.Counter(1));
+  *     const decryptedBytes = cipher.decrypt(aesjs.utils.hex.toBytes(value));
+  *
+  *     return aesjs.utils.utf8.fromBytes(decryptedBytes);
+  *   }
+  *
+  *   async getItem(key: string) {
+  *     const encrypted = await AsyncStorage.getItem(key);
+  *     if (!encrypted) { return encrypted; }
+  *
+  *     return await this._decrypt(key, encrypted);
+  *   }
+  *
+  *   async removeItem(key: string) {
+  *     await AsyncStorage.removeItem(key);
+  *     await SecureStore.deleteItemAsync(key);
+  *   }
+  *
+  *   async setItem(key: string, value: string) {
+  *     const encrypted = await this._encrypt(key, value);
+  *
+  *     await AsyncStorage.setItem(key, encrypted);
+  *   }
+  * }
+  *
+  * const supabase = createClient("https://xyzcompany.supabase.co", "your-publishable-key", {
+  *   auth: {
+  *     storage: new LargeSecureStore(),
+  *     autoRefreshToken: true,
+  *     persistSession: true,
+  *     detectSessionInUrl: false,
+  *   },
+  * });
+  * ```
+  *
+  * @example With a database query
+  * ```ts
+  * import { createClient } from '@supabase/supabase-js'
+  *
+  * const supabase = createClient('https://xyzcompany.supabase.co', 'your-publishable-key')
+  *
+  * const { data } = await supabase.from('profiles').select('*')
+  * ```
+  *
+  * @exampleDescription With OpenTelemetry tracing
+  * Opt in to W3C trace context propagation so the `trace_id` from your
+  * client-side spans is attached to Supabase requests and appears in API
+  * Gateway and Edge Function logs. Requires `@opentelemetry/api` to be
+  * installed in your application. See [Tracing with the JS SDK](https://supabase.com/docs/guides/telemetry/client-side-tracing).
+  *
+  * @example With OpenTelemetry tracing
+  * ```ts
+  * import { createClient } from '@supabase/supabase-js'
+  * import { trace } from '@opentelemetry/api'
+  *
+  * const supabase = createClient('https://xyzcompany.supabase.co', 'your-publishable-key', {
+  *   tracePropagation: true,
+  * })
+  *
+  * const tracer = trace.getTracer('my-app')
+  *
+  * await tracer.startActiveSpan('fetch-users', async (span) => {
+  *   // Outgoing request carries the active trace context.
+  *   const { data, error } = await supabase.from('users').select('*')
+  *   span.end()
+  * })
+  * ```
+  */
+  constructor(t, e, r) {
+    var s, n;
+    this.supabaseUrl = t, this.supabaseKey = e;
+    const i = ua(t);
+    if (!e) throw new Error("supabaseKey is required.");
+    aa(e), this.realtimeUrl = new URL("realtime/v1", i), this.realtimeUrl.protocol = this.realtimeUrl.protocol.replace("http", "ws"), this.authUrl = new URL("auth/v1", i), this.storageUrl = new URL("storage/v1", i), this.functionsUrl = new URL("functions/v1", i);
+    const a = `sb-${i.hostname.split(".")[0]}-auth-token`, o = {
+      db: Mi,
+      realtime: Fi,
+      auth: O(O({}, Ki), {}, { storageKey: a }),
+      global: qi,
+      tracePropagation: Wi
+    }, l = ca(r ?? {}, o);
+    if (this.settings = l, this.storageKey = (s = l.auth.storageKey) !== null && s !== void 0 ? s : "", this.headers = (n = l.global.headers) !== null && n !== void 0 ? n : {}, l.accessToken)
+      this.accessToken = l.accessToken, this.auth = new Proxy({}, { get: (u, h) => {
+        throw new Error(`@supabase/supabase-js: Supabase Client is configured with the accessToken option, accessing supabase.auth.${String(h)} is not possible`);
+      } });
+    else {
+      var c;
+      this.auth = this._initSupabaseAuthClient((c = l.auth) !== null && c !== void 0 ? c : {}, this.headers, l.global.fetch);
+    }
+    this.fetch = br(e, t, this._getSessionToken.bind(this), l.global.fetch, l.tracePropagation), this.functionsFetch = br(e, t, this._getSessionToken.bind(this), l.global.fetch, l.tracePropagation, { omitApiKeyAsBearer: !0 }), this.realtime = this._initRealtimeClient(O({
+      headers: this.headers,
+      accessToken: this._getAccessToken.bind(this),
+      fetch: this.fetch
+    }, l.realtime)), this.accessToken && Promise.resolve(this.accessToken()).then((u) => this.realtime.setAuth(u)).catch((u) => console.warn("Failed to set initial Realtime auth token:", u)), this.rest = new vs(new URL("rest/v1", i).href, {
+      headers: this.headers,
+      schema: l.db.schema,
+      fetch: this.fetch,
+      timeout: l.db.timeout,
+      urlLengthLimit: l.db.urlLengthLimit
+    }), this.storage = new Dn(this.storageUrl.href, this.headers, this.fetch, r?.storage), l.accessToken || this._listenForAuthEvents();
+  }
+  /**
+  * Supabase Functions allows you to deploy and invoke edge functions.
+  */
+  get functions() {
+    return new cs(this.functionsUrl.href, {
+      headers: this.headers,
+      customFetch: this.functionsFetch
+    });
+  }
+  /**
+  * Perform a query on a table or a view.
+  *
+  * @param relation - The table or view name to query
+  */
+  from(t) {
+    return this.rest.from(t);
+  }
+  /**
+  * Select a schema to query or perform an function (rpc) call.
+  *
+  * The schema needs to be on the list of exposed schemas inside Supabase.
+  *
+  * @param schema - The schema to query
+  */
+  schema(t) {
+    return this.rest.schema(t);
+  }
+  /**
+  * Perform a function call.
+  *
+  * @param fn - The function name to call
+  * @param args - The arguments to pass to the function call
+  * @param options - Named parameters
+  * @param options.head - When set to `true`, `data` will not be returned.
+  * Useful if you only need the count.
+  * @param options.get - When set to `true`, the function will be called with
+  * read-only access mode.
+  * @param options.count - Count algorithm to use to count rows returned by the
+  * function. Only applicable for [set-returning
+  * functions](https://www.postgresql.org/docs/current/functions-srf.html).
+  *
+  * `"exact"`: Exact but slow count algorithm. Performs a `COUNT(*)` under the
+  * hood.
+  *
+  * `"planned"`: Approximated but fast count algorithm. Uses the Postgres
+  * statistics under the hood.
+  *
+  * `"estimated"`: Uses exact count for low numbers and planned count for high
+  * numbers.
+  */
+  rpc(t, e = {}, r = {
+    head: !1,
+    get: !1,
+    count: void 0
+  }) {
+    return this.rest.rpc(t, e, r);
+  }
+  /**
+  * Creates a Realtime channel with Broadcast, Presence, and Postgres Changes.
+  *
+  * @param {string} name - The name of the Realtime channel.
+  * @param {Object} opts - The options to pass to the Realtime channel.
+  *
+  * @category Realtime
+  */
+  channel(t, e = { config: {} }) {
+    return this.realtime.channel(t, e);
+  }
+  /**
+  * Returns all Realtime channels.
+  *
+  * @category Realtime
+  *
+  * @example Get all channels
+  * ```js
+  * const channels = supabase.getChannels()
+  * ```
+  */
+  getChannels() {
+    return this.realtime.getChannels();
+  }
+  /**
+  * Unsubscribes and removes Realtime channel from Realtime client.
+  *
+  * @param {RealtimeChannel} channel - The name of the Realtime channel.
+  *
+  *
+  * @category Realtime
+  *
+  * @remarks
+  * - Removing a channel is a great way to maintain the performance of your project's Realtime service as well as your database if you're listening to Postgres changes. Supabase will automatically handle cleanup 30 seconds after a client is disconnected, but unused channels may cause degradation as more clients are simultaneously subscribed.
+  *
+  * @example Removes a channel
+  * ```js
+  * supabase.removeChannel(myChannel)
+  * ```
+  */
+  removeChannel(t) {
+    return this.realtime.removeChannel(t);
+  }
+  /**
+  * Unsubscribes and removes all Realtime channels from Realtime client.
+  *
+  * @category Realtime
+  *
+  * @remarks
+  * - Removing channels is a great way to maintain the performance of your project's Realtime service as well as your database if you're listening to Postgres changes. Supabase will automatically handle cleanup 30 seconds after a client is disconnected, but unused channels may cause degradation as more clients are simultaneously subscribed.
+  *
+  * @example Remove all channels
+  * ```js
+  * supabase.removeAllChannels()
+  * ```
+  */
+  removeAllChannels() {
+    return this.realtime.removeAllChannels();
+  }
+  /**
+  * The raw session token â€” the custom `accessToken` result or the signed-in user's JWT â€”
+  * or `null` when there is no session. Unlike {@link _getAccessToken} it does not fall back
+  * to `supabaseKey`, so callers can distinguish "no session" from "has session".
+  */
+  async _getSessionToken() {
+    var t = this, e, r;
+    if (t.accessToken) return await t.accessToken();
+    const { data: s } = await t.auth.getSession();
+    return (e = (r = s.session) === null || r === void 0 ? void 0 : r.access_token) !== null && e !== void 0 ? e : null;
+  }
+  async _getAccessToken() {
+    var t = this, e;
+    return (e = await t._getSessionToken()) !== null && e !== void 0 ? e : t.supabaseKey;
+  }
+  _initSupabaseAuthClient({ autoRefreshToken: t, persistSession: e, detectSessionInUrl: r, storage: s, userStorage: n, storageKey: i, flowType: a, lock: o, debug: l, throwOnError: c, experimental: u, lockAcquireTimeout: h, skipAutoInitialize: d }, f, p) {
+    const y = {
+      Authorization: `Bearer ${this.supabaseKey}`,
+      apikey: `${this.supabaseKey}`
+    };
+    return new ha({
+      url: this.authUrl.href,
+      headers: O(O({}, y), f),
+      storageKey: i,
+      autoRefreshToken: t,
+      persistSession: e,
+      detectSessionInUrl: r,
+      storage: s,
+      userStorage: n,
+      flowType: a,
+      lock: o,
+      debug: l,
+      throwOnError: c,
+      experimental: u,
+      fetch: p,
+      lockAcquireTimeout: h,
+      skipAutoInitialize: d,
+      hasCustomAuthorizationHeader: Object.keys(this.headers).some((m) => m.toLowerCase() === "authorization")
+    });
+  }
+  _initRealtimeClient(t) {
+    return new ln(this.realtimeUrl.href, O(O({}, t), {}, { params: O(O({}, { apikey: this.supabaseKey }), t?.params) }));
+  }
+  _listenForAuthEvents() {
+    return this.auth.onAuthStateChange((t, e) => {
+      this._handleTokenChanged(t, "CLIENT", e?.access_token);
+    });
+  }
+  _handleTokenChanged(t, e, r) {
+    (t === "TOKEN_REFRESHED" || t === "SIGNED_IN" || t === "INITIAL_SESSION") && this.changedAccessToken !== r ? (this.changedAccessToken = r, this.realtime.setAuth(r)) : t === "SIGNED_OUT" && (this.realtime.setAuth(), e == "STORAGE" && this.auth.signOut(), this.changedAccessToken = void 0);
+  }
+};
+const fa = (t, e, r) => new da(t, e, r);
+function pa() {
+  if (typeof window < "u" || globalThis.Deno !== void 0) return !1;
+  const t = globalThis.process;
+  if (!t) return !1;
+  const e = t.version;
+  if (e == null) return !1;
+  const r = e.match(/^v(\d+)\./);
+  return r ? parseInt(r[1], 10) <= 20 : !1;
+}
+pa() && console.warn("âš ï¸  Node.js 20 and below are deprecated and will no longer be supported in future versions of @supabase/supabase-js. Please upgrade to Node.js 22 or later. For more information, visit: https://github.com/orgs/supabase/discussions/45715");
+const I = "linephone_sync", Zr = "1.1.3", es = "https://tlsdyacdkbcjxbwvyeim.supabase.co", ts = "sb_publishable_EIYn8wiMd0O4tJXQI5Ub4Q_066Uizi1", ga = `${es}/functions/v1/verify-discord-membership`, it = "linephone.tavern.api-key", kr = "linephone.tavern.device", W = fa(es, ts, {
+  auth: {
+    storageKey: "linephone-tavern-auth",
+    persistSession: !0,
+    autoRefreshToken: !0,
+    detectSessionInUrl: !0
+  }
+}), g = {
+  context: null,
+  session: null,
+  profile: null,
+  device: null,
+  revisions: /* @__PURE__ */ new Map(),
+  busy: !1,
+  connected: !1,
+  lastError: "",
+  current: null,
+  timer: null,
+  launcher: null,
+  panel: null,
+  settingsEntry: null,
+  fallbackSettings: null,
+  status: null,
+  summary: null,
+  details: null,
+  assets: null,
+  assetState: {
+    books: 0,
+    entries: 0,
+    truncatedEntries: 0,
+    error: ""
+  },
+  currentAssets: null,
+  currentAssetsKey: "",
+  mountTimer: null,
+  eventsTimer: null,
+  eventsBound: !1,
+  uiObserver: null,
+  initialized: !1
+};
+function ya() {
+  return {
+    enabled: !0,
+    autoSummarize: !0,
+    interval: 20,
+    apiUrl: "https://api.openai.com/v1/chat/completions",
+    model: "",
+    modelOptions: [],
+    assetHashes: {},
+    summaryPrompt: "è¯·æŠŠä»¥ä¸‹è§’è‰²æ‰®æ¼”å¯¹è¯æ•´ç†æˆå¯é•¿æœŸä½¿ç”¨çš„ä¸­æ–‡è®°å¿†æ€»ç»“ã€‚æŒ‰æ—¶é—´é¡ºåºä¿ç•™äººç‰©å…³ç³»å˜åŒ–ã€çº¦å®šã€ç§˜å¯†ã€é‡è¦äº‹ä»¶ã€æƒ…ç»ªå’Œæœªå®Œæˆäº‹é¡¹ã€‚ä¸è¦è™šæž„ï¼Œä¸è¦å†™åˆ†æžè¿‡ç¨‹ï¼Œåªè¾“å‡ºæ€»ç»“æ­£æ–‡ã€‚"
+  };
+}
+function x() {
+  const t = g.context || globalThis.SillyTavern?.getContext?.(), e = {
+    ...ya(),
+    ...g.fallbackSettings || {}
+  }, r = t?.extensionSettings;
+  return !r || typeof r != "object" ? (g.fallbackSettings = e, e) : (r[I] = {
+    ...e,
+    ...r[I] || {}
+  }, g.fallbackSettings = r[I], r[I]);
+}
+function ve() {
+  g.context?.saveSettingsDebounced?.();
+}
+function dt(t) {
+  try {
+    return localStorage.getItem(t) || "";
+  } catch (e) {
+    return console.warn(`[${I}] browser storage is unavailable`, e), "";
+  }
+}
+function rs(t, e) {
+  try {
+    localStorage.setItem(t, e);
+  } catch (r) {
+    console.warn(`[${I}] browser storage write failed`, r);
+  }
+}
+function ma() {
+  if (typeof globalThis.crypto?.randomUUID == "function")
+    return globalThis.crypto.randomUUID();
+  if (typeof globalThis.crypto?.getRandomValues == "function") {
+    const t = globalThis.crypto.getRandomValues(new Uint8Array(16));
+    t[6] = t[6] & 15 | 64, t[8] = t[8] & 63 | 128;
+    const e = [...t].map((r) => r.toString(16).padStart(2, "0"));
+    return `${e.slice(0, 4).join("")}-${e.slice(4, 6).join("")}-${e.slice(6, 8).join("")}-${e.slice(8, 10).join("")}-${e.slice(10).join("")}`;
+  }
+  return `linephone-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+}
+function ss() {
+  try {
+    const e = JSON.parse(dt(kr) || "null");
+    if (e?.id) return e;
+  } catch {
+  }
+  const t = {
+    id: ma(),
+    name: "SillyTavern æŽ¥æ”¶å™¨",
+    platform: "sillytavern"
+  };
+  return rs(kr, JSON.stringify(t)), t;
+}
+function ns(t, e) {
+  const r = String(t || "").trim().replace(/\/+$/, "");
+  if (!r) throw new Error("è¯·å…ˆå¡«å†™ API åœ°å€");
+  return /\/chat\/completions$/i.test(r) ? e === "models" ? r.replace(/\/chat\/completions$/i, "/models") : r : /\/v1$/i.test(r) ? `${r}/${e}` : /\/v1\/.+/i.test(r) ? e === "models" ? r.replace(/\/v1\/.*$/i, "/v1/models") : `${r}/chat/completions` : `${r}/v1/${e}`;
+}
+async function ee(t) {
+  const e = new TextEncoder().encode(String(t || "")), r = await crypto.subtle.digest("SHA-256", e);
+  return [...new Uint8Array(r)].map((s) => s.toString(16).padStart(2, "0")).join("");
+}
+function Lt() {
+  return g.context = SillyTavern.getContext(), g.context;
+}
+function va(t) {
+  return t.groupId ? null : t.characters?.[t.characterId] || null;
+}
+async function Dt() {
+  const t = Lt(), e = va(t), r = String(t.chatId || t.getCurrentChatId?.() || "");
+  if (!e || !r) return null;
+  const s = e.avatar || e.name || "character", n = `st_${(await ee(s)).slice(0, 24)}`;
+  return {
+    context: t,
+    character: e,
+    characterName: e.name || t.name2 || "æœªå‘½åè§’è‰²",
+    tavernCharacterKey: n,
+    saveId: r,
+    saveName: r.replace(/\.(jsonl|json)$/i, "") || "é…’é¦†å­˜æ¡£"
+  };
+}
+function D(t) {
+  return typeof t == "string" ? t.trim() : "";
+}
+function Er(t) {
+  return Array.isArray(t) ? t.map(String).map((e) => e.trim()).filter(Boolean) : typeof t != "string" ? [] : t.split(/[,ï¼Œ\n]/).map((e) => e.trim()).filter(Boolean);
+}
+function wa(t) {
+  const e = t.character || {}, r = e.data && typeof e.data == "object" ? e.data : e;
+  return {
+    name: D(r.name || e.name) || t.characterName,
+    description: D(r.description || r.char_persona),
+    personality: D(r.personality || r.persona),
+    scenario: D(r.scenario || r.world_scenario),
+    firstMes: D(r.first_mes || r.first_message || r.greeting),
+    mesExample: D(r.mes_example || r.example_dialogue),
+    systemPrompt: D(r.system_prompt),
+    postHistoryInstructions: D(r.post_history_instructions),
+    creatorNotes: D(r.creator_notes || e.creator_notes),
+    creator: D(r.creator),
+    characterVersion: D(r.character_version),
+    tags: Array.isArray(r.tags) ? r.tags.map(String) : [],
+    alternateGreetings: Array.isArray(r.alternate_greetings) ? r.alternate_greetings.map(String) : []
+  };
+}
+function _a(t) {
+  const e = t?.pipe ?? t?.result ?? t?.output ?? "";
+  return typeof e == "string" ? e.trim() : String(e || "").trim();
+}
+async function ba(t) {
+  const e = /* @__PURE__ */ new Map(), r = (n, i) => {
+    const a = D(n);
+    if (!a) return;
+    const o = e.get(a) || /* @__PURE__ */ new Set();
+    o.add(i), e.set(a, o);
+  }, s = t.character?.data || t.character || {};
+  if (r(s.extensions?.world, "character"), r(t.context.chatMetadata?.world_info, "chat"), typeof t.context.executeSlashCommandsWithOptions == "function")
+    try {
+      const n = await t.context.executeSlashCommandsWithOptions(
+        "/getcharbook type=all",
+        { handleParserErrors: !1, handleExecutionErrors: !1 }
+      ), i = _a(n);
+      if (i) {
+        const a = JSON.parse(i);
+        (Array.isArray(a) ? a : [a]).forEach(
+          (o) => r(o, "character")
+        );
+      }
+    } catch (n) {
+      console.debug(`[${I}] additional character lorebooks unavailable`, n);
+    }
+  return e;
+}
+function Sa(t, e = 14e4) {
+  const r = String(t || ""), s = new TextEncoder();
+  if (s.encode(r).byteLength <= e) return { text: r, truncated: !1 };
+  let n = 0, i = r.length;
+  for (; n < i; ) {
+    const a = Math.ceil((n + i) / 2);
+    s.encode(r.slice(0, a)).byteLength <= e ? n = a : i = a - 1;
+  }
+  return {
+    text: `${r.slice(0, n)}
 
-Kš[\˜[
-HŒ
-JKHX]™›ÛÜŠ‹›[™ÝÈÊH
-ˆËÈHÈ]ØZ]YJ”ÓÓ‹œÝš[™ÚYžJ‹œÛXÙJ
-JJHˆˆ‹H[X™\ŠK˜ÛÝ™\™Y›ÝYÚ
-HOOHKœÛÝ\˜ÙR\ÚOOHÎÂˆYˆ
-H	‰ˆ
+ã€è¯¥æ¡ç›®è¿‡é•¿ï¼Œäº‘ç«¯åŒæ­¥å†…å®¹å·²æˆªæ–­ã€‘`,
+    truncated: !0
+  };
+}
+function ka(t, e) {
+  const r = Sa(t?.content ?? t?.text ?? "");
+  return {
+    id: String(t?.uid ?? t?.id ?? e),
+    keys: Er(t?.key ?? t?.keys ?? t?.keywords),
+    secondaryKeys: Er(t?.keysecondary ?? t?.secondary_keys),
+    content: r.text.trim(),
+    constant: !!(t?.constant ?? t?.always_active ?? !1),
+    selective: !!(t?.selective ?? !1),
+    enabled: !(t?.disable ?? t?.disabled ?? !1),
+    priority: Number(t?.order ?? t?.priority ?? t?.insertion_order ?? 0),
+    comment: D(t?.comment ?? t?.name),
+    position: Number(t?.position) || 0,
+    truncated: r.truncated
+  };
+}
+async function Ea(t) {
+  const e = wa(t), r = await ba(t), s = [];
+  let n = 0;
+  for (const [i, a] of r.entries())
+    try {
+      const o = await t.context.loadWorldInfo(i);
+      if (!o || typeof o != "object") continue;
+      const l = o.entries ?? o.data?.entries ?? o, u = (Array.isArray(l) ? l : l && typeof l == "object" ? Object.values(l) : []).map(ka).filter((h) => h.content);
+      n += u.filter((h) => h.truncated).length, s.push({
+        id: `stbook_${(await ee(i)).slice(0, 16)}`,
+        name: i,
+        scopes: [...a],
+        enabled: !0,
+        entries: u
+      });
+    } catch (o) {
+      console.warn(`[${I}] failed to load lorebook "${i}"`, o);
+    }
+  return g.assetState = {
+    books: s.length,
+    entries: s.reduce((i, a) => i + a.entries.length, 0),
+    truncatedEntries: n,
+    error: ""
+  }, { card: e, books: s };
+}
+function Bt(t) {
+  const e = [];
+  let r = null;
+  for (const s of t || [])
+    if (!(!s || s.is_system || !String(s.mes || "").trim())) {
+      if (s.is_user) {
+        r = String(s.mes).trim();
+        continue;
+      }
+      r && (e.push({
+        floor: e.length + 1,
+        user: r,
+        assistant: String(s.mes).trim(),
+        swipeId: Number(s.swipe_id) || 0
+      }), r = null);
+    }
+  return e;
+}
+function Ht(t) {
+  return t.chatMetadata ||= {}, t.chatMetadata[I] = {
+    summary: "",
+    coveredThrough: 0,
+    sourceHash: "",
+    summaryStale: !1,
+    lastUploadedHash: "",
+    lastUploadedAt: 0,
+    updatedAt: 0,
+    ...t.chatMetadata[I] || {}
+  }, t.chatMetadata[I];
+}
+function Oe(t) {
+  t.saveMetadataDebounced?.();
+}
+async function Ta({ previousSummary: t, rounds: e }) {
+  const r = x(), s = dt(it);
+  if (!r.model) throw new Error("è¯·å…ˆæ‹‰å–å¹¶é€‰æ‹©æ€»ç»“æ¨¡åž‹");
+  const n = e.map(
+    (c) => `ã€ç¬¬ ${c.floor} æ¥¼ã€‘
+çŽ©å®¶ï¼š${c.user}
+è§’è‰²ï¼š${c.assistant}`
+  ).join(`
 
-K˜]]ÔÝ[[X\š^™H	‰ˆ	‰ˆˆ	‰ˆ
+`), i = t ? `ã€å·²æœ‰æ€»ç»“ã€‘
+${t}
 
-K›[Ù[
-HÂˆÛÛœÝHX]›Z[Š[X™\ŠK˜ÛÝ™\™Y›ÝYÚ
-H
-KˆHÈ]ØZ]YJ”ÓÓ‹œÝš[™ÚYžJ‹œÛXÙJ
-JJHˆˆ‹Hˆ	‰ˆ	‰ˆKœÝ[[X\žH	‰ˆKœÛÝ\˜ÙR\ÚOOH‹HHÈ‹œÛXÙJ
-Hˆ‹œÛXÙJ
-NÂˆKœÝ[[X\žHH]ØZ]JÂˆ™]š[Ý\ÔÝ[[X\žNˆÈKœÝ[[X\žHˆˆ‹ˆ›Ý[™ÎˆBˆJKK˜ÛÝ™\™Y›ÝYÚHKœÛÝ\˜ÙR\ÚHËKœÝ[[X\žTÝ[HHLKK\]Y]H]K››ÝÊ
-KK›X[X[QY]Y]HÙJË˜ÛÛ^
-NÂˆH[ÙH	‰ˆOOHÈ
-KœÝ[[X\žHHˆ‹K˜ÛÝ™\™Y›ÝYÚHKœÛÝ\˜ÙR\ÚHˆ‹KœÝ[[X\žTÝ[HHLKK\]Y]H]K››ÝÊ
-KK›X[X[QY]Y]HÙJË˜ÛÛ^
-JHˆ	‰ˆˆ	‰ˆ
-KœÝ[[X\žTÝ[HHLK\]Y]H]K››ÝÊ
-KÙJË˜ÛÛ^
-JNÂˆÛÛœÝHH]ØZ]YJˆ”ÓÓ‹œÝš[™ÚYžJÂˆØ]™RYˆËœØ]™RYˆ]™R\ÚˆKˆÝ[[X\žNˆKœÝ[[X\žHˆ‹ˆÛÝ™\™Y›ÝYÚˆ[X™\ŠK˜ÛÝ™\™Y›ÝYÚ
-HˆÛÝ\˜ÙR\ÚˆKœÛÝ\˜ÙR\Úˆ‹ˆÝ[[X\žTÝ[NˆHZKœÝ[[X\žTÝ[BˆJBˆ
-NÂˆ™J
-H	‰ˆ
-K›\Ý\ØYY\ÚOOHJH	‰ˆ
-]ØZ]JË‹JKK›\Ý\ØYY\ÚHKK›\Ý\ØYY]H]K››ÝÊ
-KÙJË˜ÛÛ^
-JKË˜ÛÛ›™XÝYH™J
-NÂˆHØ]Ú
-ŠHÂˆË›\Ý\œ›ÜˆH‹›Y\ÜØYÙH¹d#9«iyi,z-)H‹ÛÛœÛÛK™\œ›ÜŠÉÒ_WXŠNÂˆHš[˜[HÂˆË˜\ÞHHLKŠ
-NÂˆBŸB™[˜Ý[ÛˆYJHßJHÂˆÛX\•[Y[Ý]
-Ë[Y\ŠKË[Y\ˆHÙ][Y[Ý]
-
-
-HOˆ]
-
-KL
-NÂŸB˜\Þ[˜È[˜Ý[ÛˆXJ
-HÂˆË›\Ý\œ›ÜˆHˆŽÂˆÛÛœÝH	ÛØØ][Û‹›ÜšYÚ[ŸIÛØØ][Û‹œ]˜[Y_XÈ\œ›ÜŽˆHHH]ØZ]Ë˜]]œÚYÛ’[•Ú]Ð]]
-Âˆ›ÝšY\Žˆ™\ØÛÜ™‹ˆÜ[ÛœÎˆÂˆ™Y\™XÝÎˆˆØÛÜ\Îˆ™ÝZ[ÈÝZ[Ë›Y[X™\œËœ™XY‚ˆBˆJNÂˆH	‰ˆ
-Ë›\Ý\œ›ÜˆHK›Y\ÜØYÙKŠ
-JNÂŸB˜\Þ[˜È[˜Ý[Ûˆ	J
-HÂˆ]ØZ]Ë˜]]œÚYÛ“Ý]
-
-KËœÙ\ÜÚ[ÛˆH[Ëœ›Ùš[HH[Ë˜ÛÛ›™XÝYHLKŠ
-NÂŸB˜\Þ[˜È[˜Ý[Ûˆ˜J
-HÂˆÛÛœÝH
-
-KHH
-]
-KˆH]ØZ]™]Ú
-œÊ˜\U\››[Ù[ÈŠKÂˆXY\œÎˆHÈÈ]]Üš^˜][ÛŽˆ™X\™\ˆ	Ù_XHˆßBˆJNÂˆYˆ
-\‹›ÚÊH›ÝÈ™]È\œ›ÜŠ9ª(yg¢ù£©ycèú/å9fçˆ	Ü‹œÝ]\ßX
-NÂˆÛÛœÝÈH]ØZ]‹šœÛÛŠ
-KˆH\œ˜^Kš\Ð\œ˜^JÏË™]JHÈË™]Hˆ\œ˜^Kš\Ð\œ˜^JÏË›[Ù[ÊHÈË›[Ù[Èˆ\œ˜^Kš\Ð\œ˜^JÊHÈÈˆ×NÂˆ›[Ù[Ü[ÛœÈHÂˆ‹‹›™]ÈÙ]
-ˆ‹›X\
-
-JHOˆ\[ÙˆHOHœÝš[™ÈˆÈHˆOËšYOË›˜[YJK™š[\Š›ÛÛX[ŠBˆ
-BˆKœÛÜ
-
-K›[Ù[Ü[ÛœËš[˜ÛY\Ê›[Ù[
-H
-›[Ù[H›[Ù[Ü[ÛœÖÌHˆŠK™J
-KŠ
-NÂŸB™[˜Ý[ÛˆÙJHHˆ‹ˆHˆŠHÂˆÛÛœÝÈHØÝ[Y[˜Ü™X]Q[[Y[
-
-NÂˆ™]\›ˆH	‰ˆ
-Ë˜Û\ÜÓ˜[YHHJKˆ	‰ˆ
-Ë^ÛÛ[HŠKÎÂŸB™[˜Ý[ÛˆYJJHÂˆÛÛœÝˆHÙJ›X™[‹›YšY[ŠNÂˆ™]\›ˆ‹˜\[™
-ÙJœÜ[ˆ‹ˆ‹
-KJKŽÂŸB™[˜Ý[ÛˆÝ
-KŠHÂˆÛÛœÝÈHØÝ[Y[˜Ü™X]Q[[Y[
-š[œ]ŠNÂˆ™]\›ˆË\HHË˜[YHHHÏÈˆ‹Ë˜Y]™[\Ý[™\Š˜Ú[™ÙH‹
-
-HOˆŠË˜[YJJKÎÂŸB™[˜Ý[ÛˆŠ
-HÂˆYˆ
-YËœ[™[
-H™]\›ŽÂˆÛÛœÝH
-
-KHHË˜Ý\œ™[ˆHHÈ
-K˜ÛÛ^˜Ú]
-Hˆ×KÈHHÈ
-K˜ÛÛ^
-Hˆ[ÂˆYˆ
-ËœÝ]\Ë^ÛÛ[HË˜\ÞHÈ¹«hùg*9i!9ä!¸ )ˆˆˆË›\Ý\œ›ÜˆÈË›\Ý\œ›Üˆˆ™J
-HÈ‘\ØÛÜ™9mìºj£:+àH0­È9.¤yêëùcëùå*ˆˆËœÙ\ÜÚ[ÛˆÈ¹mì¹ænùoe{ï#9ëbyo¡yé/¹c.ºj£:+àHˆˆ¹l&¹§*¹ænùoeH‹ËœÝ]\Ë˜Û\ÜÓ\ÝÙÙÛJ™\œ›Üˆ‹HYË›\Ý\œ›ÜŠKË™]Z[Ë^ÛÛ[HHÈ	ÙK˜Ú\˜XÝ\“˜[Y_H0­È	ÙKœØ]™S˜[Y_H0­È	Ü‹›[™ÝH9©o0­È9mì¹ .ùîäÈ	ÜË˜ÛÝ™\™Y›ÝYÚH9©oˆº+íùab9¢dùo 9cez)äº"lº b¹i*ykf9¨hÈ‹Ë˜\ÜÙ]ÊHÂˆÛÛœÝÈ›ÛÚÜÎˆ[šY\ÎˆË[˜Ø]Y[šY\Îˆ\œ›ÜŽˆHHHË˜\ÜÙ]Ý]NÂˆË˜\ÜÙ]Ë^ÛÛ[HHÈ	ÝHÈ:-a9¥¦yd#9«iyi,z-){ï&‰Ý_H0­ÈˆˆŸz)äº"l¹chymìº+îùcåˆ0­È	ÛH9§+9îäyk¦¹.%¹åc9.iˆ0­È	ØßH9.*¹§hyæë‰ÚÈ0­È	ÚH9§hz/áúeoùa¡yk®ymì¹¢*¹¥«XˆˆŸXˆ¹¢dùo :)äº"lº b¹i*yd#¹/&º!ê¹bª:+îùcåº)äº"l¹chy.#¹îäyk¦¹.%¹åc9.iˆŽÂˆBˆËœÝ[[X\žK˜[YHHÏËœÝ[[X\žHˆŽÂˆÛÛœÝˆHËœ[™[œ]Y\žTÙ[XÝÜŠ–Ù]KXXÝ[Û[ÙÚ[—HŠKHHËœ[™[œ]Y\žTÙ[XÝÜŠ–Ù]KXXÝ[Û[ÙÛÝ]HŠNÂˆ‹šY[ˆHHYËœÙ\ÜÚ[Û‹KšY[ˆHYËœÙ\ÜÚ[ÛŽÂˆÛÛœÝHHËœ[™[œ]Y\žTÙ[XÝÜŠ–Ù]KYšY[[[Ù[HŠNÂˆKœ™\XÙPÚ[™[Š
-NÂˆÛÛœÝÈHØÝ[Y[˜Ü™X]Q[[Y[
-›Ü[ÛˆŠNÂˆË˜[YHHˆ‹Ë^ÛÛ[H›[Ù[Ü[ÛœË›[™ÝÈº`"y¢êyª(yg¢Èˆˆ¹ab9¢âycå¹ª(yg¢È‹K˜\[™
-ÊNÂˆ›Üˆ
-ÛÛœÝÙˆ›[Ù[Ü[ÛœÊHÂˆÛÛœÝÈHØÝ[Y[˜Ü™X]Q[[Y[
-›Ü[ÛˆŠNÂˆË˜[YHHË^ÛÛ[HK˜\[™
-ÊNÂˆBˆK˜[YHH›[Ù[ˆŽÂŸB™[˜Ý[Ûˆ	
-
-HÂˆÛÛœÝHHËœ[™[ÂˆYˆ
-JHÂˆYˆ
-]
-HÂˆK›Ü[ˆ	‰ˆ\[ÙˆK˜ÛÜÙHOH™[˜Ý[ÛˆˆÈK˜ÛÜÙJ
-HˆKœ™[[Ý™P]šX]J›Ü[ˆŠKKœÙ]]šX]J˜\šXKZY[ˆ‹YHŠNÂˆ™]\›ŽÂˆBˆYˆ
-YK›Ü[ŠBˆžHÂˆKœÚÝÓ[Ù[
-
-NÂˆHØ]Ú
-ŠHÂˆÛÛœÛÛKØ\›ŠÉÒ_WH[Ù[\Ü^H˜Z[YÈ\Ú[™È›Û‹[[Ù[˜[˜XÚØŠKKœÙ]]šX]J›Ü[ˆ‹ˆŠNÂˆBˆKœÙ]]šX]J˜\šXKZY[ˆ‹™˜[ÙHŠKŠ
-K
-
-K[Š
-ŠHOˆÂˆË˜Ý\œ™[H‹Š
-NÂˆJK˜Ø]Ú
-
-ŠHOˆÂˆË›\Ý\œ›ÜˆH‹›Y\ÜØYÙHº+îùcå¹odùbcz b¹i*yi,z-)H‹ÛÛœÛÛK™\œ›ÜŠÉÒ_WH˜Z[YÈ™Yœ™\Ú[™[ŠKŠ
-NÂˆJNÂˆBŸB™[˜Ý[ÛˆÜŠ
-HÂˆËZSØœÙ\™\ˆYØÝ[Y[˜›ÙH
-ËZSØœÙ\™\ˆH™]È]]][Û“ØœÙ\™\Š
-
-HOˆÂˆYˆ
-YËœ[™[Ëš\ÐÛÛ›™XÝYYË›][˜Ú\Ëš\ÐÛÛ›™XÝY
-HÂˆ\Ê
-NÂˆ™]\›ŽÂˆBˆËœÙ][™ÜÑ[žOËš\ÐÛÛ›™XÝY]
-
-NÂˆJKËZSØœÙ\™\‹›ØœÙ\™JØÝ[Y[˜›ÙKÈÚ[\ÝˆLÝX™YNˆLJJNÂŸB™[˜Ý[Ûˆ]
-
-HÂˆYˆ
-ËœÙ][™ÜÑ[žOËš\ÐÛÛ›™XÝY
-H™]\›ˆLÂˆÛÛœÝHØÝ[Y[œ]Y\žTÙ[XÝÜŠˆÛ[™\Û™K\Þ[˜Ë\Ù][™ÜËY[žHŠNÂˆYˆ
-Ëš\ÐÛÛ›™XÝY
-Bˆ™]\›ˆËœÙ][™ÜÑ[žHHLÂˆÛÛœÝHHØÝ[Y[œ]Y\žTÙ[XÝÜŠˆÙ^[œÚ[Ûœ×ÜÙ][™ÜÈŠHØÝ[Y[œ]Y\žTÙ[XÝÜŠˆÙ^[œÚ[Ûœ×ÜÙ][™ÜÌˆŠNÂˆYˆ
-YJBˆ™]\›ˆÛX\•[Y[Ý]
-Ë›[Ý[[Y\ŠKË›[Ý[[Y\ˆHÙ][Y[Ý]
-]
-KLNÂˆÛX\•[Y[Ý]
-Ë›[Ý[[Y\ŠKË›[Ý[[Y\ˆH[ÂˆÛÛœÝˆHÙJ™]ˆ‹™^[œÚ[Û—ØÛÛZ[™\ˆ\Ù][™ÜËY[žHŠNÂˆ™]\›ˆ‹šYH›[™\Û™K\Þ[˜Ë\Ù][™ÜËY[žH‹‹š[›™\’SHˆ]ˆÛ\ÜÏHš[›[™KY˜]Ù\ˆ‚ˆ]ˆÛ\ÜÏHš[›[™KY˜]Ù\‹]ÙÙÛH[›[™KY˜]Ù\‹ZXY\ˆ‚ˆ“[™TÛ™H9l#ù¢bù§.¹d#9«iOØ‚ˆ]ˆÛ\ÜÏHš[›[™KY˜]Ù\‹ZXÛÛˆ˜K\ÛÛY˜KXÚ\˜ÛKXÚ]œ›Û‹YÝÛˆÝÛˆÙ]‚ˆÙ]‚ˆ]ˆÛ\ÜÏHš[›[™KY˜]Ù\‹XÛÛ[‚ˆ¹d#9«iyodùbcz)äº"l¸à yîäyk¦¹.%¹åc9.i¸à z b¹i*y©o9l`¹d£:f-¹«­y .ùîäøà Ü‚ˆ]Ûˆ\OH˜]ÛˆˆÛ\ÜÏH›Y[WØ]Ûˆˆ]KXXÝ[ÛH›Ü[‹[[™\Û™H‚ˆ9¢dùo 9l#ù¢bù§.¹d#9«iy£©ùb-ºgh¹§oÂˆØ]Û‚ˆÙ]‚ˆÙ]‚ˆ‹œ]Y\žTÙ[XÝÜŠ–Ù]KXXÝ[Û[Ü[‹[[™\Û™WHŠK˜Y]™[\Ý[™\Š˜ÛXÚÈ‹
-ÊHOˆÂˆËœ™]™[Y˜][
-
-KËœÝÜ›ÜYØ][ÛŠ
-K	
-L
-NÂˆJKK˜\[™
-ŠKËœÙ][™ÜÑ[žHH‹LÂŸB™[˜Ý[Ûˆ\Ê
-HÂˆYˆ
-Ëœ[™[Ëš\ÐÛÛ›™XÝY	‰ˆË›][˜Ú\Ëš\ÐÛÛ›™XÝY
-HÂˆ]
-
-KÜŠ
-NÂˆ™]\›ŽÂˆBˆË›][˜Ú\Ëœ™[[Ý™J
-KËœ[™[Ëœ™[[Ý™J
-NÂˆÛÛœÝHÙJ˜]Ûˆ‹›\Þ[˜Ë[][˜Ú\ˆ‹¸¡áŠNÂˆ\HH˜]Ûˆ‹]HH¹l#ù¢bù§.¹d#9«iHŽÂˆÛÛœÝHHÙJ™X[ÙÈ‹›]]™\›‹\[™[ŠNÂˆKœÙ]]šX]J˜\šXKZY[ˆ‹YHŠKKœÙ]]šX]J˜\šXK[X™[‹¹l#ù¢bù§.¹d#9«iHŠKKš[›™\’SHˆXY\‚ˆ]ÛX[“S‘TÓ‘H‘PÑRU‘TÜÛX[¹l#ù¢bù§.¹d#9«iOÚÙ]‚ˆ]Ûˆ\OH˜]Ûˆˆ]KXXÝ[ÛH˜ÛÜÙH°åÏØ]Û‚ˆÚXY\‚ˆÛ\ÜÏH›\Ý]\ÈÜ‚ˆÛ\ÜÏH›Y]Z[ÈÜ‚ˆÛ\ÜÏH›X\ÜÙ]ÈÜ‚ˆ]ˆÛ\ÜÏH›X]]XXÝ[ÛœÈ‚ˆ]Ûˆ\OH˜]Ûˆˆ]KXXÝ[ÛH›ÙÚ[ˆ¹/oùå*\ØÛÜ™9ænùoeOØ]Û‚ˆ]Ûˆ\OH˜]Ûˆˆ]KXXÝ[ÛH›ÙÛÝ]º` 9aî¹ænùoeOØ]Û‚ˆÙ]‚ˆÙXÝ[ÛˆÛ\ÜÏH›\ÙXÝ[ÛˆX\HÜÙXÝ[Û‚ˆÙXÝ[ÛˆÛ\ÜÏH›\ÙXÝ[Ûˆ‚ˆ]ˆÛ\ÜÏH›\ÙXÝ[Û‹]]HÝ›Û™Ï¹odùbczf-¹«­y .ùîäÏÜÝ›Û™ÏÛX[¹/çykf9g*:/æy.*ºadºi¡¹kf9¨hù§+9g,ÜÛX[Ù]‚ˆ^\™XHÛ\ÜÏH›\Ý[[X\žHˆ›ÝÜÏHŽˆXÙZÛ\Hº/¯¹b,9 .ùîäù©o9l`¹d#º!ê¹bª9å'ù¢$;ï#9.gùcëù.éy¢bùbª9ï%º/¤HÝ^\™XO‚ˆ]ˆÛ\ÜÏH›\›ÝÈ‚ˆ]Ûˆ\OH˜]Ûˆˆ]KXXÝ[ÛHœØ]™K\Ý[[X\žH¹/çykf9nmº)¡¹æå¹.¤yêëÏØ]Û‚ˆ]Ûˆ\OH˜]Ûˆˆ]KXXÝ[ÛHœÞ[˜Ë[›ÝÈ¹êâùclú+îùcå¹nm¹d#9«iOØ]Û‚ˆÙ]‚ˆÜÙXÝ[Û‚ˆØÝ[Y[˜›ÙK˜\[™
-JKË›][˜Ú\ˆHËœ[™[HKËœÝ]\ÈHKœ]Y\žTÙ[XÝÜŠ‹›\Ý]\ÈŠKË™]Z[ÈHKœ]Y\žTÙ[XÝÜŠ‹›Y]Z[ÈŠKË˜\ÜÙ]ÈHKœ]Y\žTÙ[XÝÜŠ‹›X\ÜÙ]ÈŠKËœÝ[[X\žHHKœ]Y\žTÙ[XÝÜŠ‹›\Ý[[X\žHŠK]
-
-KÜŠ
-NÂˆÛÛœÝˆH
-
-KÈHKœ]Y\žTÙ[XÝÜŠ‹›X\HŠKˆHÝ
-\›‹‹˜\U\›
-JHOˆÂˆ
-
-K˜\U\›HKš[J
-K™J
-NÂˆJKHHÝ
-ˆœ\ÜÝÛÜ™‹ˆ
-]
-Kˆ
-JHOˆœÊ]JBˆ
-KHHØÝ[Y[˜Ü™X]Q[[Y[
-œÙ[XÝŠNÂˆK™]\Ù]™šY[H›[Ù[‹K˜Y]™[\Ý[™\Š˜Ú[™ÙH‹
-
-HOˆÂˆ
-
-K›[Ù[HK˜[YK™J
-NÂˆJNÂˆÛÛœÝÈHÝ
-›[X™\ˆ‹‹š[\˜[
-JHOˆÂˆ
-
-Kš[\˜[HX]›Z[ŠŒX]›X^
-‹[X™\ŠJHŒ
-JK™J
-NÂˆJNÂˆË›Z[ˆHŒˆ‹Ë›X^HŒŒŽÂˆÛÛœÝHØÝ[Y[˜Ü™X]Q[[Y[
-š[œ]ŠNÂˆ\HH˜ÚXÚØ›Þ‹˜ÚXÚÙYH‹˜]]ÔÝ[[X\š^™K˜Y]™[\Ý[™\Š˜Ú[™ÙH‹
-
-HOˆÂˆ
-
-K˜]]ÔÝ[[X\š^™HH˜ÚXÚÙY™J
-NÂˆJNÂˆÛÛœÝÈHÙJ˜]Ûˆ‹ˆ‹¹¢âycå¹ª(yg¢ÈŠNÂˆË\HH˜]Ûˆ‹Ë˜Y]™[\Ý[™\Šˆ˜ÛXÚÈ‹ˆ
-
-HOˆ˜J
-K˜Ø]Ú
-
-JHOˆÂˆË›\Ý\œ›ÜˆHK›Y\ÜØYÙKŠ
-NÂˆJBˆ
-NÂˆÛÛœÝHÙJ™]ˆ‹›[[Ù[\›ÝÈŠNÂˆ˜\[™
-KÊKË˜\[™
-ˆÙJ™]ˆ‹›\ÙXÝ[Û‹]]H‹º!ê¹bª9 .ùîäÈTHŠKˆYJTH9g,9g`‹ŠKˆYJTHÙ^{ï"9cê¹kf9odùbcy­cú)â9fj;ï"H‹JKˆYJ¹ª(yg¢È‹
-KˆYJ¹«ãùi&¹l$y©o9 .ùîäù. 9«(H‹ÊKˆYJ¹d+ùå*:!ê¹bª9 .ùîäÈ‹
-Bˆ
-K˜Y]™[\Ý[™\Š˜ÛXÚÈ‹
-
-HOˆÂˆ	
-YK›Ü[ŠNÂˆJKKœ]Y\žTÙ[XÝÜŠ–Ù]KXXÝ[ÛXÛÜÙWHŠK˜Y]™[\Ý[™\Š˜ÛXÚÈ‹
-
-HOˆÂˆ	
-LJNÂˆJKK˜Y]™[\Ý[™\Š˜ÛÜÙH‹
-
-HOˆÂˆKœÙ]]šX]J˜\šXKZY[ˆ‹YHŠNÂˆJKKœ]Y\žTÙ[XÝÜŠ–Ù]KXXÝ[Û[ÙÚ[—HŠK˜Y]™[\Ý[™\Š˜ÛXÚÈ‹XJKKœ]Y\žTÙ[XÝÜŠ–Ù]KXXÝ[Û[ÙÛÝ]HŠK˜Y]™[\Ý[™\Š˜ÛXÚÈ‹	JKKœ]Y\žTÙ[XÝÜŠ–Ù]KXXÝ[Û\Þ[˜Ë[›Ý×HŠK˜Y]™[\Ý[™\Šˆ˜ÛXÚÈ‹ˆ
-
-HOˆ]
-È›Ü˜ÙU\ØYˆL[ÝÔÝ[[X\žNˆL™Yœ™\Ú\ÜÙ]ÎˆLJBˆ
-KKœ]Y\žTÙ[XÝÜŠ–Ù]KXXÝ[Û\Ø]™K\Ý[[X\žWHŠK˜Y]™[\Ý[™\Š˜ÛXÚÈ‹\Þ[˜È
-
-HOˆÂˆÛÛœÝHH]ØZ]
-
-NÂˆYˆ
-]JH™]\›ŽÂˆÛÛœÝH
-K˜ÛÛ^
-KˆH
-K˜ÛÛ^˜Ú]
-KHX]›Z[ŠŒX]›X^
-‹[X™\Š
-
-Kš[\˜[
-HŒ
-JKHHX]™›ÛÜŠ‹›[™ÝÈ
-H
-ˆÂˆœÝ[[X\žHHËœÝ[[X\žK˜[YKš[J
-K˜ÛÝ™\™Y›ÝYÚHKœÛÝ\˜ÙR\ÚHHÈ]ØZ]YJ”ÓÓ‹œÝš[™ÚYžJ‹œÛXÙJJJJHˆˆ‹œÝ[[X\žTÝ[HHLK›X[X[QY]Y]H]K››ÝÊ
-K\]Y]H]K››ÝÊ
-KÙJK˜ÛÛ^
-K]ØZ]]
-È›Ü˜ÙU\ØYˆL[ÝÔÝ[[X\žNˆLHJNÂˆJKŠ
-NÂŸB™[˜Ý[ÛˆJ
-HÂˆYˆ
-Ë™]™[Ð›Ý[™
-H™]\›ˆLÂˆÛÛœÝHË˜ÛÛ^Ë™]™[ÛÝ\˜ÙKHHË˜ÛÛ^Ë™]™[\\ÎÂˆ™]\›ˆ\[ÙˆË›ÛˆOH™[˜Ý[ÛˆˆYHÈLHˆ
-ÂˆK“QTÔÐQÑWÔÑS•ˆK“QTÔÐQÑWÔ‘PÑRU‘QˆK“QTÔÐQÑWÑQUQˆK“QTÔÐQÑWÑSUQˆK“QTÔÐQÑWÕTUQˆK“QTÔÐQÑWÔÕÒTQˆK‘ÑS‘TUSÓ—ÑS‘QˆK™š[\Š›ÛÛX[ŠK™›Ü‘XXÚ
-
-ŠHOˆ›ÛŠ‹
-
-HOˆYJ
-JJKÂˆKÒTPÕT—ÑQUQˆKÒTPÕT—ÔÑSPÕQˆK•ÓÔ“S‘“×ÕTUQˆK•ÓÔ“S‘“×ÔÑUS‘Ô×ÕTUQˆK™š[\Š›ÛÛX[ŠK™›Ü‘XXÚ
-ˆ
-ŠHOˆ›ÛŠˆ‹ˆ
-
-HOˆYJÈ›Ü˜ÙU\ØYˆL™Yœ™\Ú\ÜÙ]ÎˆLJBˆ
-Bˆ
-KKÒUÐÒS‘ÑQ	‰ˆ›ÛŠˆKÒUÐÒS‘ÑQˆ
-
-HOˆYJÈ›Ü˜ÙU\ØYˆL™Yœ™\Ú\ÜÙ]ÎˆLJBˆ
-KË™]™[Ð›Ý[™HLL
-NÂŸB™[˜Ý[Ûˆ
-
-HÂˆYˆ
-J
-JHÂˆÛX\•[Y[Ý]
-Ë™]™[Õ[Y\ŠKË™]™[Õ[Y\ˆH[Âˆ™]\›ŽÂˆBˆÛX\•[Y[Ý]
-Ë™]™[Õ[Y\ŠKË™]™[Õ[Y\ˆHÙ][Y[Ý]
-
-
-HOˆÂˆžHÂˆË˜ÛÛ^H]
-
-K
-
-NÂˆHØ]Ú
-
-HÂˆÛÛœÛÛK™XYÊÉÒ_WHØZ][™È›ÜˆÚ[U]™\›ˆ]™[Ø
-K
-
-NÂˆBˆK
-NÂŸB˜\Þ[˜È[˜Ý[Ûˆ˜J
-HÂˆË˜]]›Û]]Ý]PÚ[™ÙJ
-KŠHOˆÂˆÙ][Y[Ý]
-\Þ[˜È
-
-HOˆÂˆYˆ
-ËœÙ\ÜÚ[ÛˆH‹Ëœ›Ùš[HH[Ë˜ÛÛ›™XÝYHLK\ŠHÂˆŠ
-NÂˆ™]\›ŽÂˆBˆžHÂˆ‹œ›ÝšY\—ÝÚÙ[ˆ	‰ˆ]ØZ]XJŠNÂˆÛÛœÝÈ]NˆÈHH]ØZ]Ë˜]]™Ù]Ù\ÜÚ[ÛŠ
-NÂˆËœÙ\ÜÚ[ÛˆHËœÙ\ÜÚ[Û‹]ØZ]Š
-K™J
-H	‰ˆ
-]ØZ]\Š
-K]ØZ]œŠ
-KË˜ÛÛ›™XÝYHLYJÈ›Ü˜ÙU\ØYˆL™Yœ™\Ú\ÜÙ]ÎˆLJJNÂˆHØ]Ú
-ÊHÂˆË›\Ý\œ›ÜˆHË›Y\ÜØYÙNÂˆBˆŠ
-NÂˆK
-NÂˆJNÂˆÛÛœÝÈ]NˆHH]ØZ]Ë˜]]™Ù]Ù\ÜÚ[ÛŠ
-NÂˆËœÙ\ÜÚ[ÛˆHœÙ\ÜÚ[Û‹ËœÙ\ÜÚ[Ûˆ	‰ˆ
-]ØZ]Š
-K˜Ø]Ú
-
-JHOˆÂˆË›\Ý\œ›ÜˆHK›Y\ÜØYÙNÂˆJK™J
-H	‰ˆ
-]ØZ]\Š
-K]ØZ]œŠ
-KË˜ÛÛ›™XÝYHL
-JNÂŸB˜\Þ[˜È[˜Ý[ÛˆXJHMYLÊHÂˆÛÛœÝHH]K››ÝÊ
-NÂˆ›Üˆ
-ÈYÛØ˜[\Ë”Ú[U]™\›Ë™Ù]ÛÛ^YØÝ[Y[˜›ÙNÈ
-HÂˆYˆ
-]K››ÝÊ
-HHHˆ
-Bˆ›ÝÈ™]È\œ›ÜŠ¹ëbyo¡HÚ[U]™\›ˆ9b'yiâùc%º-¡y¥íˆŠNÂˆ]ØZ]™]È›ÛZ\ÙJ
-ŠHOˆÙ][Y[Ý]
-‹L
-JNÂˆBŸB˜\Þ[˜È[˜Ý[Ûˆ
-
-HÂˆ]ØZ]XJ
-KË˜ÛÛ^H]
-
-K\Ê
-NÂŸB˜\Þ[˜È[˜Ý[ÛˆJ
-HÂˆYˆ
-YËš[š]X[^™Y
-HÂˆ]ØZ]
-
-KËš[š]X[^™YHL
-
-KË™]šXÙHHÜÊ
-K
-
-NÂˆžHÂˆ]ØZ]˜J
-NÂˆHØ]Ú
-
-HÂˆË›\Ý\œ›ÜˆH›Y\ÜØYÙH¹ænùoeyâ­¹  yb'yiâùc%¹i,z-)H‹ÛÛœÛÛK™\œ›ÜŠÉÒ_WH]][š]X[^˜][Ûˆ˜Z[Y
-KŠ
-NÂˆBˆYJÈ›Ü˜ÙU\ØYˆL™Yœ™\Ú\ÜÙ]ÎˆLJKÛÛœÛÛK›ÙÊÉÒ_WH‰ÖœŸHØYY
-NÂˆBŸB›]H[Â™[˜Ý[Ûˆ]
-
-HÂˆ™]\›ˆHJ
-K˜Ø]Ú
-
-
-HOˆÂˆ›ÝÈËš[š]X[^™YHLKÛÛœÛÛK™\œ›ÜŠÉÒ_WH[š]X[^˜][Ûˆ˜Z[Y
-KË›\Ý\œ›ÜˆH›Y\ÜØYÙH¹b'yiâùc%¹i,z-)H‹Š
-KÂˆJKÂŸB˜\Þ[˜È[˜Ý[ÛˆJ
-HÂˆ™]\›ˆ]ØZ]
-
-K]
-
-NÂŸB˜\Þ[˜È[˜Ý[Ûˆ˜J
-HÂˆ™]\›ˆ]ØZ]
-
-K]
-
-NÂŸBœ]Y]YSZXÜ›Ý\ÚÊ
-
-HOˆÂˆ]
-
-K˜Ø]Ú
-
-
-HOˆÂˆH[ÂˆJNÂŸJNÂ™^ÜÂˆH\ÈÛXÝ]˜]Kˆ˜H\ÈÛ‘[˜X›BŸNÂ
+ã€æ–°å¢žå¯¹è¯ã€‘
+${n}` : `ã€éœ€è¦æ€»ç»“çš„å®Œæ•´å¯¹è¯ã€‘
+${n}`, a = await fetch(ns(r.apiUrl, "chat/completions"), {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      ...s ? { Authorization: `Bearer ${s}` } : {}
+    },
+    body: JSON.stringify({
+      model: r.model,
+      messages: [
+        { role: "system", content: r.summaryPrompt },
+        { role: "user", content: i }
+      ],
+      temperature: 0.25,
+      max_tokens: 1800
+    })
+  });
+  if (!a.ok) throw new Error(`æ€»ç»“ API è¿”å›ž ${a.status}`);
+  const o = await a.json(), l = o?.choices?.[0]?.message?.content || o?.choices?.[0]?.text || o?.output_text || "";
+  if (!String(l).trim()) throw new Error("æ€»ç»“ API è¿”å›žäº†ç©ºå†…å®¹");
+  return String(l).trim();
+}
+async function Aa(t) {
+  if (!t?.provider_token || !t?.access_token) return;
+  const e = await fetch(ga, {
+    method: "POST",
+    headers: {
+      apikey: ts,
+      Authorization: `Bearer ${t.access_token}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ providerToken: t.provider_token })
+  }), r = await e.json().catch(() => ({}));
+  if (!e.ok || !r.ok)
+    throw new Error(r.code || "Discord ç¤¾åŒºèº«ä»½éªŒè¯å¤±è´¥");
+  await W.auth.refreshSession();
+}
+async function Tr() {
+  if (!g.session?.user?.id)
+    return g.profile = null, null;
+  const { data: t, error: e } = await W.from("user_profiles").select("user_id,status,membership_valid_until,discord_username").eq("user_id", g.session.user.id).maybeSingle();
+  if (e) throw e;
+  return g.profile = t, t;
+}
+function ne() {
+  const t = Date.parse(g.profile?.membership_valid_until || "");
+  return g.profile?.status === "active" && Number.isFinite(t) && t > Date.now();
+}
+async function Ar() {
+  g.device = ss();
+  const { error: t } = await W.rpc("register_sync_device", {
+    p_device_id: g.device.id,
+    p_device_name: g.device.name,
+    p_platform: g.device.platform,
+    p_app_version: Zr
+  });
+  if (t) throw t;
+}
+async function Rr() {
+  g.revisions.clear();
+  const { data: t, error: e } = await W.from("latest_snapshots").select("entity_type,entity_id,revision");
+  if (e) throw e;
+  for (const r of t || [])
+    g.revisions.set(`${r.entity_type}|${r.entity_id}`, Number(r.revision) || 0);
+}
+async function ce(t, e, r, s, n = "upsert") {
+  const i = `${t}|${e}`;
+  let a = (g.revisions.get(i) || 0) + 1;
+  const o = crypto.randomUUID(), l = () => W.rpc("commit_sync_change", {
+    p_event_id: o,
+    p_source_device_id: g.device.id,
+    p_entity_type: t,
+    p_entity_id: e,
+    p_revision: a,
+    p_operation: n,
+    p_snapshot_payload: r,
+    p_event_payload: s || r
+  });
+  let c = await l();
+  if (c.error && String(c.error.message || "").includes("stale_snapshot_revision")) {
+    const { data: u } = await W.from("latest_snapshots").select("revision").eq("entity_type", t).eq("entity_id", e).maybeSingle();
+    a = (Number(u?.revision) || 0) + 1, c = await l();
+  }
+  if (c.error) throw c.error;
+  return g.revisions.set(i, a), a;
+}
+function Ra(t) {
+  return new TextEncoder().encode(JSON.stringify(t)).byteLength;
+}
+function Oa(t) {
+  const e = [];
+  let r = [];
+  for (const s of t) {
+    const n = [...r, s];
+    r.length && Ra({ entries: n }) > 18e4 ? (e.push(r), r = [s]) : r = n;
+  }
+  return (r.length || !e.length) && e.push(r), e;
+}
+async function Ca(t, e) {
+  if (!ne()) return;
+  const r = x();
+  (!r.assetHashes || typeof r.assetHashes != "object") && (r.assetHashes = {});
+  const s = r.assetHashes[t.tavernCharacterKey] || {}, n = `character:${t.tavernCharacterKey}`, i = {
+    schemaVersion: 1,
+    tavernCharacterKey: t.tavernCharacterKey,
+    characterName: t.characterName,
+    saveId: t.saveId,
+    saveName: t.saveName,
+    updatedAt: Date.now()
+  }, a = await ee(JSON.stringify(e.card));
+  s.characterHash !== a && (await ce(
+    "tavern.character",
+    n,
+    {
+      ...i,
+      contentHash: a,
+      card: e.card
+    },
+    {
+      kind: "character.replace",
+      tavernCharacterKey: t.tavernCharacterKey,
+      characterName: t.characterName,
+      contentHash: a
+    }
+  ), s.characterHash = a);
+  const o = await ee(JSON.stringify(e.books));
+  if (s.loreHash !== o) {
+    const l = [], c = [];
+    for (const h of e.books) {
+      const d = Oa(h.entries), f = [];
+      for (let p = 0; p < d.length; p += 1) {
+        const y = `${n}:lore:${h.id}:${p}`;
+        f.push(y), l.push(y), await ce(
+          "tavern.lorebook.part",
+          y,
+          {
+            ...i,
+            bookId: h.id,
+            bookName: h.name,
+            scopes: h.scopes,
+            enabled: h.enabled,
+            partIndex: p,
+            partCount: d.length,
+            entries: d[p]
+          },
+          {
+            kind: "lorebook.part.replace",
+            tavernCharacterKey: t.tavernCharacterKey,
+            bookId: h.id,
+            partIndex: p,
+            partCount: d.length
+          }
+        );
+      }
+      c.push({
+        id: h.id,
+        name: h.name,
+        scopes: h.scopes,
+        enabled: h.enabled,
+        entryCount: h.entries.length,
+        partEntityIds: f
+      });
+    }
+    await ce(
+      "tavern.lorebooks",
+      n,
+      {
+        ...i,
+        contentHash: o,
+        books: c,
+        truncatedEntries: g.assetState.truncatedEntries
+      },
+      {
+        kind: "lorebooks.replace",
+        tavernCharacterKey: t.tavernCharacterKey,
+        contentHash: o,
+        bookCount: c.length
+      }
+    );
+    const u = (s.loreEntities || []).filter(
+      (h) => !l.includes(h)
+    );
+    for (const h of u)
+      await ce(
+        "tavern.lorebook.part",
+        h,
+        {},
+        {
+          kind: "lorebook.part.delete",
+          tavernCharacterKey: t.tavernCharacterKey
+        },
+        "delete"
+      );
+    s.loreHash = o, s.loreEntities = l;
+  }
+  r.assetHashes[t.tavernCharacterKey] = s, ve();
+}
+async function Pa(t, e, r) {
+  if (!ne()) throw new Error("è¯·å…ˆå®Œæˆ Discord ç™»å½•ä¸Žç¤¾åŒºéªŒè¯");
+  const s = Math.min(Number(r.coveredThrough) || 0, e.length), n = e.slice(s), i = `character:${t.tavernCharacterKey}`, a = {
+    schemaVersion: 1,
+    tavernCharacterKey: t.tavernCharacterKey,
+    characterName: t.characterName,
+    saveId: t.saveId,
+    saveName: t.saveName,
+    totalFloors: e.length,
+    updatedAt: Date.now()
+  };
+  await ce(
+    "tavern.active",
+    i,
+    {
+      ...a,
+      summaryThrough: s,
+      unsummarizedFloors: n.length
+    },
+    { kind: "save.active", ...a }
+  ), await ce(
+    "tavern.summary",
+    i,
+    {
+      ...a,
+      coveredThrough: s,
+      content: r.summary || "",
+      sourceHash: r.sourceHash || "",
+      stale: !!r.summaryStale,
+      manuallyEditedAt: r.manuallyEditedAt || 0
+    },
+    {
+      kind: "summary.replace",
+      tavernCharacterKey: t.tavernCharacterKey,
+      saveId: t.saveId,
+      coveredThrough: s
+    }
+  ), await ce(
+    "tavern.recent",
+    i,
+    {
+      ...a,
+      startsAfter: s,
+      rounds: n
+    },
+    {
+      kind: "recent.replace",
+      tavernCharacterKey: t.tavernCharacterKey,
+      saveId: t.saveId,
+      floorCount: n.length
+    }
+  );
+}
+async function jt({
+  forceUpload: t = !1,
+  allowSummary: e = !0,
+  refreshAssets: r = !1
+} = {}) {
+  if (g.busy || !x().enabled) return;
+  let s;
+  try {
+    s = await Dt();
+  } catch (n) {
+    g.lastError = n.message || "è¯»å–å½“å‰èŠå¤©å¤±è´¥", console.error(`[${I}] failed to read the current chat`, n), N();
+    return;
+  }
+  if (g.current = s, !s) {
+    N();
+    return;
+  }
+  g.busy = !0, g.lastError = "";
+  try {
+    const n = Bt(s.context.chat), i = Ht(s.context);
+    if ((r || g.currentAssetsKey !== s.tavernCharacterKey || !g.currentAssets) && (g.currentAssets = await Ea(s), g.currentAssetsKey = s.tavernCharacterKey), ne())
+      try {
+        await Ca(s, g.currentAssets);
+      } catch (d) {
+        g.assetState.error = d.message || "è§’è‰²èµ„æ–™åŒæ­¥å¤±è´¥", console.error(`[${I}] asset sync failed`, d);
+      }
+    const a = await ee(JSON.stringify(n)), o = Math.min(200, Math.max(2, Number(x().interval) || 20)), l = Math.floor(n.length / o) * o, c = l ? await ee(JSON.stringify(n.slice(0, l))) : "", u = Number(i.coveredThrough) !== l || i.sourceHash !== c;
+    if (e && x().autoSummarize && u && l > 0 && x().model) {
+      const d = Math.min(Number(i.coveredThrough) || 0, l), f = d ? await ee(JSON.stringify(n.slice(0, d))) : "", p = d > 0 && d < l && i.summary && i.sourceHash === f, y = p ? n.slice(d, l) : n.slice(0, l);
+      i.summary = await Ta({
+        previousSummary: p ? i.summary : "",
+        rounds: y
+      }), i.coveredThrough = l, i.sourceHash = c, i.summaryStale = !1, i.updatedAt = Date.now(), i.manuallyEditedAt = 0, Oe(s.context);
+    } else u && l === 0 ? (i.summary = "", i.coveredThrough = 0, i.sourceHash = "", i.summaryStale = !1, i.updatedAt = Date.now(), i.manuallyEditedAt = 0, Oe(s.context)) : u && l > 0 && (i.summaryStale = !0, i.updatedAt = Date.now(), Oe(s.context));
+    const h = await ee(
+      JSON.stringify({
+        saveId: s.saveId,
+        liveHash: a,
+        summary: i.summary || "",
+        coveredThrough: Number(i.coveredThrough) || 0,
+        sourceHash: i.sourceHash || "",
+        summaryStale: !!i.summaryStale
+      })
+    );
+    ne() && (t || i.lastUploadedHash !== h) && (await Pa(s, n, i), i.lastUploadedHash = h, i.lastUploadedAt = Date.now(), Oe(s.context)), g.connected = ne();
+  } catch (n) {
+    g.lastError = n.message || "åŒæ­¥å¤±è´¥", console.error(`[${I}]`, n);
+  } finally {
+    g.busy = !1, N();
+  }
+}
+function Ie(t = {}) {
+  clearTimeout(g.timer), g.timer = setTimeout(() => jt(t), 900);
+}
+async function Ia() {
+  g.lastError = "";
+  const t = `${location.origin}${location.pathname}`, { error: e } = await W.auth.signInWithOAuth({
+    provider: "discord",
+    options: {
+      redirectTo: t,
+      scopes: "guilds guilds.members.read"
+    }
+  });
+  e && (g.lastError = e.message, N());
+}
+async function $a() {
+  await W.auth.signOut(), g.session = null, g.profile = null, g.connected = !1, N();
+}
+async function ja() {
+  const t = x(), e = dt(it), r = await fetch(ns(t.apiUrl, "models"), {
+    headers: e ? { Authorization: `Bearer ${e}` } : {}
+  });
+  if (!r.ok) throw new Error(`æ¨¡åž‹æŽ¥å£è¿”å›ž ${r.status}`);
+  const s = await r.json(), n = Array.isArray(s?.data) ? s.data : Array.isArray(s?.models) ? s.models : Array.isArray(s) ? s : [];
+  t.modelOptions = [
+    ...new Set(
+      n.map((i) => typeof i == "string" ? i : i?.id || i?.name).filter(Boolean)
+    )
+  ].sort(), t.modelOptions.includes(t.model) || (t.model = t.modelOptions[0] || ""), ve(), N();
+}
+function se(t, e = "", r = "") {
+  const s = document.createElement(t);
+  return e && (s.className = e), r && (s.textContent = r), s;
+}
+function Ee(t, e) {
+  const r = se("label", "lp-field");
+  return r.append(se("span", "", t), e), r;
+}
+function bt(t, e, r) {
+  const s = document.createElement("input");
+  return s.type = t, s.value = e ?? "", s.addEventListener("change", () => r(s.value)), s;
+}
+function N() {
+  if (!g.panel) return;
+  const t = x(), e = g.current, r = e ? Bt(e.context.chat) : [], s = e ? Ht(e.context) : null;
+  if (g.status.textContent = g.busy ? "æ­£åœ¨å¤„ç†â€¦" : g.lastError ? g.lastError : ne() ? "Discord å·²éªŒè¯ Â· äº‘ç«¯å¯ç”¨" : g.session ? "å·²ç™»å½•ï¼Œç­‰å¾…ç¤¾åŒºéªŒè¯" : "å°šæœªç™»å½•", g.status.classList.toggle("error", !!g.lastError), g.details.textContent = e ? `${e.characterName} Â· ${e.saveName} Â· ${r.length} æ¥¼ Â· å·²æ€»ç»“ ${s.coveredThrough || 0} æ¥¼` : "è¯·å…ˆæ‰“å¼€å•è§’è‰²èŠå¤©å­˜æ¡£", g.assets) {
+    const { books: l, entries: c, truncatedEntries: u, error: h } = g.assetState;
+    g.assets.textContent = e ? `${h ? `èµ„æ–™åŒæ­¥å¤±è´¥ï¼š${h} Â· ` : ""}è§’è‰²å¡å·²è¯»å– Â· ${l} æœ¬ç»‘å®šä¸–ç•Œä¹¦ Â· ${c} ä¸ªæ¡ç›®${u ? ` Â· ${u} æ¡è¿‡é•¿å†…å®¹å·²æˆªæ–­` : ""}` : "æ‰“å¼€è§’è‰²èŠå¤©åŽä¼šè‡ªåŠ¨è¯»å–è§’è‰²å¡ä¸Žç»‘å®šä¸–ç•Œä¹¦";
+  }
+  g.summary.value = s?.summary || "";
+  const n = g.panel.querySelector("[data-action=login]"), i = g.panel.querySelector("[data-action=logout]");
+  n.hidden = !!g.session, i.hidden = !g.session;
+  const a = g.panel.querySelector("[data-field=model]");
+  a.replaceChildren();
+  const o = document.createElement("option");
+  o.value = "", o.textContent = t.modelOptions.length ? "é€‰æ‹©æ¨¡åž‹" : "å…ˆæ‹‰å–æ¨¡åž‹", a.append(o);
+  for (const l of t.modelOptions) {
+    const c = document.createElement("option");
+    c.value = l, c.textContent = l, a.append(c);
+  }
+  a.value = t.model || "";
+}
+function at(t) {
+  const e = g.panel;
+  if (e) {
+    if (!t) {
+      e.setAttribute("data-open", "false"), e.setAttribute("aria-hidden", "true");
+      return;
+    }
+    e.setAttribute("data-open", "true"), e.setAttribute("aria-hidden", "false"), N(), Dt().then((r) => {
+      g.current = r, N();
+    }).catch((r) => {
+      g.lastError = r.message || "è¯»å–å½“å‰èŠå¤©å¤±è´¥", console.error(`[${I}] failed to refresh panel`, r), N();
+    });
+  }
+}
+function Or() {
+  g.uiObserver || !document.body || (g.uiObserver = new MutationObserver(() => {
+    if (!g.panel?.isConnected || !g.launcher?.isConnected) {
+      is();
+      return;
+    }
+    ot();
+  }), g.uiObserver.observe(document.body, { childList: !0, subtree: !0 }));
+}
+function ot() {
+  if (g.settingsEntry?.isConnected) return !0;
+  const t = document.querySelector("#linephone-sync-settings-entry");
+  if (t?.isConnected)
+    return g.settingsEntry = t, !0;
+  const e = document.querySelector("#extensions_settings") || document.querySelector("#extensions_settings2");
+  if (!e)
+    return clearTimeout(g.mountTimer), g.mountTimer = setTimeout(ot, 800), !1;
+  clearTimeout(g.mountTimer), g.mountTimer = null;
+  const r = se(
+    "div",
+    "extension_container lp-settings-entry linephone-sync-settings-entry"
+  );
+  return r.id = "linephone-sync-settings-entry", r.innerHTML = `
+    <div class="inline-drawer">
+      <div class="inline-drawer-toggle inline-drawer-header">
+        <b>LinePhone å°æ‰‹æœºåŒæ­¥</b>
+        <div class="inline-drawer-icon fa-solid fa-circle-chevron-down down"></div>
+      </div>
+      <div class="inline-drawer-content">
+        <p>åŒæ­¥å½“å‰è§’è‰²ã€ç»‘å®šä¸–ç•Œä¹¦ã€èŠå¤©æ¥¼å±‚å’Œé˜¶æ®µæ€»ç»“ã€‚</p>
+        <button type="button" class="menu_button" data-action="open-linephone">
+          æ‰“å¼€å°æ‰‹æœºåŒæ­¥æŽ§åˆ¶é¢æ¿
+        </button>
+      </div>
+    </div>
+  `, r.querySelector("[data-action=open-linephone]").addEventListener("click", (s) => {
+    s.preventDefault(), s.stopPropagation(), at(!0);
+  }), e.append(r), g.settingsEntry = r, !0;
+}
+function is() {
+  if (g.panel?.isConnected && g.launcher?.isConnected) {
+    ot(), Or();
+    return;
+  }
+  const t = document.querySelector("#linephone-sync-launcher");
+  g.launcher && g.launcher !== t && g.launcher.remove(), g.panel?.remove();
+  const e = t || se("button", "lp-sync-launcher", "â‡„");
+  e.id = "linephone-sync-launcher", e.type = "button", e.title = "å°æ‰‹æœºåŒæ­¥";
+  const r = se("section", "lp-tavern-panel");
+  r.id = "linephone-sync-panel", r.setAttribute("data-open", "false"), r.setAttribute("aria-hidden", "true"), r.setAttribute("role", "dialog"), r.setAttribute("aria-label", "å°æ‰‹æœºåŒæ­¥"), r.innerHTML = `
+    <header>
+      <div><small>LINEPHONE RECEIVER</small><h2>å°æ‰‹æœºåŒæ­¥</h2></div>
+      <button type="button" data-action="close">Ã—</button>
+    </header>
+    <p class="lp-status"></p>
+    <p class="lp-details"></p>
+    <p class="lp-assets"></p>
+    <div class="lp-auth-actions">
+      <button type="button" data-action="login">ä½¿ç”¨ Discord ç™»å½•</button>
+      <button type="button" data-action="logout">é€€å‡ºç™»å½•</button>
+    </div>
+    <section class="lp-section lp-api"></section>
+    <section class="lp-section">
+      <div class="lp-section-title"><strong>å½“å‰é˜¶æ®µæ€»ç»“</strong><small>ä¿å­˜åœ¨è¿™ä¸ªé…’é¦†å­˜æ¡£æœ¬åœ°</small></div>
+      <textarea class="lp-summary" rows="8" placeholder="è¾¾åˆ°æ€»ç»“æ¥¼å±‚åŽè‡ªåŠ¨ç”Ÿæˆï¼Œä¹Ÿå¯ä»¥æ‰‹åŠ¨ç¼–è¾‘"></textarea>
+      <div class="lp-row">
+        <button type="button" data-action="save-summary">ä¿å­˜å¹¶è¦†ç›–äº‘ç«¯</button>
+        <button type="button" data-action="sync-now">ç«‹å³è¯»å–å¹¶åŒæ­¥</button>
+      </div>
+    </section>
+  `, e.isConnected || document.body.append(e), document.body.append(r), g.launcher = e, g.panel = r, g.status = r.querySelector(".lp-status"), g.details = r.querySelector(".lp-details"), g.assets = r.querySelector(".lp-assets"), g.summary = r.querySelector(".lp-summary"), ot(), Or();
+  const s = x(), n = r.querySelector(".lp-api"), i = bt("url", s.apiUrl, (d) => {
+    x().apiUrl = d.trim(), ve();
+  }), a = bt(
+    "password",
+    dt(it),
+    (d) => rs(it, d)
+  ), o = document.createElement("select");
+  o.dataset.field = "model", o.addEventListener("change", () => {
+    x().model = o.value, ve();
+  });
+  const l = bt("number", s.interval, (d) => {
+    x().interval = Math.min(200, Math.max(2, Number(d) || 20)), ve();
+  });
+  l.min = "2", l.max = "200";
+  const c = document.createElement("input");
+  c.type = "checkbox", c.checked = s.autoSummarize, c.addEventListener("change", () => {
+    x().autoSummarize = c.checked, ve();
+  });
+  const u = se("button", "", "æ‹‰å–æ¨¡åž‹");
+  u.type = "button", u.addEventListener(
+    "click",
+    () => ja().catch((d) => {
+      g.lastError = d.message, N();
+    })
+  );
+  const h = se("div", "lp-model-row");
+  h.append(o, u), n.append(
+    se("div", "lp-section-title", "è‡ªåŠ¨æ€»ç»“ API"),
+    Ee("API åœ°å€", i),
+    Ee("API Keyï¼ˆåªå­˜å½“å‰æµè§ˆå™¨ï¼‰", a),
+    Ee("æ¨¡åž‹", h),
+    Ee("æ¯å¤šå°‘æ¥¼æ€»ç»“ä¸€æ¬¡", l),
+    Ee("å¯ç”¨è‡ªåŠ¨æ€»ç»“", c)
+  ), e.dataset.linephoneBootstrapBound !== "true" && e.dataset.linephoneAppBound !== "true" && (e.dataset.linephoneAppBound = "true", e.addEventListener("click", () => {
+    at(r.getAttribute("data-open") !== "true");
+  })), r.querySelector("[data-action=close]").addEventListener("click", () => {
+    at(!1);
+  }), r.querySelector("[data-action=login]").addEventListener("click", Ia), r.querySelector("[data-action=logout]").addEventListener("click", $a), r.querySelector("[data-action=sync-now]").addEventListener(
+    "click",
+    () => jt({ forceUpload: !0, allowSummary: !0, refreshAssets: !0 })
+  ), r.querySelector("[data-action=save-summary]").addEventListener("click", async () => {
+    const d = await Dt();
+    if (!d) return;
+    const f = Ht(d.context), p = Bt(d.context.chat), y = Math.min(200, Math.max(2, Number(x().interval) || 20)), m = Math.floor(p.length / y) * y;
+    f.summary = g.summary.value.trim(), f.coveredThrough = m, f.sourceHash = m ? await ee(JSON.stringify(p.slice(0, m))) : "", f.summaryStale = !1, f.manuallyEditedAt = Date.now(), f.updatedAt = Date.now(), Oe(d.context), await jt({ forceUpload: !0, allowSummary: !1 });
+  }), N();
+}
+function xa() {
+  if (g.eventsBound) return !0;
+  const t = g.context?.eventSource, e = g.context?.eventTypes;
+  return typeof t?.on != "function" || !e ? !1 : ([
+    e.MESSAGE_SENT,
+    e.MESSAGE_RECEIVED,
+    e.MESSAGE_EDITED,
+    e.MESSAGE_DELETED,
+    e.MESSAGE_UPDATED,
+    e.MESSAGE_SWIPED,
+    e.GENERATION_ENDED
+  ].filter(Boolean).forEach((n) => t.on(n, () => Ie())), [
+    e.CHARACTER_EDITED,
+    e.CHARACTER_SELECTED,
+    e.WORLDINFO_UPDATED,
+    e.WORLDINFO_SETTINGS_UPDATED
+  ].filter(Boolean).forEach(
+    (n) => t.on(
+      n,
+      () => Ie({ forceUpload: !0, refreshAssets: !0 })
+    )
+  ), e.CHAT_CHANGED && t.on(
+    e.CHAT_CHANGED,
+    () => Ie({ forceUpload: !0, refreshAssets: !0 })
+  ), g.eventsBound = !0, !0);
+}
+function xt() {
+  if (xa()) {
+    clearTimeout(g.eventsTimer), g.eventsTimer = null;
+    return;
+  }
+  clearTimeout(g.eventsTimer), g.eventsTimer = setTimeout(() => {
+    try {
+      g.context = Lt(), xt();
+    } catch (t) {
+      console.debug(`[${I}] waiting for SillyTavern events`, t), xt();
+    }
+  }, 800);
+}
+async function Na() {
+  W.auth.onAuthStateChange((e, r) => {
+    setTimeout(async () => {
+      if (g.session = r, g.profile = null, g.connected = !1, !r) {
+        N();
+        return;
+      }
+      try {
+        r.provider_token && await Aa(r);
+        const { data: s } = await W.auth.getSession();
+        g.session = s.session, await Tr(), ne() && (await Ar(), await Rr(), g.connected = !0, Ie({ forceUpload: !0, refreshAssets: !0 }));
+      } catch (s) {
+        g.lastError = s.message;
+      }
+      N();
+    }, 0);
+  });
+  const { data: t } = await W.auth.getSession();
+  g.session = t.session, g.session && (await Tr().catch((e) => {
+    g.lastError = e.message;
+  }), ne() && (await Ar(), await Rr(), g.connected = !0));
+}
+async function Ua(t = 15e3) {
+  const e = Date.now();
+  for (; !globalThis.SillyTavern?.getContext || !document.body; ) {
+    if (Date.now() - e > t)
+      throw new Error("ç­‰å¾… SillyTavern åˆå§‹åŒ–è¶…æ—¶");
+    await new Promise((r) => setTimeout(r, 100));
+  }
+}
+async function ft() {
+  await Ua(), g.context = Lt(), is();
+}
+async function La() {
+  if (!g.initialized) {
+    await ft(), g.initialized = !0, x(), g.device = ss(), xt();
+    try {
+      await Na();
+    } catch (t) {
+      g.lastError = t.message || "ç™»å½•çŠ¶æ€åˆå§‹åŒ–å¤±è´¥", console.error(`[${I}] auth initialization failed`, t), N();
+    }
+    Ie({ forceUpload: !0, refreshAssets: !0 }), console.log(`[${I}] v${Zr} loaded`);
+  }
+}
+let Nt = null;
+function qt() {
+  return Nt ||= La().catch((t) => {
+    throw g.initialized = !1, console.error(`[${I}] initialization failed`, t), g.lastError = t.message || "åˆå§‹åŒ–å¤±è´¥", N(), t;
+  }), Nt;
+}
+async function Da() {
+  return await ft(), qt();
+}
+async function Ba() {
+  return await ft(), qt();
+}
+async function Ha() {
+  await ft(), at(!0);
+}
+Promise.resolve().then(() => {
+  qt().catch(() => {
+    Nt = null;
+  });
+});
+export {
+  Da as onActivate,
+  Ba as onEnable,
+  Ha as openPanel
+};

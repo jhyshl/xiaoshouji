@@ -1,7 +1,9 @@
 .lp-sync-launcher {
   position: fixed;
+  top: calc(100dvh - 92px);
   right: 18px;
-  bottom: 92px;
+  bottom: auto;
+  transform: translateY(-100%);
   z-index: 31000;
   width: 42px;
   height: 42px;
@@ -16,10 +18,11 @@
 
 .lp-tavern-panel {
   position: fixed;
-  top: auto;
+  top: calc(100dvh - 144px);
   right: 18px;
-  bottom: 144px;
+  bottom: auto;
   left: auto;
+  transform: translateY(-100%);
   z-index: 31001;
   box-sizing: border-box;
   width: min(380px, calc(100vw - 30px));
@@ -36,20 +39,15 @@
   font: 13px/1.5 system-ui, sans-serif;
 }
 
-.lp-tavern-panel:not([open]) {
+.lp-tavern-panel:not([data-open="true"]) {
   display: none;
 }
 
-.lp-tavern-panel[open] {
+.lp-tavern-panel[data-open="true"] {
   display: block;
   visibility: visible;
   opacity: 1;
   pointer-events: auto;
-}
-
-.lp-tavern-panel::backdrop {
-  background: rgba(0, 0, 0, 0.32);
-  backdrop-filter: blur(2px);
 }
 
 .lp-tavern-panel > header,
@@ -175,13 +173,15 @@
 
 @media (max-width: 520px) {
   .lp-sync-launcher {
+    top: calc(100dvh - 76px - env(safe-area-inset-bottom));
     right: 12px;
-    bottom: 76px;
   }
 
   .lp-tavern-panel {
+    top: calc(
+      100dvh - max(84px, 70px + env(safe-area-inset-bottom))
+    );
     right: 10px;
-    bottom: max(84px, calc(70px + env(safe-area-inset-bottom)));
     max-height: calc(100dvh - 104px - env(safe-area-inset-bottom));
   }
 }
