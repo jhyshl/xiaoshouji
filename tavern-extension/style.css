@@ -120,6 +120,23 @@
   gap: 8px;
 }
 
+.lp-oauth-help {
+  margin: 9px 0 0;
+  color: #aaa39a;
+  font-size: 11px;
+  line-height: 1.55;
+}
+
+.lp-oauth-help[hidden] {
+  display: none;
+}
+
+.lp-oauth-help a {
+  color: #c7d7b5;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
 .lp-section {
   display: grid;
   gap: 10px;

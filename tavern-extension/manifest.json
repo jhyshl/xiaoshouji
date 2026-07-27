@@ -1,10 +1,10 @@
 {
   "display_name": "LinePhone 小手机同步",
   "loading_order": 20,
-  "js": "bootstrap.js?v=1.1.3-mobile",
-  "css": "style.css?v=1.1.3-mobile",
+  "js": "bootstrap.js?v=1.1.4-discord",
+  "css": "style.css?v=1.1.4-discord",
   "author": "LinePhone",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "auto_update": true,
   "minimum_client_version": "1.12.0",
   "hooks": {

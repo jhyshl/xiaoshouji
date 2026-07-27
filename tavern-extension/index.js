@@ -13,22 +13,22 @@ function as(t, e, r, s) {
     });
   }
   return new (r || (r = Promise))(function(i, a) {
-    function o(u) {
+    function o(h) {
       try {
-        c(s.next(u));
-      } catch (h) {
-        a(h);
+        c(s.next(h));
+      } catch (u) {
+        a(u);
       }
     }
-    function l(u) {
+    function l(h) {
       try {
-        c(s.throw(u));
-      } catch (h) {
-        a(h);
+        c(s.throw(h));
+      } catch (u) {
+        a(u);
       }
     }
-    function c(u) {
-      u.done ? i(u.value) : n(u.value).then(o, l);
+    function c(h) {
+      h.done ? i(h.value) : n(h.value).then(o, l);
     }
     c((s = s.apply(t, e || [])).next());
   });
@@ -238,23 +238,23 @@ class cs {
       var n, i;
       let a, o, l;
       try {
-        const { headers: c, method: u, body: h, signal: d, timeout: f } = s;
-        let p = {}, { region: y } = s;
+        const { headers: c, method: h, body: u, signal: d, timeout: f } = s;
+        let g = {}, { region: y } = s;
         y || (y = this.region);
         const m = new URL(`${this.url}/${r}`);
-        y && y !== "any" && (p["x-region"] = y, m.searchParams.set("forceFunctionRegion", y));
+        y && y !== "any" && (g["x-region"] = y, m.searchParams.set("forceFunctionRegion", y));
         let w;
         const S = !!c && Object.keys(c).some((Se) => Se.toLowerCase() === "content-type");
-        h && !S ? typeof Blob < "u" && h instanceof Blob || h instanceof ArrayBuffer ? (p["Content-Type"] = "application/octet-stream", w = h) : typeof h == "string" ? (p["Content-Type"] = "text/plain", w = h) : typeof FormData < "u" && h instanceof FormData ? w = h : (p["Content-Type"] = "application/json", w = JSON.stringify(h)) : h && typeof h != "string" && !(typeof Blob < "u" && h instanceof Blob) && !(h instanceof ArrayBuffer) && !(typeof FormData < "u" && h instanceof FormData) ? w = JSON.stringify(h) : w = h;
+        u && !S ? typeof Blob < "u" && u instanceof Blob || u instanceof ArrayBuffer ? (g["Content-Type"] = "application/octet-stream", w = u) : typeof u == "string" ? (g["Content-Type"] = "text/plain", w = u) : typeof FormData < "u" && u instanceof FormData ? w = u : (g["Content-Type"] = "application/json", w = JSON.stringify(u)) : u && typeof u != "string" && !(typeof Blob < "u" && u instanceof Blob) && !(u instanceof ArrayBuffer) && !(typeof FormData < "u" && u instanceof FormData) ? w = JSON.stringify(u) : w = u;
         let _ = d;
         f && (o = new AbortController(), a = setTimeout(() => o.abort(), f), d ? (_ = o.signal, l = () => o.abort(), d.addEventListener("abort", l)) : _ = o.signal);
         const E = yield this.fetch(m.toString(), {
-          method: u || "POST",
+          method: h || "POST",
           // headers priority is (high to low):
           // 1. invoke-level headers
           // 2. client-level headers
           // 3. default Content-Type header
-          headers: Object.assign(Object.assign(Object.assign({}, p), this.headers), c),
+          headers: Object.assign(Object.assign(Object.assign({}, g), this.headers), c),
           body: w,
           signal: _
         }).catch((Se) => {
@@ -476,58 +476,58 @@ var ds = class {
       let a = 0;
       for (; ; ) {
         const c = {};
-        r.headers.forEach((h, d) => {
-          c[d] = h;
+        r.headers.forEach((u, d) => {
+          c[d] = u;
         }), a > 0 && (c["X-Retry-Count"] = String(a));
-        let u;
+        let h;
         try {
-          u = await s(r.url.toString(), {
+          h = await s(r.url.toString(), {
             method: r.method,
             headers: c,
-            body: JSON.stringify(r.body, (h, d) => typeof d == "bigint" ? d.toString() : d),
+            body: JSON.stringify(r.body, (u, d) => typeof d == "bigint" ? d.toString() : d),
             signal: r.signal
           });
-        } catch (h) {
-          if (h?.name === "AbortError" || h?.code === "ABORT_ERR" || !Pr.includes(r.method)) throw h;
+        } catch (u) {
+          if (u?.name === "AbortError" || u?.code === "ABORT_ERR" || !Pr.includes(r.method)) throw u;
           if (r.retryEnabled && a < Cr) {
             const d = Ft(a);
             a++, await Vt(d, r.signal);
             continue;
           }
-          throw h;
+          throw u;
         }
-        if (hs(r.method, u.status, a, r.retryEnabled)) {
+        if (hs(r.method, h.status, a, r.retryEnabled)) {
           var o, l;
-          const h = (o = (l = u.headers) === null || l === void 0 ? void 0 : l.get("Retry-After")) !== null && o !== void 0 ? o : null, d = h !== null ? Math.max(0, parseInt(h, 10) || 0) * 1e3 : Ft(a);
-          await u.text(), a++, await Vt(d, r.signal);
+          const u = (o = (l = h.headers) === null || l === void 0 ? void 0 : l.get("Retry-After")) !== null && o !== void 0 ? o : null, d = u !== null ? Math.max(0, parseInt(u, 10) || 0) * 1e3 : Ft(a);
+          await h.text(), a++, await Vt(d, r.signal);
           continue;
         }
-        return await r.processResponse(u);
+        return await r.processResponse(h);
       }
     })();
     return this.shouldThrowOnError || (i = i.catch((a) => {
       var o;
-      let l = "", c = "", u = "";
-      const h = a?.cause;
-      if (h) {
-        var d, f, p, y;
-        const S = (d = h?.message) !== null && d !== void 0 ? d : "", _ = (f = h?.code) !== null && f !== void 0 ? f : "";
-        l = `${(p = a?.name) !== null && p !== void 0 ? p : "FetchError"}: ${a?.message}`, l += `
+      let l = "", c = "", h = "";
+      const u = a?.cause;
+      if (u) {
+        var d, f, g, y;
+        const S = (d = u?.message) !== null && d !== void 0 ? d : "", _ = (f = u?.code) !== null && f !== void 0 ? f : "";
+        l = `${(g = a?.name) !== null && g !== void 0 ? g : "FetchError"}: ${a?.message}`, l += `
 
-Caused by: ${(y = h?.name) !== null && y !== void 0 ? y : "Error"}: ${S}`, _ && (l += ` (${_})`), h?.stack && (l += `
-${h.stack}`);
+Caused by: ${(y = u?.name) !== null && y !== void 0 ? y : "Error"}: ${S}`, _ && (l += ` (${_})`), u?.stack && (l += `
+${u.stack}`);
       } else {
         var m;
         l = (m = a?.stack) !== null && m !== void 0 ? m : "";
       }
       const w = this.url.toString().length;
-      return a?.name === "AbortError" || a?.code === "ABORT_ERR" ? (u = "", c = "Request was aborted (timeout or manual cancellation)", w > this.urlLengthLimit && (c += `. Note: Your request URL is ${w} characters, which may exceed server limits. If selecting many fields, consider using views. If filtering with large arrays (e.g., .in('id', [many IDs])), consider using an RPC function to pass values server-side.`)) : (h?.name === "HeadersOverflowError" || h?.code === "UND_ERR_HEADERS_OVERFLOW") && (u = "", c = "HTTP headers exceeded server limits (typically 16KB)", w > this.urlLengthLimit && (c += `. Your request URL is ${w} characters. If selecting many fields, consider using views. If filtering with large arrays (e.g., .in('id', [200+ IDs])), consider using an RPC function instead.`)), {
+      return a?.name === "AbortError" || a?.code === "ABORT_ERR" ? (h = "", c = "Request was aborted (timeout or manual cancellation)", w > this.urlLengthLimit && (c += `. Note: Your request URL is ${w} characters, which may exceed server limits. If selecting many fields, consider using views. If filtering with large arrays (e.g., .in('id', [many IDs])), consider using an RPC function to pass values server-side.`)) : (u?.name === "HeadersOverflowError" || u?.code === "UND_ERR_HEADERS_OVERFLOW") && (h = "", c = "HTTP headers exceeded server limits (typically 16KB)", w > this.urlLengthLimit && (c += `. Your request URL is ${w} characters. If selecting many fields, consider using views. If filtering with large arrays (e.g., .in('id', [200+ IDs])), consider using an RPC function instead.`)), {
         success: !1,
         error: {
           message: `${(o = a?.name) !== null && o !== void 0 ? o : "FetchError"}: ${a?.message}`,
           details: l,
           hint: c,
-          code: u
+          code: h
         },
         data: null,
         count: null,
@@ -560,19 +560,19 @@ ${h.stack}`);
           });
         }
       }
-      const u = (o = e.headers.get("Prefer")) === null || o === void 0 ? void 0 : o.match(/count=(exact|planned|estimated)/), h = (l = t.headers.get("content-range")) === null || l === void 0 ? void 0 : l.split("/");
-      u && h && h.length > 1 && (n = parseInt(h[1])), e.isMaybeSingle && Array.isArray(s) && (s.length > 1 ? (r = {
+      const h = (o = e.headers.get("Prefer")) === null || o === void 0 ? void 0 : o.match(/count=(exact|planned|estimated)/), u = (l = t.headers.get("content-range")) === null || l === void 0 ? void 0 : l.split("/");
+      h && u && u.length > 1 && (n = parseInt(u[1])), e.isMaybeSingle && Array.isArray(s) && (s.length > 1 ? (r = {
         code: "PGRST116",
         details: `Results contain ${s.length} rows, application/vnd.pgrst.object+json requires 1 row`,
         hint: null,
         message: "JSON object requested, multiple (or no) rows returned"
       }, s = null, n = null, i = 406, a = "Not Acceptable") : s.length === 1 ? s = s[0] : s = null);
     } else {
-      const u = await t.text();
+      const h = await t.text();
       try {
-        r = JSON.parse(u), Array.isArray(r) && t.status === 404 && (s = [], r = null, i = 200, a = "OK");
+        r = JSON.parse(h), Array.isArray(r) && t.status === 404 && (s = [], r = null, i = 200, a = "OK");
       } catch {
-        t.status === 404 && u === "" ? (i = 204, a = "No Content") : r = { message: u };
+        t.status === 404 && h === "" ? (i = 204, a = "No Content") : r = { message: h };
       }
       if (r && e.shouldThrowOnError) throw new Wt(r);
     }
@@ -3208,10 +3208,10 @@ var pe = class extends fs {
     var i;
     const a = "POST", { url: o, headers: l } = this.cloneRequestState();
     if (l.append("Prefer", `resolution=${r ? "ignore" : "merge"}-duplicates`), e !== void 0 && o.searchParams.set("on_conflict", e), s && l.append("Prefer", `count=${s}`), n || l.append("Prefer", "missing=default"), Array.isArray(t)) {
-      const c = t.reduce((u, h) => u.concat(Object.keys(h)), []);
+      const c = t.reduce((h, u) => h.concat(Object.keys(u)), []);
       if (c.length > 0) {
-        const u = [...new Set(c)].map((h) => `"${h}"`);
-        o.searchParams.set("columns", u.join(","));
+        const h = [...new Set(c)].map((u) => `"${u}"`);
+        o.searchParams.set("columns", h.join(","));
       }
     }
     return new pe({
@@ -3622,19 +3622,19 @@ var vs = class Ir {
   constructor(e, { headers: r = {}, schema: s, fetch: n, timeout: i, urlLengthLimit: a = 8e3, retry: o } = {}) {
     this.url = e, this.headers = new Headers(r), this.schemaName = s, this.urlLengthLimit = a;
     const l = n ?? globalThis.fetch;
-    i !== void 0 && i > 0 ? this.fetch = (c, u) => {
-      const h = new AbortController(), d = setTimeout(() => h.abort(), i), f = u?.signal;
+    i !== void 0 && i > 0 ? this.fetch = (c, h) => {
+      const u = new AbortController(), d = setTimeout(() => u.abort(), i), f = h?.signal;
       if (f) {
         if (f.aborted)
-          return clearTimeout(d), l(c, u);
-        const p = () => {
-          clearTimeout(d), h.abort();
+          return clearTimeout(d), l(c, h);
+        const g = () => {
+          clearTimeout(d), u.abort();
         };
-        return f.addEventListener("abort", p, { once: !0 }), l(c, qe(qe({}, u), {}, { signal: h.signal })).finally(() => {
-          clearTimeout(d), f.removeEventListener("abort", p);
+        return f.addEventListener("abort", g, { once: !0 }), l(c, qe(qe({}, h), {}, { signal: u.signal })).finally(() => {
+          clearTimeout(d), f.removeEventListener("abort", g);
         });
       }
-      return l(c, qe(qe({}, u), {}, { signal: h.signal })).finally(() => clearTimeout(d));
+      return l(c, qe(qe({}, h), {}, { signal: u.signal })).finally(() => clearTimeout(d));
     } : this.fetch = l, this.retry = o;
   }
   from(e) {
@@ -3835,12 +3835,12 @@ var vs = class Ir {
     let o;
     const l = new URL(`${this.url}/rpc/${e}`);
     let c;
-    const u = (f) => f !== null && typeof f == "object" && (!Array.isArray(f) || f.some(u)), h = s && Object.values(r).some(u);
-    h ? (o = "POST", c = r) : s || n ? (o = s ? "HEAD" : "GET", Object.entries(r).filter(([f, p]) => p !== void 0).map(([f, p]) => [f, Array.isArray(p) ? `{${p.join(",")}}` : `${p}`]).forEach(([f, p]) => {
-      l.searchParams.append(f, p);
+    const h = (f) => f !== null && typeof f == "object" && (!Array.isArray(f) || f.some(h)), u = s && Object.values(r).some(h);
+    u ? (o = "POST", c = r) : s || n ? (o = s ? "HEAD" : "GET", Object.entries(r).filter(([f, g]) => g !== void 0).map(([f, g]) => [f, Array.isArray(g) ? `{${g.join(",")}}` : `${g}`]).forEach(([f, g]) => {
+      l.searchParams.append(f, g);
     })) : (o = "POST", c = r);
     const d = new Headers(this.headers);
-    return h ? d.set("Prefer", i ? `count=${i},return=minimal` : "return=minimal") : i && d.set("Prefer", `count=${i}`), new pe({
+    return u ? d.set("Prefer", i ? `count=${i},return=minimal` : "return=minimal") : i && d.set("Prefer", `count=${i}`), new pe({
       method: o,
       url: l,
       headers: d,
@@ -3984,22 +3984,22 @@ class As {
   }
   _encodeUserBroadcastPush(e, r, s) {
     var n, i;
-    const a = new TextEncoder(), o = a.encode(e.topic), l = a.encode((n = e.ref) !== null && n !== void 0 ? n : ""), c = a.encode((i = e.join_ref) !== null && i !== void 0 ? i : ""), u = a.encode(e.payload.event), h = this.allowedMetadataKeys ? this._pick(e.payload, this.allowedMetadataKeys) : {}, d = a.encode(Object.keys(h).length === 0 ? "" : JSON.stringify(h));
+    const a = new TextEncoder(), o = a.encode(e.topic), l = a.encode((n = e.ref) !== null && n !== void 0 ? n : ""), c = a.encode((i = e.join_ref) !== null && i !== void 0 ? i : ""), h = a.encode(e.payload.event), u = this.allowedMetadataKeys ? this._pick(e.payload, this.allowedMetadataKeys) : {}, d = a.encode(Object.keys(u).length === 0 ? "" : JSON.stringify(u));
     if (c.length > 255)
       throw new Error(`joinRef length ${c.length} exceeds maximum of 255`);
     if (l.length > 255)
       throw new Error(`ref length ${l.length} exceeds maximum of 255`);
     if (o.length > 255)
       throw new Error(`topic length ${o.length} exceeds maximum of 255`);
-    if (u.length > 255)
-      throw new Error(`userEvent length ${u.length} exceeds maximum of 255`);
+    if (h.length > 255)
+      throw new Error(`userEvent length ${h.length} exceeds maximum of 255`);
     if (d.length > 255)
       throw new Error(`metadata length ${d.length} exceeds maximum of 255`);
-    const f = this.USER_BROADCAST_PUSH_META_LENGTH + c.length + l.length + o.length + u.length + d.length, p = new ArrayBuffer(this.HEADER_LENGTH + f), y = new DataView(p), m = new Uint8Array(p);
+    const f = this.USER_BROADCAST_PUSH_META_LENGTH + c.length + l.length + o.length + h.length + d.length, g = new ArrayBuffer(this.HEADER_LENGTH + f), y = new DataView(g), m = new Uint8Array(g);
     let w = 0;
-    y.setUint8(w++, this.KINDS.userBroadcastPush), y.setUint8(w++, c.length), y.setUint8(w++, l.length), y.setUint8(w++, o.length), y.setUint8(w++, u.length), y.setUint8(w++, d.length), y.setUint8(w++, r), m.set(c, w), w += c.length, m.set(l, w), w += l.length, m.set(o, w), w += o.length, m.set(u, w), w += u.length, m.set(d, w), w += d.length;
-    var S = new Uint8Array(p.byteLength + s.byteLength);
-    return S.set(new Uint8Array(p), 0), S.set(new Uint8Array(s), p.byteLength), S.buffer;
+    y.setUint8(w++, this.KINDS.userBroadcastPush), y.setUint8(w++, c.length), y.setUint8(w++, l.length), y.setUint8(w++, o.length), y.setUint8(w++, h.length), y.setUint8(w++, d.length), y.setUint8(w++, r), m.set(c, w), w += c.length, m.set(l, w), w += l.length, m.set(o, w), w += o.length, m.set(h, w), w += h.length, m.set(d, w), w += d.length;
+    var S = new Uint8Array(g.byteLength + s.byteLength);
+    return S.set(new Uint8Array(g), 0), S.set(new Uint8Array(s), g.byteLength), S.buffer;
   }
   decode(e, r) {
     if (this._isArrayBuffer(e)) {
@@ -4022,16 +4022,16 @@ class As {
     let l = this.HEADER_LENGTH + 4;
     const c = s.decode(e.slice(l, l + n));
     l = l + n;
-    const u = s.decode(e.slice(l, l + i));
+    const h = s.decode(e.slice(l, l + i));
     l = l + i;
-    const h = s.decode(e.slice(l, l + a));
+    const u = s.decode(e.slice(l, l + a));
     l = l + a;
-    const d = e.slice(l, e.byteLength), f = o === this.JSON_ENCODING ? JSON.parse(s.decode(d)) : d, p = {
+    const d = e.slice(l, e.byteLength), f = o === this.JSON_ENCODING ? JSON.parse(s.decode(d)) : d, g = {
       type: this.BROADCAST_EVENT,
-      event: u,
+      event: h,
       payload: f
     };
-    return a > 0 && (p.meta = JSON.parse(h)), { join_ref: null, ref: null, topic: c, event: this.BROADCAST_EVENT, payload: p };
+    return a > 0 && (g.meta = JSON.parse(u)), { join_ref: null, ref: null, topic: c, event: this.BROADCAST_EVENT, payload: g };
   }
   _isArrayBuffer(e) {
     var r;
@@ -4738,10 +4738,10 @@ var we = (t) => typeof t == "function" ? (
     return this.map(i, (l, c) => {
       r[l] || (o[l] = c);
     }), this.map(r, (l, c) => {
-      let u = i[l];
-      if (u) {
-        let h = c.metas.map((y) => y.phx_ref), d = u.metas.map((y) => y.phx_ref), f = c.metas.filter((y) => d.indexOf(y.phx_ref) < 0), p = u.metas.filter((y) => h.indexOf(y.phx_ref) < 0);
-        f.length > 0 && (a[l] = c, a[l].metas = f), p.length > 0 && (o[l] = this.clone(u), o[l].metas = p);
+      let h = i[l];
+      if (h) {
+        let u = c.metas.map((y) => y.phx_ref), d = h.metas.map((y) => y.phx_ref), f = c.metas.filter((y) => d.indexOf(y.phx_ref) < 0), g = h.metas.filter((y) => u.indexOf(y.phx_ref) < 0);
+        f.length > 0 && (a[l] = c, a[l].metas = f), g.length > 0 && (o[l] = this.clone(h), o[l].metas = g);
       } else
         a[l] = c;
     }), this.syncDiff(i, { joins: a, leaves: o }, s, n);
@@ -4768,16 +4768,16 @@ var we = (t) => typeof t == "function" ? (
     }), this.map(i, (o, l) => {
       let c = e[o];
       if (e[o] = this.clone(l), c) {
-        let u = e[o].metas.map((d) => d.phx_ref), h = c.metas.filter((d) => u.indexOf(d.phx_ref) < 0);
-        e[o].metas.unshift(...h);
+        let h = e[o].metas.map((d) => d.phx_ref), u = c.metas.filter((d) => h.indexOf(d.phx_ref) < 0);
+        e[o].metas.unshift(...u);
       }
       s(o, c, l);
     }), this.map(a, (o, l) => {
       let c = e[o];
       if (!c)
         return;
-      let u = l.metas.map((h) => h.phx_ref);
-      c.metas = c.metas.filter((h) => u.indexOf(h.phx_ref) < 0), n(o, c, l), c.metas.length === 0 && delete e[o];
+      let h = l.metas.map((u) => u.phx_ref);
+      c.metas = c.metas.filter((u) => h.indexOf(u.phx_ref) < 0), n(o, c, l), c.metas.length === 0 && delete e[o];
     }), e;
   }
   /**
@@ -4859,10 +4859,10 @@ var we = (t) => typeof t == "function" ? (
   },
   /** @private */
   binaryEncode(t) {
-    let { join_ref: e, ref: r, event: s, topic: n, payload: i } = t, a = new TextEncoder(), o = a.encode(e), l = a.encode(r), c = a.encode(n), u = a.encode(s);
-    this.assertFieldSize(o.byteLength, "join_ref"), this.assertFieldSize(l.byteLength, "ref"), this.assertFieldSize(c.byteLength, "topic"), this.assertFieldSize(u.byteLength, "event");
-    let h = this.META_LENGTH + o.byteLength + l.byteLength + c.byteLength + u.byteLength, d = new ArrayBuffer(this.HEADER_LENGTH + h), f = new Uint8Array(d), p = new DataView(d), y = 0;
-    p.setUint8(y++, this.KINDS.push), p.setUint8(y++, o.byteLength), p.setUint8(y++, l.byteLength), p.setUint8(y++, c.byteLength), p.setUint8(y++, u.byteLength), f.set(o, y), y += o.byteLength, f.set(l, y), y += l.byteLength, f.set(c, y), y += c.byteLength, f.set(u, y), y += u.byteLength;
+    let { join_ref: e, ref: r, event: s, topic: n, payload: i } = t, a = new TextEncoder(), o = a.encode(e), l = a.encode(r), c = a.encode(n), h = a.encode(s);
+    this.assertFieldSize(o.byteLength, "join_ref"), this.assertFieldSize(l.byteLength, "ref"), this.assertFieldSize(c.byteLength, "topic"), this.assertFieldSize(h.byteLength, "event");
+    let u = this.META_LENGTH + o.byteLength + l.byteLength + c.byteLength + h.byteLength, d = new ArrayBuffer(this.HEADER_LENGTH + u), f = new Uint8Array(d), g = new DataView(d), y = 0;
+    g.setUint8(y++, this.KINDS.push), g.setUint8(y++, o.byteLength), g.setUint8(y++, l.byteLength), g.setUint8(y++, c.byteLength), g.setUint8(y++, h.byteLength), f.set(o, y), y += o.byteLength, f.set(l, y), y += l.byteLength, f.set(c, y), y += c.byteLength, f.set(h, y), y += h.byteLength;
     var m = new Uint8Array(d.byteLength + i.byteLength);
     return m.set(f, 0), m.set(new Uint8Array(i), d.byteLength), m.buffer;
   },
@@ -4892,8 +4892,8 @@ var we = (t) => typeof t == "function" ? (
     a = a + n;
     let c = r.decode(t.slice(a, a + i));
     a = a + i;
-    let u = t.slice(a, t.byteLength);
-    return { join_ref: o, ref: null, topic: l, event: c, payload: u };
+    let h = t.slice(a, t.byteLength);
+    return { join_ref: o, ref: null, topic: l, event: c, payload: h };
   },
   /** @private */
   decodeReply(t, e, r) {
@@ -4901,12 +4901,12 @@ var we = (t) => typeof t == "function" ? (
     o = o + s;
     let c = r.decode(t.slice(o, o + n));
     o = o + n;
-    let u = r.decode(t.slice(o, o + i));
+    let h = r.decode(t.slice(o, o + i));
     o = o + i;
-    let h = r.decode(t.slice(o, o + a));
+    let u = r.decode(t.slice(o, o + a));
     o = o + a;
-    let d = t.slice(o, t.byteLength), f = { status: h, response: d };
-    return { join_ref: l, ref: c, topic: u, event: X.reply, payload: f };
+    let d = t.slice(o, t.byteLength), f = { status: u, response: d };
+    return { join_ref: l, ref: c, topic: h, event: X.reply, payload: f };
   },
   /** @private */
   decodeBroadcast(t, e, r) {
@@ -5764,15 +5764,15 @@ class Pe {
   subscribe(e, r = this.timeout) {
     var s, n, i;
     if (this.socket.isConnected() || this.socket.connect(), this.channelAdapter.isClosed()) {
-      const { config: { broadcast: a, presence: o, private: l } } = this.params, c = (n = (s = this.bindings.postgres_changes) === null || s === void 0 ? void 0 : s.map((f) => f.filter)) !== null && n !== void 0 ? n : [], u = !!this.bindings[me.PRESENCE] && this.bindings[me.PRESENCE].length > 0 || ((i = this.params.config.presence) === null || i === void 0 ? void 0 : i.enabled) === !0, h = {}, d = {
+      const { config: { broadcast: a, presence: o, private: l } } = this.params, c = (n = (s = this.bindings.postgres_changes) === null || s === void 0 ? void 0 : s.map((f) => f.filter)) !== null && n !== void 0 ? n : [], h = !!this.bindings[me.PRESENCE] && this.bindings[me.PRESENCE].length > 0 || ((i = this.params.config.presence) === null || i === void 0 ? void 0 : i.enabled) === !0, u = {}, d = {
         broadcast: a,
-        presence: Object.assign(Object.assign({}, o), { enabled: u }),
+        presence: Object.assign(Object.assign({}, o), { enabled: h }),
         postgres_changes: c,
         private: l
       };
-      this.socket.accessTokenValue && (h.access_token = this.socket.accessTokenValue), this._onError((f) => {
+      this.socket.accessTokenValue && (u.access_token = this.socket.accessTokenValue), this._onError((f) => {
         e?.(Q.CHANNEL_ERROR, Vs(f));
-      }), this._onClose(() => e?.(Q.CLOSED)), this.updateJoinPayload(Object.assign({ config: d }, h)), this._updateFilterMessage(), this.channelAdapter.subscribe(r).receive("ok", async ({ postgres_changes: f }) => {
+      }), this._onClose(() => e?.(Q.CLOSED)), this.updateJoinPayload(Object.assign({ config: d }, u)), this._updateFilterMessage(), this.channelAdapter.subscribe(r).receive("ok", async ({ postgres_changes: f }) => {
         if (this.socket._isManualToken() || this.socket.setAuth(), f === void 0) {
           e?.(Q.SUBSCRIBED);
           return;
@@ -5780,8 +5780,8 @@ class Pe {
         this._updatePostgresBindings(f, e);
       }).receive("error", (f) => {
         this.state = te.errored;
-        const p = Object.values(f).join(", ") || "error";
-        e?.(Q.CHANNEL_ERROR, new Error(p, { cause: f }));
+        const g = Object.values(f).join(", ") || "error";
+        e?.(Q.CHANNEL_ERROR, new Error(g, { cause: f }));
       }).receive("timeout", () => {
         e?.(Q.TIMED_OUT);
       });
@@ -5792,8 +5792,8 @@ class Pe {
     var s;
     const n = this.bindings.postgres_changes, i = (s = n?.length) !== null && s !== void 0 ? s : 0, a = [];
     for (let o = 0; o < i; o++) {
-      const l = n[o], { filter: { event: c, schema: u, table: h, filter: d } } = l, f = e && e[o];
-      if (f && f.event === c && Pe.isFilterValueEqual(f.schema, u) && Pe.isFilterValueEqual(f.table, h) && Pe.isFilterValueEqual(f.filter, d))
+      const l = n[o], { filter: { event: c, schema: h, table: u, filter: d } } = l, f = e && e[o];
+      if (f && f.event === c && Pe.isFilterValueEqual(f.schema, h) && Pe.isFilterValueEqual(f.table, u) && Pe.isFilterValueEqual(f.filter, d))
         a.push(Object.assign(Object.assign({}, l), { id: f.id }));
       else {
         this.unsubscribe(), this.state = te.errored, r?.(Q.CHANNEL_ERROR, new Error("mismatch between server and client bindings for postgres changes"));
@@ -6043,13 +6043,13 @@ class Pe {
       return { success: !0 };
     if (c.status === 404)
       return Promise.reject(new Error("httpSend() requires Realtime server v2.97.0 or newer; the endpoint returned 404. Update your Supabase CLI to a recent version, or upgrade the Realtime server in your self-hosted setup. See https://github.com/supabase/supabase-js/blob/master/packages/core/realtime-js/migrations/httpsend-server-version.md"));
-    let u = c.statusText;
+    let h = c.statusText;
     try {
-      const h = await c.json();
-      u = h.error || h.message || u;
+      const u = await c.json();
+      h = u.error || u.message || h;
     } catch {
     }
-    return Promise.reject(new Error(u));
+    return Promise.reject(new Error(h));
   }
   /**
    * Sends a message into the channel.
@@ -6204,23 +6204,23 @@ class Pe {
   /** @internal */
   _updateFilterMessage() {
     this.channelAdapter.updateFilterBindings((e, r, s) => {
-      var n, i, a, o, l, c, u;
-      const h = e.event.toLocaleLowerCase();
-      if (this._notThisChannelEvent(h, s))
+      var n, i, a, o, l, c, h;
+      const u = e.event.toLocaleLowerCase();
+      if (this._notThisChannelEvent(u, s))
         return !1;
-      const d = (n = this.bindings[h]) === null || n === void 0 ? void 0 : n.find((f) => f.ref === e.ref);
+      const d = (n = this.bindings[u]) === null || n === void 0 ? void 0 : n.find((f) => f.ref === e.ref);
       if (!d)
         return !0;
-      if (["broadcast", "presence", "postgres_changes"].includes(h))
+      if (["broadcast", "presence", "postgres_changes"].includes(u))
         if ("id" in d) {
-          const f = d.id, p = (i = d.filter) === null || i === void 0 ? void 0 : i.event;
-          return f && ((a = r.ids) === null || a === void 0 ? void 0 : a.includes(f)) && (p === "*" || p?.toLocaleLowerCase() === ((o = r.data) === null || o === void 0 ? void 0 : o.type.toLocaleLowerCase()));
+          const f = d.id, g = (i = d.filter) === null || i === void 0 ? void 0 : i.event;
+          return f && ((a = r.ids) === null || a === void 0 ? void 0 : a.includes(f)) && (g === "*" || g?.toLocaleLowerCase() === ((o = r.data) === null || o === void 0 ? void 0 : o.type.toLocaleLowerCase()));
         } else {
           const f = (c = (l = d?.filter) === null || l === void 0 ? void 0 : l.event) === null || c === void 0 ? void 0 : c.toLocaleLowerCase();
-          return f === "*" || f === ((u = r?.event) === null || u === void 0 ? void 0 : u.toLocaleLowerCase());
+          return f === "*" || f === ((h = r?.event) === null || h === void 0 ? void 0 : h.toLocaleLowerCase());
         }
       else
-        return d.type.toLocaleLowerCase() === h;
+        return d.type.toLocaleLowerCase() === u;
     });
   }
   /** @internal */
@@ -6835,12 +6835,12 @@ class ln {
    * @internal
    */
   _initializeOptions(e) {
-    var r, s, n, i, a, o, l, c, u, h, d, f;
+    var r, s, n, i, a, o, l, c, h, u, d, f;
     this.worker = (r = e?.worker) !== null && r !== void 0 ? r : !1, this.accessToken = (s = e?.accessToken) !== null && s !== void 0 ? s : null;
-    const p = {};
-    p.timeout = (n = e?.timeout) !== null && n !== void 0 ? n : Es, p.heartbeatIntervalMs = (i = e?.heartbeatIntervalMs) !== null && i !== void 0 ? i : er.HEARTBEAT_INTERVAL, this._disconnectOnEmptyChannelsAfterMs = (a = e?.disconnectOnEmptyChannelsAfterMs) !== null && a !== void 0 ? a : 2 * ((o = e?.heartbeatIntervalMs) !== null && o !== void 0 ? o : er.HEARTBEAT_INTERVAL), p.transport = (l = e?.transport) !== null && l !== void 0 ? l : ws.getWebSocketConstructor(), p.params = e?.params, p.logger = e?.logger, p.heartbeatCallback = this._wrapHeartbeatCallback(e?.heartbeatCallback), p.sessionStorage = (c = e?.sessionStorage) !== null && c !== void 0 ? c : an(), p.reconnectAfterMs = (u = e?.reconnectAfterMs) !== null && u !== void 0 ? u : ((S) => rn[S - 1] || sn);
+    const g = {};
+    g.timeout = (n = e?.timeout) !== null && n !== void 0 ? n : Es, g.heartbeatIntervalMs = (i = e?.heartbeatIntervalMs) !== null && i !== void 0 ? i : er.HEARTBEAT_INTERVAL, this._disconnectOnEmptyChannelsAfterMs = (a = e?.disconnectOnEmptyChannelsAfterMs) !== null && a !== void 0 ? a : 2 * ((o = e?.heartbeatIntervalMs) !== null && o !== void 0 ? o : er.HEARTBEAT_INTERVAL), g.transport = (l = e?.transport) !== null && l !== void 0 ? l : ws.getWebSocketConstructor(), g.params = e?.params, g.logger = e?.logger, g.heartbeatCallback = this._wrapHeartbeatCallback(e?.heartbeatCallback), g.sessionStorage = (c = e?.sessionStorage) !== null && c !== void 0 ? c : an(), g.reconnectAfterMs = (h = e?.reconnectAfterMs) !== null && h !== void 0 ? h : ((S) => rn[S - 1] || sn);
     let y, m;
-    const w = (h = e?.vsn) !== null && h !== void 0 ? h : ks;
+    const w = (u = e?.vsn) !== null && u !== void 0 ? u : ks;
     switch (w) {
       case Ss:
         y = (S, _) => _(JSON.stringify(S)), m = (S, _) => _(JSON.parse(S));
@@ -6849,14 +6849,14 @@ class ln {
         y = this.serializer.encode.bind(this.serializer), m = this.serializer.decode.bind(this.serializer);
         break;
       default:
-        throw new Error(`Unsupported serializer version: ${p.vsn}`);
+        throw new Error(`Unsupported serializer version: ${g.vsn}`);
     }
-    if (p.vsn = w, p.encode = (d = e?.encode) !== null && d !== void 0 ? d : y, p.decode = (f = e?.decode) !== null && f !== void 0 ? f : m, p.beforeReconnect = this._reconnectAuth.bind(this), (e?.logLevel || e?.log_level) && (this.logLevel = e.logLevel || e.log_level, p.params = Object.assign(Object.assign({}, p.params), { log_level: this.logLevel })), this.worker) {
+    if (g.vsn = w, g.encode = (d = e?.encode) !== null && d !== void 0 ? d : y, g.decode = (f = e?.decode) !== null && f !== void 0 ? f : m, g.beforeReconnect = this._reconnectAuth.bind(this), (e?.logLevel || e?.log_level) && (this.logLevel = e.logLevel || e.log_level, g.params = Object.assign(Object.assign({}, g.params), { log_level: this.logLevel })), this.worker) {
       if (typeof window < "u" && !window.Worker)
         throw new Error("Web Worker is not supported");
-      this.workerUrl = e?.workerUrl, p.autoSendHeartbeat = !this.worker;
+      this.workerUrl = e?.workerUrl, g.autoSendHeartbeat = !this.worker;
     }
-    return p;
+    return g;
   }
   /** @internal */
   async _reconnectAuth() {
@@ -6914,15 +6914,15 @@ function hn(t) {
           ...a
         },
         body: i ? JSON.stringify(i) : void 0
-      }), u = await c.text(), h = (c.headers.get("content-type") || "").includes("application/json"), d = h && u ? JSON.parse(u) : u;
+      }), h = await c.text(), u = (c.headers.get("content-type") || "").includes("application/json"), d = u && h ? JSON.parse(h) : h;
       if (!c.ok) {
-        const f = h ? d : void 0, p = f?.error;
+        const f = u ? d : void 0, g = f?.error;
         throw new je(
-          p?.message ?? `Request failed with status ${c.status}`,
+          g?.message ?? `Request failed with status ${c.status}`,
           {
             status: c.status,
-            icebergType: p?.type,
-            icebergCode: p?.code,
+            icebergType: g?.type,
+            icebergCode: g?.code,
             details: f
           }
         );
@@ -7484,9 +7484,9 @@ async function ke(t, e, r, s, n, i, a) {
       if (!c.ok) throw c;
       if (s?.noResolveJson) return c;
       if (a === "vectors") {
-        const u = c.headers.get("content-type");
+        const h = c.headers.get("content-type");
         if (c.headers.get("content-length") === "0" || c.status === 204) return {};
-        if (!u || !u.includes("application/json")) return {};
+        if (!h || !h.includes("application/json")) return {};
       }
       return c.json();
     }).then((c) => o(c)).catch((c) => Sn(c, l, s, a));
@@ -7679,11 +7679,11 @@ var On = class extends be {
       let o = k(k({}, n.headers), t === "POST" && { "x-upsert": String(a.upsert) });
       const l = a.metadata;
       if (typeof Blob < "u" && r instanceof Blob ? (i = new FormData(), i.append("cacheControl", a.cacheControl), l && i.append("metadata", n.encodeMetadata(l)), i.append("", r)) : typeof FormData < "u" && r instanceof FormData ? (i = r, i.has("cacheControl") || i.append("cacheControl", a.cacheControl), l && !i.has("metadata") && i.append("metadata", n.encodeMetadata(l))) : (i = r, o["cache-control"] = `max-age=${a.cacheControl}`, o["content-type"] = a.contentType, l && (o["x-metadata"] = n.toBase64(n.encodeMetadata(l))), (typeof ReadableStream < "u" && i instanceof ReadableStream || i && typeof i == "object" && "pipe" in i && typeof i.pipe == "function") && !a.duplex && (a.duplex = "half")), s?.headers) for (const [d, f] of Object.entries(s.headers)) o = Qe(o, d, f);
-      const c = n._removeEmptyFolders(e), u = n._getFinalPath(c), h = await (t == "PUT" ? Ct : K)(n.fetch, `${n.url}/object/${u}`, i, k({ headers: o }, a?.duplex ? { duplex: a.duplex } : {}));
+      const c = n._removeEmptyFolders(e), h = n._getFinalPath(c), u = await (t == "PUT" ? Ct : K)(n.fetch, `${n.url}/object/${h}`, i, k({ headers: o }, a?.duplex ? { duplex: a.duplex } : {}));
       return {
         path: c,
-        id: h.Id,
-        fullPath: h.Key
+        id: u.Id,
+        fullPath: u.Key
       };
     });
   }
@@ -7801,12 +7801,12 @@ var On = class extends be {
     return o.searchParams.set("token", e), n.handleOperation(async () => {
       let l;
       const c = k(k({}, sr), s);
-      let u = k(k({}, n.headers), { "x-upsert": String(c.upsert) });
-      const h = c.metadata;
-      if (typeof Blob < "u" && r instanceof Blob ? (l = new FormData(), l.append("cacheControl", c.cacheControl), h && l.append("metadata", n.encodeMetadata(h)), l.append("", r)) : typeof FormData < "u" && r instanceof FormData ? (l = r, l.has("cacheControl") || l.append("cacheControl", c.cacheControl), h && !l.has("metadata") && l.append("metadata", n.encodeMetadata(h))) : (l = r, u["cache-control"] = `max-age=${c.cacheControl}`, u["content-type"] = c.contentType, h && (u["x-metadata"] = n.toBase64(n.encodeMetadata(h))), (typeof ReadableStream < "u" && l instanceof ReadableStream || l && typeof l == "object" && "pipe" in l && typeof l.pipe == "function") && !c.duplex && (c.duplex = "half")), s?.headers) for (const [d, f] of Object.entries(s.headers)) u = Qe(u, d, f);
+      let h = k(k({}, n.headers), { "x-upsert": String(c.upsert) });
+      const u = c.metadata;
+      if (typeof Blob < "u" && r instanceof Blob ? (l = new FormData(), l.append("cacheControl", c.cacheControl), u && l.append("metadata", n.encodeMetadata(u)), l.append("", r)) : typeof FormData < "u" && r instanceof FormData ? (l = r, l.has("cacheControl") || l.append("cacheControl", c.cacheControl), u && !l.has("metadata") && l.append("metadata", n.encodeMetadata(u))) : (l = r, h["cache-control"] = `max-age=${c.cacheControl}`, h["content-type"] = c.contentType, u && (h["x-metadata"] = n.toBase64(n.encodeMetadata(u))), (typeof ReadableStream < "u" && l instanceof ReadableStream || l && typeof l == "object" && "pipe" in l && typeof l.pipe == "function") && !c.duplex && (c.duplex = "half")), s?.headers) for (const [d, f] of Object.entries(s.headers)) h = Qe(h, d, f);
       return {
         path: i,
-        fullPath: (await Ct(n.fetch, o.toString(), l, k({ headers: u }, c?.duplex ? { duplex: c.duplex } : {}))).Key
+        fullPath: (await Ct(n.fetch, o.toString(), l, k({ headers: h }, c?.duplex ? { duplex: c.duplex } : {}))).Key
       };
     });
   }
@@ -10900,7 +10900,7 @@ class ki {
   async listUsers(e) {
     var r, s, n, i, a, o, l;
     try {
-      const c = { nextPage: null, lastPage: 0, total: 0 }, u = await b(this.fetch, "GET", `${this.url}/admin/users`, {
+      const c = { nextPage: null, lastPage: 0, total: 0 }, h = await b(this.fetch, "GET", `${this.url}/admin/users`, {
         headers: this.headers,
         noResolveJson: !0,
         query: {
@@ -10909,13 +10909,13 @@ class ki {
         },
         xform: fr
       });
-      if (u.error)
-        throw u.error;
-      const h = await u.json(), d = (a = u.headers.get("x-total-count")) !== null && a !== void 0 ? a : 0, f = (l = (o = u.headers.get("link")) === null || o === void 0 ? void 0 : o.split(",")) !== null && l !== void 0 ? l : [];
-      return f.length > 0 && (f.forEach((p) => {
-        const y = parseInt(p.split(";")[0].split("=")[1].substring(0, 1)), m = JSON.parse(p.split(";")[1].split("=")[1]);
+      if (h.error)
+        throw h.error;
+      const u = await h.json(), d = (a = h.headers.get("x-total-count")) !== null && a !== void 0 ? a : 0, f = (l = (o = h.headers.get("link")) === null || o === void 0 ? void 0 : o.split(",")) !== null && l !== void 0 ? l : [];
+      return f.length > 0 && (f.forEach((g) => {
+        const y = parseInt(g.split(";")[0].split("=")[1].substring(0, 1)), m = JSON.parse(g.split(";")[1].split("=")[1]);
         c[`${m}Page`] = y;
-      }), c.total = parseInt(d)), { data: Object.assign(Object.assign({}, h), c), error: null };
+      }), c.total = parseInt(d)), { data: Object.assign(Object.assign({}, u), c), error: null };
     } catch (c) {
       if (v(c))
         return { data: { users: [] }, error: c };
@@ -11238,7 +11238,7 @@ class ki {
   async _listOAuthClients(e) {
     var r, s, n, i, a, o, l;
     try {
-      const c = { nextPage: null, lastPage: 0, total: 0 }, u = await b(this.fetch, "GET", `${this.url}/admin/oauth/clients`, {
+      const c = { nextPage: null, lastPage: 0, total: 0 }, h = await b(this.fetch, "GET", `${this.url}/admin/oauth/clients`, {
         headers: this.headers,
         noResolveJson: !0,
         query: {
@@ -11247,13 +11247,13 @@ class ki {
         },
         xform: fr
       });
-      if (u.error)
-        throw u.error;
-      const h = await u.json(), d = (a = u.headers.get("x-total-count")) !== null && a !== void 0 ? a : 0, f = (l = (o = u.headers.get("link")) === null || o === void 0 ? void 0 : o.split(",")) !== null && l !== void 0 ? l : [];
-      return f.length > 0 && (f.forEach((p) => {
-        const y = parseInt(p.split(";")[0].split("=")[1].substring(0, 1)), m = JSON.parse(p.split(";")[1].split("=")[1]);
+      if (h.error)
+        throw h.error;
+      const u = await h.json(), d = (a = h.headers.get("x-total-count")) !== null && a !== void 0 ? a : 0, f = (l = (o = h.headers.get("link")) === null || o === void 0 ? void 0 : o.split(",")) !== null && l !== void 0 ? l : [];
+      return f.length > 0 && (f.forEach((g) => {
+        const y = parseInt(g.split(";")[0].split("=")[1].substring(0, 1)), m = JSON.parse(g.split(";")[1].split("=")[1]);
         c[`${m}Page`] = y;
-      }), c.total = parseInt(d)), { data: Object.assign(Object.assign({}, h), c), error: null };
+      }), c.total = parseInt(d)), { data: Object.assign(Object.assign({}, u), c), error: null };
     } catch (c) {
       if (v(c))
         return { data: { clients: [] }, error: c };
@@ -11534,7 +11534,7 @@ function Ri(t) {
 }
 function Oi(t) {
   var e;
-  const { chainId: r, domain: s, expirationTime: n, issuedAt: i = /* @__PURE__ */ new Date(), nonce: a, notBefore: o, requestId: l, resources: c, scheme: u, uri: h, version: d } = t;
+  const { chainId: r, domain: s, expirationTime: n, issuedAt: i = /* @__PURE__ */ new Date(), nonce: a, notBefore: o, requestId: l, resources: c, scheme: h, uri: u, version: d } = t;
   {
     if (!Number.isInteger(r))
       throw new Error(`@supabase/auth-js: Invalid SIWE message field "chainId". Chain ID must be a EIP-155 chain ID. Provided value: ${r}`);
@@ -11542,7 +11542,7 @@ function Oi(t) {
       throw new Error('@supabase/auth-js: Invalid SIWE message field "domain". Domain must be provided.');
     if (a && a.length < 8)
       throw new Error(`@supabase/auth-js: Invalid SIWE message field "nonce". Nonce must be at least 8 characters. Provided value: ${a}`);
-    if (!h)
+    if (!u)
       throw new Error('@supabase/auth-js: Invalid SIWE message field "uri". URI must be provided.');
     if (d !== "1")
       throw new Error(`@supabase/auth-js: Invalid SIWE message field "version". Version must be '1'. Provided value: ${d}`);
@@ -11550,12 +11550,12 @@ function Oi(t) {
 `))
       throw new Error(`@supabase/auth-js: Invalid SIWE message field "statement". Statement must not include '\\n'. Provided value: ${t.statement}`);
   }
-  const f = zr(t.address), p = u ? `${u}://${s}` : s, y = t.statement ? `${t.statement}
-` : "", m = `${p} wants you to sign in with your Ethereum account:
+  const f = zr(t.address), g = h ? `${h}://${s}` : s, y = t.statement ? `${t.statement}
+` : "", m = `${g} wants you to sign in with your Ethereum account:
 ${f}
 
 ${y}`;
-  let w = `URI: ${h}
+  let w = `URI: ${u}
 Version: ${d}
 Chain ID: ${r}${a ? `
 Nonce: ${a}` : ""}
@@ -11994,45 +11994,45 @@ class Ui {
         return { data: null, error: l };
       const c = n ?? $t.createNewAbortSignal();
       if (o.webauthn.type === "create") {
-        const { user: u } = o.webauthn.credential_options.publicKey;
-        if (!u.name) {
-          const h = s;
-          if (h)
-            u.name = `${u.id}:${h}`;
+        const { user: h } = o.webauthn.credential_options.publicKey;
+        if (!h.name) {
+          const u = s;
+          if (u)
+            h.name = `${h.id}:${u}`;
           else {
-            const f = (await this.client.getUser()).data.user, p = ((a = f?.user_metadata) === null || a === void 0 ? void 0 : a.name) || f?.email || f?.id || "User";
-            u.name = `${u.id}:${p}`;
+            const f = (await this.client.getUser()).data.user, g = ((a = f?.user_metadata) === null || a === void 0 ? void 0 : a.name) || f?.email || f?.id || "User";
+            h.name = `${h.id}:${g}`;
           }
         }
-        u.displayName || (u.displayName = u.name);
+        h.displayName || (h.displayName = h.name);
       }
       switch (o.webauthn.type) {
         case "create": {
-          const u = xi(o.webauthn.credential_options.publicKey, i?.create), { data: h, error: d } = await Gr({
-            publicKey: u,
+          const h = xi(o.webauthn.credential_options.publicKey, i?.create), { data: u, error: d } = await Gr({
+            publicKey: h,
             signal: c
           });
-          return h ? {
+          return u ? {
             data: {
               factorId: e,
               challengeId: o.id,
               webauthn: {
                 type: o.webauthn.type,
-                credential_response: h
+                credential_response: u
               }
             },
             error: null
           } : { data: null, error: d };
         }
         case "request": {
-          const u = Ni(o.webauthn.credential_options.publicKey, i?.request), { data: h, error: d } = await Yr(Object.assign(Object.assign({}, o.webauthn.credential_options), { publicKey: u, signal: c }));
-          return h ? {
+          const h = Ni(o.webauthn.credential_options.publicKey, i?.request), { data: u, error: d } = await Yr(Object.assign(Object.assign({}, o.webauthn.credential_options), { publicKey: h, signal: c }));
+          return u ? {
             data: {
               factorId: e,
               challengeId: o.id,
               webauthn: {
                 type: o.webauthn.type,
-                credential_response: h
+                credential_response: u
               }
             },
             error: null
@@ -12149,10 +12149,10 @@ class Ui {
         friendlyName: e
       });
       if (!a)
-        return await this.client.mfa.listFactors().then((u) => {
-          var h;
-          return (h = u.data) === null || h === void 0 ? void 0 : h.all.find((d) => d.factor_type === "webauthn" && d.friendly_name === e && d.status !== "unverified");
-        }).then((u) => u ? this.client.mfa.unenroll({ factorId: u?.id }) : void 0), { data: null, error: o };
+        return await this.client.mfa.listFactors().then((h) => {
+          var u;
+          return (u = h.data) === null || u === void 0 ? void 0 : u.all.find((d) => d.factor_type === "webauthn" && d.friendly_name === e && d.status !== "unverified");
+        }).then((h) => h ? this.client.mfa.unenroll({ factorId: h?.id }) : void 0), { data: null, error: o };
       const { data: l, error: c } = await this._challenge({
         factorId: a.id,
         friendlyName: a.friendly_name,
@@ -12652,28 +12652,28 @@ class De {
     try {
       let i;
       if ("email" in e) {
-        const { email: u, password: h, options: d } = e;
-        let f = null, p = null;
-        this.flowType === "pkce" && ([f, p] = await ae(this.storage, this.storageKey)), i = await b(this.fetch, "POST", `${this.url}/signup`, {
+        const { email: h, password: u, options: d } = e;
+        let f = null, g = null;
+        this.flowType === "pkce" && ([f, g] = await ae(this.storage, this.storageKey)), i = await b(this.fetch, "POST", `${this.url}/signup`, {
           headers: this.headers,
           redirectTo: d?.emailRedirectTo,
           body: {
-            email: u,
-            password: h,
+            email: h,
+            password: u,
             data: (r = d?.data) !== null && r !== void 0 ? r : {},
             gotrue_meta_security: { captcha_token: d?.captchaToken },
             code_challenge: f,
-            code_challenge_method: p
+            code_challenge_method: g
           },
           xform: H
         });
       } else if ("phone" in e) {
-        const { phone: u, password: h, options: d } = e;
+        const { phone: h, password: u, options: d } = e;
         i = await b(this.fetch, "POST", `${this.url}/signup`, {
           headers: this.headers,
           body: {
-            phone: u,
-            password: h,
+            phone: h,
+            password: u,
             data: (s = d?.data) !== null && s !== void 0 ? s : {},
             channel: (n = d?.channel) !== null && n !== void 0 ? n : "sms",
             gotrue_meta_security: { captcha_token: d?.captchaToken }
@@ -13230,10 +13230,10 @@ class De {
     }
   }
   async signInWithEthereum(e) {
-    var r, s, n, i, a, o, l, c, u, h, d;
-    let f, p;
+    var r, s, n, i, a, o, l, c, h, u, d;
+    let f, g;
     if ("message" in e)
-      f = e.message, p = e.signature;
+      f = e.message, g = e.signature;
     else {
       const { chain: y, wallet: m, statement: w, options: S } = e;
       let _;
@@ -13279,9 +13279,9 @@ class De {
         expirationTime: (o = S?.signInWithEthereum) === null || o === void 0 ? void 0 : o.expirationTime,
         notBefore: (l = S?.signInWithEthereum) === null || l === void 0 ? void 0 : l.notBefore,
         requestId: (c = S?.signInWithEthereum) === null || c === void 0 ? void 0 : c.requestId,
-        resources: (u = S?.signInWithEthereum) === null || u === void 0 ? void 0 : u.resources
+        resources: (h = S?.signInWithEthereum) === null || h === void 0 ? void 0 : h.resources
       };
-      f = Oi(Se), p = await _.request({
+      f = Oi(Se), g = await _.request({
         method: "personal_sign",
         params: [Ri(f), T]
       });
@@ -13292,8 +13292,8 @@ class De {
         body: Object.assign({
           chain: "ethereum",
           message: f,
-          signature: p
-        }, !((h = e.options) === null || h === void 0) && h.captchaToken ? { gotrue_meta_security: { captcha_token: (d = e.options) === null || d === void 0 ? void 0 : d.captchaToken } } : null),
+          signature: g
+        }, !((u = e.options) === null || u === void 0) && u.captchaToken ? { gotrue_meta_security: { captcha_token: (d = e.options) === null || d === void 0 ? void 0 : d.captchaToken } } : null),
         xform: H
       });
       if (m)
@@ -13310,10 +13310,10 @@ class De {
     }
   }
   async signInWithSolana(e) {
-    var r, s, n, i, a, o, l, c, u, h, d, f;
-    let p, y;
+    var r, s, n, i, a, o, l, c, h, u, d, f;
+    let g, y;
     if ("message" in e)
-      p = e.message, y = e.signature;
+      g = e.message, y = e.signature;
     else {
       const { chain: m, wallet: w, statement: S, options: _ } = e;
       let E;
@@ -13348,13 +13348,13 @@ class De {
         else
           throw new Error("@supabase/auth-js: Wallet method signIn() returned unrecognized value");
         if ("signedMessage" in R && "signature" in R && (typeof R.signedMessage == "string" || R.signedMessage instanceof Uint8Array) && R.signature instanceof Uint8Array)
-          p = typeof R.signedMessage == "string" ? R.signedMessage : new TextDecoder().decode(R.signedMessage), y = R.signature;
+          g = typeof R.signedMessage == "string" ? R.signedMessage : new TextDecoder().decode(R.signedMessage), y = R.signature;
         else
           throw new Error("@supabase/auth-js: Wallet method signIn() API returned object without signedMessage and signature fields");
       } else {
         if (!("signMessage" in E) || typeof E.signMessage != "function" || !("publicKey" in E) || typeof E != "object" || !E.publicKey || !("toBase58" in E.publicKey) || typeof E.publicKey.toBase58 != "function")
           throw new Error("@supabase/auth-js: Wallet does not have a compatible signMessage() and publicKey.toBase58() API");
-        p = [
+        g = [
           `${U.host} wants you to sign in with your Solana account:`,
           E.publicKey.toBase58(),
           ...S ? ["", S, ""] : [""],
@@ -13366,13 +13366,13 @@ class De {
           ...!((o = _?.signInWithSolana) === null || o === void 0) && o.chainId ? [`Chain ID: ${_.signInWithSolana.chainId}`] : [],
           ...!((l = _?.signInWithSolana) === null || l === void 0) && l.nonce ? [`Nonce: ${_.signInWithSolana.nonce}`] : [],
           ...!((c = _?.signInWithSolana) === null || c === void 0) && c.requestId ? [`Request ID: ${_.signInWithSolana.requestId}`] : [],
-          ...!((h = (u = _?.signInWithSolana) === null || u === void 0 ? void 0 : u.resources) === null || h === void 0) && h.length ? [
+          ...!((u = (h = _?.signInWithSolana) === null || h === void 0 ? void 0 : h.resources) === null || u === void 0) && u.length ? [
             "Resources",
             ..._.signInWithSolana.resources.map((R) => `- ${R}`)
           ] : []
         ].join(`
 `);
-        const T = await E.signMessage(new TextEncoder().encode(p), "utf8");
+        const T = await E.signMessage(new TextEncoder().encode(g), "utf8");
         if (!T || !(T instanceof Uint8Array))
           throw new Error("@supabase/auth-js: Wallet signMessage() API returned an recognized value");
         y = T;
@@ -13381,7 +13381,7 @@ class De {
     try {
       const { data: m, error: w } = await b(this.fetch, "POST", `${this.url}/token?grant_type=web3`, {
         headers: this.headers,
-        body: Object.assign({ chain: "solana", message: p, signature: le(y) }, !((d = e.options) === null || d === void 0) && d.captchaToken ? { gotrue_meta_security: { captcha_token: (f = e.options) === null || f === void 0 ? void 0 : f.captchaToken } } : null),
+        body: Object.assign({ chain: "solana", message: g, signature: le(y) }, !((d = e.options) === null || d === void 0) && d.captchaToken ? { gotrue_meta_security: { captcha_token: (f = e.options) === null || f === void 0 ? void 0 : f.captchaToken } } : null),
         xform: H
       });
       if (w)
@@ -13520,8 +13520,8 @@ class De {
       if (c)
         return this._returnResult({ data: { user: null, session: null }, error: c });
       if (!l || !l.session || !l.user) {
-        const u = new de();
-        return this._returnResult({ data: { user: null, session: null }, error: u });
+        const h = new de();
+        return this._returnResult({ data: { user: null, session: null }, error: h });
       }
       return l.session && (await this._saveSession(l.session), await this._notifyAllSubscribers("SIGNED_IN", l.session)), this._returnResult({ data: l, error: c });
     } catch (r) {
@@ -13612,9 +13612,9 @@ class De {
     try {
       if ("email" in e) {
         const { email: o, options: l } = e;
-        let c = null, u = null;
-        this.flowType === "pkce" && ([c, u] = await ae(this.storage, this.storageKey));
-        const { error: h } = await b(this.fetch, "POST", `${this.url}/otp`, {
+        let c = null, h = null;
+        this.flowType === "pkce" && ([c, h] = await ae(this.storage, this.storageKey));
+        const { error: u } = await b(this.fetch, "POST", `${this.url}/otp`, {
           headers: this.headers,
           body: {
             email: o,
@@ -13622,14 +13622,14 @@ class De {
             create_user: (s = l?.shouldCreateUser) !== null && s !== void 0 ? s : !0,
             gotrue_meta_security: { captcha_token: l?.captchaToken },
             code_challenge: c,
-            code_challenge_method: u
+            code_challenge_method: h
           },
           redirectTo: l?.emailRedirectTo
         });
-        return this._returnResult({ data: { user: null, session: null }, error: h });
+        return this._returnResult({ data: { user: null, session: null }, error: u });
       }
       if ("phone" in e) {
-        const { phone: o, options: l } = e, { data: c, error: u } = await b(this.fetch, "POST", `${this.url}/otp`, {
+        const { phone: o, options: l } = e, { data: c, error: h } = await b(this.fetch, "POST", `${this.url}/otp`, {
           headers: this.headers,
           body: {
             phone: o,
@@ -13641,7 +13641,7 @@ class De {
         });
         return this._returnResult({
           data: { user: null, session: null, messageId: c?.message_id },
-          error: u
+          error: h
         });
       }
       throw new Ve("You must provide either an email or phone number.");
@@ -14440,15 +14440,15 @@ class De {
         const a = n.session;
         let o = null, l = null;
         this.flowType === "pkce" && e.email != null && ([o, l] = await ae(this.storage, this.storageKey));
-        const { data: c, error: u } = await b(this.fetch, "PUT", `${this.url}/user`, {
+        const { data: c, error: h } = await b(this.fetch, "PUT", `${this.url}/user`, {
           headers: this.headers,
           redirectTo: r?.emailRedirectTo,
           body: Object.assign(Object.assign({}, e), { code_challenge: o, code_challenge_method: l }),
           jwt: a.access_token,
           xform: re
         });
-        if (u)
-          throw u;
+        if (h)
+          throw h;
         return a.user = c.user, await this._saveSession(a), await this._notifyAllSubscribers("USER_UPDATED", a), this._returnResult({ data: { user: a.user }, error: null });
       });
     } catch (s) {
@@ -14803,16 +14803,16 @@ class De {
           error: null
         };
       }
-      const { provider_token: n, provider_refresh_token: i, access_token: a, refresh_token: o, expires_in: l, expires_at: c, token_type: u } = e;
-      if (!a || !l || !o || !u)
+      const { provider_token: n, provider_refresh_token: i, access_token: a, refresh_token: o, expires_in: l, expires_at: c, token_type: h } = e;
+      if (!a || !l || !o || !h)
         throw new ze("No session defined in URL");
-      const h = Math.round(Date.now() / 1e3), d = parseInt(l);
-      let f = h + d;
+      const u = Math.round(Date.now() / 1e3), d = parseInt(l);
+      let f = u + d;
       c && (f = parseInt(c));
-      const p = f - h;
-      p * 1e3 <= Z && console.warn(`@supabase/gotrue-js: Session as retrieved from URL expires in ${p}s, should have been closer to ${d}s`);
+      const g = f - u;
+      g * 1e3 <= Z && console.warn(`@supabase/gotrue-js: Session as retrieved from URL expires in ${g}s, should have been closer to ${d}s`);
       const y = f - d;
-      h - y >= 120 ? console.warn("@supabase/gotrue-js: Session as retrieved from URL was issued over 120s ago, URL could be stale", y, f, h) : h - y < 0 && console.warn("@supabase/gotrue-js: Session as retrieved from URL was issued in the future? Check the device clock for skew", y, f, h);
+      u - y >= 120 ? console.warn("@supabase/gotrue-js: Session as retrieved from URL was issued over 120s ago, URL could be stale", y, f, u) : u - y < 0 && console.warn("@supabase/gotrue-js: Session as retrieved from URL was issued in the future? Check the device clock for skew", y, f, u);
       const { data: m, error: w } = await this._getUser(a);
       if (w)
         throw w;
@@ -14823,7 +14823,7 @@ class De {
         expires_in: d,
         expires_at: f,
         refresh_token: o,
-        token_type: u,
+        token_type: h,
         user: m.user
       };
       return window.location.hash = "", this._debug("#_getSessionFromURL()", "clearing window.location.hash"), this._returnResult({ data: { session: S, redirectType: e.type }, error: null });
@@ -15292,8 +15292,8 @@ class De {
     var r;
     try {
       const { data: s, error: n } = await this._useSession(async (i) => {
-        var a, o, l, c, u;
-        const { data: h, error: d } = i;
+        var a, o, l, c, h;
+        const { data: u, error: d } = i;
         if (d)
           throw d;
         const f = await this._getUrlForProvider(`${this.url}/user/identities/authorize`, e.provider, {
@@ -15304,7 +15304,7 @@ class De {
         });
         return await b(this.fetch, "GET", f, {
           headers: this.headers,
-          jwt: (u = (c = h.session) === null || c === void 0 ? void 0 : c.access_token) !== null && u !== void 0 ? u : void 0
+          jwt: (h = (c = u.session) === null || c === void 0 ? void 0 : c.access_token) !== null && h !== void 0 ? h : void 0
         });
       });
       if (n)
@@ -15326,19 +15326,19 @@ class De {
         const { error: n, data: { session: i } } = r;
         if (n)
           throw n;
-        const { options: a, provider: o, token: l, access_token: c, nonce: u } = e, h = await b(this.fetch, "POST", `${this.url}/token?grant_type=id_token`, {
+        const { options: a, provider: o, token: l, access_token: c, nonce: h } = e, u = await b(this.fetch, "POST", `${this.url}/token?grant_type=id_token`, {
           headers: this.headers,
           jwt: (s = i?.access_token) !== null && s !== void 0 ? s : void 0,
           body: {
             provider: o,
             id_token: l,
             access_token: c,
-            nonce: u,
+            nonce: h,
             link_identity: !0,
             gotrue_meta_security: { captcha_token: a?.captchaToken }
           },
           xform: H
-        }), { data: d, error: f } = h;
+        }), { data: d, error: f } = u;
         return f ? this._returnResult({ data: { user: null, session: null }, error: f }) : !d || !d.session || !d.user ? this._returnResult({
           data: { user: null, session: null },
           error: new de()
@@ -15504,8 +15504,8 @@ class De {
         };
         return this.refreshingDeferred.resolve(d), d;
       }
-      const u = this._sessionRemovalEpoch;
-      if (await this._saveSession(a.session), this._sessionRemovalEpoch !== u) {
+      const h = this._sessionRemovalEpoch;
+      if (await this._saveSession(a.session), this._sessionRemovalEpoch !== h) {
         this._debug(n, "commit guard (post-save): _removeSession ran during _saveSession, undoing write"), await C(this.storage, this.storageKey), this.userStorage && await C(this.userStorage, this.storageKey + "-user");
         const d = {
           data: null,
@@ -15514,8 +15514,8 @@ class De {
         return this.refreshingDeferred.resolve(d), d;
       }
       await this._notifyAllSubscribers("TOKEN_REFRESHED", a.session);
-      const h = { data: a.session, error: null };
-      return this.lastRefreshFailure = null, this.refreshingDeferred.resolve(h), h;
+      const u = { data: a.session, error: null };
+      return this.lastRefreshFailure = null, this.refreshingDeferred.resolve(u), u;
     } catch (i) {
       if (this._debug(n, "error", i), v(i)) {
         const a = { data: null, error: i };
@@ -16000,15 +16000,15 @@ class De {
     if (e)
       try {
         const { payload: f } = Ge(e);
-        let p = null;
-        f.aal && (p = f.aal);
-        let y = p;
+        let g = null;
+        f.aal && (g = f.aal);
+        let y = g;
         const { data: { user: m }, error: w } = await this.getUser(e);
         if (w)
           return this._returnResult({ data: null, error: w });
         ((s = (r = m?.factors) === null || r === void 0 ? void 0 : r.filter((E) => E.status === "verified")) !== null && s !== void 0 ? s : []).length > 0 && (y = "aal2");
         const _ = f.amr || [];
-        return { data: { currentLevel: p, nextLevel: y, currentAuthenticationMethods: _ }, error: null };
+        return { data: { currentLevel: g, nextLevel: y, currentAuthenticationMethods: _ }, error: null };
       } catch (f) {
         if (v(f))
           return this._returnResult({ data: null, error: f });
@@ -16025,10 +16025,10 @@ class De {
     const { payload: l } = Ge(a.access_token);
     let c = null;
     l.aal && (c = l.aal);
-    let u = c;
-    ((i = (n = a.user.factors) === null || n === void 0 ? void 0 : n.filter((f) => f.status === "verified")) !== null && i !== void 0 ? i : []).length > 0 && (u = "aal2");
+    let h = c;
+    ((i = (n = a.user.factors) === null || n === void 0 ? void 0 : n.filter((f) => f.status === "verified")) !== null && i !== void 0 ? i : []).length > 0 && (h = "aal2");
     const d = l.amr || [];
-    return { data: { currentLevel: c, nextLevel: u, currentAuthenticationMethods: d }, error: null };
+    return { data: { currentLevel: c, nextLevel: h, currentAuthenticationMethods: d }, error: null };
   }
   /**
    * Retrieves details about an OAuth authorization request.
@@ -16230,9 +16230,9 @@ class De {
     try {
       let s = e;
       if (!s) {
-        const { data: f, error: p } = await this.getSession();
-        if (p || !f.session)
-          return this._returnResult({ data: null, error: p });
+        const { data: f, error: g } = await this.getSession();
+        if (g || !f.session)
+          return this._returnResult({ data: null, error: g });
         s = f.session.access_token;
       }
       const { header: n, payload: i, signature: a, raw: { header: o, payload: l } } = Ge(s);
@@ -16256,10 +16256,10 @@ class De {
           error: null
         };
       }
-      const u = pi(n.alg), h = await crypto.subtle.importKey("jwk", c, u, !0, [
+      const h = pi(n.alg), u = await crypto.subtle.importKey("jwk", c, h, !0, [
         "verify"
       ]);
-      if (!await crypto.subtle.verify(u, h, a, ei(`${o}.${l}`)))
+      if (!await crypto.subtle.verify(h, u, a, ei(`${o}.${l}`)))
         throw new Ze("Invalid JWT signature");
       return {
         data: {
@@ -16300,19 +16300,19 @@ class De {
       });
       if (a || !i)
         return this._returnResult({ data: null, error: a });
-      const o = yr(i.options), l = (n = (s = e?.options) === null || s === void 0 ? void 0 : s.signal) !== null && n !== void 0 ? n : $t.createNewAbortSignal(), { data: c, error: u } = await Yr({
+      const o = yr(i.options), l = (n = (s = e?.options) === null || s === void 0 ? void 0 : s.signal) !== null && n !== void 0 ? n : $t.createNewAbortSignal(), { data: c, error: h } = await Yr({
         publicKey: o,
         signal: l
       });
-      if (u || !c)
+      if (h || !c)
         return this._returnResult({
           data: null,
-          error: u ?? new F("WebAuthn ceremony failed", null)
+          error: h ?? new F("WebAuthn ceremony failed", null)
         });
-      const h = vr(c);
+      const u = vr(c);
       return this._verifyPasskeyAuthentication({
         challengeId: i.challenge_id,
-        credential: h
+        credential: u
       });
     } catch (i) {
       if (v(i))
@@ -16351,10 +16351,10 @@ class De {
           data: null,
           error: c ?? new F("WebAuthn ceremony failed", null)
         });
-      const u = mr(l);
+      const h = mr(l);
       return this._verifyPasskeyRegistration({
         challengeId: n.challenge_id,
-        credential: u
+        credential: h
       });
     } catch (n) {
       if (v(n))
@@ -16568,22 +16568,22 @@ function Vi(t, e, r, s) {
     });
   }
   return new (r || (r = Promise))(function(i, a) {
-    function o(u) {
+    function o(h) {
       try {
-        c(s.next(u));
-      } catch (h) {
-        a(h);
+        c(s.next(h));
+      } catch (u) {
+        a(u);
       }
     }
-    function l(u) {
+    function l(h) {
       try {
-        c(s.throw(u));
-      } catch (h) {
-        a(h);
+        c(s.throw(h));
+      } catch (u) {
+        a(u);
       }
     }
-    function c(u) {
-      u.done ? i(u.value) : n(u.value).then(o, l);
+    function c(h) {
+      h.done ? i(h.value) : n(h.value).then(o, l);
     }
     c((s = s.apply(t, [])).next());
   });
@@ -16727,16 +16727,16 @@ const sa = (t) => t ? (...e) => t(...e) : (...e) => fetch(...e), na = () => Head
   const s = (e = (r = t.match(/^sb_[a-zA-Z0-9]+_/)) === null || r === void 0 ? void 0 : r[0]) !== null && e !== void 0 ? e : "unknown";
   _r.has(s) || (_r.add(s), console.warn("@supabase/supabase-js: Unrecognized Supabase API key format. The client will proceed and send this key as-is; if you see authentication errors you may need to upgrade @supabase/supabase-js to a version that recognizes this key type."));
 }, br = (t, e, r, s, n, i) => {
-  const a = sa(s), o = na(), l = n?.enabled === !0, c = n?.respectSamplingDecision !== !1, u = l ? Zi(e) : null, h = !(i?.omitApiKeyAsBearer && Qr(t));
+  const a = sa(s), o = na(), l = n?.enabled === !0, c = n?.respectSamplingDecision !== !1, h = l ? Zi(e) : null, u = !(i?.omitApiKeyAsBearer && Qr(t));
   return async (d, f) => {
-    const p = await r();
+    const g = await r();
     let y = new o(f?.headers);
     if (y.has("apikey") || y.set("apikey", t), !y.has("Authorization")) {
-      const m = p ?? (h ? t : null);
+      const m = g ?? (u ? t : null);
       m && y.set("Authorization", `Bearer ${m}`);
     }
-    if (u) {
-      const m = await oa(d, u, c);
+    if (h) {
+      const m = await oa(d, h, c);
       m && (m.traceparent && !y.has("traceparent") && y.set("traceparent", m.traceparent), m.tracestate && !y.has("tracestate") && y.set("tracestate", m.tracestate), m.baggage && !y.has("baggage") && y.set("baggage", m.baggage));
     }
     return a(d, O(O({}, f), {}, { headers: y }));
@@ -16760,12 +16760,12 @@ function la(t) {
 }
 function ca(t, e) {
   var r, s, n, i, a, o;
-  const { db: l, auth: c, realtime: u, global: h } = t, { db: d, auth: f, realtime: p, global: y } = e, m = Sr(t.tracePropagation), w = Sr(e.tracePropagation), S = {
+  const { db: l, auth: c, realtime: h, global: u } = t, { db: d, auth: f, realtime: g, global: y } = e, m = Sr(t.tracePropagation), w = Sr(e.tracePropagation), S = {
     db: O(O({}, d), l),
     auth: O(O({}, f), c),
-    realtime: O(O({}, p), u),
+    realtime: O(O({}, g), h),
     storage: {},
-    global: O(O(O({}, y), h), {}, { headers: O(O({}, (r = y?.headers) !== null && r !== void 0 ? r : {}), (s = h?.headers) !== null && s !== void 0 ? s : {}) }),
+    global: O(O(O({}, y), u), {}, { headers: O(O({}, (r = y?.headers) !== null && r !== void 0 ? r : {}), (s = u?.headers) !== null && s !== void 0 ? s : {}) }),
     tracePropagation: {
       enabled: (n = (i = m?.enabled) !== null && i !== void 0 ? i : w?.enabled) !== null && n !== void 0 ? n : !1,
       respectSamplingDecision: (a = (o = m?.respectSamplingDecision) !== null && o !== void 0 ? o : w?.respectSamplingDecision) !== null && a !== void 0 ? a : !0
@@ -17015,8 +17015,8 @@ var ha = class extends Di {
       tracePropagation: Wi
     }, l = ca(r ?? {}, o);
     if (this.settings = l, this.storageKey = (s = l.auth.storageKey) !== null && s !== void 0 ? s : "", this.headers = (n = l.global.headers) !== null && n !== void 0 ? n : {}, l.accessToken)
-      this.accessToken = l.accessToken, this.auth = new Proxy({}, { get: (u, h) => {
-        throw new Error(`@supabase/supabase-js: Supabase Client is configured with the accessToken option, accessing supabase.auth.${String(h)} is not possible`);
+      this.accessToken = l.accessToken, this.auth = new Proxy({}, { get: (h, u) => {
+        throw new Error(`@supabase/supabase-js: Supabase Client is configured with the accessToken option, accessing supabase.auth.${String(u)} is not possible`);
       } });
     else {
       var c;
@@ -17026,7 +17026,7 @@ var ha = class extends Di {
       headers: this.headers,
       accessToken: this._getAccessToken.bind(this),
       fetch: this.fetch
-    }, l.realtime)), this.accessToken && Promise.resolve(this.accessToken()).then((u) => this.realtime.setAuth(u)).catch((u) => console.warn("Failed to set initial Realtime auth token:", u)), this.rest = new vs(new URL("rest/v1", i).href, {
+    }, l.realtime)), this.accessToken && Promise.resolve(this.accessToken()).then((h) => this.realtime.setAuth(h)).catch((h) => console.warn("Failed to set initial Realtime auth token:", h)), this.rest = new vs(new URL("rest/v1", i).href, {
       headers: this.headers,
       schema: l.db.schema,
       fetch: this.fetch,
@@ -17165,7 +17165,7 @@ var ha = class extends Di {
     var t = this, e;
     return (e = await t._getSessionToken()) !== null && e !== void 0 ? e : t.supabaseKey;
   }
-  _initSupabaseAuthClient({ autoRefreshToken: t, persistSession: e, detectSessionInUrl: r, storage: s, userStorage: n, storageKey: i, flowType: a, lock: o, debug: l, throwOnError: c, experimental: u, lockAcquireTimeout: h, skipAutoInitialize: d }, f, p) {
+  _initSupabaseAuthClient({ autoRefreshToken: t, persistSession: e, detectSessionInUrl: r, storage: s, userStorage: n, storageKey: i, flowType: a, lock: o, debug: l, throwOnError: c, experimental: h, lockAcquireTimeout: u, skipAutoInitialize: d }, f, g) {
     const y = {
       Authorization: `Bearer ${this.supabaseKey}`,
       apikey: `${this.supabaseKey}`
@@ -17183,9 +17183,9 @@ var ha = class extends Di {
       lock: o,
       debug: l,
       throwOnError: c,
-      experimental: u,
-      fetch: p,
-      lockAcquireTimeout: h,
+      experimental: h,
+      fetch: g,
+      lockAcquireTimeout: u,
       skipAutoInitialize: d,
       hasCustomAuthorizationHeader: Object.keys(this.headers).some((m) => m.toLowerCase() === "authorization")
     });
@@ -17213,14 +17213,14 @@ function pa() {
   return r ? parseInt(r[1], 10) <= 20 : !1;
 }
 pa() && console.warn("⚠️  Node.js 20 and below are deprecated and will no longer be supported in future versions of @supabase/supabase-js. Please upgrade to Node.js 22 or later. For more information, visit: https://github.com/orgs/supabase/discussions/45715");
-const I = "linephone_sync", Zr = "1.1.3", es = "https://tlsdyacdkbcjxbwvyeim.supabase.co", ts = "sb_publishable_EIYn8wiMd0O4tJXQI5Ub4Q_066Uizi1", ga = `${es}/functions/v1/verify-discord-membership`, it = "linephone.tavern.api-key", kr = "linephone.tavern.device", W = fa(es, ts, {
+const I = "linephone_sync", Zr = "1.1.4", es = "https://tlsdyacdkbcjxbwvyeim.supabase.co", ts = "sb_publishable_EIYn8wiMd0O4tJXQI5Ub4Q_066Uizi1", ga = `${es}/functions/v1/verify-discord-membership`, it = "linephone.tavern.api-key", kr = "linephone.tavern.device", W = fa(es, ts, {
   auth: {
     storageKey: "linephone-tavern-auth",
     persistSession: !0,
     autoRefreshToken: !0,
     detectSessionInUrl: !0
   }
-}), g = {
+}), p = {
   context: null,
   session: null,
   profile: null,
@@ -17229,6 +17229,8 @@ const I = "linephone_sync", Zr = "1.1.3", es = "https://tlsdyacdkbcjxbwvyeim.sup
   busy: !1,
   connected: !1,
   lastError: "",
+  authLaunching: !1,
+  oauthUrl: "",
   current: null,
   timer: null,
   launcher: null,
@@ -17265,18 +17267,18 @@ function ya() {
     summaryPrompt: "请把以下角色扮演对话整理成可长期使用的中文记忆总结。按时间顺序保留人物关系变化、约定、秘密、重要事件、情绪和未完成事项。不要虚构，不要写分析过程，只输出总结正文。"
   };
 }
-function x() {
-  const t = g.context || globalThis.SillyTavern?.getContext?.(), e = {
+function N() {
+  const t = p.context || globalThis.SillyTavern?.getContext?.(), e = {
     ...ya(),
-    ...g.fallbackSettings || {}
+    ...p.fallbackSettings || {}
   }, r = t?.extensionSettings;
-  return !r || typeof r != "object" ? (g.fallbackSettings = e, e) : (r[I] = {
+  return !r || typeof r != "object" ? (p.fallbackSettings = e, e) : (r[I] = {
     ...e,
     ...r[I] || {}
-  }, g.fallbackSettings = r[I], r[I]);
+  }, p.fallbackSettings = r[I], r[I]);
 }
 function ve() {
-  g.context?.saveSettingsDebounced?.();
+  p.context?.saveSettingsDebounced?.();
 }
 function dt(t) {
   try {
@@ -17326,7 +17328,7 @@ async function ee(t) {
   return [...new Uint8Array(r)].map((s) => s.toString(16).padStart(2, "0")).join("");
 }
 function Lt() {
-  return g.context = SillyTavern.getContext(), g.context;
+  return p.context = SillyTavern.getContext(), p.context;
 }
 function va(t) {
   return t.groupId ? null : t.characters?.[t.characterId] || null;
@@ -17434,18 +17436,18 @@ async function Ea(t) {
     try {
       const o = await t.context.loadWorldInfo(i);
       if (!o || typeof o != "object") continue;
-      const l = o.entries ?? o.data?.entries ?? o, u = (Array.isArray(l) ? l : l && typeof l == "object" ? Object.values(l) : []).map(ka).filter((h) => h.content);
-      n += u.filter((h) => h.truncated).length, s.push({
+      const l = o.entries ?? o.data?.entries ?? o, h = (Array.isArray(l) ? l : l && typeof l == "object" ? Object.values(l) : []).map(ka).filter((u) => u.content);
+      n += h.filter((u) => u.truncated).length, s.push({
         id: `stbook_${(await ee(i)).slice(0, 16)}`,
         name: i,
         scopes: [...a],
         enabled: !0,
-        entries: u
+        entries: h
       });
     } catch (o) {
       console.warn(`[${I}] failed to load lorebook "${i}"`, o);
     }
-  return g.assetState = {
+  return p.assetState = {
     books: s.length,
     entries: s.reduce((i, a) => i + a.entries.length, 0),
     truncatedEntries: n,
@@ -17486,7 +17488,7 @@ function Oe(t) {
   t.saveMetadataDebounced?.();
 }
 async function Ta({ previousSummary: t, rounds: e }) {
-  const r = x(), s = dt(it);
+  const r = N(), s = dt(it);
   if (!r.model) throw new Error("请先拉取并选择总结模型");
   const n = e.map(
     (c) => `【第 ${c.floor} 楼】
@@ -17536,39 +17538,39 @@ async function Aa(t) {
   await W.auth.refreshSession();
 }
 async function Tr() {
-  if (!g.session?.user?.id)
-    return g.profile = null, null;
-  const { data: t, error: e } = await W.from("user_profiles").select("user_id,status,membership_valid_until,discord_username").eq("user_id", g.session.user.id).maybeSingle();
+  if (!p.session?.user?.id)
+    return p.profile = null, null;
+  const { data: t, error: e } = await W.from("user_profiles").select("user_id,status,membership_valid_until,discord_username").eq("user_id", p.session.user.id).maybeSingle();
   if (e) throw e;
-  return g.profile = t, t;
+  return p.profile = t, t;
 }
 function ne() {
-  const t = Date.parse(g.profile?.membership_valid_until || "");
-  return g.profile?.status === "active" && Number.isFinite(t) && t > Date.now();
+  const t = Date.parse(p.profile?.membership_valid_until || "");
+  return p.profile?.status === "active" && Number.isFinite(t) && t > Date.now();
 }
 async function Ar() {
-  g.device = ss();
+  p.device = ss();
   const { error: t } = await W.rpc("register_sync_device", {
-    p_device_id: g.device.id,
-    p_device_name: g.device.name,
-    p_platform: g.device.platform,
+    p_device_id: p.device.id,
+    p_device_name: p.device.name,
+    p_platform: p.device.platform,
     p_app_version: Zr
   });
   if (t) throw t;
 }
 async function Rr() {
-  g.revisions.clear();
+  p.revisions.clear();
   const { data: t, error: e } = await W.from("latest_snapshots").select("entity_type,entity_id,revision");
   if (e) throw e;
   for (const r of t || [])
-    g.revisions.set(`${r.entity_type}|${r.entity_id}`, Number(r.revision) || 0);
+    p.revisions.set(`${r.entity_type}|${r.entity_id}`, Number(r.revision) || 0);
 }
 async function ce(t, e, r, s, n = "upsert") {
   const i = `${t}|${e}`;
-  let a = (g.revisions.get(i) || 0) + 1;
+  let a = (p.revisions.get(i) || 0) + 1;
   const o = crypto.randomUUID(), l = () => W.rpc("commit_sync_change", {
     p_event_id: o,
-    p_source_device_id: g.device.id,
+    p_source_device_id: p.device.id,
     p_entity_type: t,
     p_entity_id: e,
     p_revision: a,
@@ -17578,11 +17580,11 @@ async function ce(t, e, r, s, n = "upsert") {
   });
   let c = await l();
   if (c.error && String(c.error.message || "").includes("stale_snapshot_revision")) {
-    const { data: u } = await W.from("latest_snapshots").select("revision").eq("entity_type", t).eq("entity_id", e).maybeSingle();
-    a = (Number(u?.revision) || 0) + 1, c = await l();
+    const { data: h } = await W.from("latest_snapshots").select("revision").eq("entity_type", t).eq("entity_id", e).maybeSingle();
+    a = (Number(h?.revision) || 0) + 1, c = await l();
   }
   if (c.error) throw c.error;
-  return g.revisions.set(i, a), a;
+  return p.revisions.set(i, a), a;
 }
 function Ra(t) {
   return new TextEncoder().encode(JSON.stringify(t)).byteLength;
@@ -17598,7 +17600,7 @@ function Oa(t) {
 }
 async function Ca(t, e) {
   if (!ne()) return;
-  const r = x();
+  const r = N();
   (!r.assetHashes || typeof r.assetHashes != "object") && (r.assetHashes = {});
   const s = r.assetHashes[t.tavernCharacterKey] || {}, n = `character:${t.tavernCharacterKey}`, i = {
     schemaVersion: 1,
@@ -17626,38 +17628,38 @@ async function Ca(t, e) {
   const o = await ee(JSON.stringify(e.books));
   if (s.loreHash !== o) {
     const l = [], c = [];
-    for (const h of e.books) {
-      const d = Oa(h.entries), f = [];
-      for (let p = 0; p < d.length; p += 1) {
-        const y = `${n}:lore:${h.id}:${p}`;
+    for (const u of e.books) {
+      const d = Oa(u.entries), f = [];
+      for (let g = 0; g < d.length; g += 1) {
+        const y = `${n}:lore:${u.id}:${g}`;
         f.push(y), l.push(y), await ce(
           "tavern.lorebook.part",
           y,
           {
             ...i,
-            bookId: h.id,
-            bookName: h.name,
-            scopes: h.scopes,
-            enabled: h.enabled,
-            partIndex: p,
+            bookId: u.id,
+            bookName: u.name,
+            scopes: u.scopes,
+            enabled: u.enabled,
+            partIndex: g,
             partCount: d.length,
-            entries: d[p]
+            entries: d[g]
           },
           {
             kind: "lorebook.part.replace",
             tavernCharacterKey: t.tavernCharacterKey,
-            bookId: h.id,
-            partIndex: p,
+            bookId: u.id,
+            partIndex: g,
             partCount: d.length
           }
         );
       }
       c.push({
-        id: h.id,
-        name: h.name,
-        scopes: h.scopes,
-        enabled: h.enabled,
-        entryCount: h.entries.length,
+        id: u.id,
+        name: u.name,
+        scopes: u.scopes,
+        enabled: u.enabled,
+        entryCount: u.entries.length,
         partEntityIds: f
       });
     }
@@ -17668,7 +17670,7 @@ async function Ca(t, e) {
         ...i,
         contentHash: o,
         books: c,
-        truncatedEntries: g.assetState.truncatedEntries
+        truncatedEntries: p.assetState.truncatedEntries
       },
       {
         kind: "lorebooks.replace",
@@ -17677,13 +17679,13 @@ async function Ca(t, e) {
         bookCount: c.length
       }
     );
-    const u = (s.loreEntities || []).filter(
-      (h) => !l.includes(h)
+    const h = (s.loreEntities || []).filter(
+      (u) => !l.includes(u)
     );
-    for (const h of u)
+    for (const u of h)
       await ce(
         "tavern.lorebook.part",
-        h,
+        u,
         {},
         {
           kind: "lorebook.part.delete",
@@ -17753,36 +17755,36 @@ async function jt({
   allowSummary: e = !0,
   refreshAssets: r = !1
 } = {}) {
-  if (g.busy || !x().enabled) return;
+  if (p.busy || !N().enabled) return;
   let s;
   try {
     s = await Dt();
   } catch (n) {
-    g.lastError = n.message || "读取当前聊天失败", console.error(`[${I}] failed to read the current chat`, n), N();
+    p.lastError = n.message || "读取当前聊天失败", console.error(`[${I}] failed to read the current chat`, n), x();
     return;
   }
-  if (g.current = s, !s) {
-    N();
+  if (p.current = s, !s) {
+    x();
     return;
   }
-  g.busy = !0, g.lastError = "";
+  p.busy = !0, p.lastError = "";
   try {
     const n = Bt(s.context.chat), i = Ht(s.context);
-    if ((r || g.currentAssetsKey !== s.tavernCharacterKey || !g.currentAssets) && (g.currentAssets = await Ea(s), g.currentAssetsKey = s.tavernCharacterKey), ne())
+    if ((r || p.currentAssetsKey !== s.tavernCharacterKey || !p.currentAssets) && (p.currentAssets = await Ea(s), p.currentAssetsKey = s.tavernCharacterKey), ne())
       try {
-        await Ca(s, g.currentAssets);
+        await Ca(s, p.currentAssets);
       } catch (d) {
-        g.assetState.error = d.message || "角色资料同步失败", console.error(`[${I}] asset sync failed`, d);
+        p.assetState.error = d.message || "角色资料同步失败", console.error(`[${I}] asset sync failed`, d);
       }
-    const a = await ee(JSON.stringify(n)), o = Math.min(200, Math.max(2, Number(x().interval) || 20)), l = Math.floor(n.length / o) * o, c = l ? await ee(JSON.stringify(n.slice(0, l))) : "", u = Number(i.coveredThrough) !== l || i.sourceHash !== c;
-    if (e && x().autoSummarize && u && l > 0 && x().model) {
-      const d = Math.min(Number(i.coveredThrough) || 0, l), f = d ? await ee(JSON.stringify(n.slice(0, d))) : "", p = d > 0 && d < l && i.summary && i.sourceHash === f, y = p ? n.slice(d, l) : n.slice(0, l);
+    const a = await ee(JSON.stringify(n)), o = Math.min(200, Math.max(2, Number(N().interval) || 20)), l = Math.floor(n.length / o) * o, c = l ? await ee(JSON.stringify(n.slice(0, l))) : "", h = Number(i.coveredThrough) !== l || i.sourceHash !== c;
+    if (e && N().autoSummarize && h && l > 0 && N().model) {
+      const d = Math.min(Number(i.coveredThrough) || 0, l), f = d ? await ee(JSON.stringify(n.slice(0, d))) : "", g = d > 0 && d < l && i.summary && i.sourceHash === f, y = g ? n.slice(d, l) : n.slice(0, l);
       i.summary = await Ta({
-        previousSummary: p ? i.summary : "",
+        previousSummary: g ? i.summary : "",
         rounds: y
       }), i.coveredThrough = l, i.sourceHash = c, i.summaryStale = !1, i.updatedAt = Date.now(), i.manuallyEditedAt = 0, Oe(s.context);
-    } else u && l === 0 ? (i.summary = "", i.coveredThrough = 0, i.sourceHash = "", i.summaryStale = !1, i.updatedAt = Date.now(), i.manuallyEditedAt = 0, Oe(s.context)) : u && l > 0 && (i.summaryStale = !0, i.updatedAt = Date.now(), Oe(s.context));
-    const h = await ee(
+    } else h && l === 0 ? (i.summary = "", i.coveredThrough = 0, i.sourceHash = "", i.summaryStale = !1, i.updatedAt = Date.now(), i.manuallyEditedAt = 0, Oe(s.context)) : h && l > 0 && (i.summaryStale = !0, i.updatedAt = Date.now(), Oe(s.context));
+    const u = await ee(
       JSON.stringify({
         saveId: s.saveId,
         liveHash: a,
@@ -17792,32 +17794,51 @@ async function jt({
         summaryStale: !!i.summaryStale
       })
     );
-    ne() && (t || i.lastUploadedHash !== h) && (await Pa(s, n, i), i.lastUploadedHash = h, i.lastUploadedAt = Date.now(), Oe(s.context)), g.connected = ne();
+    ne() && (t || i.lastUploadedHash !== u) && (await Pa(s, n, i), i.lastUploadedHash = u, i.lastUploadedAt = Date.now(), Oe(s.context)), p.connected = ne();
   } catch (n) {
-    g.lastError = n.message || "同步失败", console.error(`[${I}]`, n);
+    p.lastError = n.message || "同步失败", console.error(`[${I}]`, n);
   } finally {
-    g.busy = !1, N();
+    p.busy = !1, x();
   }
 }
 function Ie(t = {}) {
-  clearTimeout(g.timer), g.timer = setTimeout(() => jt(t), 900);
+  clearTimeout(p.timer), p.timer = setTimeout(() => jt(t), 900);
 }
 async function Ia() {
-  g.lastError = "";
-  const t = `${location.origin}${location.pathname}`, { error: e } = await W.auth.signInWithOAuth({
-    provider: "discord",
-    options: {
-      redirectTo: t,
-      scopes: "guilds guilds.members.read"
-    }
-  });
-  e && (g.lastError = e.message, N());
+  p.lastError = "", p.oauthUrl = "", p.authLaunching = !0, x();
+  const t = `${location.origin}${location.pathname}`;
+  let e = null;
+  try {
+    e = window.open("about:blank", "_blank");
+    const { data: r, error: s } = await W.auth.signInWithOAuth({
+      provider: "discord",
+      options: {
+        redirectTo: t,
+        scopes: "guilds guilds.members.read",
+        skipBrowserRedirect: !0
+      }
+    });
+    if (s) throw s;
+    if (!r?.url) throw new Error("未能生成 Discord 登录链接");
+    if (p.oauthUrl = r.url, e && !e.closed) {
+      e.location.replace(r.url);
+      try {
+        e.opener = null;
+      } catch {
+      }
+    } else
+      p.lastError = "系统未自动打开外部浏览器，请点击下方链接继续登录";
+  } catch (r) {
+    e?.close?.(), p.lastError = r?.message || "Discord 登录启动失败";
+  } finally {
+    p.authLaunching = !1, x();
+  }
 }
 async function $a() {
-  await W.auth.signOut(), g.session = null, g.profile = null, g.connected = !1, N();
+  await W.auth.signOut(), p.session = null, p.profile = null, p.connected = !1, x();
 }
 async function ja() {
-  const t = x(), e = dt(it), r = await fetch(ns(t.apiUrl, "models"), {
+  const t = N(), e = dt(it), r = await fetch(ns(t.apiUrl, "models"), {
     headers: e ? { Authorization: `Bearer ${e}` } : {}
   });
   if (!r.ok) throw new Error(`模型接口返回 ${r.status}`);
@@ -17826,7 +17847,7 @@ async function ja() {
     ...new Set(
       n.map((i) => typeof i == "string" ? i : i?.id || i?.name).filter(Boolean)
     )
-  ].sort(), t.modelOptions.includes(t.model) || (t.model = t.modelOptions[0] || ""), ve(), N();
+  ].sort(), t.modelOptions.includes(t.model) || (t.model = t.modelOptions[0] || ""), ve(), x();
 }
 function se(t, e = "", r = "") {
   const s = document.createElement(t);
@@ -17840,58 +17861,58 @@ function bt(t, e, r) {
   const s = document.createElement("input");
   return s.type = t, s.value = e ?? "", s.addEventListener("change", () => r(s.value)), s;
 }
-function N() {
-  if (!g.panel) return;
-  const t = x(), e = g.current, r = e ? Bt(e.context.chat) : [], s = e ? Ht(e.context) : null;
-  if (g.status.textContent = g.busy ? "正在处理…" : g.lastError ? g.lastError : ne() ? "Discord 已验证 · 云端可用" : g.session ? "已登录，等待社区验证" : "尚未登录", g.status.classList.toggle("error", !!g.lastError), g.details.textContent = e ? `${e.characterName} · ${e.saveName} · ${r.length} 楼 · 已总结 ${s.coveredThrough || 0} 楼` : "请先打开单角色聊天存档", g.assets) {
-    const { books: l, entries: c, truncatedEntries: u, error: h } = g.assetState;
-    g.assets.textContent = e ? `${h ? `资料同步失败：${h} · ` : ""}角色卡已读取 · ${l} 本绑定世界书 · ${c} 个条目${u ? ` · ${u} 条过长内容已截断` : ""}` : "打开角色聊天后会自动读取角色卡与绑定世界书";
+function x() {
+  if (!p.panel) return;
+  const t = N(), e = p.current, r = e ? Bt(e.context.chat) : [], s = e ? Ht(e.context) : null;
+  if (p.status.textContent = p.busy ? "正在处理…" : p.authLaunching ? "正在外部浏览器中打开 Discord…" : p.lastError ? p.lastError : p.oauthUrl && !p.session ? "Discord 授权页已打开，完成后返回酒馆" : ne() ? "Discord 已验证 · 云端可用" : p.session ? "已登录，等待社区验证" : "尚未登录", p.status.classList.toggle("error", !!p.lastError), p.details.textContent = e ? `${e.characterName} · ${e.saveName} · ${r.length} 楼 · 已总结 ${s.coveredThrough || 0} 楼` : "请先打开单角色聊天存档", p.assets) {
+    const { books: h, entries: u, truncatedEntries: d, error: f } = p.assetState;
+    p.assets.textContent = e ? `${f ? `资料同步失败：${f} · ` : ""}角色卡已读取 · ${h} 本绑定世界书 · ${u} 个条目${d ? ` · ${d} 条过长内容已截断` : ""}` : "打开角色聊天后会自动读取角色卡与绑定世界书";
   }
-  g.summary.value = s?.summary || "";
-  const n = g.panel.querySelector("[data-action=login]"), i = g.panel.querySelector("[data-action=logout]");
-  n.hidden = !!g.session, i.hidden = !g.session;
-  const a = g.panel.querySelector("[data-field=model]");
-  a.replaceChildren();
-  const o = document.createElement("option");
-  o.value = "", o.textContent = t.modelOptions.length ? "选择模型" : "先拉取模型", a.append(o);
-  for (const l of t.modelOptions) {
-    const c = document.createElement("option");
-    c.value = l, c.textContent = l, a.append(c);
+  p.summary.value = s?.summary || "";
+  const n = p.panel.querySelector("[data-action=login]"), i = p.panel.querySelector("[data-action=logout]"), a = p.panel.querySelector(".lp-oauth-help"), o = a?.querySelector("[data-action=oauth-link]");
+  n.hidden = !!p.session, n.disabled = p.authLaunching, n.textContent = p.authLaunching ? "正在打开 Discord…" : "使用 Discord 登录", i.hidden = !p.session, a && o && (a.hidden = !!p.session || !p.oauthUrl, o.href = p.oauthUrl || "#");
+  const l = p.panel.querySelector("[data-field=model]");
+  l.replaceChildren();
+  const c = document.createElement("option");
+  c.value = "", c.textContent = t.modelOptions.length ? "选择模型" : "先拉取模型", l.append(c);
+  for (const h of t.modelOptions) {
+    const u = document.createElement("option");
+    u.value = h, u.textContent = h, l.append(u);
   }
-  a.value = t.model || "";
+  l.value = t.model || "";
 }
 function at(t) {
-  const e = g.panel;
+  const e = p.panel;
   if (e) {
     if (!t) {
       e.setAttribute("data-open", "false"), e.setAttribute("aria-hidden", "true");
       return;
     }
-    e.setAttribute("data-open", "true"), e.setAttribute("aria-hidden", "false"), N(), Dt().then((r) => {
-      g.current = r, N();
+    e.setAttribute("data-open", "true"), e.setAttribute("aria-hidden", "false"), x(), Dt().then((r) => {
+      p.current = r, x();
     }).catch((r) => {
-      g.lastError = r.message || "读取当前聊天失败", console.error(`[${I}] failed to refresh panel`, r), N();
+      p.lastError = r.message || "读取当前聊天失败", console.error(`[${I}] failed to refresh panel`, r), x();
     });
   }
 }
 function Or() {
-  g.uiObserver || !document.body || (g.uiObserver = new MutationObserver(() => {
-    if (!g.panel?.isConnected || !g.launcher?.isConnected) {
+  p.uiObserver || !document.body || (p.uiObserver = new MutationObserver(() => {
+    if (!p.panel?.isConnected || !p.launcher?.isConnected) {
       is();
       return;
     }
     ot();
-  }), g.uiObserver.observe(document.body, { childList: !0, subtree: !0 }));
+  }), p.uiObserver.observe(document.body, { childList: !0, subtree: !0 }));
 }
 function ot() {
-  if (g.settingsEntry?.isConnected) return !0;
+  if (p.settingsEntry?.isConnected) return !0;
   const t = document.querySelector("#linephone-sync-settings-entry");
   if (t?.isConnected)
-    return g.settingsEntry = t, !0;
+    return p.settingsEntry = t, !0;
   const e = document.querySelector("#extensions_settings") || document.querySelector("#extensions_settings2");
   if (!e)
-    return clearTimeout(g.mountTimer), g.mountTimer = setTimeout(ot, 800), !1;
-  clearTimeout(g.mountTimer), g.mountTimer = null;
+    return clearTimeout(p.mountTimer), p.mountTimer = setTimeout(ot, 800), !1;
+  clearTimeout(p.mountTimer), p.mountTimer = null;
   const r = se(
     "div",
     "extension_container lp-settings-entry linephone-sync-settings-entry"
@@ -17911,15 +17932,15 @@ function ot() {
     </div>
   `, r.querySelector("[data-action=open-linephone]").addEventListener("click", (s) => {
     s.preventDefault(), s.stopPropagation(), at(!0);
-  }), e.append(r), g.settingsEntry = r, !0;
+  }), e.append(r), p.settingsEntry = r, !0;
 }
 function is() {
-  if (g.panel?.isConnected && g.launcher?.isConnected) {
+  if (p.panel?.isConnected && p.launcher?.isConnected) {
     ot(), Or();
     return;
   }
   const t = document.querySelector("#linephone-sync-launcher");
-  g.launcher && g.launcher !== t && g.launcher.remove(), g.panel?.remove();
+  p.launcher && p.launcher !== t && p.launcher.remove(), p.panel?.remove();
   const e = t || se("button", "lp-sync-launcher", "⇄");
   e.id = "linephone-sync-launcher", e.type = "button", e.title = "小手机同步";
   const r = se("section", "lp-tavern-panel");
@@ -17935,6 +17956,12 @@ function is() {
       <button type="button" data-action="login">使用 Discord 登录</button>
       <button type="button" data-action="logout">退出登录</button>
     </div>
+    <p class="lp-oauth-help" hidden>
+      没有自动打开？
+      <a data-action="oauth-link" target="_blank" rel="external noopener noreferrer">
+        点这里在浏览器中继续 Discord 登录
+      </a>
+    </p>
     <section class="lp-section lp-api"></section>
     <section class="lp-section">
       <div class="lp-section-title"><strong>当前阶段总结</strong><small>保存在这个酒馆存档本地</small></div>
@@ -17944,38 +17971,38 @@ function is() {
         <button type="button" data-action="sync-now">立即读取并同步</button>
       </div>
     </section>
-  `, e.isConnected || document.body.append(e), document.body.append(r), g.launcher = e, g.panel = r, g.status = r.querySelector(".lp-status"), g.details = r.querySelector(".lp-details"), g.assets = r.querySelector(".lp-assets"), g.summary = r.querySelector(".lp-summary"), ot(), Or();
-  const s = x(), n = r.querySelector(".lp-api"), i = bt("url", s.apiUrl, (d) => {
-    x().apiUrl = d.trim(), ve();
+  `, e.isConnected || document.body.append(e), document.body.append(r), p.launcher = e, p.panel = r, p.status = r.querySelector(".lp-status"), p.details = r.querySelector(".lp-details"), p.assets = r.querySelector(".lp-assets"), p.summary = r.querySelector(".lp-summary"), ot(), Or();
+  const s = N(), n = r.querySelector(".lp-api"), i = bt("url", s.apiUrl, (d) => {
+    N().apiUrl = d.trim(), ve();
   }), a = bt(
     "password",
     dt(it),
     (d) => rs(it, d)
   ), o = document.createElement("select");
   o.dataset.field = "model", o.addEventListener("change", () => {
-    x().model = o.value, ve();
+    N().model = o.value, ve();
   });
   const l = bt("number", s.interval, (d) => {
-    x().interval = Math.min(200, Math.max(2, Number(d) || 20)), ve();
+    N().interval = Math.min(200, Math.max(2, Number(d) || 20)), ve();
   });
   l.min = "2", l.max = "200";
   const c = document.createElement("input");
   c.type = "checkbox", c.checked = s.autoSummarize, c.addEventListener("change", () => {
-    x().autoSummarize = c.checked, ve();
+    N().autoSummarize = c.checked, ve();
   });
-  const u = se("button", "", "拉取模型");
-  u.type = "button", u.addEventListener(
+  const h = se("button", "", "拉取模型");
+  h.type = "button", h.addEventListener(
     "click",
     () => ja().catch((d) => {
-      g.lastError = d.message, N();
+      p.lastError = d.message, x();
     })
   );
-  const h = se("div", "lp-model-row");
-  h.append(o, u), n.append(
+  const u = se("div", "lp-model-row");
+  u.append(o, h), n.append(
     se("div", "lp-section-title", "自动总结 API"),
     Ee("API 地址", i),
     Ee("API Key（只存当前浏览器）", a),
-    Ee("模型", h),
+    Ee("模型", u),
     Ee("每多少楼总结一次", l),
     Ee("启用自动总结", c)
   ), e.dataset.linephoneBootstrapBound !== "true" && e.dataset.linephoneAppBound !== "true" && (e.dataset.linephoneAppBound = "true", e.addEventListener("click", () => {
@@ -17988,13 +18015,13 @@ function is() {
   ), r.querySelector("[data-action=save-summary]").addEventListener("click", async () => {
     const d = await Dt();
     if (!d) return;
-    const f = Ht(d.context), p = Bt(d.context.chat), y = Math.min(200, Math.max(2, Number(x().interval) || 20)), m = Math.floor(p.length / y) * y;
-    f.summary = g.summary.value.trim(), f.coveredThrough = m, f.sourceHash = m ? await ee(JSON.stringify(p.slice(0, m))) : "", f.summaryStale = !1, f.manuallyEditedAt = Date.now(), f.updatedAt = Date.now(), Oe(d.context), await jt({ forceUpload: !0, allowSummary: !1 });
-  }), N();
+    const f = Ht(d.context), g = Bt(d.context.chat), y = Math.min(200, Math.max(2, Number(N().interval) || 20)), m = Math.floor(g.length / y) * y;
+    f.summary = p.summary.value.trim(), f.coveredThrough = m, f.sourceHash = m ? await ee(JSON.stringify(g.slice(0, m))) : "", f.summaryStale = !1, f.manuallyEditedAt = Date.now(), f.updatedAt = Date.now(), Oe(d.context), await jt({ forceUpload: !0, allowSummary: !1 });
+  }), x();
 }
 function xa() {
-  if (g.eventsBound) return !0;
-  const t = g.context?.eventSource, e = g.context?.eventTypes;
+  if (p.eventsBound) return !0;
+  const t = p.context?.eventSource, e = p.context?.eventTypes;
   return typeof t?.on != "function" || !e ? !1 : ([
     e.MESSAGE_SENT,
     e.MESSAGE_RECEIVED,
@@ -18016,16 +18043,16 @@ function xa() {
   ), e.CHAT_CHANGED && t.on(
     e.CHAT_CHANGED,
     () => Ie({ forceUpload: !0, refreshAssets: !0 })
-  ), g.eventsBound = !0, !0);
+  ), p.eventsBound = !0, !0);
 }
 function xt() {
   if (xa()) {
-    clearTimeout(g.eventsTimer), g.eventsTimer = null;
+    clearTimeout(p.eventsTimer), p.eventsTimer = null;
     return;
   }
-  clearTimeout(g.eventsTimer), g.eventsTimer = setTimeout(() => {
+  clearTimeout(p.eventsTimer), p.eventsTimer = setTimeout(() => {
     try {
-      g.context = Lt(), xt();
+      p.context = Lt(), xt();
     } catch (t) {
       console.debug(`[${I}] waiting for SillyTavern events`, t), xt();
     }
@@ -18034,24 +18061,24 @@ function xt() {
 async function Na() {
   W.auth.onAuthStateChange((e, r) => {
     setTimeout(async () => {
-      if (g.session = r, g.profile = null, g.connected = !1, !r) {
-        N();
+      if (p.session = r, p.profile = null, p.connected = !1, r && (p.oauthUrl = ""), !r) {
+        x();
         return;
       }
       try {
         r.provider_token && await Aa(r);
         const { data: s } = await W.auth.getSession();
-        g.session = s.session, await Tr(), ne() && (await Ar(), await Rr(), g.connected = !0, Ie({ forceUpload: !0, refreshAssets: !0 }));
+        p.session = s.session, await Tr(), ne() && (await Ar(), await Rr(), p.connected = !0, Ie({ forceUpload: !0, refreshAssets: !0 }));
       } catch (s) {
-        g.lastError = s.message;
+        p.lastError = s.message;
       }
-      N();
+      x();
     }, 0);
   });
   const { data: t } = await W.auth.getSession();
-  g.session = t.session, g.session && (await Tr().catch((e) => {
-    g.lastError = e.message;
-  }), ne() && (await Ar(), await Rr(), g.connected = !0));
+  p.session = t.session, p.session && (await Tr().catch((e) => {
+    p.lastError = e.message;
+  }), ne() && (await Ar(), await Rr(), p.connected = !0));
 }
 async function Ua(t = 15e3) {
   const e = Date.now();
@@ -18062,15 +18089,15 @@ async function Ua(t = 15e3) {
   }
 }
 async function ft() {
-  await Ua(), g.context = Lt(), is();
+  await Ua(), p.context = Lt(), is();
 }
 async function La() {
-  if (!g.initialized) {
-    await ft(), g.initialized = !0, x(), g.device = ss(), xt();
+  if (!p.initialized) {
+    await ft(), p.initialized = !0, N(), p.device = ss(), xt();
     try {
       await Na();
     } catch (t) {
-      g.lastError = t.message || "登录状态初始化失败", console.error(`[${I}] auth initialization failed`, t), N();
+      p.lastError = t.message || "登录状态初始化失败", console.error(`[${I}] auth initialization failed`, t), x();
     }
     Ie({ forceUpload: !0, refreshAssets: !0 }), console.log(`[${I}] v${Zr} loaded`);
   }
@@ -18078,7 +18105,7 @@ async function La() {
 let Nt = null;
 function qt() {
   return Nt ||= La().catch((t) => {
-    throw g.initialized = !1, console.error(`[${I}] initialization failed`, t), g.lastError = t.message || "初始化失败", N(), t;
+    throw p.initialized = !1, console.error(`[${I}] initialization failed`, t), p.lastError = t.message || "初始化失败", x(), t;
   }), Nt;
 }
 async function Da() {
