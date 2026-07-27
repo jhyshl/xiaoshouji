@@ -1,7 +1,7 @@
 const APP_MODULE = "./index.js";
 const ENTRY_ID = "linephone-sync-settings-entry";
 const LAUNCHER_ID = "linephone-sync-launcher";
-const VERSION = "1.1.4";
+const VERSION = "1.2.0";
 
 let appPromise = null;
 let observer = null;

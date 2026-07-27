@@ -19,7 +19,12 @@ import {
   buildSystemPrompt,
   collectLore,
 } from "../services/prompt.js";
-import { queuePhoneChatSync } from "../services/sync.js";
+import {
+  queuePhoneChatSync,
+  refreshBranchMemoryForAi,
+  syncPhoneChatNow,
+} from "../services/sync.js";
+import { markMessagesDeliveredById } from "../utils/messages.js";
 import { createId, stableTextHash } from "../utils/text.js";
 
 function groupsHash(groups) {
@@ -123,13 +128,21 @@ export async function confirmQueuedMessages() {
     showToast("没有待发送的消息");
     return;
   }
+  const queuedIds = queued.map((message) => message.id);
   sending.value = true;
   try {
-    const branch = activeBranchForCharacter(character.id);
+    let branch = activeBranchForCharacter(character.id);
+    branch =
+      (await refreshBranchMemoryForAi(character.id, branch?.id)) || branch;
     const contextMessages = await preparePhoneContext(
       branch,
-      messagesForCharacter(character.id),
+      branch.messages,
     );
+    await syncPhoneChatNow(
+      character.id,
+      "memory.before-ai",
+      branch.id,
+    ).catch(() => null);
     const loreSearchText = [
       ...queued.map((message) => message.content),
       ...contextMessages.slice(-6).map((message) => message.content),
@@ -148,13 +161,11 @@ export async function confirmQueuedMessages() {
       contextMessages,
       queued,
     });
-    queued.forEach((message) => {
-      message.queued = false;
-    });
-    const assistantTurnId = createId("turn");
     const replyTime = Date.now();
+    markMessagesDeliveredById(branch.messages, queuedIds, replyTime);
+    const assistantTurnId = createId("turn");
     replies.forEach((content, index) => {
-      messagesForCharacter(character.id).push({
+      branch.messages.push({
         id: createId("msg"),
         turnId: assistantTurnId,
         role: "assistant",
@@ -164,7 +175,7 @@ export async function confirmQueuedMessages() {
         queued: false,
       });
     });
-    queuePhoneChatSync(character.id, "message.reply");
+    queuePhoneChatSync(character.id, "message.reply", branch.id);
   } catch (error) {
     showToast(humanizeApiError(error));
   } finally {

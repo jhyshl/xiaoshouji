@@ -7,9 +7,10 @@ import {
 } from "../store/linePhone.js";
 import { supabase } from "./supabase.js";
 import { getDeviceIdentity, renameLocalDevice } from "./deviceIdentity.js";
+import { clearAnsweredQueuedMessages } from "../utils/messages.js";
 import { createId, stableTextHash } from "../utils/text.js";
 
-const APP_VERSION = "3.3.2";
+const APP_VERSION = "3.3.7";
 const SNAPSHOT_FIELDS =
   "entity_type,entity_id,source_device_id,revision,is_deleted,payload,updated_at";
 const DEVICE_FIELDS =
@@ -410,479 +411,53 @@ function updateMismatch(tavernCharacterKey) {
   };
 }
 
-function applyTavernSnapshot(snapshot) {
-  const payload = snapshot.payload || {};
-  const tavernCharacterKey =
-    payload.tavernCharacterKey || payload.characterKey || payload.characterId;
-  if (!tavernCharacterKey) return;
-  const inbox = (state.sync.tavernInbox[tavernCharacterKey] ||= {
-    characterName: payload.characterName || "",
-  });
-  if (payload.characterName) inbox.characterName = payload.characterName;
-  inbox.revision = Math.max(Number(inbox.revision) || 0, Number(snapshot.revision) || 0);
-  inbox.updatedAt = snapshot.updated_at || new Date().toISOString();
-  if (snapshot.entity_type === "tavern.active") inbox.active = payload;
-  if (snapshot.entity_type === "tavern.summary") inbox.summary = payload;
-  if (snapshot.entity_type === "tavern.recent") inbox.recent = payload;
-  if (snapshot.entity_type === "tavern.character") {
-    inbox.character = payload;
-    ensureTavernCharacter(payload);
-  }
-  if (snapshot.entity_type === "tavern.lorebooks") inbox.lorebooks = payload;
-  if (snapshot.entity_type === "tavern.lorebook.part") {
-    inbox.lorebookParts ||= {};
-    inbox.lorebookParts[snapshot.entity_id] = payload;
-  }
-
-  const characterId =
+function hydrateTavernMemory(tavernCharacterKey, characterId = "") {
+  const inbox = state.sync.tavernInbox[tavernCharacterKey];
+  if (!inbox) return null;
+  const boundCharacterId =
+    characterId ||
     state.sync.characterBindings[tavernCharacterKey] ||
-    autoBindCharacter(tavernCharacterKey, payload.characterName || inbox.characterName);
-  if (characterId) {
-    const branch = branchesForCharacter(characterId).find(
-      (item) =>
-        item.tavernCharacterKey === tavernCharacterKey &&
-        item.tavernSaveId === payload.saveId,
-    );
-    if (branch) {
-      if (snapshot.entity_type === "tavern.summary") branch.tavernSummary = payload;
-      if (snapshot.entity_type === "tavern.recent") branch.tavernRecent = payload;
-      branch.updatedAt = Date.now();
-    }
-  }
-  if (
-    snapshot.entity_type === "tavern.character" ||
-    snapshot.entity_type === "tavern.lorebooks" ||
-    snapshot.entity_type === "tavern.lorebook.part"
-  ) {
-    rebuildTavernLorebooks(tavernCharacterKey);
-  }
-  updateMismatch(tavernCharacterKey);
-}
+    autoBindCharacter(tavernCharacterKey, inbox.characterName);
+  if (!boundCharacterId) return null;
 
-function applyPhoneSnapshot(snapshot) {
-  const payload = snapshot.payload || {};
-  const character = ensurePhoneCharacter(snapshot);
-  if (!character) return;
-  const characterId = character.id;
-  const legacyMainBranch = /_main$/i.test(String(payload.branchId || ""));
-  const cloudBranchId =
-    payload.cloudBranchId ||
-    (legacyMainBranch ? "main" : payload.branchId) ||
-    "main";
-  let branch = branchesForCharacter(characterId).find(
-    (item) => item.cloudBranchId === cloudBranchId,
+  const character = state.characters.find((item) => item.id === boundCharacterId);
+  if (character && !character.tavernCharacterKey) {
+    character.tavernCharacterKey = tavernCharacterKey;
+  }
+
+  const activeSaveId = String(
+    inbox.active?.saveId || inbox.summary?.saveId || inbox.recent?.saveId || "",
+  );
+  if (!activeSaveId) return null;
+
+  let branch = branchesForCharacter(boundCharacterId).find(
+    (item) =>
+      item.tavernCharacterKey === tavernCharacterKey &&
+      item.tavernSaveId === activeSaveId,
   );
   if (!branch) {
-    branch = {
-      id: createId("branch"),
-      characterId,
-      title: payload.branchTitle || "åŒæ­¥èŠå¤©",
-      origin: payload.origin || "phone",
-      tavernSaveId: payload.tavernSaveId || "",
-      tavernCharacterKey: payload.tavernCharacterKey || "",
-      cloudBranchId,
-      messages: [],
-      deletedMessageIds: [],
-      phoneSummary: payload.phoneSummary || null,
-      tavernSummary: payload.tavernSummary || null,
-      tavernRecent: payload.tavernRecent || null,
-      cloudRevision: 0,
-      createdAt: Number(payload.createdAt) || Date.now(),
-      updatedAt: Date.now(),
-    };
-    state.chatBranches[branch.id] = branch;
-  }
-
-  const priorRevision = Number(branch.cloudRevision) || 0;
-  const remoteRevision = Number(snapshot.revision) || 0;
-  const remoteMessages = (Array.isArray(payload.messages) ? payload.messages : [])
-    .filter((message) => message?.id && message?.content)
-    .map(compactMessage);
-  const remoteIds = new Set(remoteMessages.map((message) => message.id));
-  const remoteDeleted = new Set(
-    Array.isArray(payload.deletedMessageIds)
-      ? payload.deletedMessageIds.map(String)
-      : [],
-  );
-  const localDeleted = new Set(
-    Array.isArray(branch.deletedMessageIds)
-      ? branch.deletedMessageIds.map(String)
-      : [],
-  );
-  const deletedIds = new Set([...localDeleted, ...remoteDeleted]);
-  const localById = new Map(
-    (branch.messages || []).map((message) => [message.id, message]),
-  );
-
-  remoteMessages.forEach((remoteMessage) => {
-    const localMessage = localById.get(remoteMessage.id);
-    const localTimestamp =
-      Number(localMessage?.updatedAt) || Number(localMessage?.createdAt) || 0;
-    const remoteTimestamp =
-      Number(remoteMessage.updatedAt) || Number(remoteMessage.createdAt) || 0;
-    if (!localMessage || remoteTimestamp >= localTimestamp) {
-      localById.set(remoteMessage.id, remoteMessage);
-    }
-  });
-  branch.messages = [...localById.values()]
-    .filter((message) => !deletedIds.has(message.id))
-    .sort(
-      (left, right) =>
-        (Number(left.createdAt) || 0) - (Number(right.createdAt) || 0),
-    );
-  branch.deletedMessageIds = [...deletedIds].slice(-200);
-  branch.cloudBranchId = cloudBranchId;
-  branch.cloudRevision = Math.max(priorRevision, remoteRevision);
-  branch.title = payload.branchTitle || branch.title;
-  branch.tavernSaveId = payload.tavernSaveId || "";
-  branch.tavernCharacterKey = payload.tavernCharacterKey || "";
-  if (Object.prototype.hasOwnProperty.call(payload, "phoneSummary")) {
-    if (!payload.phoneSummary && remoteRevision >= priorRevision) {
-      branch.phoneSummary = null;
-    } else if (payload.phoneSummary) {
-      const localSummaryTime = Number(branch.phoneSummary?.updatedAt) || 0;
-      const remoteSummaryTime = Number(payload.phoneSummary.updatedAt) || 0;
-      if (remoteSummaryTime >= localSummaryTime) {
-        branch.phoneSummary = payload.phoneSummary;
-      }
+    const current = activeBranchForCharacter(boundCharacterId);
+    const canBindCurrent =
+      current &&
+      (!current.tavernCharacterKey ||
+        current.tavernCharacterKey === tavernCharacterKey) &&
+      (!current.tavernSaveId || current.tavernSaveId === activeSaveId);
+    if (canBindCurrent) {
+      branch = current;
+      branch.tavernCharacterKey = tavernCharacterKey;
+      branch.tavernSaveId = activeSaveId;
+      branch.cloudBranchId = `tavern_${stableTextHash(
+        `${tavernCharacterKey}|${activeSaveId}`,
+      )}`;
+      branch.localDirtyAt = Date.now();
     }
   }
-  branch.tavernSummary = payload.tavernSummary || branch.tavernSummary;
-  branch.tavernRecent = payload.tavernRecent || branch.tavernRecent;
-  branch.updatedAt = Math.max(
-    Number(branch.updatedAt) || 0,
-    Number(payload.updatedAt) || Date.now(),
-  );
-  if (!state.activeBranchIds[characterId]) {
-    state.activeBranchIds[characterId] = branch.id;
+  if (!branch) return null;
+
+  if (inbox.summary?.saveId === activeSaveId) {
+    branch.tavernSummary = inbox.summary;
   }
-  state.currentCharacterId ||= characterId;
-
-  const windowStartedAt =
-    Number(payload.windowStartedAt) ||
-    Number(remoteMessages[0]?.createdAt) ||
-    Number.MAX_SAFE_INTEGER;
-  const hasRecentLocalOnly = branch.messages.some(
-    (message) =>
-      Number(message.createdAt) >= windowStartedAt &&
-      !remoteIds.has(message.id) &&
-      !deletedIds.has(message.id),
-  );
-  const hasLocalOnlyDeletion = [...localDeleted].some(
-    (messageId) => !remoteDeleted.has(messageId),
-  );
-  if (
-    snapshot.source_device_id !== syncState.device.id &&
-    remoteRevision >= priorRevision &&
-    (hasRecentLocalOnly || hasLocalOnlyDeletion)
-  ) {
-    queuePhoneChatSync(characterId, "chat.converge", branch.id);
+  if (inbox.recent?.saveId === activeSaveId) {
+    branch.tavernRecent = inbox.recent;
   }
-}
-
-function applySnapshot(snapshot) {
-  if (!snapshot) return;
-  upsertSnapshotCache(snapshot);
-  if (snapshot.is_deleted) return;
-  if (snapshot.entity_type.startsWith("tavern.")) applyTavernSnapshot(snapshot);
-  if (snapshot.entity_type === "phone.chat") applyPhoneSnapshot(snapshot);
-}
-
-async function fetchSnapshot(entityType, entityId) {
-  const { data, error } = await supabase
-    .from("latest_snapshots")
-    .select(SNAPSHOT_FIELDS)
-    .eq("entity_type", entityType)
-    .eq("entity_id", entityId)
-    .maybeSingle();
-  if (error) throw error;
-  if (data) applySnapshot(data);
-  return data;
-}
-
-async function acknowledge(seq) {
-  if (!seq || !syncState.device.id) return;
-  const { error } = await supabase.rpc("ack_sync_cursor", {
-    p_device_id: syncState.device.id,
-    p_last_ack_seq: seq,
-  });
-  if (error) throw error;
-  state.sync.lastAckSeq = Math.max(Number(state.sync.lastAckSeq) || 0, Number(seq) || 0);
-}
-
-async function pullPendingEvents() {
-  let cursor = Math.max(0, Number(state.sync.lastAckSeq) || 0);
-  for (;;) {
-    const { data, error } = await supabase
-      .from("sync_events")
-      .select(
-        "server_seq,event_id,source_device_id,entity_type,entity_id,operation,revision,payload,created_at",
-      )
-      .gt("server_seq", cursor)
-      .order("server_seq", { ascending: true })
-      .limit(200);
-    if (error) throw error;
-    if (!data?.length) break;
-    for (const event of data) {
-      if (event.operation !== "delete") {
-        await fetchSnapshot(event.entity_type, event.entity_id);
-      }
-      cursor = Number(event.server_seq);
-    }
-    await acknowledge(cursor);
-    if (data.length < 200) break;
-  }
-  syncState.lastPullAt = Date.now();
-}
-
-function queuePull() {
-  pullPromise = pullPromise
-    .then(() => pullPendingEvents())
-    .catch((error) => {
-      syncState.error = error.message || "åŒæ­¥äº‹ä»¶è¯»å–å¤±è´¥";
-    });
-  return pullPromise;
-}
-
-async function loadCloudState() {
-  const [devicesResult, snapshotsResult, usageResult] = await Promise.all([
-    supabase.from("user_devices").select(DEVICE_FIELDS).order("last_seen_at", {
-      ascending: false,
-    }),
-    supabase.from("latest_snapshots").select(SNAPSHOT_FIELDS),
-    supabase.from("user_sync_usage").select("*").maybeSingle(),
-  ]);
-  if (devicesResult.error) throw devicesResult.error;
-  if (snapshotsResult.error) throw snapshotsResult.error;
-  if (usageResult.error) throw usageResult.error;
-  syncState.devices = devicesResult.data || [];
-  syncState.snapshots = [];
-  revisionIndex.clear();
-  (snapshotsResult.data || []).forEach(applySnapshot);
-  syncState.usage = usageResult.data || null;
-}
-
-async function registerDevice() {
-  syncState.device = getDeviceIdentity();
-  const { data, error } = await supabase.rpc("register_sync_device", {
-    p_device_id: syncState.device.id,
-    p_device_name: syncState.device.name,
-    p_platform: syncState.device.platform,
-    p_app_version: APP_VERSION,
-  });
-  if (error) throw error;
-  const registered = Array.isArray(data) ? data[0] : data;
-  state.sync.lastAckSeq = Math.max(
-    Number(state.sync.lastAckSeq) || 0,
-    Number(registered?.last_ack_seq) || 0,
-    Number(registered?.joined_seq) || 0,
-  );
-  return registered;
-}
-
-function subscribeRealtime(userId) {
-  if (realtimeChannel) supabase.removeChannel(realtimeChannel);
-  realtimeChannel = supabase
-    .channel(`linephone-sync-${syncState.device.id}`)
-    .on(
-      "postgres_changes",
-      {
-        event: "INSERT",
-        schema: "public",
-        table: "sync_events",
-        filter: `user_id=eq.${userId}`,
-      },
-      () => queuePull(),
-    )
-    .subscribe((status) => {
-      syncState.connected = status === "SUBSCRIBED";
-    });
-}
-
-async function flushDirtyBranches() {
-  const latestDirtyByCharacter = new Map();
-  Object.values(state.chatBranches)
-    .filter((branch) => branch.localDirtyAt)
-    .forEach((branch) => {
-      const prior = latestDirtyByCharacter.get(branch.characterId);
-      if (!prior || branch.localDirtyAt > prior.localDirtyAt) {
-        latestDirtyByCharacter.set(branch.characterId, branch);
-      }
-    });
-  for (const branch of latestDirtyByCharacter.values()) {
-    await syncPhoneChatNow(branch.characterId, "offline.flush", branch.id);
-  }
-}
-
-export async function initializeSync(userId) {
-  if (!userId || (syncState.initialized && syncState.userId === userId)) return;
-  syncState.busy = true;
-  syncState.error = "";
-  syncState.userId = userId;
-  try {
-    await registerDevice();
-    await loadCloudState();
-    subscribeRealtime(userId);
-    await queuePull();
-    syncState.initialized = true;
-    await flushDirtyBranches();
-  } catch (error) {
-    syncState.error = error.message || "åŒæ­¥åˆå§‹åŒ–å¤±è´¥";
-  } finally {
-    syncState.busy = false;
-  }
-}
-
-export function stopSync() {
-  if (realtimeChannel) supabase.removeChannel(realtimeChannel);
-  realtimeChannel = null;
-  writeTimers.forEach((timer) => clearTimeout(timer));
-  writeTimers.clear();
-  syncState.initialized = false;
-  syncState.connected = false;
-  syncState.userId = "";
-}
-
-export async function refreshSyncData() {
-  if (!syncState.userId) return;
-  syncState.busy = true;
-  syncState.error = "";
-  try {
-    await registerDevice();
-    await loadCloudState();
-    await queuePull();
-  } catch (error) {
-    syncState.error = error.message || "åŒæ­¥åˆ·æ–°å¤±è´¥";
-  } finally {
-    syncState.busy = false;
-  }
-}
-
-export async function updateDeviceName(name) {
-  syncState.device = renameLocalDevice(name);
-  await registerDevice();
-  await loadCloudState();
-}
-
-export async function commitSyncSnapshot({
-  entityType,
-  entityId,
-  snapshotPayload,
-  eventPayload = null,
-}) {
-  if (!syncState.initialized || !syncState.device.id) return null;
-  const key = entityKey(entityType, entityId);
-  let revision = (revisionIndex.get(key) || 0) + 1;
-  const eventId = crypto.randomUUID();
-  const request = () =>
-    supabase.rpc("commit_sync_change", {
-      p_event_id: eventId,
-      p_source_device_id: syncState.device.id,
-      p_entity_type: entityType,
-      p_entity_id: entityId,
-      p_revision: revision,
-      p_operation: "upsert",
-      p_snapshot_payload: snapshotPayload,
-      p_event_payload: eventPayload || snapshotPayload,
-    });
-
-  syncState.pendingWrites += 1;
-  try {
-    let result = await request();
-    if (
-      result.error &&
-      String(result.error.message || "").includes("stale_snapshot_revision")
-    ) {
-      const current = await fetchSnapshot(entityType, entityId);
-      revision = (Number(current?.revision) || 0) + 1;
-      result = await request();
-    }
-    if (result.error) throw result.error;
-    revisionIndex.set(key, revision);
-    return { serverSeq: Number(result.data) || 0, revision };
-  } finally {
-    syncState.pendingWrites = Math.max(0, syncState.pendingWrites - 1);
-  }
-}
-
-export async function syncPhoneChatNow(
-  characterId,
-  kind = "chat.update",
-  branchId = "",
-) {
-  const character = state.characters.find((item) => item.id === characterId);
-  const branch =
-    state.chatBranches[branchId] || activeBranchForCharacter(characterId);
-  if (!character || !branch || !syncState.initialized) return null;
-  const characterSyncKey = cloudCharacterKey(character);
-  branch.cloudBranchId ||=
-    branch.tavernSaveId
-      ? `tavern_${stableTextHash(
-          `${branch.tavernCharacterKey}|${branch.tavernSaveId}`,
-        )}`
-      : "main";
-  const messages = compactMessages(branch.messages, branch.phoneSummary);
-  const dirtyAtStart = Number(branch.localDirtyAt) || Date.now();
-  const payload = {
-    schemaVersion: 2,
-    characterSyncKey,
-    characterId,
-    characterName: character.name,
-    characterCard: characterCardPayload(character),
-    characterUpdatedAt:
-      Number(character.updatedAt) || Number(character.importedAt) || Date.now(),
-    branchId: branch.id,
-    cloudBranchId: branch.cloudBranchId,
-    branchTitle: branch.title,
-    origin: branch.origin,
-    tavernSaveId: branch.tavernSaveId || "",
-    tavernCharacterKey: branch.tavernCharacterKey || "",
-    messages,
-    windowStartedAt: Number(messages[0]?.createdAt) || 0,
-    deletedMessageIds: (branch.deletedMessageIds || []).slice(-200),
-    phoneSummary: branch.phoneSummary || null,
-    createdAt: branch.createdAt,
-    updatedAt: Date.now(),
-  };
-  const result = await commitSyncSnapshot({
-    entityType: "phone.chat",
-    entityId: `character:${characterSyncKey}`,
-    snapshotPayload: payload,
-    eventPayload: {
-      kind,
-      characterSyncKey,
-      cloudBranchId: branch.cloudBranchId,
-      updatedAt: payload.updatedAt,
-    },
-  });
-  if (result) {
-    branch.cloudRevision = result.revision;
-    if ((Number(branch.localDirtyAt) || 0) <= dirtyAtStart) {
-      branch.localDirtyAt = 0;
-    }
-  }
-  return result;
-}
-
-export function queuePhoneChatSync(
-  characterId,
-  kind = "chat.update",
-  branchId = "",
-) {
-  const branch =
-    state.chatBranches[branchId] || activeBranchForCharacter(characterId);
-  if (!branch) return;
-  branch.updatedAt = Date.now();
-  branch.localDirtyAt = Date.now();
-  const timerKey = branch.id;
-  clearTimeout(writeTimers.get(timerKey));
-  writeTimers.set(
-    timerKey,
-    setTimeout(() => {
-      writeTimers.delete(timerKey);
-      syncPhoneChatNow(characterId, kind, branch.id).catch((error) => {
-        syncState.error = error.message || "èŠå¤©ä¸Šä¼ å¤±è´¥";
-      });
-    }, 700),
-  );
-}
+  branch.updatedAt = Da×Mº¶‰žËkºwµçu•ÍÍ…•%‘Ìèmt°(€€€€€Á¡½¹•MÕµµ…ÉäèÁ…å±½…¹Á¡½¹•MÕµµ…Éäñð¹Õ±°°(€€€€€Ñ…Ù•É¹MÕµµ…ÉäèÁ…å±½…¹Ñ…Ù•É¹MÕµµ…Éäñð¹Õ±°°(€€€€€Ñ…Ù•É¹I••¹ÐèÁ…å±½…¹Ñ…Ù•É¹I••¹Ðñð¹Õ±°°(€€€€€±½Õ‘I•Ù¥Í¥½¸è€À°(€€€€€É•…Ñ•‘Ðè9Õµ‰•È¡Á…å±½…¹É•…Ñ•‘Ð¤ñð…Ñ”¹¹½Ü ¤°(€€€€€ÕÁ‘…Ñ•‘Ðè…Ñ”¹¹½Ü ¤°(€€€ôì(€€€ÍÑ…Ñ”¹¡…Ñ	É…¹¡•Ím‰É…¹ ¹¥‘t€ô‰É…¹ ì(€ô((€½¹ÍÐÁÉ¥½ÉI•Ù¥Í¥½¸€ô9Õµ‰•È¡‰É…¹ ¹±½Õ‘I•Ù¥Í¥½¸¤ñð€Àì(€½¹ÍÐÉ•µ½Ñ•I•Ù¥Í¥½¸€ô9Õµ‰•È¡Í¹…ÁÍ¡½Ð¹É•Ù¥Í¥½¸¤ñð€Àì(€½¹ÍÐÉ•µ½Ñ•5•ÍÍ…•Ì€ô€¡ÉÉ…ä¹¥ÍÉÉ…ä¡Á…å±½…¹µ•ÍÍ…•Ì¤€üÁ…å±½…¹µ•ÍÍ…•Ì€èmt¤(€€€€¹™¥±Ñ•È ¡µ•ÍÍ…”¤€ôøµ•ÍÍ…”ü¹¥€˜˜µ•ÍÍ…”ü¹½¹Ñ•¹Ð¤(€€€€¹µ…À¡½µÁ…Ñ5•ÍÍ…”¤ì(€½¹ÍÐÉ•µ½Ñ•%‘Ì€ô¹•ÜM•Ð¡É•µ½Ñ•5•ÍÍ…•Ì¹µ…À ¡µ•ÍÍ…”¤€ôøµ•ÍÍ…”¹¥¤¤ì(€½¹ÍÐÉ•µ½Ñ••±•Ñ•€ô¹•ÜM•Ð (€€€ÉÉ…ä¹¥ÍÉÉ…ä¡Á…å±½…¹‘•±•Ñ•‘5•ÍÍ…•%‘Ì¤(€€€€€€üÁ…å±½…¹‘•±•Ñ•‘5•ÍÍ…•%‘Ì¹µ…À¡MÑÉ¥¹œ¤(€€€€€€èmt°(€€¤ì(€½¹ÍÐ±½…±•±•Ñ•€ô¹•ÜM•Ð (€€€ÉÉ…ä¹¥ÍÉÉ…ä¡‰É…¹ ¹‘•±•Ñ•‘5•ÍÍ…•%‘Ì¤(€€€€€€ü‰É…¹ ¹‘•±•Ñ•‘5•ÍÍ…•%‘Ì¹µ…À¡MÑÉ¥¹œ¤(€€€€€€èmt°(€€¤ì(€½¹ÍÐ‘•±•Ñ•‘%‘Ì€ô¹•ÜM•Ð¡l¸¸¹±½…±•±•Ñ•°€¸¸¹É•µ½Ñ••±•Ñ•‘t¤ì(€½¹ÍÐ±½…±	å%€ô¹•Ü5…À (€€€€¡‰É…¹ ¹µ•ÍÍ…•Ìñðmt¤¹µ…À ¡µ•ÍÍ…”¤€ôømµ•ÍÍ…”¹¥°µ•ÍÍ…•t¤°(€€¤ì((€É•µ½Ñ•5•ÍÍ…•Ì¹™½É…  ¡É•µ½Ñ•5•ÍÍ…”¤€ôøì(€€€½¹ÍÐ±½…±5•ÍÍ…”€ô±½…±	å%¹•Ð¡É•µ½Ñ•5•ÍÍ…”¹¥¤ì(€€€½¹ÍÐ±½…±Q¥µ•ÍÑ…µÀ€ô(€€€€€9Õµ‰•È¡±½…±5•ÍÍ…”ü¹ÕÁ‘…Ñ•‘Ð¤ñð9Õµ‰•È¡±½…±5•ÍÍ…”ü¹É•…Ñ•‘Ð¤ñð€Àì(€€€½¹ÍÐÉ•µ½Ñ•Q¥µ•ÍÑ…µÀ€ô(€€€€€9Õµ‰•È¡É•µ½Ñ•5•ÍÍ…”¹ÕÁ‘…Ñ•‘Ð¤ñð9Õµ‰•È¡É•µ½Ñ•5•ÍÍ…”¹É•…Ñ•‘Ð¤ñð€Àì(€€€¥˜€ …±½…±5•ÍÍ…”ñðÉ•µ½Ñ•Q¥µ•ÍÑ…µÀ€øô±½…±Q¥µ•ÍÑ…µÀ¤ì(€€€€€±½…±	å%¹Í•Ð¡É•µ½Ñ•5•ÍÍ…”¹¥°É•µ½Ñ•5•ÍÍ…”¤ì(€€€ô(€ô¤ì(€‰É…¹ ¹µ•ÍÍ…•Ì€ôl¸¸¹±½…±	å%¹Ù…±Õ•Ì ¥t(€€€€¹™¥±Ñ•È ¡µ•ÍÍ…”¤€ôø€…‘•±•Ñ•‘%‘Ì¹¡…Ì¡µ•ÍÍ…”¹¥¤¤(€€€€¹Í½ÉÐ (€€€€€€¡±•™Ð°É¥¡Ð¤€ôø(€€€€€€€€¡9Õµ‰•È¡±•™Ð¹É•…Ñ•‘Ð¤ñð€À¤€´€¡9Õµ‰•È¡É¥¡Ð¹É•…Ñ•‘Ð¤ñð€À¤°(€€€€¤ì(€½¹ÍÐÉ•Á…¥É•‘EÕ•Õ•‘5•ÍÍ…•Ì€ô±•…É¹ÍÝ•É•‘EÕ•Õ•‘5•ÍÍ…•Ì¡‰É…¹ ¹µ•ÍÍ…•Ì¤ì(€‰É…¹ ¹‘•±•Ñ•‘5•ÍÍ…•%‘Ì€ôl¸¸¹‘•±•Ñ•‘%‘Ít¹Í±¥” ´ÈÀÀ¤ì(€‰É…¹ ¹±½Õ‘	É…¹¡%€ô(€€€‰É…¹ ¹Ñ…Ù•É¹¡…É…Ñ•É-•ä€˜˜‰É…¹ ¹Ñ…Ù•É¹M…Ù•%(€€€€€€üÑ…Ù•É¹|‘íÍÑ…‰±•Q•áÑ!…Í  (€€€€€€€€€€‘í‰É…¹ ¹Ñ…Ù•É¹¡…É…Ñ•É-•åõð‘í‰É…¹ ¹Ñ…Ù•É¹M…Ù•%‘õ€°(€€€€€€€€¥õ€(€€€€€€è±½Õ‘	É…¹¡%ì(€‰É…¹ ¹±½Õ‘I•Ù¥Í¥½¸€ô5…Ñ ¹µ…à¡ÁÉ¥½ÉI•Ù¥Í¥½¸°É•µ½Ñ•I•Ù¥Í¥½¸¤ì(€‰É…¹ ¹Ñ¥Ñ±”€ôÁ…å±½…¹‰É…¹¡Q¥Ñ±”ñð‰É…¹ ¹Ñ¥Ñ±”ì(€‰É…¹ ¹Ñ…Ù•É¹M…Ù•%€ôÁ…å±½…¹Ñ…Ù•É¹M…Ù•%ñð‰É…¹ ¹Ñ…Ù•É¹M…Ù•%ñð€ˆˆì(€‰É…¹ ¹Ñ…Ù•É¹¡…É…Ñ•É-•ä€ô(€€€Á…å±½…¹Ñ…Ù•É¹¡…É…Ñ•É-•äñð‰É…¹ ¹Ñ…Ù•É¹¡…É…Ñ•É-•äñð€ˆˆì(€¥˜€¡=‰©•Ð¹ÁÉ½Ñ½ÑåÁ”¹¡…Í=Ý¹AÉ½Á•ÉÑä¹…±°¡Á…å±½…°€‰Á¡½¹•MÕµµ…Éäˆ¤¤ì(€€€¥˜€ …Á…å±½…¹Á¡½¹•MÕµµ…Éä€˜˜É•µ½Ñ•I•Ù¥Í¥½¸€øôÁÉ¥½ÉI•Ù¥Í¥½¸¤ì(€€€€€‰É…¹ ¹Á¡½¹•MÕµµ…Éä€ô¹Õ±°ì(€€€ô•±Í”¥˜€¡Á…å±½…¹Á¡½¹•MÕµµ…Éä¤ì(€€€€€½¹ÍÐ±½…±MÕµµ…ÉåQ¥µ”€ô9Õµ‰•È¡‰É…¹ ¹Á¡½¹•MÕµµ…Éäü¹ÕÁ‘…Ñ•‘Ð¤ñð€Àì(€€€€€½¹ÍÐÉ•µ½Ñ•MÕµµ…ÉåQ¥µ”€ô9Õµ‰•È¡Á…å±½…¹Á¡½¹•MÕµµ…Éä¹ÕÁ‘…Ñ•‘Ð¤ñð€Àì(€€€€€¥˜€¡É•µ½Ñ•MÕµµ…ÉåQ¥µ”€øô±½…±MÕµµ…ÉåQ¥µ”¤ì(€€€€€€€‰É…¹ ¹Á¡½¹•MÕµµ…Éä€ôÁ…å±½…¹Á¡½¹•MÕµµ…Éäì(€€€€€ô(€€€ô(€ô(€‰É…¹ ¹Ñ…Ù•É¹MÕµµ…Éä€ôÁ…å±½…¹Ñ…Ù•É¹MÕµµ…Éäñð‰É…¹ ¹Ñ…Ù•É¹MÕµµ…Éäì(€‰É…¹ ¹Ñ…Ù•É¹I••¹Ð€ôÁ…å±½…¹Ñ…Ù•É¹I••¹Ðñð‰É…¹ ¹Ñ…Ù•É¹I••¹Ðì(€‰É…¹ ¹ÕÁ‘…Ñ•‘Ð€ô5…Ñ ¹µ…à (€€€9Õµ‰•È¡‰É…¹ ¹ÕÁ‘…Ñ•‘Ð¤ñð€À°(€€€9Õµ‰•È¡Á…å±½…¹ÕÁ‘…Ñ•‘Ð¤ñð…Ñ”¹¹½Ü ¤°(€€¤ì(€¥˜€ …ÍÑ…Ñ”¹…Ñ¥Ù•	É…¹¡%‘Ím¡…É…Ñ•É%‘t¤ì(€€€ÍÑ…Ñ”¹…Ñ¥Ù•	É…¹¡%‘Ím¡…É…Ñ•É%‘t€ô‰É…¹ ¹¥ì(€ô(€ÍÑ…Ñ”¹ÕÉÉ•¹Ñ¡…É…Ñ•É%ñðô¡…É…Ñ•É%ì((€½¹ÍÐÝ¥¹‘½ÝMÑ…ÉÑ•‘Ð€ô(€€€9Õµ‰•È¡Á…å±½…¹Ý¥¹‘½ÝMÑ…ÉÑ•‘Ð¤ñð(€€€9Õµ‰•È¡É•µ½Ñ•5•ÍÍ…•ÍlÁtü¹É•…Ñ•‘Ð¤ñð(€€€9Õµ‰•È¹5a}M}%9QHì(€½¹ÍÐ¡…ÍI••¹Ñ1½…±=¹±ä€ô‰É…¹ ¹µ•ÍÍ…•Ì¹Í½µ” (€€€€¡µ•ÍÍ…”¤€ôø(€€€€€9Õµ‰•È¡µ•ÍÍ…”¹É•…Ñ•‘Ð¤€øôÝ¥¹‘½ÝMÑ…ÉÑ•‘Ð€˜˜(€€€€€€…É•µ½Ñ•%‘Ì¹¡…Ì¡µ•ÍÍ…”¹¥¤€˜˜(€€€€€€…‘•±•Ñ•‘%‘Ì¹¡…Ì¡µ•ÍÍ…”¹¥¤°(€€¤ì(€½¹ÍÐ¡…Í1½…±=¹±å•±•Ñ¥½¸€ôl¸¸¹±½…±•±•Ñ•‘t¹Í½µ” (€€€€¡µ•ÍÍ…•%¤€ôø€…É•µ½Ñ••±•Ñ•¹¡…Ì¡µ•ÍÍ…•%¤°(€€¤ì(€¥˜€ (€€€Í¹…ÁÍ¡½Ð¹Í½ÕÉ•}‘•Ù¥•}¥€„ôôÍå¹MÑ…Ñ”¹‘•Ù¥”¹¥€˜˜(€€€É•µ½Ñ•I•Ù¥Í¥½¸€øôÁÉ¥½ÉI•Ù¥Í¥½¸€˜˜(€€€€¡¡…ÍI••¹Ñ1½…±=¹±äñð¡…Í1½…±=¹±å•±•Ñ¥½¸¤(€€¤ì(€€€ÅÕ•Õ•A¡½¹•¡…ÑMå¹Œ¡¡…É…Ñ•É%°€‰¡…Ð¹½¹Ù•É”ˆ°‰É…¹ ¹¥¤ì(€ô•±Í”¥˜€¡É•Á…¥É•‘EÕ•Õ•‘5•ÍÍ…•Ì¤ì(€€€ÅÕ•Õ•A¡½¹•¡…ÑMå¹Œ¡¡…É…Ñ•É%°€‰µ•ÍÍ…”¹É•Á…¥Èˆ°‰É…¹ ¹¥¤ì(€ô)ô()™Õ¹Ñ¥½¸…ÁÁ±åM¹…ÁÍ¡½Ð¡Í¹…ÁÍ¡½Ð¤ì(€¥˜€ …Í¹…ÁÍ¡½Ð¤É•ÑÕÉ¸ì(€ÕÁÍ•ÉÑM¹…ÁÍ¡½Ñ…¡”¡Í¹…ÁÍ¡½Ð¤ì(€¥˜€¡Í¹…ÁÍ¡½Ð¹¥Í}‘•±•Ñ•¤É•ÑÕÉ¸ì(€¥˜€¡Í¹…ÁÍ¡½Ð¹•¹Ñ¥Ñå}ÑåÁ”¹ÍÑ…ÉÑÍ]¥Ñ  ‰Ñ…Ù•É¸¸ˆ¤¤…ÁÁ±åQ…Ù•É¹M¹…ÁÍ¡½Ð¡Í¹…ÁÍ¡½Ð¤ì(€¥˜€¡Í¹…ÁÍ¡½Ð¹•¹Ñ¥Ñå}ÑåÁ”€ôôô€‰Á¡½¹”¹¡…Ðˆ¤…ÁÁ±åA¡½¹•M¹…ÁÍ¡½Ð¡Í¹…ÁÍ¡½Ð¤ì)ô()…Íå¹Œ™Õ¹Ñ¥½¸™•Ñ¡M¹…ÁÍ¡½Ð¡•¹Ñ¥ÑåQåÁ”°•¹Ñ¥Ñå%¤ì(€½¹ÍÐì‘…Ñ„°•ÉÉ½Èô€ô…Ý…¥ÐÍÕÁ…‰…Í”(€€€€¹™É½´ ‰±…Ñ•ÍÑ}Í¹…ÁÍ¡½ÑÌˆ¤(€€€€¹Í•±•Ð¡M9AM!=Q}%1L¤(€€€€¹•Ä ‰•¹Ñ¥Ñå}ÑåÁ”ˆ°•¹Ñ¥ÑåQåÁ”¤(€€€€¹•Ä ‰•¹Ñ¥Ñå}¥ˆ°•¹Ñ¥Ñå%¤(€€€€¹µ…å‰•M¥¹±” ¤ì(€¥˜€¡•ÉÉ½È¤Ñ¡É½Ü•ÉÉ½Èì(€¥˜€¡‘…Ñ„¤…ÁÁ±åM¹…ÁÍ¡½Ð¡‘…Ñ„¤ì(€É•ÑÕÉ¸‘…Ñ„ì)ô()•áÁ½ÉÐ…Íå¹Œ™Õ¹Ñ¥½¸É•™É•Í¡	É…¹¡5•µ½Éå½É¤¡¡…É…Ñ•É%°‰É…¹¡%€ô€ˆˆ¤ì(€½¹ÍÐ¡…É…Ñ•È€ôÍÑ…Ñ”¹¡…É…Ñ•ÉÌ¹™¥¹ ¡¥Ñ•´¤€ôø¥Ñ•´¹¥€ôôô¡…É…Ñ•É%¤ì(€½¹ÍÐ¥¹¥Ñ¥…±	É…¹ €ô(€€€ÍÑ…Ñ”¹¡…Ñ	É…¹¡•Ím‰É…¹¡%‘tñð…Ñ¥Ù•	É…¹¡½É¡…É…Ñ•È¡¡…É…Ñ•É%¤ì(€¥˜€ …¡…É…Ñ•Èñð€…¥¹¥Ñ¥…±	É…¹ ñð€…Íå¹MÑ…Ñ”¹¥¹¥Ñ¥…±¥é•¤É•ÑÕÉ¸¥¹¥Ñ¥…±	É…¹ ì((€…Ý…¥ÐÁÕ±±AÉ½µ¥Í”¹…Ñ   ¤€ôøíô¤ì(€½¹ÍÐÑ…Ù•É¹¡…É…Ñ•É-•ä€ô(€€€¥¹¥Ñ¥…±	É…¹ ¹Ñ…Ù•É¹¡…É…Ñ•É-•äñð(€€€¡…É…Ñ•È¹Ñ…Ù•É¹¡…É…Ñ•É-•äñð(€€€=‰©•Ð¹•¹ÑÉ¥•Ì¡ÍÑ…Ñ”¹Íå¹Œ¹¡…É…Ñ•É	¥¹‘¥¹Ì¤¹™¥¹ (€€€€€€¡l°‰½Õ¹‘¡…É…Ñ•É%‘t¤€ôø‰½Õ¹‘¡…É…Ñ•É%€ôôô¡…É…Ñ•É%°(€€€€¤ü¹lÁtñð(€€€€ˆˆì(€¥˜€ …Ñ…Ù•É¹¡…É…Ñ•É-•ä¤É•ÑÕÉ¸¥¹¥Ñ¥…±	É…¹ ì((€½¹ÍÐ•¹Ñ¥Ñå%€ô¡…É…Ñ•Èè‘íÑ…Ù•É¹¡…É…Ñ•É-•åõ€ì(€ÑÉäì(€€€…Ý…¥Ð™•Ñ¡M¹…ÁÍ¡½Ð ‰Ñ…Ù•É¸¹…Ñ¥Ù”ˆ°•¹Ñ¥Ñå%¤ì(€€€…Ý…¥ÐAÉ½µ¥Í”¹…±°¡l(€€€€€™•Ñ¡M¹…ÁÍ¡½Ð ‰Ñ…Ù•É¸¹ÍÕµµ…Éäˆ°•¹Ñ¥Ñå%¤°(€€€€€™•Ñ¡M¹…ÁÍ¡½Ð ‰Ñ…Ù•É¸¹É••¹Ðˆ°•¹Ñ¥Ñå%¤°(€€€t¤ì(€€€É•ÑÕÉ¸€ (€€€€€¡å‘É…Ñ•Q…Ù•É¹5•µ½Éä¡Ñ…Ù•É¹¡…É…Ñ•É-•ä°¡…É…Ñ•É%¤ñð(€€€€€ÍÑ…Ñ”¹¡…Ñ	É…¹¡•Ím‰É…¹¡%‘tñð(€€€€€…Ñ¥Ù•	É…¹¡½É¡…É…Ñ•È¡¡…É…Ñ•É%¤(€€€€¤ì(€ô…Ñ €¡•ÉÉ½È¤ì(€€€Íå¹MÑ…Ñ”¹•ÉÉ½È€ô•ÉÉ½È¹µ•ÍÍ…”ñð€‰$ƒ–n{–’7–&7–"ßšZÃ¦K¦š¢ºÃ–þ–’Ç¢Ò”ˆì(€€€É•ÑÕÉ¸€ (€€€€€¡å‘É…Ñ•Q…Ù•É¹5•µ½Éä¡Ñ…Ù•É¹¡…É…Ñ•É-•ä°¡…É…Ñ•É%¤ñð(€€€€€ÍÑ…Ñ”¹¡…Ñ	É…¹¡•Ím‰É…¹¡%‘tñð(€€€€€…Ñ¥Ù•	É…¹¡½É¡…É…Ñ•È¡¡…É…Ñ•É%¤(€€€€¤ì(€ô)ô()…Íå¹Œ™Õ¹Ñ¥½¸…­¹½Ý±•‘”¡Í•Ä¤ì(€¥˜€ …Í•Äñð€…Íå¹MÑ…Ñ”¹‘•Ù¥”¹¥¤É•ÑÕÉ¸ì(€½¹ÍÐì•ÉÉ½Èô€ô…Ý…¥ÐÍÕÁ…‰…Í”¹ÉÁŒ ‰…­}Íå¹}ÕÉÍ½Èˆ°ì(€€€Á}‘•Ù¥•}¥èÍå¹MÑ…Ñ”¹‘•Ù¥”¹¥°(€€€Á}±…ÍÑ}…­}Í•ÄèÍ•Ä°(€ô¤ì(€¥˜€¡•ÉÉ½È¤Ñ¡É½Ü•ÉÉ½Èì(€ÍÑ…Ñ”¹Íå¹Œ¹±…ÍÑ­M•Ä€ô5…Ñ ¹µ…à¡9Õµ‰•È¡ÍÑ…Ñ”¹Íå¹Œ¹±…ÍÑ­M•Ä¤ñð€À°9Õµ‰•È¡Í•Ä¤ñð€À¤ì)ô()…Íå¹Œ™Õ¹Ñ¥½¸ÁÕ±±A•¹‘¥¹Ù•¹ÑÌ ¤ì(€±•ÐÕÉÍ½È€ô5…Ñ ¹µ…à À°9Õµ‰•È¡ÍÑ…Ñ”¹Íå¹Œ¹±…ÍÑ­M•Ä¤ñð€À¤ì(€™½È€ ìì¤ì(€€€½¹ÍÐì‘…Ñ„°•ÉÉ½Èô€ô…Ý…¥ÐÍÕÁ…‰…Í”(€€€€€€¹™É½´ ‰Íå¹}•Ù•¹ÑÌˆ¤(€€€€€€¹Í•±•Ð (€€€€€€€€‰Í•ÉÙ•É}Í•Ä±•Ù•¹Ñ}¥±Í½ÕÉ•}‘•Ù¥•}¥±•¹Ñ¥Ñå}ÑåÁ”±•¹Ñ¥Ñå}¥±½Á•É…Ñ¥½¸±É•Ù¥Í¥½¸±Á…å±½…±É•…Ñ•‘}…Ðˆ°(€€€€€€¤(€€€€€€¹Ð ‰Í•ÉÙ•É}Í•Äˆ°ÕÉÍ½È¤(€€€€€€¹½É‘•È ‰Í•ÉÙ•É}Í•Äˆ°ì…Í•¹‘¥¹œèÑÉÕ”ô¤(€€€€€€¹±¥µ¥Ð ÈÀÀ¤ì(€€€¥˜€¡•ÉÉ½È¤Ñ¡É½Ü•ÉÉ½Èì(€€€¥˜€ …‘…Ñ„ü¹±•¹Ñ ¤‰É•…¬ì(€€€™½È€¡½¹ÍÐ•Ù•¹Ð½˜‘…Ñ„¤ì(€€€€€¥˜€¡•Ù•¹Ð¹½Á•É…Ñ¥½¸€„ôô€‰‘•±•Ñ”ˆ¤ì(€€€€€€€…Ý…¥Ð™•Ñ¡M¹…ÁÍ¡½Ð¡•Ù•¹Ð¹•¹Ñ¥Ñå}ÑåÁ”°•Ù•¹Ð¹•¹Ñ¥Ñå}¥¤ì(€€€€€ô(€€€€€ÕÉÍ½È€ô9Õµ‰•È¡•Ù•¹Ð¹Í•ÉÙ•É}Í•Ä¤ì(€€€ô(€€€…Ý…¥Ð…­¹½Ý±•‘”¡ÕÉÍ½È¤ì(€€€¥˜€¡‘…Ñ„¹±•¹Ñ €ð€ÈÀÀ¤‰É•…¬ì(€ô(€Íå¹MÑ…Ñ”¹±…ÍÑAÕ±±Ð€ô…Ñ”¹¹½Ü ¤ì)ô()™Õ¹Ñ¥½¸ÅÕ•Õ•AÕ±° ¤ì(€ÁÕ±±AÉ½µ¥Í”€ôÁÕ±±AÉ½µ¥Í”(€€€€¹Ñ¡•¸  ¤€ôøÁÕ±±A•¹‘¥¹Ù•¹ÑÌ ¤¤(€€€€¹…Ñ  ¡•ÉÉ½È¤€ôøì(€€€€€Íå¹MÑ…Ñ”¹•ÉÉ½È€ô•ÉÉ½È¹µ•ÍÍ…”ñð€‹–B3š¶—’ê/’îÛ¢¾ï–>[–’Ç¢Ò”ˆì(€€€ô¤ì(€É•ÑÕÉ¸ÁÕ±±AÉ½µ¥Í”ì)ô()…Íå¹Œ™Õ¹Ñ¥½¸±½…‘±½Õ‘MÑ…Ñ” ¤ì(€½¹ÍÐm‘•Ù¥•ÍI•ÍÕ±Ð°Í¹…ÁÍ¡½ÑÍI•ÍÕ±Ð°ÕÍ…•I•ÍÕ±Ñt€ô…Ý…¥ÐAÉ½µ¥Í”¹…±°¡l(€€€ÍÕÁ…‰…Í”¹™É½´ ‰ÕÍ•É}‘•Ù¥•Ìˆ¤¹Í•±•Ð¡Y%}%1L¤¹½É‘•È ‰±…ÍÑ}Í••¹}…Ðˆ°ì(€€€€€…Í•¹‘¥¹œè™…±Í”°(€€€ô¤°(€€€ÍÕÁ…‰…Í”¹™É½´ ‰±…Ñ•ÍÑ}Í¹…ÁÍ¡½ÑÌˆ¤¹Í•±•Ð¡M9AM!=Q}%1L¤°(€€€ÍÕÁ…‰…Í”¹™É½´ ‰ÕÍ•É}Íå¹}ÕÍ…”ˆ¤¹Í•±•Ð ˆ¨ˆ¤¹µ…å‰•M¥¹±” ¤°(€t¤ì(€¥˜€¡‘•Ù¥•ÍI•ÍÕ±Ð¹•ÉÉ½È¤Ñ¡É½Ü‘•Ù¥•ÍI•ÍÕ±Ð¹•ÉÉ½Èì(€¥˜€¡Í¹…ÁÍ¡½ÑÍI•ÍÕ±Ð¹•ÉÉ½È¤Ñ¡É½ÜÍ¹…ÁÍ¡½ÑÍI•ÍÕ±Ð¹•ÉÉ½Èì(€¥˜€¡ÕÍ…•I•ÍÕ±Ð¹•ÉÉ½È¤Ñ¡É½ÜÕÍ…•I•ÍÕ±Ð¹•ÉÉ½Èì(€Íå¹MÑ…Ñ”¹‘•Ù¥•Ì€ô‘•Ù¥•ÍI•ÍÕ±Ð¹‘…Ñ„ñðmtì(€Íå¹MÑ…Ñ”¹Í¹…ÁÍ¡½ÑÌ€ômtì(€É•Ù¥Í¥½¹%¹‘•à¹±•…È ¤ì(€€¡Í¹…ÁÍ¡½ÑÍI•ÍÕ±Ð¹‘…Ñ„ñðmt¤¹™½É… ¡…ÁÁ±åM¹…ÁÍ¡½Ð¤ì(€=‰©•Ð¹­•åÌ¡ÍÑ…Ñ”¹Íå¹Œ¹Ñ…Ù•É¹%¹‰½à¤¹™½É…  ¡Ñ…Ù•É¹¡…É…Ñ•É-•ä¤€ôøì(€€€¡å‘É…Ñ•Q…Ù•É¹5•µ½Éä¡Ñ…Ù•É¹¡…É…Ñ•É-•ä¤ì(€€€ÕÁ‘…Ñ•5¥Íµ…Ñ ¡Ñ…Ù•É¹¡…É…Ñ•É-•ä¤ì(€ô¤ì(€Íå¹MÑ…Ñ”¹ÕÍ…”€ôÕÍ…•I•ÍÕ±Ð¹‘…Ñ„ñð¹Õ±°ì)ô()…Íå¹Œ™Õ¹Ñ¥½¸É•¥ÍÑ•É•Ù¥” ¤ì(€Íå¹MÑ…Ñ”¹‘•Ù¥”€ô•Ñ•Ù¥•%‘•¹Ñ¥Ñä ¤ì(€½¹ÍÐì‘…Ñ„°•ÉÉ½Èô€ô…Ý…¥ÐÍÕÁ…‰…Í”¹ÉÁŒ ‰É•¥ÍÑ•É}Íå¹}‘•Ù¥”ˆ°ì(€€€Á}‘•Ù¥•}¥èÍå¹MÑ…Ñ”¹‘•Ù¥”¹¥°(€€€Á}‘•Ù¥•}¹…µ”èÍå¹MÑ…Ñ”¹‘•Ù¥”¹¹…µ”°(€€€Á}Á±…Ñ™½É´èÍå¹MÑ…Ñ”¹‘•Ù¥”¹Á±…Ñ™½É´°(€€€Á}…ÁÁ}Ù•ÉÍ¥½¸èAA}YIM%=8°(€ô¤ì(€¥˜€¡•ÉÉ½È¤Ñ¡É½Ü•ÉÉ½Èì(€½¹ÍÐÉ•¥ÍÑ•É•€ôÉÉ…ä¹¥ÍÉÉ…ä¡‘…Ñ„¤€ü‘…Ñ…lÁt€è‘…Ñ„ì(€ÍÑ…Ñ”¹Íå¹Œ¹±…ÍÑ­M•Ä€ô5…Ñ ¹µ…à (€€€9Õµ‰•È¡ÍÑ…Ñ”¹Íå¹Œ¹±…ÍÑ­M•Ä¤ñð€À°(€€€9Õµ‰•È¡É•¥ÍÑ•É•ü¹±…ÍÑ}…­}Í•Ä¤ñð€À°(€€€9Õµ‰•È¡É•¥ÍÑ•É•ü¹©½¥¹•‘}Í•Ä¤ñð€À°(€€¤ì(€É•ÑÕÉ¸É•¥ÍÑ•É•ì)ô()™Õ¹Ñ¥½¸ÍÕ‰ÍÉ¥‰•I•…±Ñ¥µ”¡ÕÍ•É%¤ì(€¥˜€¡É•…±Ñ¥µ•¡…¹¹•°¤ÍÕÁ…‰…Í”¹É•µ½Ù•¡…¹¹•°¡É•…±Ñ¥µ•¡…¹¹•°¤ì(€É•…±Ñ¥µ•¡…¹¹•°€ôÍÕÁ…‰…Í”(€€€€¹¡…¹¹•°¡±¥¹•Á¡½¹”µÍå¹Œ´‘íÍå¹MÑ…Ñ”¹‘•Ù¥”¹¥‘õ€¤(€€€€¹½¸ (€€€€€€‰Á½ÍÑÉ•Í}¡…¹•Ìˆ°(€€€€€ì(€€€€€€€•Ù•¹Ðè€‰%9MIPˆ°(€€€€€€€Í¡•µ„è€‰ÁÕ‰±¥Œˆ°(€€€€€€€Ñ…‰±”è€‰Íå¹}•Ù•¹ÑÌˆ°(€€€€€€€™¥±Ñ•ÈèÕÍ•É}¥õ•Ä¸‘íÕÍ•É%‘õ€°(€€€€€ô°(€€€€€€ ¤€ôøÅÕ•Õ•AÕ±° ¤°(€€€€¤(€€€€¹ÍÕ‰ÍÉ¥‰” ¡ÍÑ…ÑÕÌ¤€ôøì(€€€€€Íå¹MÑ…Ñ”¹½¹¹•Ñ•€ôÍÑ…ÑÕÌ€ôôô€‰MU	MI%	ˆì(€€€ô¤ì)ô()…Íå¹Œ™Õ¹Ñ¥½¸™±ÕÍ¡¥ÉÑå	É…¹¡•Ì ¤ì(€½¹ÍÐ±…Ñ•ÍÑ¥ÉÑå	å¡…É…Ñ•È€ô¹•Ü5…À ¤ì(€=‰©•Ð¹Ù…±Õ•Ì¡ÍÑ…Ñ”¹¡…Ñ	É…¹¡•Ì¤(€€€€¹™¥±Ñ•È ¡‰É…¹ ¤€ôø‰É…¹ ¹±½…±¥ÉÑåÐ¤(€€€€¹™½É…  ¡‰É…¹ ¤€ôøì(€€€€€½¹ÍÐÁÉ¥½È€ô±…Ñ•ÍÑ¥ÉÑå	å¡…É…Ñ•È¹•Ð¡‰É…¹ ¹¡…É…Ñ•É%¤ì(€€€€€¥˜€ …ÁÉ¥½Èñð‰É…¹ ¹±½…±¥ÉÑåÐ€øÁÉ¥½È¹±½…±¥ÉÑåÐ¤ì(€€€€€€€±…Ñ•ÍÑ¥ÉÑå	å¡…É…Ñ•È¹Í•Ð¡‰É…¹ ¹¡…É…Ñ•É%°‰É…¹ ¤ì(€€€€€ô(€€€ô¤ì(€™½È€¡½¹ÍÐ‰É…¹ ½˜±…Ñ•ÍÑ¥ÉÑå	å¡…É…Ñ•È¹Ù…±Õ•Ì ¤¤ì(€€€…Ý…¥ÐÍå¹A¡½¹•¡…Ñ9½Ü¡‰É…¹ ¹¡…É…Ñ•É%°€‰½™™±¥¹”¹™±ÕÍ ˆ°‰É…¹ ¹¥¤ì(€ô)ô()•áÁ½ÉÐ…Íå¹Œ™Õ¹Ñ¥½¸¥¹¥Ñ¥…±¥é•Må¹Œ¡ÕÍ•É%¤ì(€¥˜€ …ÕÍ•É%ñð€¡Íå¹MÑ…Ñ”¹¥¹¥Ñ¥…±¥é•€˜˜Íå¹MÑ…Ñ”¹ÕÍ•É%€ôôôÕÍ•É%¤¤É•ÑÕÉ¸ì(€Íå¹MÑ…Ñ”¹‰ÕÍä€ôÑÉÕ”ì(€Íå¹MÑ…Ñ”¹•ÉÉ½È€ô€ˆˆì(€Íå¹MÑ…Ñ”¹ÕÍ•É%€ôÕÍ•É%ì(€ÑÉäì(€€€…Ý…¥ÐÉ•¥ÍÑ•É•Ù¥” ¤ì(€€€…Ý…¥Ð±½…‘±½Õ‘MÑ…Ñ” ¤ì(€€€ÍÕ‰ÍÉ¥‰•I•…±Ñ¥µ”¡ÕÍ•É%¤ì(€€€…Ý…¥ÐÅÕ•Õ•AÕ±° ¤ì(€€€Íå¹MÑ…Ñ”¹¥¹¥Ñ¥…±¥é•€ôÑÉÕ”ì(€€€…Ý…¥Ð™±ÕÍ¡¥ÉÑå	É…¹¡•Ì ¤ì(€ô…Ñ €¡•ÉÉ½È¤ì(€€€Íå¹MÑ…Ñ”¹•ÉÉ½È€ô•ÉÉ½È¹µ•ÍÍ…”ñð€‹–B3š¶—–"w–ž/–2[–’Ç¢Ò”ˆì(€ô™¥¹…±±äì(€€€Íå¹MÑ…Ñ”¹‰ÕÍä€ô™…±Í”ì(€ô)ô()•áÁ½ÉÐ™Õ¹Ñ¥½¸ÍÑ½ÁMå¹Œ ¤ì(€¥˜€¡É•…±Ñ¥µ•¡…¹¹•°¤ÍÕÁ…‰…Í”¹É•µ½Ù•¡…¹¹•°¡É•…±Ñ¥µ•¡…¹¹•°¤ì(€É•…±Ñ¥µ•¡…¹¹•°€ô¹Õ±°ì(€ÝÉ¥Ñ•Q¥µ•ÉÌ¹™½É…  ¡Ñ¥µ•È¤€ôø±•…ÉQ¥µ•½ÕÐ¡Ñ¥µ•È¤¤ì(€ÝÉ¥Ñ•Q¥µ•ÉÌ¹±•…È ¤ì(€Íå¹MÑ…Ñ”¹¥¹¥Ñ¥…±¥é•€ô™…±Í”ì(€Íå¹MÑ…Ñ”¹½¹¹•Ñ•€ô™…±Í”ì(€Íå¹MÑ…Ñ”¹ÕÍ•É%€ô€ˆˆì)ô()•áÁ½ÉÐ…Íå¹Œ™Õ¹Ñ¥½¸É•™É•Í¡Må¹…Ñ„ ¤ì(€¥˜€ …Íå¹MÑ…Ñ”¹ÕÍ•É%¤É•ÑÕÉ¸ì(€Íå¹MÑ…Ñ”¹‰ÕÍä€ôÑÉÕ”ì(€Íå¹MÑ…Ñ”¹•ÉÉ½È€ô€ˆˆì(€ÑÉäì(€€€…Ý…¥ÐÉ•¥ÍÑ•É•Ù¥” ¤ì(€€€…Ý…¥Ð±½…‘±½Õ‘MÑ…Ñ” ¤ì(€€€…Ý…¥ÐÅÕ•Õ•AÕ±° ¤ì(€ô…Ñ €¡•ÉÉ½È¤ì(€€€Íå¹MÑ…Ñ”¹•ÉÉ½È€ô•ÉÉ½È¹µ•ÍÍ…”ñð€‹–B3š¶—–"ßšZÃ–’Ç¢Ò”ˆì(€ô™¥¹…±±äì(€€€Íå¹MÑ…Ñ”¹‰ÕÍä€ô™…±Í”ì(€ô)ô()•áÁ½ÉÐ…Íå¹Œ™Õ¹Ñ¥½¸ÕÁ‘…Ñ••Ù¥•9…µ”¡¹…µ”¤ì(€Íå¹MÑ…Ñ”¹‘•Ù¥”€ôÉ•¹…µ•1½…±•Ù¥”¡¹…µ”¤ì(€…Ý…¥ÐÉ•¥ÍÑ•É•Ù¥” ¤ì(€…Ý…¥Ð±½…‘±½Õ‘MÑ…Ñ” ¤ì)ô()•áÁ½ÉÐ…Íå¹Œ™Õ¹Ñ¥½¸½µµ¥ÑMå¹M¹…ÁÍ¡½Ð¡ì(€•¹Ñ¥ÑåQåÁ”°(€•¹Ñ¥Ñå%°(€Í¹…ÁÍ¡½ÑA…å±½…°(€•Ù•¹ÑA…å±½…€ô¹Õ±°°)ô¤ì(€¥˜€ …Íå¹MÑ…Ñ”¹¥¹¥Ñ¥…±¥é•ñð€…Íå¹MÑ…Ñ”¹‘•Ù¥”¹¥¤É•ÑÕÉ¸¹Õ±°ì(€½¹ÍÐ­•ä€ô•¹Ñ¥Ñå-•ä¡•¹Ñ¥ÑåQåÁ”°•¹Ñ¥Ñå%¤ì(€±•ÐÉ•Ù¥Í¥½¸€ô€¡É•Ù¥Í¥½¹%¹‘•à¹•Ð¡­•ä¤ñð€À¤€¬€Äì(€½¹ÍÐ•Ù•¹Ñ%€ôÉåÁÑ¼¹É…¹‘½µUU% ¤ì(€½¹ÍÐÉ•ÅÕ•ÍÐ€ô€ ¤€ôø(€€€ÍÕÁ…‰…Í”¹ÉÁŒ ‰½µµ¥Ñ}Íå¹}¡…¹”ˆ°ì(€€€€€Á}•Ù•¹Ñ}¥è•Ù•¹Ñ%°(€€€€€Á}Í½ÕÉ•}‘•Ù¥•}¥èÍå¹MÑ…Ñ”¹‘•Ù¥”¹¥°(€€€€€Á}•¹Ñ¥Ñå}ÑåÁ”è•¹Ñ¥ÑåQåÁ”°(€€€€€Á}•¹Ñ¥Ñå}¥è•¹Ñ¥Ñå%°(€€€€€Á}É•Ù¥Í¥½¸èÉ•Ù¥Í¥½¸°(€€€€€Á}½Á•É…Ñ¥½¸è€‰ÕÁÍ•ÉÐˆ°(€€€€€Á}Í¹…ÁÍ¡½Ñ}Á…å±½…èÍ¹…ÁÍ¡½ÑA…å±½…°(€€€€€Á}•Ù•¹Ñ}Á…å±½…è•Ù•¹ÑA…å±½…ñðÍ¹…ÁÍ¡½ÑA…å±½…°(€€€ô¤ì((€Íå¹MÑ…Ñ”¹Á•¹‘¥¹]É¥Ñ•Ì€¬ô€Äì(€ÑÉäì(€€€±•ÐÉ•ÍÕ±Ð€ô…Ý…¥ÐÉ•ÅÕ•ÍÐ ¤ì(€€€¥˜€ (€€€€€É•ÍÕ±Ð¹•ÉÉ½È€˜˜(€€€€€MÑÉ¥¹œ¡É•ÍÕ±Ð¹•ÉÉ½È¹µ•ÍÍ…”ñð€ˆˆ¤¹¥¹±Õ‘•Ì ‰ÍÑ…±•}Í¹…ÁÍ¡½Ñ}É•Ù¥Í¥½¸ˆ¤(€€€€¤ì(€€€€€½¹ÍÐÕÉÉ•¹Ð€ô…Ý…¥Ð™•Ñ¡M¹…ÁÍ¡½Ð¡•¹Ñ¥ÑåQåÁ”°•¹Ñ¥Ñå%¤ì(€€€€€É•Ù¥Í¥½¸€ô€¡9Õµ‰•È¡ÕÉÉ•¹Ðü¹É•Ù¥Í¥½¸¤ñð€À¤€¬€Äì(€€€€€É•ÍÕ±Ð€ô…Ý…¥ÐÉ•ÅÕ•ÍÐ ¤ì(€€€ô(€€€¥˜€¡É•ÍÕ±Ð¹•ÉÉ½È¤Ñ¡É½ÜÉ•ÍÕ±Ð¹•ÉÉ½Èì(€€€É•Ù¥Í¥½¹%¹‘•à¹Í•Ð¡­•ä°É•Ù¥Í¥½¸¤ì(€€€É•ÑÕÉ¸ìÍ•ÉÙ•ÉM•Äè9Õµ‰•È¡É•ÍÕ±Ð¹‘…Ñ„¤ñð€À°É•Ù¥Í¥½¸ôì(€ô™¥¹…±±äì(€€€Íå¹MÑ…Ñ”¹Á•¹‘¥¹]É¥Ñ•Ì€ô5…Ñ ¹µ…à À°Íå¹MÑ…Ñ”¹Á•¹‘¥¹]É¥Ñ•Ì€´€Ä¤ì(€ô)ô()•áÁ½ÉÐ…Íå¹Œ™Õ¹Ñ¥½¸Íå¹A¡½¹•¡…Ñ9½Ü (€¡…É…Ñ•É%°(€­¥¹€ô€‰¡…Ð¹ÕÁ‘…Ñ”ˆ°(€‰É…¹¡%€ô€ˆˆ°(¤ì(€½¹ÍÐ¡…É…Ñ•È€ôÍÑ…Ñ”¹¡…É…Ñ•ÉÌ¹™¥¹ ¡¥Ñ•´¤€ôø¥Ñ•´¹¥€ôôô¡…É…Ñ•É%¤ì(€½¹ÍÐ‰É…¹ €ô(€€€ÍÑ…Ñ”¹¡…Ñ	É…¹¡•Ím‰É…¹¡%‘tñð…Ñ¥Ù•	É…¹¡½É¡…É…Ñ•È¡¡…É…Ñ•É%¤ì(€¥˜€ …¡…É…Ñ•Èñð€…‰É…¹ ñð€…Íå¹MÑ…Ñ”¹¥¹¥Ñ¥…±¥é•¤É•ÑÕÉ¸¹Õ±°ì(€½¹ÍÐ¡…É…Ñ•ÉMå¹-•ä€ô±½Õ‘¡…É…Ñ•É-•ä¡¡…É…Ñ•È¤ì(€‰É…¹ ¹±½Õ‘	É…¹¡%ñðô(€€€‰É…¹ ¹Ñ…Ù•É¹M…Ù•%(€€€€€€üÑ…Ù•É¹|‘íÍÑ…‰±•Q•áÑ!…Í  (€€€€€€€€€€‘í‰É…¹ ¹Ñ…Ù•É¹¡…É…Ñ•É-•åõð‘í‰É…¹ ¹Ñ…Ù•É¹M…Ù•%‘õ€°(€€€€€€€€¥õ€(€€€€€€è€‰µ…¥¸ˆì(€½¹ÍÐµ•ÍÍ…•Ì€ô½µÁ…Ñ5•ÍÍ…•Ì¡‰É…¹ ¹µ•ÍÍ…•Ì°‰É…¹ ¹Á¡½¹•MÕµµ…Éä¤ì(€½¹ÍÐ‘¥ÉÑåÑMÑ…ÉÐ€ô9Õµ‰•È¡‰É…¹ ¹±½…±¥ÉÑåÐ¤ñð…Ñ”¹¹½Ü ¤ì(€½¹ÍÐÁ…å±½…€ôì(€€€Í¡•µ…Y•ÉÍ¥½¸è€È°(€€€¡…É…Ñ•ÉMå¹-•ä°(€€€¡…É…Ñ•É%°(€€€¡…É…Ñ•É9…µ”è¡…É…Ñ•È¹¹…µ”°(€€€¡…É…Ñ•É…Éè¡…É…Ñ•É…É‘A…å±½…¡¡…É…Ñ•È¤°(€€€¡…É…Ñ•ÉUÁ‘…Ñ•‘Ðè(€€€€€9Õµ‰•È¡¡…É…Ñ•È¹ÕÁ‘…Ñ•‘Ð¤ñð9Õµ‰•È¡¡…É…Ñ•È¹¥µÁ½ÉÑ•‘Ð¤ñð…Ñ”¹¹½Ü ¤°(€€€‰É…¹¡%è‰É…¹ ¹¥°(€€€±½Õ‘	É…¹¡%è‰É…¹ ¹±½Õ‘	É…¹¡%°(€€€‰É…¹¡Q¥Ñ±”è‰É…¹ ¹Ñ¥Ñ±”°(€€€½É¥¥¸è‰É…¹ ¹½É¥¥¸°(€€€Ñ…Ù•É¹M…Ù•%è‰É…¹ ¹Ñ…Ù•É¹M…Ù•%ñð€ˆˆ°(€€€Ñ…Ù•É¹¡…É…Ñ•É-•äè‰É…¹ ¹Ñ…Ù•É¹¡…É…Ñ•É-•äñð€ˆˆ°(€€€µ•ÍÍ…•Ì°(€€€Ý¥¹‘½ÝMÑ…ÉÑ•‘Ðè9Õµ‰•È¡µ•ÍÍ…•ÍlÁtü¹É•…Ñ•‘Ð¤ñð€À°(€€€‘•±•Ñ•‘5•ÍÍ…•%‘Ìè€¡‰É…¹ ¹‘•±•Ñ•‘5•ÍÍ…•%‘Ìñðmt¤¹Í±¥” ´ÈÀÀ¤°(€€€Á¡½¹•MÕµµ…Éäè‰É…¹ ¹Á¡½¹•MÕµµ…Éäñð¹Õ±°°(€€€É•…Ñ•‘Ðè‰É…¹ ¹É•…Ñ•‘Ð°(€€€ÕÁ‘…Ñ•‘Ðè…Ñ”¹¹½Ü ¤°(€ôì(€½¹ÍÐÉ•ÍÕ±Ð€ô…Ý…¥Ð½µµ¥ÑMå¹M¹…ÁÍ¡½Ð¡ì(€€€•¹Ñ¥ÑåQåÁ”è€‰Á¡½¹”¹¡…Ðˆ°(€€€•¹Ñ¥Ñå%è¡…É…Ñ•Èè‘í¡…É…Ñ•ÉMå¹-•åõ€°(€€€Í¹…ÁÍ¡½ÑA…å±½…èÁ…å±½…°(€€€•Ù•¹ÑA…å±½…èì(€€€€€­¥¹°(€€€€€¡…É…Ñ•ÉMå¹-•ä°(€€€€€±½Õ‘	É…¹¡%è‰É…¹ ¹±½Õ‘	É…¹¡%°(€€€€€ÕÁ‘…Ñ•‘ÐèÁ…å±½…¹ÕÁ‘…Ñ•‘Ð°(€€€ô°(€ô¤ì(€¥˜€¡É•ÍÕ±Ð¤ì(€€€‰É…¹ ¹±½Õ‘I•Ù¥Í¥½¸€ôÉ•ÍÕ±Ð¹É•Ù¥Í¥½¸ì(€€€¥˜€ ¡9Õµ‰•È¡‰É…¹ ¹±½…±¥ÉÑåÐ¤ñð€À¤€ðô‘¥ÉÑåÑMÑ…ÉÐ¤ì(€€€€€‰É…¹ ¹±½…±¥ÉÑåÐ€ô€Àì(€€€ô(€ô(€É•ÑÕÉ¸É•ÍÕ±Ðì)ô()•áÁ½ÉÐ™Õ¹Ñ¥½¸ÅÕ•Õ•A¡½¹•¡…ÑMå¹Œ (€¡…É…Ñ•É%°(€­¥¹€ô€‰¡…Ð¹ÕÁ‘…Ñ”ˆ°(€‰É…¹¡%€ô€ˆˆ°(¤ì(€½¹ÍÐ‰É…¹ €ô(€€€ÍÑ…Ñ”¹¡…Ñ	É…¹¡•Ím‰É…¹¡%‘tñð…Ñ¥Ù•	É…¹¡½É¡…É…Ñ•È¡¡…É…Ñ•É%¤ì(€¥˜€ …‰É…¹ ¤É•ÑÕÉ¸ì(€‰É…¹ ¹ÕÁ‘…Ñ•‘Ð€ô…Ñ”¹¹½Ü ¤ì(€‰É…¹ ¹±½…±¥ÉÑåÐ€ô…Ñ”¹¹½Ü ¤ì(€½¹ÍÐÑ¥µ•É-•ä€ô‰É…¹ ¹¥ì(€±•…ÉQ¥µ•½ÕÐ¡ÝÉ¥Ñ•Q¥µ•ÉÌ¹•Ð¡Ñ¥µ•É-•ä¤¤ì(€ÝÉ¥Ñ•Q¥µ•ÉÌ¹Í•Ð (€€€Ñ¥µ•É-•ä°(€€€Í•ÑQ¥µ•½ÕÐ  ¤€ôøì(€€€€€ÝÉ¥Ñ•Q¥µ•ÉÌ¹‘•±•Ñ”¡Ñ¥µ•É-•ä¤ì(€€€€€Íå¹A¡½¹•¡…Ñ9½Ü¡¡…É…Ñ•É%°­¥¹°‰É…¹ ¹¥¤¹…Ñ  ¡•ÉÉ½È¤€ôøì(€€€€€€€Íå¹MÑ…Ñ”¹•ÉÉ½È€ô•ÉÉ½È¹µ•ÍÍ…”ñð€‹¢+–’§’â+’òƒ–’Ç¢Ò”ˆì(€€€€€ô¤ì(€€€ô°€ÜÀÀ¤°(€€¤ì)ô
