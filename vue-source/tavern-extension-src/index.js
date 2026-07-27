@@ -1,7 +1,7 @@
 import { createClient } from "@supabase/supabase-js";
 
 const MODULE = "linephone_sync";
-const VERSION = "1.1.2";
+const VERSION = "1.1.3";
 const SUPABASE_URL = "https://tlsdyacdkbcjxbwvyeim.supabase.co";
 const SUPABASE_KEY = "sb_publishable_EIYn8wiMd0O4tJXQI5Ub4Q_066Uizi1";
 const VERIFY_URL = `${SUPABASE_URL}/functions/v1/verify-discord-membership`;
@@ -477,12 +477,880 @@ async function loadRevisions() {
     .from("latest_snapshots")
     .select("entity_type,entity_id,revision");
   if (error) throw error;
-  for (const row of dataãMõ¶‰ËkºwµçM”(€€€€€€€€¹µ…À ¡¥Ñ•´¤€ôø€¡ÑåÁ•½˜¥Ñ•´€ôôô€‰ÍÑÉ¥¹œˆ€ü¥Ñ•´€è¥Ñ•´ü¹¥ñğ¥Ñ•´ü¹¹…µ”¤¤(€€€€€€€€¹™¥±Ñ•È¡	½½±•…¸¤°(€€€€¤°(€t¹Í½ÉĞ ¤ì(€¥˜€ …½¹™¥œ¹µ½‘•±=ÁÑ¥½¹Ì¹¥¹±Õ‘•Ì¡½¹™¥œ¹µ½‘•°¤¤½¹™¥œ¹µ½‘•°€ô½¹™¥œ¹µ½‘•±=ÁÑ¥½¹ÍlÁtñğ€ˆˆì(€Í…Ù•M•ÑÑ¥¹Ì ¤ì(€É•¹‘•È ¤ì)ô()™Õ¹Ñ¥½¸•±•µ•¹Ğ¡Ñ…œ°±…ÍÍ9…µ”€ô€ˆˆ°Ñ•áĞ€ô€ˆˆ¤ì(€½¹ÍĞ¹½‘”€ô‘½Õµ•¹Ğ¹É•…Ñ•±•µ•¹Ğ¡Ñ…œ¤ì(€¥˜€¡±…ÍÍ9…µ”¤¹½‘”¹±…ÍÍ9…µ”€ô±…ÍÍ9…µ”ì(€¥˜€¡Ñ•áĞ¤¹½‘”¹Ñ•áÑ½¹Ñ•¹Ğ€ôÑ•áĞì(€É•ÑÕÉ¸¹½‘”ì)ô()™Õ¹Ñ¥½¸™¥•±¡±…‰•°°¥¹ÁÕĞ¤ì(€½¹ÍĞİÉ…ÁÁ•È€ô•±•µ•¹Ğ ‰±…‰•°ˆ°€‰±Àµ™¥•±ˆ¤ì(€İÉ…ÁÁ•È¹…ÁÁ•¹¡•±•µ•¹Ğ ‰ÍÁ…¸ˆ°€ˆˆ°±…‰•°¤°¥¹ÁÕĞ¤ì(€É•ÑÕÉ¸İÉ…ÁÁ•Èì)ô()™Õ¹Ñ¥½¸¥¹ÁÕÑ½È¡ÑåÁ”°Ù…±Õ”°½¹¡…¹”¤ì(€½¹ÍĞ¥¹ÁÕĞ€ô‘½Õµ•¹Ğ¹É•…Ñ•±•µ•¹Ğ ‰¥¹ÁÕĞˆ¤ì(€¥¹ÁÕĞ¹ÑåÁ”€ôÑåÁ”ì(€¥¹ÁÕĞ¹Ù…±Õ”€ôÙ…±Õ”€üü€ˆˆì(€¥¹ÁÕĞ¹…‘‘Ù•¹Ñ1¥ÍÑ•¹•È ‰¡…¹”ˆ°€ ¤€ôø½¹¡…¹”¡¥¹ÁÕĞ¹Ù…±Õ”¤¤ì(€É•ÑÕÉ¸¥¹ÁÕĞì)ô()™Õ¹Ñ¥½¸É•¹‘•È ¤ì(€¥˜€ …ÉÕ¹Ñ¥µ”¹Á…¹•°¤É•ÑÕÉ¸ì(€½¹ÍĞ½¹™¥œ€ôÍ•ÑÑ¥¹Ì ¤ì(€½¹ÍĞ¥‘•¹Ñ¥Ñä€ôÉÕ¹Ñ¥µ”¹ÕÉÉ•¹Ğì(€½¹ÍĞÉ½Õ¹‘Ì€ô¥‘•¹Ñ¥Ñä€ü‰Õ¥±‘I½Õ¹‘Ì¡¥‘•¹Ñ¥Ñä¹½¹Ñ•áĞ¹¡…Ğ¤€èmtì(€½¹ÍĞµ•µ½Éä€ô¥‘•¹Ñ¥Ñä€ü•ÑM…Ù•5•µ½Éä¡¥‘•¹Ñ¥Ñä¹½¹Ñ•áĞ¤€è¹Õ±°ì((€ÉÕ¹Ñ¥µ”¹ÍÑ…ÑÕÌ¹Ñ•áÑ½¹Ñ•¹Ğ€ôÉÕ¹Ñ¥µ”¹‰ÕÍä(€€€€ü€‹š¶–r£–’BŠ˜ˆ(€€€€èÉÕ¹Ñ¥µ”¹±…ÍÑÉÉ½È(€€€€€€üÉÕ¹Ñ¥µ”¹±…ÍÑÉÉ½È(€€€€€€è¡…Í•ÍÌ ¤(€€€€€€€€ü€‰¥Í½Éƒ–ŞË¦ª3¢¾ƒ
-Üƒ’êG®¿–>¿R ˆ(€€€€€€€€èÉÕ¹Ñ¥µ”¹Í•ÍÍ¥½¸(€€€€€€€€€€ü€‹–ŞËfï–öW¾ò3¶'–ú’û–2ë¦ª3¢¾ˆ(€€€€€€€€€€è€‹–Âkšr«fï–öTˆì(€ÉÕ¹Ñ¥µ”¹ÍÑ…ÑÕÌ¹±…ÍÍ1¥ÍĞ¹Ñ½±” ‰•ÉÉ½Èˆ°	½½±•…¸¡ÉÕ¹Ñ¥µ”¹±…ÍÑÉÉ½È¤¤ì(€ÉÕ¹Ñ¥µ”¹‘•Ñ…¥±Ì¹Ñ•áÑ½¹Ñ•¹Ğ€ô¥‘•¹Ñ¥Ñä(€€€€ü€‘í¥‘•¹Ñ¥Ñä¹¡…É…Ñ•É9…µ•ôƒ
-Ü€‘í¥‘•¹Ñ¥Ñä¹Í…Ù•9…µ•ôƒ
-Ü€‘íÉ½Õ¹‘Ì¹±•¹Ñ¡ôƒš–ğƒ
-Üƒ–ŞËšïîL€‘íµ•µ½Éä¹½Ù•É•‘Q¡É½Õ ñğ€Áôƒš–ñ€(€€€€è€‹¢¾ß–#š&O–ò–6W¢K¢&Ë¢+–’§–¶cš†Œˆì(€¥˜€¡ÉÕ¹Ñ¥µ”¹…ÍÍ•ÑÌ¤ì(€€€½¹ÍĞì‰½½­Ì°•¹ÑÉ¥•Ì°ÑÉÕ¹…Ñ•‘¹ÑÉ¥•Ì°•ÉÉ½Èô€ôÉÕ¹Ñ¥µ”¹…ÍÍ•ÑMÑ…Ñ”ì(€€€ÉÕ¹Ñ¥µ”¹…ÍÍ•ÑÌ¹Ñ•áÑ½¹Ñ•¹Ğ€ô¥‘•¹Ñ¥Ñä(€€€€€€ü€‘í•ÉÉ½È€üƒ¢ÖšZg–B3š¶—–’Ç¢Ò—¾òh‘í•ÉÉ½Éôƒ
-Ü€€è€ˆ‰÷¢K¢&Ë–6‡–ŞË¢¾ï–>Xƒ
-Ü€‘í‰½½­Íôƒšr³îG–ºk’â[V3’æ˜ƒ
-Ü€‘í•¹ÑÉ¥•Íôƒ’â«šv‡n¸‘ì(€€€€€€€€€ÑÉÕ¹…Ñ•‘¹ÑÉ¥•Ì€ü€ƒ
-Ü€‘íÑÉÕ¹…Ñ•‘¹ÑÉ¥•Íôƒšv‡¢ş¦Vÿ––ºç–ŞËš"«šZµ€€è€ˆˆ(€€€€€€€õ€(€€€€€€è€‹š&O–ò¢K¢&Ë¢+–’§–B;’òk¢«–*£¢¾ï–>[¢K¢&Ë–6‡’â;îG–ºk’â[V3’æ˜ˆì(€ô(€ÉÕ¹Ñ¥µ”¹ÍÕµµ…Éä¹Ù…±Õ”€ôµ•µ½Éäü¹ÍÕµµ…Éäñğ€ˆˆì((€½¹ÍĞ±½¥¹	ÕÑÑ½¸€ôÉÕ¹Ñ¥µ”¹Á…¹•°¹ÅÕ•ÉåM•±•Ñ½È ‰m‘…Ñ„µ…Ñ¥½¸õ±½¥¹tˆ¤ì(€½¹ÍĞ±½½ÕÑ	ÕÑÑ½¸€ôÉÕ¹Ñ¥µ”¹Á…¹•°¹ÅÕ•ÉåM•±•Ñ½È ‰m‘…Ñ„µ…Ñ¥½¸õ±½½ÕÑtˆ¤ì(€±½¥¹	ÕÑÑ½¸¹¡¥‘‘•¸€ô	½½±•…¸¡ÉÕ¹Ñ¥µ”¹Í•ÍÍ¥½¸¤ì(€±½½ÕÑ	ÕÑÑ½¸¹¡¥‘‘•¸€ô€…ÉÕ¹Ñ¥µ”¹Í•ÍÍ¥½¸ì((€½¹ÍĞµ½‘•±M•±•Ğ€ôÉÕ¹Ñ¥µ”¹Á…¹•°¹ÅÕ•ÉåM•±•Ñ½È ‰m‘…Ñ„µ™¥•±õµ½‘•±tˆ¤ì(€µ½‘•±M•±•Ğ¹É•Á±…•¡¥±‘É•¸ ¤ì(€½¹ÍĞ•µÁÑä€ô‘½Õµ•¹Ğ¹É•…Ñ•±•µ•¹Ğ ‰½ÁÑ¥½¸ˆ¤ì(€•µÁÑä¹Ù…±Õ”€ô€ˆˆì(€•µÁÑä¹Ñ•áÑ½¹Ñ•¹Ğ€ô½¹™¥œ¹µ½‘•±=ÁÑ¥½¹Ì¹±•¹Ñ €ü€‹¦'š.§š¢‡–z,ˆ€è€‹–#š.'–>[š¢‡–z,ˆì(€µ½‘•±M•±•Ğ¹…ÁÁ•¹¡•µÁÑä¤ì(€™½È€¡½¹ÍĞµ½‘•°½˜½¹™¥œ¹µ½‘•±=ÁÑ¥½¹Ì¤ì(€€€½¹ÍĞ½ÁÑ¥½¸€ô‘½Õµ•¹Ğ¹É•…Ñ•±•µ•¹Ğ ‰½ÁÑ¥½¸ˆ¤ì(€€€½ÁÑ¥½¸¹Ù…±Õ”€ôµ½‘•°ì(€€€½ÁÑ¥½¸¹Ñ•áÑ½¹Ñ•¹Ğ€ôµ½‘•°ì(€€€µ½‘•±M•±•Ğ¹…ÁÁ•¹¡½ÁÑ¥½¸¤ì(€ô(€µ½‘•±M•±•Ğ¹Ù…±Õ”€ô½¹™¥œ¹µ½‘•°ñğ€ˆˆì)ô()™Õ¹Ñ¥½¸Í•ÑA…¹•±Y¥Í¥‰±”¡Ù¥Í¥‰±”¤ì(€½¹ÍĞÁ…¹•°€ôÉÕ¹Ñ¥µ”¹Á…¹•°ì(€¥˜€ …Á…¹•°¤É•ÑÕÉ¸ì((€¥˜€ …Ù¥Í¥‰±”¤ì(€€€¥˜€¡Á…¹•°¹½Á•¸€˜˜ÑåÁ•½˜Á…¹•°¹±½Í”€ôôô€‰™Õ¹Ñ¥½¸ˆ¤Á…¹•°¹±½Í” ¤ì(€€€•±Í”Á…¹•°¹É•µ½Ù•ÑÑÉ¥‰ÕÑ” ‰½Á•¸ˆ¤ì(€€€Á…¹•°¹Í•ÑÑÑÉ¥‰ÕÑ” ‰…É¥„µ¡¥‘‘•¸ˆ°€‰ÑÉÕ”ˆ¤ì(€€€É•ÑÕÉ¸ì(€ô((€¥˜€ …Á…¹•°¹½Á•¸¤ì(€€€ÑÉäì(€€€€€Á…¹•°¹Í¡½İ5½‘…° ¤ì(€€€ô…Ñ €¡•ÉÉ½È¤ì(€€€€€½¹Í½±”¹İ…É¸¡l‘í5=U1õtµ½‘…°‘¥ÍÁ±…ä™…¥±•ìÕÍ¥¹œ¹½¸µµ½‘…°™…±±‰…­€°•ÉÉ½È¤ì(€€€€€Á…¹•°¹Í•ÑÑÑÉ¥‰ÕÑ” ‰½Á•¸ˆ°€ˆˆ¤ì(€€€ô(€ô(€Á…¹•°¹Í•ÑÑÑÉ¥‰ÕÑ” ‰…É¥„µ¡¥‘‘•¸ˆ°€‰™…±Í”ˆ¤ì(€É•¹‘•È ¤ì(€ÕÉÉ•¹Ñ%‘•¹Ñ¥Ñä ¤(€€€€¹Ñ¡•¸ ¡¥‘•¹Ñ¥Ñä¤€ôøì(€€€€€ÉÕ¹Ñ¥µ”¹ÕÉÉ•¹Ğ€ô¥‘•¹Ñ¥Ñäì(€€€€€É•¹‘•È ¤ì(€€€ô¤(€€€€¹…Ñ  ¡•ÉÉ½È¤€ôøì(€€€€€ÉÕ¹Ñ¥µ”¹±…ÍÑÉÉ½È€ô•ÉÉ½È¹µ•ÍÍ…”ñğ€‹¢¾ï–>[–öO–&7¢+–’§–’Ç¢Ò”ˆì(€€€€€½¹Í½±”¹•ÉÉ½È¡l‘í5=U1õt™…¥±•Ñ¼É•™É•Í Á…¹•±€°•ÉÉ½È¤ì(€€€€€É•¹‘•È ¤ì(€€€ô¤ì)ô()™Õ¹Ñ¥½¸ÍÑ…ÉÑU¥5½¹¥Ñ½È ¤ì(€¥˜€¡ÉÕ¹Ñ¥µ”¹Õ¥=‰Í•ÉÙ•Èñğ€…‘½Õµ•¹Ğ¹‰½‘ä¤É•ÑÕÉ¸ì(€ÉÕ¹Ñ¥µ”¹Õ¥=‰Í•ÉÙ•È€ô¹•Ü5ÕÑ…Ñ¥½¹=‰Í•ÉÙ•È  ¤€ôøì(€€€¥˜€ …ÉÕ¹Ñ¥µ”¹Á…¹•°ü¹¥Í½¹¹•Ñ•ñğ€…ÉÕ¹Ñ¥µ”¹±…Õ¹¡•Èü¹¥Í½¹¹•Ñ•¤ì(€€€€€‰Õ¥±‘U¤ ¤ì(€€€€€É•ÑÕÉ¸ì(€€€ô(€€€¥˜€ …ÉÕ¹Ñ¥µ”¹Í•ÑÑ¥¹Í¹ÑÉäü¹¥Í½¹¹•Ñ•¤µ½Õ¹ÑM•ÑÑ¥¹Í¹ÑÉä ¤ì(€ô¤ì(€ÉÕ¹Ñ¥µ”¹Õ¥=‰Í•ÉÙ•È¹½‰Í•ÉÙ”¡‘½Õµ•¹Ğ¹‰½‘ä°ì¡¥±‘1¥ÍĞèÑÉÕ”°ÍÕ‰ÑÉ•”èÑÉÕ”ô¤ì)ô()™Õ¹Ñ¥½¸µ½Õ¹ÑM•ÑÑ¥¹Í¹ÑÉä ¤ì(€¥˜€¡ÉÕ¹Ñ¥µ”¹Í•ÑÑ¥¹Í¹ÑÉäü¹¥Í½¹¹•Ñ•¤É•ÑÕÉ¸ÑÉÕ”ì(€½¹ÍĞ•á¥ÍÑ¥¹œ€ô‘½Õµ•¹Ğ¹ÅÕ•ÉåM•±•Ñ½È ˆ±¥¹•Á¡½¹”µÍå¹ŒµÍ•ÑÑ¥¹Ìµ•¹ÑÉäˆ¤ì(€¥˜€¡•á¥ÍÑ¥¹œü¹¥Í½¹¹•Ñ•¤ì(€€€ÉÕ¹Ñ¥µ”¹Í•ÑÑ¥¹Í¹ÑÉä€ô•á¥ÍÑ¥¹œì(€€€É•ÑÕÉ¸ÑÉÕ”ì(€ô(€½¹ÍĞ¡½ÍĞ€ô(€€€‘½Õµ•¹Ğ¹ÅÕ•ÉåM•±•Ñ½È ˆ•áÑ•¹Í¥½¹Í}Í•ÑÑ¥¹Ìˆ¤ñğ(€€€‘½Õµ•¹Ğ¹ÅÕ•ÉåM•±•Ñ½È ˆ•áÑ•¹Í¥½¹Í}Í•ÑÑ¥¹ÌÈˆ¤ì(€¥˜€ …¡½ÍĞ¤ì(€€€±•…ÉQ¥µ•½ÕĞ¡ÉÕ¹Ñ¥µ”¹µ½Õ¹ÑQ¥µ•È¤ì(€€€ÉÕ¹Ñ¥µ”¹µ½Õ¹ÑQ¥µ•È€ôÍ•ÑQ¥µ•½ÕĞ¡µ½Õ¹ÑM•ÑÑ¥¹Í¹ÑÉä°€àÀÀ¤ì(€€€É•ÑÕÉ¸™…±Í”ì(€ô(€±•…ÉQ¥µ•½ÕĞ¡ÉÕ¹Ñ¥µ”¹µ½Õ¹ÑQ¥µ•È¤ì(€ÉÕ¹Ñ¥µ”¹µ½Õ¹ÑQ¥µ•È€ô¹Õ±°ì(€½¹ÍĞ•¹ÑÉä€ô•±•µ•¹Ğ ‰‘¥Øˆ°€‰•áÑ•¹Í¥½¹}½¹Ñ…¥¹•È±ÀµÍ•ÑÑ¥¹Ìµ•¹ÑÉäˆ¤ì(€•¹ÑÉä¹¥€ô€‰±¥¹•Á¡½¹”µÍå¹ŒµÍ•ÑÑ¥¹Ìµ•¹ÑÉäˆì(€•¹ÑÉä¹¥¹¹•É!Q50€ô€(€€€€ñ‘¥Ø±…ÍÌô‰¥¹±¥¹”µ‘É…İ•Èˆø(€€€€€€ñ‘¥Ø±…ÍÌô‰¥¹±¥¹”µ‘É…İ•ÈµÑ½±”¥¹±¥¹”µ‘É…İ•Èµ¡•…‘•Èˆø(€€€€€€€€ñˆù1¥¹•A¡½¹”ƒ–Â?š&/šrë–B3š¶”ğ½ˆø(€€€€€€€€ñ‘¥Ø±…ÍÌô‰¥¹±¥¹”µ‘É…İ•Èµ¥½¸™„µÍ½±¥™„µ¥É±”µ¡•ÙÉ½¸µ‘½İ¸‘½İ¸ˆøğ½‘¥Øø(€€€€€€ğ½‘¥Øø(€€€€€€ñ‘¥Ø±…ÍÌô‰¥¹±¥¹”µ‘É…İ•Èµ½¹Ñ•¹Ğˆø(€€€€€€€€ñÀû–B3š¶—–öO–&7¢K¢&ËîG–ºk’â[V3’æ›¢+–’§š–ó–Æ–J3¦bÛšº×šïîOğ½Àø(€€€€€€€€ñ‰ÕÑÑ½¸ÑåÁ”ô‰‰ÕÑÑ½¸ˆ±…ÍÌô‰µ•¹Õ}‰ÕÑÑ½¸ˆ‘…Ñ„µ…Ñ¥½¸ô‰½Á•¸µ±¥¹•Á¡½¹”ˆø(€€€€€€€€€ƒš&O–ò–Â?š&/šrë–B3š¶—š:Ÿ–"Û¦v‹švü(€€€€€€€€ğ½‰ÕÑÑ½¸ø(€€€€€€ğ½‘¥Øø(€€€€ğ½‘¥Øø(€€ì(€•¹ÑÉä(€€€€¹ÅÕ•ÉåM•±•Ñ½È ‰m‘…Ñ„µ…Ñ¥½¸õ½Á•¸µ±¥¹•Á¡½¹•tˆ¤(€€€€¹…‘‘Ù•¹Ñ1¥ÍÑ•¹•È ‰±¥¬ˆ°€¡•Ù•¹Ğ¤€ôøì(€€€€€•Ù•¹Ğ¹ÁÉ•Ù•¹Ñ•™…Õ±Ğ ¤ì(€€€€€•Ù•¹Ğ¹ÍÑ½ÁAÉ½Á……Ñ¥½¸ ¤ì(€€€€€Í•ÑA…¹•±Y¥Í¥‰±”¡ÑÉÕ”¤ì(€€€ô¤ì(€¡½ÍĞ¹…ÁÁ•¹¡•¹ÑÉä¤ì(€ÉÕ¹Ñ¥µ”¹Í•ÑÑ¥¹Í¹ÑÉä€ô•¹ÑÉäì(€É•ÑÕÉ¸ÑÉÕ”ì)ô()™Õ¹Ñ¥½¸‰Õ¥±‘U¤ ¤ì(€¥˜€¡ÉÕ¹Ñ¥µ”¹Á…¹•°ü¹¥Í½¹¹•Ñ•€˜˜ÉÕ¹Ñ¥µ”¹±…Õ¹¡•Èü¹¥Í½¹¹•Ñ•¤ì(€€€µ½Õ¹ÑM•ÑÑ¥¹Í¹ÑÉä ¤ì(€€€ÍÑ…ÉÑU¥5½¹¥Ñ½È ¤ì(€€€É•ÑÕÉ¸ì(€ô(€ÉÕ¹Ñ¥µ”¹±…Õ¹¡•Èü¹É•µ½Ù” ¤ì(€ÉÕ¹Ñ¥µ”¹Á…¹•°ü¹É•µ½Ù” ¤ì(€½¹ÍĞ‰ÕÑÑ½¸€ô•±•µ•¹Ğ ‰‰ÕÑÑ½¸ˆ°€‰±ÀµÍå¹Œµ±…Õ¹¡•Èˆ°€‹Šˆ¤ì(€‰ÕÑÑ½¸¹ÑåÁ”€ô€‰‰ÕÑÑ½¸ˆì(€‰ÕÑÑ½¸¹Ñ¥Ñ±”€ô€‹–Â?š&/šrë–B3š¶”ˆì(€½¹ÍĞÁ…¹•°€ô•±•µ•¹Ğ ‰‘¥…±½œˆ°€‰±ÀµÑ…Ù•É¸µÁ…¹•°ˆ¤ì(€Á…¹•°¹Í•ÑÑÑÉ¥‰ÕÑ” ‰…É¥„µ¡¥‘‘•¸ˆ°€‰ÑÉÕ”ˆ¤ì(€Á…¹•°¹Í•ÑÑÑÉ¥‰ÕÑ” ‰…É¥„µ±…‰•°ˆ°€‹–Â?š&/šrë–B3š¶”ˆ¤ì(€Á…¹•°¹¥¹¹•É!Q50€ô€(€€€€ñ¡•…‘•Èø(€€€€€€ñ‘¥ØøñÍµ…±°ù1%9A!=9I%YHğ½Íµ…±°øñ Èû–Â?š&/šrë–B3š¶”ğ½ Èøğ½‘¥Øø(€€€€€€ñ‰ÕÑÑ½¸ÑåÁ”ô‰‰ÕÑÑ½¸ˆ‘…Ñ„µ…Ñ¥½¸ô‰±½Í”ˆû\ğ½‰ÕÑÑ½¸ø(€€€€ğ½¡•…‘•Èø(€€€€ñÀ±…ÍÌô‰±ÀµÍÑ…ÑÕÌˆøğ½Àø(€€€€ñÀ±…ÍÌô‰±Àµ‘•Ñ…¥±Ìˆøğ½Àø(€€€€ñÀ±…ÍÌô‰±Àµ…ÍÍ•ÑÌˆøğ½Àø(€€€€ñ‘¥Ø±…ÍÌô‰±Àµ…ÕÑ µ…Ñ¥½¹Ìˆø(€€€€€€ñ‰ÕÑÑ½¸ÑåÁ”ô‰‰ÕÑÑ½¸ˆ‘…Ñ„µ…Ñ¥½¸ô‰±½¥¸ˆû’öÿR ¥Í½Éƒfï–öTğ½‰ÕÑÑ½¸ø(€€€€€€ñ‰ÕÑÑ½¸ÑåÁ”ô‰‰ÕÑÑ½¸ˆ‘…Ñ„µ…Ñ¥½¸ô‰±½½ÕĞˆû¦–ëfï–öTğ½‰ÕÑÑ½¸ø(€€€€ğ½‘¥Øø(€€€€ñÍ•Ñ¥½¸±…ÍÌô‰±ÀµÍ•Ñ¥½¸±Àµ…Á¤ˆøğ½Í•Ñ¥½¸ø(€€€€ñÍ•Ñ¥½¸±…ÍÌô‰±ÀµÍ•Ñ¥½¸ˆø(€€€€€€ñ‘¥Ø±…ÍÌô‰±ÀµÍ•Ñ¥½¸µÑ¥Ñ±”ˆøñÍÑÉ½¹œû–öO–&7¦bÛšº×šïîLğ½ÍÑÉ½¹œøñÍµ…±°û’şw–¶c–r£¢şg’â«¦K¦š–¶cš†šr³–rÀğ½Íµ…±°øğ½‘¥Øø(€€€€€€ñÑ•áÑ…É•„±…ÍÌô‰±ÀµÍÕµµ…ÉäˆÉ½İÌôˆàˆÁ±…•¡½±‘•Èô‹¢úû–"ÃšïîOš–ó–Æ–B;¢«–*£Rš"C¾ò3’æ–>¿’î—š&/–*£ò[¢úDˆøğ½Ñ•áÑ…É•„ø(€€€€€€ñ‘¥Ø±…ÍÌô‰±ÀµÉ½Üˆø(€€€€€€€€ñ‰ÕÑÑ½¸ÑåÁ”ô‰‰ÕÑÑ½¸ˆ‘…Ñ„µ…Ñ¥½¸ô‰Í…Ù”µÍÕµµ…Éäˆû’şw–¶c–æÛ¢šn[’êG®¼ğ½‰ÕÑÑ½¸ø(€€€€€€€€ñ‰ÕÑÑ½¸ÑåÁ”ô‰‰ÕÑÑ½¸ˆ‘…Ñ„µ…Ñ¥½¸ô‰Íå¹Œµ¹½Üˆû®/–6Ï¢¾ï–>[–æÛ–B3š¶”ğ½‰ÕÑÑ½¸ø(€€€€€€ğ½‘¥Øø(€€€€ğ½Í•Ñ¥½¸ø(€€ì(€‘½Õµ•¹Ğ¹‰½‘ä¹…ÁÁ•¹¡‰ÕÑÑ½¸°Á…¹•°¤ì(€ÉÕ¹Ñ¥µ”¹±…Õ¹¡•È€ô‰ÕÑÑ½¸ì(€ÉÕ¹Ñ¥µ”¹Á…¹•°€ôÁ…¹•°ì(€ÉÕ¹Ñ¥µ”¹ÍÑ…ÑÕÌ€ôÁ…¹•°¹ÅÕ•ÉåM•±•Ñ½È ˆ¹±ÀµÍÑ…ÑÕÌˆ¤ì(€ÉÕ¹Ñ¥µ”¹‘•Ñ…¥±Ì€ôÁ…¹•°¹ÅÕ•ÉåM•±•Ñ½È ˆ¹±Àµ‘•Ñ…¥±Ìˆ¤ì(€ÉÕ¹Ñ¥µ”¹…ÍÍ•ÑÌ€ôÁ…¹•°¹ÅÕ•ÉåM•±•Ñ½È ˆ¹±Àµ…ÍÍ•ÑÌˆ¤ì(€ÉÕ¹Ñ¥µ”¹ÍÕµµ…Éä€ôÁ…¹•°¹ÅÕ•ÉåM•±•Ñ½È ˆ¹±ÀµÍÕµµ…Éäˆ¤ì(€µ½Õ¹ÑM•ÑÑ¥¹Í¹ÑÉä ¤ì(€ÍÑ…ÉÑU¥5½¹¥Ñ½È ¤ì((€½¹ÍĞ½¹™¥œ€ôÍ•ÑÑ¥¹Ì ¤ì(€½¹ÍĞ…Á¤€ôÁ…¹•°¹ÅÕ•ÉåM•±•Ñ½È ˆ¹±Àµ…Á¤ˆ¤ì(€½¹ÍĞ…Á¥UÉ°€ô¥¹ÁÕÑ½È ‰ÕÉ°ˆ°½¹™¥œ¹…Á¥UÉ°°€¡Ù…±Õ”¤€ôøì(€€€Í•ÑÑ¥¹Ì ¤¹…Á¥UÉ°€ôÙ…±Õ”¹ÑÉ¥´ ¤ì(€€€Í…Ù•M•ÑÑ¥¹Ì ¤ì(€ô¤ì(€½¹ÍĞ…Á¥-•ä€ô¥¹ÁÕÑ½È (€€€€‰Á…ÍÍİ½Éˆ°(€€€ÍÑ½É…••Ğ¡A%}-e}MQ=I¤°(€€€€¡Ù…±Õ”¤€ôøÍÑ½É…•M•Ğ¡A%}-e}MQ=I°Ù…±Õ”¤°(€€¤ì(€½¹ÍĞµ½‘•°€ô‘½Õµ•¹Ğ¹É•…Ñ•±•µ•¹Ğ ‰Í•±•Ğˆ¤ì(€µ½‘•°¹‘…Ñ…Í•Ğ¹™¥•±€ô€‰µ½‘•°ˆì(€µ½‘•°¹…‘‘Ù•¹Ñ1¥ÍÑ•¹•È ‰¡…¹”ˆ°€ ¤€ôøì(€€€Í•ÑÑ¥¹Ì ¤¹µ½‘•°€ôµ½‘•°¹Ù…±Õ”ì(€€€Í…Ù•M•ÑÑ¥¹Ì ¤ì(€ô¤ì(€½¹ÍĞ¥¹Ñ•ÉÙ…°€ô¥¹ÁÕÑ½È ‰¹Õµ‰•Èˆ°½¹™¥œ¹¥¹Ñ•ÉÙ…°°€¡Ù…±Õ”¤€ôøì(€€€Í•ÑÑ¥¹Ì ¤¹¥¹Ñ•ÉÙ…°€ô5…Ñ ¹µ¥¸ ÈÀÀ°5…Ñ ¹µ…à È°9Õµ‰•È¡Ù…±Õ”¤ñğ€ÈÀ¤¤ì(€€€Í…Ù•M•ÑÑ¥¹Ì ¤ì(€ô¤ì(€¥¹Ñ•ÉÙ…°¹µ¥¸€ô€ˆÈˆì(€¥¹Ñ•ÉÙ…°¹µ…à€ô€ˆÈÀÀˆì(€½¹ÍĞ…ÕÑ¼€ô‘½Õµ•¹Ğ¹É•…Ñ•±•µ•¹Ğ ‰¥¹ÁÕĞˆ¤ì(€…ÕÑ¼¹ÑåÁ”€ô€‰¡•­‰½àˆì(€…ÕÑ¼¹¡•­•€ô½¹™¥œ¹…ÕÑ½MÕµµ…É¥é”ì(€…ÕÑ¼¹…‘‘Ù•¹Ñ1¥ÍÑ•¹•È ‰¡…¹”ˆ°€ ¤€ôøì(€€€Í•ÑÑ¥¹Ì ¤¹…ÕÑ½MÕµµ…É¥é”€ô…ÕÑ¼¹¡•­•ì(€€€Í…Ù•M•ÑÑ¥¹Ì ¤ì(€ô¤ì(€½¹ÍĞÁÕ±°€ô•±•µ•¹Ğ ‰‰ÕÑÑ½¸ˆ°€ˆˆ°€‹š.'–>[š¢‡–z,ˆ¤ì(€ÁÕ±°¹ÑåÁ”€ô€‰‰ÕÑÑ½¸ˆì(€ÁÕ±°¹…‘‘Ù•¹Ñ1¥ÍÑ•¹•È ‰±¥¬ˆ°€ ¤€ôø(€€€ÁÕ±±5½‘•±Ì ¤¹…Ñ  ¡•ÉÉ½È¤€ôøì(€€€€€ÉÕ¹Ñ¥µ”¹±…ÍÑÉÉ½È€ô•ÉÉ½È¹µ•ÍÍ…”ì(€€€€€É•¹‘•È ¤ì(€€€ô¤°(€€¤ì(€½¹ÍĞµ½‘•±I½Ü€ô•±•µ•¹Ğ ‰‘¥Øˆ°€‰±Àµµ½‘•°µÉ½Üˆ¤ì(€µ½‘•±I½Ü¹…ÁÁ•¹¡µ½‘•°°ÁÕ±°¤ì(€…Á¤¹…ÁÁ•¹ (€€€•±•µ•¹Ğ ‰‘¥Øˆ°€‰±ÀµÍ•Ñ¥½¸µÑ¥Ñ±”ˆ°€‹¢«–*£šïîLA$ˆ¤°(€€€™¥•± ‰A$ƒ–rÃ–v ˆ°…Á¥UÉ°¤°(€€€™¥•± ‰A$-•ç¾ò#–>«–¶c–öO–&7šÖ?¢#–f£¾ò$ˆ°…Á¥-•ä¤°(€€€™¥•± ‹š¢‡–z,ˆ°µ½‘•±I½Ü¤°(€€€™¥•± ‹š¾?–’k–ÂGš–óšïîO’âš²„ˆ°¥¹Ñ•ÉÙ…°¤°(€€€™¥•± ‹–B¿R£¢«–*£šïîLˆ°…ÕÑ¼¤°(€€¤ì((€‰ÕÑÑ½¸¹…‘‘Ù•¹Ñ1¥ÍÑ•¹•È ‰±¥¬ˆ°€ ¤€ôøì(€€€Í•ÑA…¹•±Y¥Í¥‰±” …Á…¹•°¹½Á•¸¤ì(€ô¤ì(€Á…¹•°¹ÅÕ•ÉåM•±•Ñ½È ‰m‘…Ñ„µ…Ñ¥½¸õ±½Í•tˆ¤¹…‘‘Ù•¹Ñ1¥ÍÑ•¹•È ‰±¥¬ˆ°€ ¤€ôøì(€€€Í•ÑA…¹•±Y¥Í¥‰±”¡™…±Í”¤ì(€ô¤ì(€Á…¹•°¹…‘‘Ù•¹Ñ1¥ÍÑ•¹•È ‰±½Í”ˆ°€ ¤€ôøì(€€€Á…¹•°¹Í•ÑÑÑÉ¥‰ÕÑ” ‰…É¥„µ¡¥‘‘•¸ˆ°€‰ÑÉÕ”ˆ¤ì(€ô¤ì(€Á…¹•°¹ÅÕ•ÉåM•±•Ñ½È ‰m‘…Ñ„µ…Ñ¥½¸õ±½¥¹tˆ¤¹…‘‘Ù•¹Ñ1¥ÍÑ•¹•È ‰±¥¬ˆ°±½¥¸¤ì(€Á…¹•°¹ÅÕ•ÉåM•±•Ñ½È ‰m‘…Ñ„µ…Ñ¥½¸õ±½½ÕÑtˆ¤¹…‘‘Ù•¹Ñ1¥ÍÑ•¹•È ‰±¥¬ˆ°±½½ÕĞ¤ì(€Á…¹•°¹ÅÕ•ÉåM•±•Ñ½È ‰m‘…Ñ„µ…Ñ¥½¸õÍå¹Œµ¹½İtˆ¤¹…‘‘Ù•¹Ñ1¥ÍÑ•¹•È ‰±¥¬ˆ°€ ¤€ôø(€€€ÁÉ½•ÍÍÕÉÉ•¹Ğ¡ì™½É•UÁ±½…èÑÉÕ”°…±±½İMÕµµ…ÉäèÑÉÕ”°É•™É•Í¡ÍÍ•ÑÌèÑÉÕ”ô¤°(€€¤ì(€Á…¹•°¹ÅÕ•ÉåM•±•Ñ½È ‰m‘…Ñ„µ…Ñ¥½¸õÍ…Ù”µÍÕµµ…Éåtˆ¤¹…‘‘Ù•¹Ñ1¥ÍÑ•¹•È ‰±¥¬ˆ°…Íå¹Œ€ ¤€ôøì(€€€½¹ÍĞ¥‘•¹Ñ¥Ñä€ô…İ…¥ĞÕÉÉ•¹Ñ%‘•¹Ñ¥Ñä ¤ì(€€€¥˜€ …¥‘•¹Ñ¥Ñä¤É•ÑÕÉ¸ì(€€€½¹ÍĞµ•µ½Éä€ô•ÑM…Ù•5•µ½Éä¡¥‘•¹Ñ¥Ñä¹½¹Ñ•áĞ¤ì(€€€½¹ÍĞÉ½Õ¹‘Ì€ô‰Õ¥±‘I½Õ¹‘Ì¡¥‘•¹Ñ¥Ñä¹½¹Ñ•áĞ¹¡…Ğ¤ì(€€€½¹ÍĞ¥¹Ñ•ÉÙ…°€ô5…Ñ ¹µ¥¸ ÈÀÀ°5…Ñ ¹µ…à È°9Õµ‰•È¡Í•ÑÑ¥¹Ì ¤¹¥¹Ñ•ÉÙ…°¤ñğ€ÈÀ¤¤ì(€€€½¹ÍĞÑ…É•Ñ	½Õ¹‘…Éä€ô5…Ñ ¹™±½½È¡É½Õ¹‘Ì¹±•¹Ñ €¼¥¹Ñ•ÉÙ…°¤€¨¥¹Ñ•ÉÙ…°ì(€€€µ•µ½Éä¹ÍÕµµ…Éä€ôÉÕ¹Ñ¥µ”¹ÍÕµµ…Éä¹Ù…±Õ”¹ÑÉ¥´ ¤ì(€€€µ•µ½Éä¹½Ù•É•‘Q¡É½Õ €ôÑ…É•Ñ	½Õ¹‘…Éäì(€€€µ•µ½Éä¹Í½ÕÉ•!…Í €ôÑ…É•Ñ	½Õ¹‘…Éä(€€€€€€ü…İ…¥ĞÍ¡„ÈÔØ¡)M=8¹ÍÑÉ¥¹¥™ä¡É½Õ¹‘Ì¹Í±¥” À°Ñ…É•Ñ	½Õ¹‘…Éä¤¤¤(€€€€€€è€ˆˆì(€€€µ•µ½Éä¹ÍÕµµ…ÉåMÑ…±”€ô™…±Í”ì(€€€µ•µ½Éä¹µ…¹Õ…±±å‘¥Ñ•‘Ğ€ô…Ñ”¹¹½Ü ¤ì(€€€µ•µ½Éä¹ÕÁ‘…Ñ•‘Ğ€ô…Ñ”¹¹½Ü ¤ì(€€€Í…Ù•M…Ù•5•µ½Éä¡¥‘•¹Ñ¥Ñä¹½¹Ñ•áĞ¤ì(€€€…İ…¥ĞÁÉ½•ÍÍÕÉÉ•¹Ğ¡ì™½É•UÁ±½…èÑÉÕ”°…±±½İMÕµµ…Éäè™…±Í”ô¤ì(€ô¤ì(€É•¹‘•È ¤ì)ô()™Õ¹Ñ¥½¸‰¥¹‘Ù•¹ÑÌ ¤ì(€¥˜€¡ÉÕ¹Ñ¥µ”¹•Ù•¹ÑÍ	½Õ¹¤É•ÑÕÉ¸ÑÉÕ”ì(€½¹ÍĞ•Ù•¹ÑM½ÕÉ”€ôÉÕ¹Ñ¥µ”¹½¹Ñ•áĞü¹•Ù•¹ÑM½ÕÉ”ì(€½¹ÍĞ•Ù•¹ÑQåÁ•Ì€ôÉÕ¹Ñ¥µ”¹½¹Ñ•áĞü¹•Ù•¹ÑQåÁ•Ìì(€¥˜€¡ÑåÁ•½˜•Ù•¹ÑM½ÕÉ”ü¹½¸€„ôô€‰™Õ¹Ñ¥½¸ˆñğ€…•Ù•¹ÑQåÁ•Ì¤É•ÑÕÉ¸™…±Í”ì(€½¹ÍĞİ…Ñ¡•€ôl(€€€•Ù•¹ÑQåÁ•Ì¹5MM}M9P°(€€€•Ù•¹ÑQåÁ•Ì¹5MM}I%Y°(€€€•Ù•¹ÑQåÁ•Ì¹5MM}%Q°(€€€•Ù•¹ÑQåÁ•Ì¹5MM}1Q°(€€€•Ù•¹ÑQåÁ•Ì¹5MM}UAQ°(€€€•Ù•¹ÑQåÁ•Ì¹5MM}M]%A°(€€€•Ù•¹ÑQåÁ•Ì¹9IQ%=9}9°(€t¹™¥±Ñ•È¡	½½±•…¸¤ì(€İ…Ñ¡•¹™½É…  ¡•Ù•¹Ğ¤€ôø•Ù•¹ÑM½ÕÉ”¹½¸¡•Ù•¹Ğ°€ ¤€ôøÍ¡•‘Õ±•AÉ½•ÍÌ ¤¤¤ì(€½¹ÍĞ…ÍÍ•ÑÙ•¹ÑÌ€ôl(€€€•Ù•¹ÑQåÁ•Ì¹!IQI}%Q°(€€€•Ù•¹ÑQåÁ•Ì¹!IQI}M1Q°(€€€•Ù•¹ÑQåÁ•Ì¹]=I1%9=}UAQ°(€€€•Ù•¹ÑQåÁ•Ì¹]=I1%9=}MQQ%9M}UAQ°(€t¹™¥±Ñ•È¡	½½±•…¸¤ì(€…ÍÍ•ÑÙ•¹ÑÌ¹™½É…  ¡•Ù•¹Ğ¤€ôø(€€€•Ù•¹ÑM½ÕÉ”¹½¸¡•Ù•¹Ğ°€ ¤€ôø(€€€€€Í¡•‘Õ±•AÉ½•ÍÌ¡ì™½É•UÁ±½…èÑÉÕ”°É•™É•Í¡ÍÍ•ÑÌèÑÉÕ”ô¤°(€€€€¤°(€€¤ì(€¥˜€¡•Ù•¹ÑQåÁ•Ì¹!Q}!9¤ì(€€€•Ù•¹ÑM½ÕÉ”¹½¸¡•Ù•¹ÑQåÁ•Ì¹!Q}!9°€ ¤€ôø(€€€€€Í¡•‘Õ±•AÉ½•ÍÌ¡ì™½É•UÁ±½…èÑÉÕ”°É•™É•Í¡ÍÍ•ÑÌèÑÉÕ”ô¤°(€€€€¤ì(€ô(€ÉÕ¹Ñ¥µ”¹•Ù•¹ÑÍ	½Õ¹€ôÑÉÕ”ì(€É•ÑÕÉ¸ÑÉÕ”ì)ô()™Õ¹Ñ¥½¸•¹ÍÕÉ•Ù•¹ÑÍ	½Õ¹ ¤ì(€¥˜€¡‰¥¹‘Ù•¹ÑÌ ¤¤ì(€€€±•…ÉQ¥µ•½ÕĞ¡ÉÕ¹Ñ¥µ”¹•Ù•¹ÑÍQ¥µ•È¤ì(€€€ÉÕ¹Ñ¥µ”¹•Ù•¹ÑÍQ¥µ•È€ô¹Õ±°ì(€€€É•ÑÕÉ¸ì(€ô(€±•…ÉQ¥µ•½ÕĞ¡ÉÕ¹Ñ¥µ”¹•Ù•¹ÑÍQ¥µ•È¤ì(€ÉÕ¹Ñ¥µ”¹•Ù•¹ÑÍQ¥µ•È€ôÍ•ÑQ¥µ•½ÕĞ  ¤€ôøì(€€€ÑÉäì(€€€€€ÉÕ¹Ñ¥µ”¹½¹Ñ•áĞ€ôÕÉÉ•¹Ñ½¹Ñ•áĞ ¤ì(€€€€€•¹ÍÕÉ•Ù•¹ÑÍ	½Õ¹ ¤ì(€€€ô…Ñ €¡•ÉÉ½È¤ì(€€€€€½¹Í½±”¹‘•‰Õœ¡l‘í5=U1õtİ…¥Ñ¥¹œ™½ÈM¥±±åQ…Ù•É¸•Ù•¹ÑÍ€°•ÉÉ½È¤ì(€€€€€•¹ÍÕÉ•Ù•¹ÑÍ	½Õ¹ ¤ì(€€€ô(€ô°€àÀÀ¤ì)ô()…Íå¹Œ™Õ¹Ñ¥½¸¥¹¥Ñ¥…±¥é•ÕÑ  ¤ì(€ÍÕÁ…‰…Í”¹…ÕÑ ¹½¹ÕÑ¡MÑ…Ñ•¡…¹” ¡}•Ù•¹Ğ°Í•ÍÍ¥½¸¤€ôøì(€€€Í•ÑQ¥µ•½ÕĞ¡…Íå¹Œ€ ¤€ôøì(€€€€€ÉÕ¹Ñ¥µ”¹Í•ÍÍ¥½¸€ôÍ•ÍÍ¥½¸ì(€€€€€ÉÕ¹Ñ¥µ”¹ÁÉ½™¥±”€ô¹Õ±°ì(€€€€€ÉÕ¹Ñ¥µ”¹½¹¹•Ñ•€ô™…±Í”ì(€€€€€¥˜€ …Í•ÍÍ¥½¸¤ì(€€€€€€€É•¹‘•È ¤ì(€€€€€€€É•ÑÕÉ¸ì(€€€€€ô(€€€€€ÑÉäì(€€€€€€€¥˜€¡Í•ÍÍ¥½¸¹ÁÉ½Ù¥‘•É}Ñ½­•¸¤…İ…¥ĞÙ•É¥™å¥Í½É¡Í•ÍÍ¥½¸¤ì(€€€€€€€½¹ÍĞì‘…Ñ„ô€ô…İ…¥ĞÍÕÁ…‰…Í”¹…ÕÑ ¹•ÑM•ÍÍ¥½¸ ¤ì(€€€€€€€ÉÕ¹Ñ¥µ”¹Í•ÍÍ¥½¸€ô‘…Ñ„¹Í•ÍÍ¥½¸ì(€€€€€€€…İ…¥Ğ±½…‘AÉ½™¥±” ¤ì(€€€€€€€¥˜€¡¡…Í•ÍÌ ¤¤ì(€€€€€€€€€…İ…¥ĞÉ•¥ÍÑ•É•Ù¥” ¤ì(€€€€€€€€€…İ…¥Ğ±½…‘I•Ù¥Í¥½¹Ì ¤ì(€€€€€€€€€ÉÕ¹Ñ¥µ”¹½¹¹•Ñ•€ôÑÉÕ”ì(€€€€€€€€€Í¡•‘Õ±•AÉ½•ÍÌ¡ì™½É•UÁ±½…èÑÉÕ”°É•™É•Í¡ÍÍ•ÑÌèÑÉÕ”ô¤ì(€€€€€€€ô(€€€€€ô…Ñ €¡•ÉÉ½È¤ì(€€€€€€€ÉÕ¹Ñ¥µ”¹±…ÍÑÉÉ½È€ô•ÉÉ½È¹µ•ÍÍ…”ì(€€€€€ô(€€€€€É•¹‘•È ¤ì(€€€ô°€À¤ì(€ô¤ì(€½¹ÍĞì‘…Ñ„ô€ô…İ…¥ĞÍÕÁ…‰…Í”¹…ÕÑ ¹•ÑM•ÍÍ¥½¸ ¤ì(€ÉÕ¹Ñ¥µ”¹Í•ÍÍ¥½¸€ô‘…Ñ„¹Í•ÍÍ¥½¸ì(€¥˜€¡ÉÕ¹Ñ¥µ”¹Í•ÍÍ¥½¸¤ì(€€€…İ…¥Ğ±½…‘AÉ½™¥±” ¤¹…Ñ  ¡•ÉÉ½È¤€ôøì(€€€€€ÉÕ¹Ñ¥µ”¹±…ÍÑÉÉ½È€ô•ÉÉ½È¹µ•ÍÍ…”ì(€€€ô¤ì(€€€¥˜€¡¡…Í•ÍÌ ¤¤ì(€€€€€…İ…¥ĞÉ•¥ÍÑ•É•Ù¥” ¤ì(€€€€€…İ…¥Ğ±½…‘I•Ù¥Í¥½¹Ì ¤ì(€€€€€ÉÕ¹Ñ¥µ”¹½¹¹•Ñ•€ôÑÉÕ”ì(€€€ô(€ô)ô()…Íå¹Œ™Õ¹Ñ¥½¸İ…¥Ñ½ÉM¥±±åQ…Ù•É¸¡Ñ¥µ•½ÕÑ5Ì€ô€ÄÔÀÀÀ¤ì(€½¹ÍĞÍÑ…ÉÑ•‘Ğ€ô…Ñ”¹¹½Ü ¤ì(€İ¡¥±”€ …±½‰…±Q¡¥Ì¹M¥±±åQ…Ù•É¸ü¹•Ñ½¹Ñ•áĞñğ€…‘½Õµ•¹Ğ¹‰½‘ä¤ì(€€€¥˜€¡…Ñ”¹¹½Ü ¤€´ÍÑ…ÉÑ•‘Ğ€øÑ¥µ•½ÕÑ5Ì¤ì(€€€€€Ñ¡É½Ü¹•ÜÉÉ½È ‹¶'–úM¥±±åQ…Ù•É¸ƒ–"w–/–2[¢Úš^Øˆ¤ì(€€€ô(€€€…İ…¥Ğ¹•ÜAÉ½µ¥Í” ¡É•Í½±Ù”¤€ôøÍ•ÑQ¥µ•½ÕĞ¡É•Í½±Ù”°€ÄÀÀ¤¤ì(€ô)ô()…Íå¹Œ™Õ¹Ñ¥½¸•¹ÍÕÉ•U¥5½Õ¹Ñ• ¤ì(€…İ…¥Ğİ…¥Ñ½ÉM¥±±åQ…Ù•É¸ ¤ì(€ÉÕ¹Ñ¥µ”¹½¹Ñ•áĞ€ôÕÉÉ•¹Ñ½¹Ñ•áĞ ¤ì(€‰Õ¥±‘U¤ ¤ì)ô()…Íå¹Œ™Õ¹Ñ¥½¸¥¹¥Ğ ¤ì(€¥˜€¡ÉÕ¹Ñ¥µ”¹¥¹¥Ñ¥…±¥é•¤É•ÑÕÉ¸ì(€…İ…¥Ğ•¹ÍÕÉ•U¥5½Õ¹Ñ• ¤ì(€ÉÕ¹Ñ¥µ”¹¥¹¥Ñ¥…±¥é•€ôÑÉÕ”ì(€Í•ÑÑ¥¹Ì ¤ì(€ÉÕ¹Ñ¥µ”¹‘•Ù¥”€ô•Ñ•Ù¥” ¤ì(€•¹ÍÕÉ•Ù•¹ÑÍ	½Õ¹ ¤ì(€ÑÉäì(€€€…İ…¥Ğ¥¹¥Ñ¥…±¥é•ÕÑ  ¤ì(€ô…Ñ €¡•ÉÉ½È¤ì(€€€ÉÕ¹Ñ¥µ”¹±…ÍÑÉÉ½È€ô•ÉÉ½È¹µ•ÍÍ…”ñğ€‹fï–öW*Ûš–"w–/–2[–’Ç¢Ò”ˆì(€€€½¹Í½±”¹•ÉÉ½È¡l‘í5=U1õt…ÕÑ ¥¹¥Ñ¥…±¥é…Ñ¥½¸™…¥±•‘€°•ÉÉ½È¤ì(€€€É•¹‘•È ¤ì(€ô(€Í¡•‘Õ±•AÉ½•ÍÌ¡ì™½É•UÁ±½…èÑÉÕ”°É•™É•Í¡ÍÍ•ÑÌèÑÉÕ”ô¤ì(€½¹Í½±”¹±½œ¡l‘í5=U1õtØ‘íYIM%=9ô±½…‘•‘€¤ì)ô()±•Ğ¥¹¥ÑAÉ½µ¥Í”€ô¹Õ±°ì()™Õ¹Ñ¥½¸•¹ÍÕÉ•%¹¥Ñ¥…±¥é• ¤ì(€¥¹¥ÑAÉ½µ¥Í”ñğô¥¹¥Ğ ¤¹…Ñ  ¡•ÉÉ½È¤€ôøì(€€€ÉÕ¹Ñ¥µ”¹¥¹¥Ñ¥…±¥é•€ô™…±Í”ì(€€€½¹Í½±”¹•ÉÉ½È¡l‘í5=U1õt¥¹¥Ñ¥…±¥é…Ñ¥½¸™…¥±•‘€°•ÉÉ½È¤ì(€€€ÉÕ¹Ñ¥µ”¹±…ÍÑÉÉ½È€ô•ÉÉ½È¹µ•ÍÍ…”ñğ€‹–"w–/–2[–’Ç¢Ò”ˆì(€€€É•¹‘•È ¤ì(€€€Ñ¡É½Ü•ÉÉ½Èì(€ô¤ì(€É•ÑÕÉ¸¥¹¥ÑAÉ½µ¥Í”ì)ô()•áÁ½ÉĞ…Íå¹Œ™Õ¹Ñ¥½¸½¹Ñ¥Ù…Ñ” ¤ì(€…İ…¥Ğ•¹ÍÕÉ•U¥5½Õ¹Ñ• ¤ì(€É•ÑÕÉ¸•¹ÍÕÉ•%¹¥Ñ¥…±¥é• ¤ì)ô()•áÁ½ÉĞ…Íå¹Œ™Õ¹Ñ¥½¸½¹¹…‰±” ¤ì(€…İ…¥Ğ•¹ÍÕÉ•U¥5½Õ¹Ñ• ¤ì(€É•ÑÕÉ¸•¹ÍÕÉ•%¹¥Ñ¥…±¥é• ¤ì)ô()ÅÕ•Õ•5¥É½Ñ…Í¬  ¤€ôøì(€•¹ÍÕÉ•%¹¥Ñ¥…±¥é• ¤¹…Ñ   ¤€ôøì(€€€€¼¼Q¡”±¥™•å±”¡½½¬µ…äÉ•ÑÉä¥¹¥Ñ¥…±¥é…Ñ¥½¸…™Ñ•ÈÑ¡”…ÁÀ¥ÌÉ•…‘ä¸(€€€¥¹¥ÑAÉ½µ¥Í”€ô¹Õ±°ì(€ô¤ì)ô¤ì(
+  for (const row of data || []) {
+    runtime.revisions.set(`${row.entity_type}|${row.entity_id}`, Number(row.revision) || 0);
+  }
+}
+
+async function commit(
+  entityType,
+  entityId,
+  snapshotPayload,
+  eventPayload,
+  operation = "upsert",
+) {
+  const key = `${entityType}|${entityId}`;
+  let revision = (runtime.revisions.get(key) || 0) + 1;
+  const eventId = crypto.randomUUID();
+  const send = () =>
+    supabase.rpc("commit_sync_change", {
+      p_event_id: eventId,
+      p_source_device_id: runtime.device.id,
+      p_entity_type: entityType,
+      p_entity_id: entityId,
+      p_revision: revision,
+      p_operation: operation,
+      p_snapshot_payload: snapshotPayload,
+      p_event_payload: eventPayload || snapshotPayload,
+    });
+  let result = await send();
+  if (
+    result.error &&
+    String(result.error.message || "").includes("stale_snapshot_revision")
+  ) {
+    const { data } = await supabase
+      .from("latest_snapshots")
+      .select("revision")
+      .eq("entity_type", entityType)
+      .eq("entity_id", entityId)
+      .maybeSingle();
+    revision = (Number(data?.revision) || 0) + 1;
+    result = await send();
+  }
+  if (result.error) throw result.error;
+  runtime.revisions.set(key, revision);
+  return revision;
+}
+
+function jsonBytes(value) {
+  return new TextEncoder().encode(JSON.stringify(value)).byteLength;
+}
+
+function splitLoreEntries(entries) {
+  const parts = [];
+  let current = [];
+  for (const entry of entries) {
+    const candidate = [...current, entry];
+    if (current.length && jsonBytes({ entries: candidate }) > 180000) {
+      parts.push(current);
+      current = [entry];
+    } else {
+      current = candidate;
+    }
+  }
+  if (current.length || !parts.length) parts.push(current);
+  return parts;
+}
+
+async function uploadCharacterAssets(identity, assets) {
+  if (!hasAccess()) return;
+  const config = settings();
+  if (!config.assetHashes || typeof config.assetHashes !== "object") {
+    config.assetHashes = {};
+  }
+  const saved = config.assetHashes[identity.tavernCharacterKey] || {};
+  const entityId = `character:${identity.tavernCharacterKey}`;
+  const common = {
+    schemaVersion: 1,
+    tavernCharacterKey: identity.tavernCharacterKey,
+    characterName: identity.characterName,
+    saveId: identity.saveId,
+    saveName: identity.saveName,
+    updatedAt: Date.now(),
+  };
+  const characterHash = await sha256(JSON.stringify(assets.card));
+  if (saved.characterHash !== characterHash) {
+    await commit(
+      "tavern.character",
+      entityId,
+      {
+        ...common,
+        contentHash: characterHash,
+        card: assets.card,
+      },
+      {
+        kind: "character.replace",
+        tavernCharacterKey: identity.tavernCharacterKey,
+        characterName: identity.characterName,
+        contentHash: characterHash,
+      },
+    );
+    saved.characterHash = characterHash;
+  }
+
+  const loreHash = await sha256(JSON.stringify(assets.books));
+  if (saved.loreHash !== loreHash) {
+    const currentEntities = [];
+    const bookIndex = [];
+    for (const book of assets.books) {
+      const entryParts = splitLoreEntries(book.entries);
+      const partEntityIds = [];
+      for (let index = 0; index < entryParts.length; index += 1) {
+        const partEntityId = `${entityId}:lore:${book.id}:${index}`;
+        partEntityIds.push(partEntityId);
+        currentEntities.push(partEntityId);
+        await commit(
+          "tavern.lorebook.part",
+          partEntityId,
+          {
+            ...common,
+            bookId: book.id,
+            bookName: book.name,
+            scopes: book.scopes,
+            enabled: book.enabled,
+            partIndex: index,
+            partCount: entryParts.length,
+            entries: entryParts[index],
+          },
+          {
+            kind: "lorebook.part.replace",
+            tavernCharacterKey: identity.tavernCharacterKey,
+            bookId: book.id,
+            partIndex: index,
+            partCount: entryParts.length,
+          },
+        );
+      }
+      bookIndex.push({
+        id: book.id,
+        name: book.name,
+        scopes: book.scopes,
+        enabled: book.enabled,
+        entryCount: book.entries.length,
+        partEntityIds,
+      });
+    }
+    await commit(
+      "tavern.lorebooks",
+      entityId,
+      {
+        ...common,
+        contentHash: loreHash,
+        books: bookIndex,
+        truncatedEntries: runtime.assetState.truncatedEntries,
+      },
+      {
+        kind: "lorebooks.replace",
+        tavernCharacterKey: identity.tavernCharacterKey,
+        contentHash: loreHash,
+        bookCount: bookIndex.length,
+      },
+    );
+
+    const staleEntities = (saved.loreEntities || []).filter(
+      (oldEntityId) => !currentEntities.includes(oldEntityId),
+    );
+    for (const staleEntityId of staleEntities) {
+      await commit(
+        "tavern.lorebook.part",
+        staleEntityId,
+        {},
+        {
+          kind: "lorebook.part.delete",
+          tavernCharacterKey: identity.tavernCharacterKey,
+        },
+        "delete",
+      );
+    }
+    saved.loreHash = loreHash;
+    saved.loreEntities = currentEntities;
+  }
+  config.assetHashes[identity.tavernCharacterKey] = saved;
+  saveSettings();
+}
+
+async function uploadCurrent(identity, rounds, memory) {
+  if (!hasAccess()) throw new Error("è¯·å…ˆå®Œæˆ Discord ç™»å½•ä¸ç¤¾åŒºéªŒè¯");
+  const boundary = Math.min(Number(memory.coveredThrough) || 0, rounds.length);
+  const recent = rounds.slice(boundary);
+  const entityId = `character:${identity.tavernCharacterKey}`;
+  const common = {
+    schemaVersion: 1,
+    tavernCharacterKey: identity.tavernCharacterKey,
+    characterName: identity.characterName,
+    saveId: identity.saveId,
+    saveName: identity.saveName,
+    totalFloors: rounds.length,
+    updatedAt: Date.now(),
+  };
+  await commit(
+    "tavern.active",
+    entityId,
+    {
+      ...common,
+      summaryThrough: boundary,
+      unsummarizedFloors: recent.length,
+    },
+    { kind: "save.active", ...common },
+  );
+  await commit(
+    "tavern.summary",
+    entityId,
+    {
+      ...common,
+      coveredThrough: boundary,
+      content: memory.summary || "",
+      sourceHash: memory.sourceHash || "",
+      stale: Boolean(memory.summaryStale),
+      manuallyEditedAt: memory.manuallyEditedAt || 0,
+    },
+    {
+      kind: "summary.replace",
+      tavernCharacterKey: identity.tavernCharacterKey,
+      saveId: identity.saveId,
+      coveredThrough: boundary,
+    },
+  );
+  await commit(
+    "tavern.recent",
+    entityId,
+    {
+      ...common,
+      startsAfter: boundary,
+      rounds: recent,
+    },
+    {
+      kind: "recent.replace",
+      tavernCharacterKey: identity.tavernCharacterKey,
+      saveId: identity.saveId,
+      floorCount: recent.length,
+    },
+  );
+}
+
+async function processCurrent({
+  forceUpload = false,
+  allowSummary = true,
+  refreshAssets = false,
+} = {}) {
+  if (runtime.busy || !settings().enabled) return;
+  let identity;
+  try {
+    identity = await currentIdentity();
+  } catch (error) {
+    runtime.lastError = error.message || "è¯»å–å½“å‰èŠå¤©å¤±è´¥";
+    console.error(`[${MODULE}] failed to read the current chat`, error);
+    render();
+    return;
+  }
+  runtime.current = identity;
+  if (!identity) {
+    render();
+    return;
+  }
+  runtime.busy = true;
+  runtime.lastError = "";
+  try {
+    const rounds = buildRounds(identity.context.chat);
+    const memory = getSaveMemory(identity.context);
+    if (
+      refreshAssets ||
+      runtime.currentAssetsKey !== identity.tavernCharacterKey ||
+      !runtime.currentAssets
+    ) {
+      runtime.currentAssets = await collectCharacterAssets(identity);
+      runtime.currentAssetsKey = identity.tavernCharacterKey;
+    }
+    if (hasAccess()) {
+      try {
+        await uploadCharacterAssets(identity, runtime.currentAssets);
+      } catch (error) {
+        runtime.assetState.error = error.message || "è§’è‰²èµ„æ–™åŒæ­¥å¤±è´¥";
+        console.error(`[${MODULE}] asset sync failed`, error);
+      }
+    }
+    const liveHash = await sha256(JSON.stringify(rounds));
+    const interval = Math.min(200, Math.max(2, Number(settings().interval) || 20));
+    const targetBoundary = Math.floor(rounds.length / interval) * interval;
+    const targetHash = targetBoundary
+      ? await sha256(JSON.stringify(rounds.slice(0, targetBoundary)))
+      : "";
+    const changedCoveredContent =
+      Number(memory.coveredThrough) !== targetBoundary ||
+      memory.sourceHash !== targetHash;
+
+    if (
+      allowSummary &&
+      settings().autoSummarize &&
+      changedCoveredContent &&
+      targetBoundary > 0 &&
+      settings().model
+    ) {
+      const oldBoundary = Math.min(Number(memory.coveredThrough) || 0, targetBoundary);
+      const oldPrefixHash = oldBoundary
+        ? await sha256(JSON.stringify(rounds.slice(0, oldBoundary)))
+        : "";
+      const canRollForward =
+        oldBoundary > 0 &&
+        oldBoundary < targetBoundary &&
+        memory.summary &&
+        memory.sourceHash === oldPrefixHash;
+      const summaryRounds = canRollForward
+        ? rounds.slice(oldBoundary, targetBoundary)
+        : rounds.slice(0, targetBoundary);
+      memory.summary = await requestSummary({
+        previousSummary: canRollForward ? memory.summary : "",
+        rounds: summaryRounds,
+      });
+      memory.coveredThrough = targetBoundary;
+      memory.sourceHash = targetHash;
+      memory.summaryStale = false;
+      memory.updatedAt = Date.now();
+      memory.manuallyEditedAt = 0;
+      saveSaveMemory(identity.context);
+    } else if (changedCoveredContent && targetBoundary === 0) {
+      memory.summary = "";
+      memory.coveredThrough = 0;
+      memory.sourceHash = "";
+      memory.summaryStale = false;
+      memory.updatedAt = Date.now();
+      memory.manuallyEditedAt = 0;
+      saveSaveMemory(identity.context);
+    } else if (changedCoveredContent && targetBoundary > 0) {
+      // The old summary is no longer authoritative until the configured model rebuilds it.
+      memory.summaryStale = true;
+      memory.updatedAt = Date.now();
+      saveSaveMemory(identity.context);
+    }
+
+    const uploadHash = await sha256(
+      JSON.stringify({
+        saveId: identity.saveId,
+        liveHash,
+        summary: memory.summary || "",
+        coveredThrough: Number(memory.coveredThrough) || 0,
+        sourceHash: memory.sourceHash || "",
+        summaryStale: Boolean(memory.summaryStale),
+      }),
+    );
+    if (hasAccess() && (forceUpload || memory.lastUploadedHash !== uploadHash)) {
+      await uploadCurrent(identity, rounds, memory);
+      memory.lastUploadedHash = uploadHash;
+      memory.lastUploadedAt = Date.now();
+      saveSaveMemory(identity.context);
+    }
+    runtime.connected = hasAccess();
+  } catch (error) {
+    runtime.lastError = error.message || "åŒæ­¥å¤±è´¥";
+    console.error(`[${MODULE}]`, error);
+  } finally {
+    runtime.busy = false;
+    render();
+  }
+}
+
+function scheduleProcess(options = {}) {
+  clearTimeout(runtime.timer);
+  runtime.timer = setTimeout(() => processCurrent(options), 900);
+}
+
+async function login() {
+  runtime.lastError = "";
+  const redirectTo = `${location.origin}${location.pathname}`;
+  const { error } = await supabase.auth.signInWithOAuth({
+    provider: "discord",
+    options: {
+      redirectTo,
+      scopes: "guilds guilds.members.read",
+    },
+  });
+  if (error) {
+    runtime.lastError = error.message;
+    render();
+  }
+}
+
+async function logout() {
+  await supabase.auth.signOut();
+  runtime.session = null;
+  runtime.profile = null;
+  runtime.connected = false;
+  render();
+}
+
+async function pullModels() {
+  const config = settings();
+  const apiKey = storageGet(API_KEY_STORAGE);
+  const response = await fetch(normalizeEndpoint(config.apiUrl, "models"), {
+    headers: apiKey ? { Authorization: `Bearer ${apiKey}` } : {},
+  });
+  if (!response.ok) throw new Error(`æ¨¡å‹æ¥å£è¿”å› ${response.status}`);
+  const payload = await response.json();
+  const source = Array.isArray(payload?.data)
+    ? payload.data
+    : Array.isArray(payload?.models)
+      ? payload.models
+      : Array.isArray(payload)
+        ? payload
+        : [];
+  config.modelOptions = [
+    ...new Set(
+      source
+        .map((item) => (typeof item === "string" ? item : item?.id || item?.name))
+        .filter(Boolean),
+    ),
+  ].sort();
+  if (!config.modelOptions.includes(config.model)) config.model = config.modelOptions[0] || "";
+  saveSettings();
+  render();
+}
+
+function element(tag, className = "", text = "") {
+  const node = document.createElement(tag);
+  if (className) node.className = className;
+  if (text) node.textContent = text;
+  return node;
+}
+
+function field(label, input) {
+  const wrapper = element("label", "lp-field");
+  wrapper.append(element("span", "", label), input);
+  return wrapper;
+}
+
+function inputFor(type, value, onChange) {
+  const input = document.createElement("input");
+  input.type = type;
+  input.value = value ?? "";
+  input.addEventListener("change", () => onChange(input.value));
+  return input;
+}
+
+function render() {
+  if (!runtime.panel) return;
+  const config = settings();
+  const identity = runtime.current;
+  const rounds = identity ? buildRounds(identity.context.chat) : [];
+  const memory = identity ? getSaveMemory(identity.context) : null;
+
+  runtime.status.textContent = runtime.busy
+    ? "æ­£åœ¨å¤„ç†â€¦"
+    : runtime.lastError
+      ? runtime.lastError
+      : hasAccess()
+        ? "Discord å·²éªŒè¯ Â· äº‘ç«¯å¯ç”¨"
+        : runtime.session
+          ? "å·²ç™»å½•ï¼Œç­‰å¾…ç¤¾åŒºéªŒè¯"
+          : "å°šæœªç™»å½•";
+  runtime.status.classList.toggle("error", Boolean(runtime.lastError));
+  runtime.details.textContent = identity
+    ? `${identity.characterName} Â· ${identity.saveName} Â· ${rounds.length} æ¥¼ Â· å·²æ€»ç»“ ${memory.coveredThrough || 0} æ¥¼`
+    : "è¯·å…ˆæ‰“å¼€å•è§’è‰²èŠå¤©å­˜æ¡£";
+  if (runtime.assets) {
+    const { books, entries, truncatedEntries, error } = runtime.assetState;
+    runtime.assets.textContent = identity
+      ? `${error ? `èµ„æ–™åŒæ­¥å¤±è´¥ï¼š${error} Â· ` : ""}è§’è‰²å¡å·²è¯»å– Â· ${books} æœ¬ç»‘å®šä¸–ç•Œä¹¦ Â· ${entries} ä¸ªæ¡ç›®${
+          truncatedEntries ? ` Â· ${truncatedEntries} æ¡è¿‡é•¿å†…å®¹å·²æˆªæ–­` : ""
+        }`
+      : "æ‰“å¼€è§’è‰²èŠå¤©åä¼šè‡ªåŠ¨è¯»å–è§’è‰²å¡ä¸ç»‘å®šä¸–ç•Œä¹¦";
+  }
+  runtime.summary.value = memory?.summary || "";
+
+  const loginButton = runtime.panel.querySelector("[data-action=login]");
+  const logoutButton = runtime.panel.querySelector("[data-action=logout]");
+  loginButton.hidden = Boolean(runtime.session);
+  logoutButton.hidden = !runtime.session;
+
+  const modelSelect = runtime.panel.querySelector("[data-field=model]");
+  modelSelect.replaceChildren();
+  const empty = document.createElement("option");
+  empty.value = "";
+  empty.textContent = config.modelOptions.length ? "é€‰æ‹©æ¨¡å‹" : "å…ˆæ‹‰å–æ¨¡å‹";
+  modelSelect.append(empty);
+  for (const model of config.modelOptions) {
+    const option = document.createElement("option");
+    option.value = model;
+    option.textContent = model;
+    modelSelect.append(option);
+  }
+  modelSelect.value = config.model || "";
+}
+
+function setPanelVisible(visible) {
+  const panel = runtime.panel;
+  if (!panel) return;
+
+  if (!visible) {
+    panel.setAttribute("data-open", "false");
+    panel.setAttribute("aria-hidden", "true");
+    return;
+  }
+
+  panel.setAttribute("data-open", "true");
+  panel.setAttribute("aria-hidden", "false");
+  render();
+  currentIdentity()
+    .then((identity) => {
+      runtime.current = identity;
+      render();
+    })
+    .catch((error) => {
+      runtime.lastError = error.message || "è¯»å–å½“å‰èŠå¤©å¤±è´¥";
+      console.error(`[${MODULE}] failed to refresh panel`, error);
+      render();
+    });
+}
+
+function startUiMonitor() {
+  if (runtime.uiObserver || !document.body) return;
+  runtime.uiObserver = new MutationObserver(() => {
+    if (!runtime.panel?.isConnected || !runtime.launcher?.isConnected) {
+      buildUi();
+      return;
+    }
+    mountSettingsEntry();
+  });
+  runtime.uiObserver.observe(document.body, { childList: true, subtree: true });
+}
+
+function mountSettingsEntry() {
+  if (runtime.settingsEntry?.isConnected) return true;
+  const existing = document.querySelector("#linephone-sync-settings-entry");
+  if (existing?.isConnected) {
+    runtime.settingsEntry = existing;
+    return true;
+  }
+  const host =
+    document.querySelector("#extensions_settings") ||
+    document.querySelector("#extensions_settings2");
+  if (!host) {
+    clearTimeout(runtime.mountTimer);
+    runtime.mountTimer = setTimeout(mountSettingsEntry, 800);
+    return false;
+  }
+  clearTimeout(runtime.mountTimer);
+  runtime.mountTimer = null;
+  const entry = element(
+    "div",
+    "extension_container lp-settings-entry linephone-sync-settings-entry",
+  );
+  entry.id = "linephone-sync-settings-entry";
+  entry.innerHTML = `
+    <div class="inline-drawer">
+      <div class="inline-drawer-toggle inline-drawer-header">
+        <b>LinePhone å°æ‰‹æœºåŒæ­¥</b>
+        <div class="inline-drawer-icon fa-solid fa-circle-chevron-down down"></div>
+      </div>
+      <div class="inline-drawer-content">
+        <p>åŒæ­¥å½“å‰è§’è‰²ã€ç»‘å®šä¸–ç•Œä¹¦ã€èŠå¤©æ¥¼å±‚å’Œé˜¶æ®µæ€»ç»“ã€‚</p>
+        <button type="button" class="menu_button" data-action="open-linephone">
+          æ‰“å¼€å°æ‰‹æœºåŒæ­¥æ§åˆ¶é¢æ¿
+        </button>
+      </div>
+    </div>
+  `;
+  entry
+    .querySelector("[data-action=open-linephone]")
+    .addEventListener("click", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      setPanelVisible(true);
+    });
+  host.append(entry);
+  runtime.settingsEntry = entry;
+  return true;
+}
+
+function buildUi() {
+  if (runtime.panel?.isConnected && runtime.launcher?.isConnected) {
+    mountSettingsEntry();
+    startUiMonitor();
+    return;
+  }
+  const existingLauncher = document.querySelector("#linephone-sync-launcher");
+  if (runtime.launcher && runtime.launcher !== existingLauncher) {
+    runtime.launcher.remove();
+  }
+  runtime.panel?.remove();
+  const button = existingLauncher || element("button", "lp-sync-launcher", "â‡„");
+  button.id = "linephone-sync-launcher";
+  button.type = "button";
+  button.title = "å°æ‰‹æœºåŒæ­¥";
+  const panel = element("section", "lp-tavern-panel");
+  panel.id = "linephone-sync-panel";
+  panel.setAttribute("data-open", "false");
+  panel.setAttribute("aria-hidden", "true");
+  panel.setAttribute("role", "dialog");
+  panel.setAttribute("aria-label", "å°æ‰‹æœºåŒæ­¥");
+  panel.innerHTML = `
+    <header>
+      <div><small>LINEPHONE RECEIVER</small><h2>å°æ‰‹æœºåŒæ­¥</h2></div>
+      <button type="button" data-action="close">Ã—</button>
+    </header>
+    <p class="lp-status"></p>
+    <p class="lp-details"></p>
+    <p class="lp-assets"></p>
+    <div class="lp-auth-actions">
+      <button type="button" data-action="login">ä½¿ç”¨ Discord ç™»å½•</button>
+      <button type="button" data-action="logout">é€€å‡ºç™»å½•</button>
+    </div>
+    <section class="lp-section lp-api"></section>
+    <section class="lp-section">
+      <div class="lp-section-title"><strong>å½“å‰é˜¶æ®µæ€»ç»“</strong><small>ä¿å­˜åœ¨è¿™ä¸ªé…’é¦†å­˜æ¡£æœ¬åœ°</small></div>
+      <textarea class="lp-summary" rows="8" placeholder="è¾¾åˆ°æ€»ç»“æ¥¼å±‚åè‡ªåŠ¨ç”Ÿæˆï¼Œä¹Ÿå¯ä»¥æ‰‹åŠ¨ç¼–è¾‘"></textarea>
+      <div class="lp-row">
+        <button type="button" data-action="save-summary">ä¿å­˜å¹¶è¦†ç›–äº‘ç«¯</button>
+        <button type="button" data-action="sync-now">ç«‹å³è¯»å–å¹¶åŒæ­¥</button>
+      </div>
+    </section>
+  `;
+  if (!button.isConnected) document.body.append(button);
+  document.body.append(panel);
+  runtime.launcher = button;
+  runtime.panel = panel;
+  runtime.status = panel.querySelector(".lp-status");
+  runtime.details = panel.querySelector(".lp-details");
+  runtime.assets = panel.querySelector(".lp-assets");
+  runtime.summary = panel.querySelector(".lp-summary");
+  mountSettingsEntry();
+  startUiMonitor();
+
+  const config = settings();
+  const api = panel.querySelector(".lp-api");
+  const apiUrl = inputFor("url", config.apiUrl, (value) => {
+    settings().apiUrl = value.trim();
+    saveSettings();
+  });
+  const apiKey = inputFor(
+    "password",
+    storageGet(API_KEY_STORAGE),
+    (value) => storageSet(API_KEY_STORAGE, value),
+  );
+  const model = document.createElement("select");
+  model.dataset.field = "model";
+  model.addEventListener("change", () => {
+    settings().model = model.value;
+    saveSettings();
+  });
+  const interval = inputFor("number", config.interval, (value) => {
+    settings().interval = Math.min(200, Math.max(2, Number(value) || 20));
+    saveSettings();
+  });
+  interval.min = "2";
+  interval.max = "200";
+  const auto = document.createElement("input");
+  auto.type = "checkbox";
+  auto.checked = config.autoSummarize;
+  auto.addEventListener("change", () => {
+    settings().autoSummarize = auto.checked;
+    saveSettings();
+  });
+  const pull = element("button", "", "æ‹‰å–æ¨¡å‹");
+  pull.type = "button";
+  pull.addEventListener("click", () =>
+    pullModels().catch((error) => {
+      runtime.lastError = error.message;
+      render();
+    }),
+  );
+  const modelRow = element("div", "lp-model-row");
+  modelRow.append(model, pull);
+  api.append(
+    element("div", "lp-section-title", "è‡ªåŠ¨æ€»ç»“ API"),
+    field("API åœ°å€", apiUrl),
+    field("API Keyï¼ˆåªå­˜å½“å‰æµè§ˆå™¨ï¼‰", apiKey),
+    field("æ¨¡å‹", modelRow),
+    field("æ¯å¤šå°‘æ¥¼æ€»ç»“ä¸€æ¬¡", interval),
+    field("å¯ç”¨è‡ªåŠ¨æ€»ç»“", auto),
+  );
+
+  if (
+    button.dataset.linephoneBootstrapBound !== "true" &&
+    button.dataset.linephoneAppBound !== "true"
+  ) {
+    button.dataset.linephoneAppBound = "true";
+    button.addEventListener("click", () => {
+      setPanelVisible(panel.getAttribute("data-open") !== "true");
+    });
+  }
+  panel.querySelector("[data-action=close]").addEventListener("click", () => {
+    setPanelVisible(false);
+  });
+  panel.querySelector("[data-action=login]").addEventListener("click", login);
+  panel.querySelector("[data-action=logout]").addEventListener("click", logout);
+  panel.querySelector("[data-action=sync-now]").addEventListener("click", () =>
+    processCurrent({ forceUpload: true, allowSummary: true, refreshAssets: true }),
+  );
+  panel.querySelector("[data-action=save-summary]").addEventListener("click", async () => {
+    const identity = await currentIdentity();
+    if (!identity) return;
+    const memory = getSaveMemory(identity.context);
+    const rounds = buildRounds(identity.context.chat);
+    const interval = Math.min(200, Math.max(2, Number(settings().interval) || 20));
+    const targetBoundary = Math.floor(rounds.length / interval) * interval;
+    memory.summary = runtime.summary.value.trim();
+    memory.coveredThrough = targetBoundary;
+    memory.sourceHash = targetBoundary
+      ? await sha256(JSON.stringify(rounds.slice(0, targetBoundary)))
+      : "";
+    memory.summaryStale = false;
+    memory.manuallyEditedAt = Date.now();
+    memory.updatedAt = Date.now();
+    saveSaveMemory(identity.context);
+    await processCurrent({ forceUpload: true, allowSummary: false });
+  });
+  render();
+}
+
+function bindEvents() {
+  if (runtime.eventsBound) return true;
+  const eventSource = runtime.context?.eventSource;
+  const eventTypes = runtime.context?.eventTypes;
+  if (typeof eventSource?.on !== "function" || !eventTypes) return false;
+  const watched = [
+    eventTypes.MESSAGE_SENT,
+    eventTypes.MESSAGE_RECEIVED,
+    eventTypes.MESSAGE_EDITED,
+    eventTypes.MESSAGE_DELETED,
+    eventTypes.MESSAGE_UPDATED,
+    eventTypes.MESSAGE_SWIPED,
+    eventTypes.GENERATION_ENDED,
+  ].filter(Boolean);
+  watched.forEach((event) => eventSource.on(event, () => scheduleProcess()));
+  const assetEvents = [
+    eventTypes.CHARACTER_EDITED,
+    eventTypes.CHARACTER_SELECTED,
+    eventTypes.WORLDINFO_UPDATED,
+    eventTypes.WORLDINFO_SETTINGS_UPDATED,
+  ].filter(Boolean);
+  assetEvents.forEach((event) =>
+    eventSource.on(event, () =>
+      scheduleProcess({ forceUpload: true, refreshAssets: true }),
+    ),
+  );
+  if (eventTypes.CHAT_CHANGED) {
+    eventSource.on(eventTypes.CHAT_CHANGED, () =>
+      scheduleProcess({ forceUpload: true, refreshAssets: true }),
+    );
+  }
+  runtime.eventsBound = true;
+  return true;
+}
+
+function ensureEventsBound() {
+  if (bindEvents()) {
+    clearTimeout(runtime.eventsTimer);
+    runtime.eventsTimer = null;
+    return;
+  }
+  clearTimeout(runtime.eventsTimer);
+  runtime.eventsTimer = setTimeout(() => {
+    try {
+      runtime.context = currentContext();
+      ensureEventsBound();
+    } catch (error) {
+      console.debug(`[${MODULE}] waiting for SillyTavern events`, error);
+      ensureEventsBound();
+    }
+  }, 800);
+}
+
+async function initializeAuth() {
+  supabase.auth.onAuthStateChange((_event, session) => {
+    setTimeout(async () => {
+      runtime.session = session;
+      runtime.profile = null;
+      runtime.connected = false;
+      if (!session) {
+        render();
+        return;
+      }
+      try {
+        if (session.provider_token) await verifyDiscord(session);
+        const { data } = await supabase.auth.getSession();
+        runtime.session = data.session;
+        await loadProfile();
+        if (hasAccess()) {
+          await registerDevice();
+          await loadRevisions();
+          runtime.connected = true;
+          scheduleProcess({ forceUpload: true, refreshAssets: true });
+        }
+      } catch (error) {
+        runtime.lastError = error.message;
+      }
+      render();
+    }, 0);
+  });
+  const { data } = await supabase.auth.getSession();
+  runtime.session = data.session;
+  if (runtime.session) {
+    await loadProfile().catch((error) => {
+      runtime.lastError = error.message;
+    });
+    if (hasAccess()) {
+      await registerDevice();
+      await loadRevisions();
+      runtime.connected = true;
+    }
+  }
+}
+
+async function waitForSillyTavern(timeoutMs = 15000) {
+  const startedAt = Date.now();
+  while (!globalThis.SillyTavern?.getContext || !document.body) {
+    if (Date.now() - startedAt > timeoutMs) {
+      throw new Error("ç­‰å¾… SillyTavern åˆå§‹åŒ–è¶…æ—¶");
+    }
+    await new Promise((resolve) => setTimeout(resolve, 100));
+  }
+}
+
+async function ensureUiMounted() {
+  await waitForSillyTavern();
+  runtime.context = currentContext();
+  buildUi();
+}
+
+async function init() {
+  if (runtime.initialized) return;
+  await ensureUiMounted();
+  runtime.initialized = true;
+  settings();
+  runtime.device = getDevice();
+  ensureEventsBound();
+  try {
+    await initializeAuth();
+  } catch (error) {
+    runtime.lastError = error.message || "ç™»å½•çŠ¶æ€åˆå§‹åŒ–å¤±è´¥";
+    console.error(`[${MODULE}] auth initialization failed`, error);
+    render();
+  }
+  scheduleProcess({ forceUpload: true, refreshAssets: true });
+  console.log(`[${MODULE}] v${VERSION} loaded`);
+}
+
+let initPromise = null;
+
+function ensureInitialized() {
+  initPromise ||= init().catch((error) => {
+    runtime.initialized = false;
+    console.error(`[${MODULE}] initialization failed`, error);
+    runtime.lastError = error.message || "åˆå§‹åŒ–å¤±è´¥";
+    render();
+    throw error;
+  });
+  return initPromise;
+}
+
+export async function onActivate() {
+  await ensureUiMounted();
+  return ensureInitialized();
+}
+
+export async function onEnable() {
+  await ensureUiMounted();
+  return ensureInitialized();
+}
+
+export async function openPanel() {
+  await ensureUiMounted();
+  setPanelVisible(true);
+}
+
+Promise.resolve().then(() => {
+  ensureInitialized().catch(() => {
+    // The lifecycle hook may retry initialization after the app is ready.
+    initPromise = null;
+  });
+});
